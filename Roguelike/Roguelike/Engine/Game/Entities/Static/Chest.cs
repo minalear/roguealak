@@ -31,7 +31,7 @@ namespace Roguelike.Engine.Game.Entities.Static
         }
         private void spewOutContents()
         {
-            int numItems = RNG.Next(20, 40);
+            int numItems = RNG.Next(1, 4);
             for (int i = 0; i < numItems; i++)
             {
                 Item item = Factories.ItemGenerator.GenerateRandomItem();

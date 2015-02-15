@@ -2,7 +2,10 @@
 using Roguelike.Engine.Game;
 using Roguelike.Engine.Game.Items;
 using Roguelike.Engine.Game.Stats;
+using Roguelike.Engine.Game.Combat;
+
 using Roguelike.Engine.Factories.Weapons;
+using Roguelike.Engine.Factories.Consumables;
 
 namespace Roguelike.Engine.Factories
 {
@@ -10,11 +13,13 @@ namespace Roguelike.Engine.Factories
     {
         public static Item GenerateRandomItem()
         {
-            return WeaponGenerator.GenerateRandomWeapon();
+            int result = RNG.Next(0, 100);
+            if (result <= 50)
+                return WeaponGenerator.GenerateRandomWeapon();
+            return ConsumableGenerator.GenerateFood();
         }
         private static ItemTypes getRandomItemType()
         {
-            //return (ItemTypes)itemTypes.GetValue(0);
             return (ItemTypes)itemTypes.GetValue(RNG.Next(0, itemTypes.Length));
         }
 
@@ -484,4 +489,34 @@ namespace Roguelike.Engine.Factories.Weapons
             };
     }
 }
+namespace Roguelike.Engine.Factories.Consumables
+{
+    public static class ConsumableGenerator
+    {
+        public static Food GenerateFood()
+        {
+            string name = healthyFoods[RNG.Next(0, healthyFoods.Length)];
+            return new Food() { Name = name, Value = 1, Weight = 2, OnUseEffect = new BasicFoodHeal(name.Length, false) };
+        }
 
+        private static string[] healthyFoods = new string[] { "Bread", "Cheese", "Apple", "Lettuce", "Cucumber", "Beef Jerky", "Lutefisk", "Sweet Roll" };
+        private static string[] unhealthyFood = new string[] { "Feces" };
+    }
+
+    public class BasicFoodHeal : Effect
+    {
+        int healAmount;
+        public BasicFoodHeal(int healAmount, bool scale)
+            : base(1)
+        {
+            this.healAmount = healAmount;
+            if (scale) //Scale to user level
+                this.healAmount *= 1; //TODO: Scale healing to user level
+        }
+
+        public override void OnApplication()
+        {
+            this.parent.AddHealth(this.healAmount);
+        }
+    }
+}

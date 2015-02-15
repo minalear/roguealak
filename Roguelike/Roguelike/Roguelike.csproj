@@ -88,6 +88,7 @@
     <Compile Include="Engine\Game\Entities\Static\Chest.cs" />
     <Compile Include="Engine\Game\Entities\Static\WinShrine.cs" />
     <Compile Include="Engine\Game\Items\Armor.cs" />
+    <Compile Include="Engine\Game\Items\Food.cs" />
     <Compile Include="Engine\Game\Items\Equipment.cs" />
     <Compile Include="Engine\Game\Items\Test\BrokenSword.cs" />
     <Compile Include="Engine\Game\Items\Test\Broadsword.cs" />

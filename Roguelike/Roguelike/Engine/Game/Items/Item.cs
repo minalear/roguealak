@@ -18,7 +18,6 @@ namespace Roguelike.Engine.Game.Items
         {
             return this.ListText;
         }
-
         public void DrawStep(Rectangle viewport)
         {
             int pointX = this.position.X - GameManager.CameraOffset.X + viewport.X;
@@ -34,6 +33,8 @@ namespace Roguelike.Engine.Game.Items
             }
         }
         public virtual string GetDescription() { return this.Name + " - " + this.ItemType.ToString(); }
+
+        public virtual void OnUse(Entities.Entity entity) { }
 
         private string name = "[ITEM]";
         private ItemTypes itemType = ItemTypes.Junk;
@@ -53,7 +54,7 @@ namespace Roguelike.Engine.Game.Items
         public Color BackgroundColor { get { return this.backgroundColor; } set { this.backgroundColor = value; } }
         public Level ParentLevel { get { return this.parentLevel; } set { this.parentLevel = value; } }
         public int Weight { get; set; }
-        public override string ListText { get { return this.itemType.ToString(); } set { base.ListText = value; } }
+        public override string ListText { get { return this.name; } set { base.ListText = value; } }
     }
 
     public enum Rarities { Common, Uncommon, Rare, Epic, Legendary, Unique }
