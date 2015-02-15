@@ -1,0 +1,26 @@
+using System;
+
+namespace Roguelike
+{
+#if WINDOWS || XBOX
+    static class Program
+    {
+        static MainGame game;
+        static void Main(string[] args)
+        {
+            using (game = new MainGame())
+            {
+                game.Run();
+            }
+        }
+
+        public static void Exit()
+        {
+            game.Exit();
+        }
+
+        public static Microsoft.Xna.Framework.Content.ContentManager Content { get { return game.Content; } }
+    }
+#endif
+}
+
