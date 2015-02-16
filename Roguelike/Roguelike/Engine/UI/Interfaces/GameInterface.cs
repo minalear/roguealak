@@ -14,7 +14,7 @@ namespace Roguelike.Engine.UI.Interfaces
 {
     public class GameInterface : Interface
     {
-        TrackingTitle healthBar, manaBar;
+        BarTitle healthBar, manaBar;
         Title playerTitle;
         Popup popupControl;
 
@@ -28,8 +28,8 @@ namespace Roguelike.Engine.UI.Interfaces
 
         public GameInterface()
         {
-            healthBar = new TrackingTitle(this, 2, 1, "HP", 20);
-            manaBar = new TrackingTitle(this, GraphicConsole.BufferWidth - 23, 1, "MP", 20);
+            healthBar = new BarTitle(this, 2, 1, "HP", 20);
+            manaBar = new BarTitle(this, GraphicConsole.BufferWidth - 23, 1, "MP", 20);
             manaBar.BarColor = Color.DodgerBlue;
             manaBar.FillColor = Color.DarkBlue;
 
@@ -160,9 +160,9 @@ namespace Roguelike.Engine.UI.Interfaces
             GraphicConsole.Put('╡', GraphicConsole.BufferWidth, 2);
         }
     }
-    public class TrackingTitle : Control
+    public class BarTitle : Control
     {
-        public TrackingTitle(Interface parent, int x, int y, string textRoot, int width)
+        public BarTitle(Interface parent, int x, int y, string textRoot, int width)
             : base(parent)
         {
             this.text = textRoot;
@@ -369,31 +369,22 @@ namespace Roguelike.Engine.UI.Interfaces
     }
     public class RightTab : Control
     {
-        private Title rightTabTitle;
-        private ScrollingList inventoryList, groundList, spellList;
-        private TextBox inventoryDescription;
-        private Button dropButton, pickupButton;
-        private Button castSpellButton;
-
         private ToggleButton inventoryButton, equipmentButton, spellbookButton;
         private ToggleButtonGroup buttonGroup;
 
-        private EquipmentControl equipmentList;
-
-        private Title coordInfo;
-        private Hotbar hotbar;
+        private InventoryControl inventoryControl;
+        private EquipmentControl equipmentControl;
+        private SpellbookControl spellbookControl;
 
         public RightTab(Interface parent, Hotbar hotbar)
             : base(parent)
         {
             this.Size = new Point(28, GraphicConsole.BufferHeight - 6);
             this.Position = new Point(GraphicConsole.BufferWidth - this.Size.X - 1, 3);
-            this.hotbar = hotbar;
 
-            this.rightTabTitle = new Title(this, "Inventory", this.Size.X / 2, 0, Title.TextAlignModes.Center);
-            this.inventoryButton = new ToggleButton(this, "⌂", 0, 0, 1, 1) { Enabled = true };
-            this.equipmentButton = new ToggleButton(this, "♦", 0, 1, 1, 1);
-            this.spellbookButton = new ToggleButton(this, "♠", 0, 2, 1, 1);
+            this.inventoryButton = new ToggleButton(this, "⌂", -2, 0, 1, 1) { Enabled = true };
+            this.equipmentButton = new ToggleButton(this, "♦", -2, 1, 1, 1) { Enabled = false };
+            this.spellbookButton = new ToggleButton(this, "♠", -2, 2, 1, 1) { Enabled = false };
 
             this.buttonGroup = new ToggleButtonGroup(this);
             this.buttonGroup.AddButton(this.inventoryButton);
@@ -404,159 +395,49 @@ namespace Roguelike.Engine.UI.Interfaces
             this.equipmentButton.Click += equipmentButton_Click;
             this.spellbookButton.Click += spellbookButton_Click;
 
-            this.inventoryList = new ScrollingList(this, 2, 1, this.Size.X - 2, 20);
-            this.inventoryList.Selected += inventoryList_Selected;
-            this.dropButton = new Button(this, "Drop", 1, 21, 13, 3);
-            this.pickupButton = new Button(this, "Pickup", 14, 21, 13, 3);
+            this.inventoryControl = new InventoryControl(this, 0, 0, 28, 44) { IsVisible = true };
+            this.equipmentControl = new EquipmentControl(this, 0, 0, 28, 44) { IsVisible = false };
+            this.spellbookControl = new SpellbookControl(this, 0, 0, 28, 44, hotbar) { IsVisible = false };
 
-            this.dropButton.Click += dropButton_Click;
-            this.pickupButton.Click += pickupButton_Click;
-
-            this.groundList = new ScrollingList(this, 1, 24, this.Size.X - 2, 8);
-            this.groundList.Selected += groundList_Selected;
-            this.inventoryDescription = new TextBox(this, 1, 33, this.Size.X - 2, 10);
-
-            equipmentList = new EquipmentControl(this, 2, 1, this.Size.X - 2, 20) { IsVisible = false };
-            spellList = new ScrollingList(this, 2, 1, this.Size.X - 2, 20) { IsVisible = false };
-            castSpellButton = new Button(this, "Cast", 1, 22, this.Size.X - 1, 3) { IsVisible = false };
-            castSpellButton.Click += castSpellButton_Click;
-
-            coordInfo = new Title(this, "X: ##, Y: ##", 27, 43, Title.TextAlignModes.Right);
             this.IsVisible = false;
         }
-
-        void inventoryButton_Click(object sender)
-        {
-            this.rightTabTitle.Text = "Inventory";
-
-            this.inventoryList.IsVisible = true;
-            this.dropButton.IsVisible = true;
-            this.pickupButton.IsVisible = true;
-
-            this.groundList.IsVisible = true;
-            this.pickupButton.IsVisible = true;
-
-            this.equipmentList.IsVisible = false;
-
-            this.spellList.IsVisible = false;
-            this.castSpellButton.IsVisible = false;
-        }
-        void equipmentButton_Click(object sender)
-        {
-            this.rightTabTitle.Text = "Equipment";
-
-            this.inventoryList.IsVisible = false;
-            this.dropButton.IsVisible = false;
-            this.pickupButton.IsVisible = false;
-
-            this.groundList.IsVisible = false;
-            this.pickupButton.IsVisible = false;
-
-            this.equipmentList.IsVisible = true;
-
-            this.spellList.IsVisible = false;
-            this.castSpellButton.IsVisible = false;
-        }
-        void spellbookButton_Click(object sender)
-        {
-            this.rightTabTitle.Text = "Spellbook";
-
-            this.inventoryList.IsVisible = false;
-            this.dropButton.IsVisible = false;
-            this.pickupButton.IsVisible = false;
-
-            this.groundList.IsVisible = false;
-            this.pickupButton.IsVisible = false;
-
-            this.equipmentList.IsVisible = false;
-
-            this.spellList.IsVisible = true;
-            this.castSpellButton.IsVisible = true;
-        }
-        void castSpellButton_Click(object sender, MouseButtons button)
-        {
-            if (this.spellList.HasSelection)
-            {
-                hotbar.CastAbility((Ability)this.spellList.GetSelection());
-            }
-        }
-        void inventoryList_Selected(object sender, int index)
-        {
-            if (this.inventoryList.HasSelection)
-                this.inventoryDescription.Text = ((Item)this.inventoryList.GetSelection()).GetDescription();
-        }
-        void groundList_Selected(object sender, int index)
-        {
-            if (this.groundList.HasSelection)
-                this.inventoryDescription.Text = ((Item)this.groundList.GetSelection()).GetDescription();
-        }
-
         public override void DrawStep()
         {
             DrawingUtilities.DrawRect(this.Position.X, this.Position.Y, this.Size.X, this.Size.Y, ' ', true);
 
+            //Left Border
             DrawingUtilities.DrawLine(this.Position.X - 1, this.Position.Y, this.Position.X - 1, this.Size.Y + 2, '│');
             GraphicConsole.Put('╤', this.Position.X - 1, this.Position.Y - 1);
             GraphicConsole.Put('┴', this.Position.X - 1, this.Size.Y + 3);
 
+            //Border Around Toggle Switches
+            DrawingUtilities.DrawLine(this.Position.X - 3, this.Position.Y, this.Position.X - 3, this.Position.Y + 4, '│');
+            GraphicConsole.Put('╤', this.Position.X - 3, this.Position.Y - 1);
+            GraphicConsole.Put('└', this.Position.X - 3, this.Position.Y + 4);
+            GraphicConsole.Put('─', this.Position.X - 2, this.Position.Y + 4);
+            GraphicConsole.Put('┤', this.Position.X - 1, this.Position.Y + 4);
+
             base.DrawStep();
         }
-        public override void UpdateStep()
-        {
-            coordInfo.Text = "X: " + GameManager.Player.X + ", Y: " + GameManager.TestPlayer.Y;
 
-            this.populateInventoryList();
-            this.populateGroundList();
-            this.populateSpellbook();
-
-            base.UpdateStep();
-        }
-        public override void Update(GameTime gameTime)
+        void inventoryButton_Click(object sender)
         {
-            base.Update(gameTime);
+            this.inventoryControl.IsVisible = true;
+            this.equipmentControl.IsVisible = false;
+            this.spellbookControl.IsVisible = false;
         }
-
-        private void populateInventoryList()
+        void equipmentButton_Click(object sender)
         {
-            this.inventoryList.SetList(Inventory.PlayerInventory);
+            this.inventoryControl.IsVisible = false;
+            this.equipmentControl.IsVisible = true;
+            this.spellbookControl.IsVisible = false;
         }
-        private void populateGroundList()
+        void spellbookButton_Click(object sender)
         {
-            List<Item> groundItems = new List<Item>();
-            for (int i = 0; i < GameManager.CurrentLevel.FloorItems.Count; i++)
-            {
-                if (GameManager.CurrentLevel.FloorItems[i].Position.X == GameManager.Player.X && GameManager.CurrentLevel.FloorItems[i].Position.Y == GameManager.Player.Y)
-                {
-                    groundItems.Add(GameManager.CurrentLevel.FloorItems[i]);
-                }
-            }
-            this.groundList.SetList<Item>(groundItems);
-            this.groundList.ClearSelection();
+            this.inventoryControl.IsVisible = false;
+            this.equipmentControl.IsVisible = false;
+            this.spellbookControl.IsVisible = true;
         }
-        private void populateSpellbook()
-        {
-            this.spellList.SetList<Ability>(GameManager.Player.StatsPackage.AbilityList);
-        }
-
-        void dropButton_Click(object sender, MouseButtons button)
-        {
-            if (inventoryList.HasSelection)
-            {
-                Inventory.DropItem(inventoryList.SelectedIndex, GameManager.CurrentLevel, GameManager.Player.X, GameManager.Player.Y);
-            }
-        }
-        void pickupButton_Click(object sender, MouseButtons button)
-        {
-            if (groundList.HasSelection)
-            {
-                Item item = (Item)groundList.GetSelection();
-                GameManager.CurrentLevel.PickupItem(item);
-
-                Inventory.PlayerInventory.Add(item);
-            }
-        }
-
-        private enum InformationModes { Inventory, Equipment, Spellbook }
     }
     public class BottomTab : Control
     {
@@ -1103,10 +984,112 @@ namespace Roguelike.Engine.UI.Interfaces
         public enum AimingModes { Off, Point, Line, DrawLine, Path }
     }
 
+    //Right Tab Controls
+    public class InventoryControl : Control
+    {
+        private Title inventoryTitle;
+        private Title groundTitle;
+
+        private ScrollingList inventoryList;
+        private ScrollingList groundList;
+        private TextBox descriptionBox;
+
+        private Button pickupButton, useButton;
+        private Button dropButton;
+
+        public InventoryControl(Control parent, int x, int y, int width, int height)
+            : base(parent)
+        {
+            this.position = new Point(x, y);
+            this.size = new Point(width, height);
+
+            this.inventoryTitle = new Title(this, "-=Inventory=-", width / 2, 0, Title.TextAlignModes.Center);
+            this.groundTitle = new Title(this, "-=Ground Items=-", width / 2, 19, Title.TextAlignModes.Center);
+
+            this.inventoryList = new ScrollingList(this, 0, 1, this.Size.X, 15) { FillColor = new Color(20, 20, 20) };
+            this.groundList = new ScrollingList(this, 0, 20, this.Size.X, 8) { FillColor = new Color(20, 20, 20) };
+
+            this.useButton = new Button(this, "Use", 0, 16, 14, 3);
+            this.dropButton = new Button(this, "Drop", 14, 16, 14, 3);
+            this.pickupButton = new Button(this, "Pickup", 0, 28, 28, 3);
+
+            this.descriptionBox = new TextBox(this, 0, 31, this.Size.X, 13) { FillColor = new Color(20, 20, 20) };
+
+            this.inventoryList.Selected += inventoryList_Selected;
+            this.groundList.Selected += groundList_Selected;
+
+            this.useButton.Click += useButton_Click;
+            this.dropButton.Click += dropButton_Click;
+            this.pickupButton.Click += pickupButton_Click;
+        }
+        public override void UpdateStep()
+        {
+            this.populateInventoryList();
+            this.populateGroundList();
+
+            base.UpdateStep();
+        }
+
+        private void populateInventoryList()
+        {
+            this.inventoryList.SetList(Inventory.PlayerInventory);
+        }
+        private void populateGroundList()
+        {
+            List<Item> groundItems = new List<Item>();
+            for (int i = 0; i < GameManager.CurrentLevel.FloorItems.Count; i++)
+            {
+                if (GameManager.CurrentLevel.FloorItems[i].Position.X == GameManager.Player.X && GameManager.CurrentLevel.FloorItems[i].Position.Y == GameManager.Player.Y)
+                {
+                    groundItems.Add(GameManager.CurrentLevel.FloorItems[i]);
+                }
+            }
+            this.groundList.SetList<Item>(groundItems);
+            this.groundList.ClearSelection();
+        }
+
+        private void inventoryList_Selected(object sender, int index)
+        {
+            if (this.inventoryList.HasSelection)
+                this.descriptionBox.Text = ((Item)this.inventoryList.GetSelection()).GetDescription();
+        }
+        private void groundList_Selected(object sender, int index)
+        {
+            if (this.groundList.HasSelection)
+                this.descriptionBox.Text = ((Item)this.groundList.GetSelection()).GetDescription();
+        }
+
+        private void useButton_Click(object sender, MouseButtons button)
+        {
+            if (inventoryList.HasSelection)
+                ((Item)this.inventoryList.GetSelection()).OnUse(GameManager.Player);
+            this.descriptionBox.Text = string.Empty;
+        }
+        private void dropButton_Click(object sender, MouseButtons button)
+        {
+            if (inventoryList.HasSelection)
+                Inventory.DropItem(inventoryList.SelectedIndex, GameManager.CurrentLevel, GameManager.Player.X, GameManager.Player.Y);
+            this.descriptionBox.Text = string.Empty;
+        }
+        private void pickupButton_Click(object sender, MouseButtons button)
+        {
+            if (groundList.HasSelection)
+            {
+                Item item = (Item)groundList.GetSelection();
+                GameManager.CurrentLevel.PickupItem(item);
+
+                Inventory.PlayerInventory.Add(item);
+            }
+            this.descriptionBox.Text = string.Empty;
+        }
+    }
     public class EquipmentControl : Control
     {
+        private Title equipmentTitle;
+        private Title inventoryTitle;
+
         private ScrollingList equipmentList;
-        private ScrollingList inventoryList_Filtered;
+        private ScrollingList filteredList;
         private TextBox descriptionBox;
         private Button equipButton, unequipButton;
 
@@ -1114,16 +1097,20 @@ namespace Roguelike.Engine.UI.Interfaces
             : base(parent)
         {
             this.position = new Point(x, y);
+            this.size = new Point(width, height);
 
-            this.equipmentList = new ScrollingList(this, 0, 0, width, 12);
-            this.equipButton = new Button(this, "Equip", -2, 14, width / 2, 3);
-            this.unequipButton = new Button(this, "Unequip", width / 2, 14, width / 2, 3);
+            this.equipmentTitle = new Title(this, "-=Equipment=-", width / 2, 0, Title.TextAlignModes.Center);
+            this.inventoryTitle = new Title(this, "-=Inventory=-", width / 2, 16, Title.TextAlignModes.Center);
 
-            this.inventoryList_Filtered = new ScrollingList(this, -1, 18, width + 1, 12);
-            this.descriptionBox = new TextBox(this, -1, 30, width + 1, 12);
+            this.equipmentList = new ScrollingList(this, 0, 1, width, 12) { FillColor = new Color(20, 20, 20) };
+            this.filteredList = new ScrollingList(this, 0, 17, width, 12) { FillColor = new Color(20, 20, 20) };
+            this.descriptionBox = new TextBox(this, 0, 29, width, 15) { FillColor = new Color(20, 20, 20) };
+
+            this.equipButton = new Button(this, "Equip", 0, 13, 14, 3);
+            this.unequipButton = new Button(this, "Unequip", 14, 13, 14, 3);
 
             this.equipmentList.Selected += equipmentList_Selected;
-            this.inventoryList_Filtered.Selected += inventoryList_Filtered_Selected;
+            this.filteredList.Selected += filteredList_Selected;
 
             this.equipButton.Click += equipButton_Click;
             this.unequipButton.Click += unequipButton_Click;
@@ -1136,11 +1123,11 @@ namespace Roguelike.Engine.UI.Interfaces
             base.UpdateStep();
         }
 
-        void inventoryList_Filtered_Selected(object sender, int index)
+        private void filteredList_Selected(object sender, int index)
         {
-            this.descriptionBox.Text = ((Item)this.inventoryList_Filtered.Items[index]).GetDescription();
+            this.descriptionBox.Text = ((Item)this.filteredList.Items[index]).GetDescription();
         }
-        void equipmentList_Selected(object sender, int index)
+        private void equipmentList_Selected(object sender, int index)
         {
             EquipmentSlots slot = (EquipmentSlots)this.equipmentSlots.GetValue(index);
 
@@ -1149,18 +1136,18 @@ namespace Roguelike.Engine.UI.Interfaces
             else
                 this.descriptionBox.Text = " ";
         }
-        void equipButton_Click(object sender, MouseButtons button)
+        private void equipButton_Click(object sender, MouseButtons button)
         {
-            if (this.inventoryList_Filtered.HasSelection)
+            if (this.filteredList.HasSelection)
             {
-                Equipment item = (Equipment)this.inventoryList_Filtered.GetSelection();
+                Equipment item = (Equipment)this.filteredList.GetSelection();
 
                 if (equipmentList.HasSelection)
                     Inventory.EquipItem(item, getSlotIndex(equipmentList.SelectedIndex));
                 else
                     Inventory.EquipItem(item, item.EquipSlot);
 
-                inventoryList_Filtered.ClearSelection();
+                filteredList.ClearSelection();
                 equipmentList.ClearSelection();
 
                 this.descriptionBox.Text = " ";
@@ -1168,8 +1155,9 @@ namespace Roguelike.Engine.UI.Interfaces
                 GameManager.Player.StatsPackage.CalculateStats();
                 GameManager.Player.StatsPackage = Inventory.CalculateStats(GameManager.Player.StatsPackage);
             }
+            this.descriptionBox.Text = string.Empty;
         }
-        void unequipButton_Click(object sender, MouseButtons button)
+        private void unequipButton_Click(object sender, MouseButtons button)
         {
             if (equipmentList.HasSelection)
             {
@@ -1183,12 +1171,13 @@ namespace Roguelike.Engine.UI.Interfaces
 
                 this.unequipItem(equipmentTag.Trim());
 
-                inventoryList_Filtered.ClearSelection();
+                filteredList.ClearSelection();
                 equipmentList.ClearSelection();
 
                 GameManager.Player.StatsPackage.CalculateStats();
                 GameManager.Player.StatsPackage = Inventory.CalculateStats(GameManager.Player.StatsPackage);
             }
+            this.descriptionBox.Text = string.Empty;
         }
 
         private void unequipItem(string tag)
@@ -1295,17 +1284,59 @@ namespace Roguelike.Engine.UI.Interfaces
             }
 
             //Filtered Inventory List
-            this.inventoryList_Filtered.Items.Clear();
+            this.filteredList.Items.Clear();
             for (int i = 0; i < Inventory.PlayerInventory.Count; i++)
             {
                 if (Inventory.PlayerInventory[i].ItemType == ItemTypes.Equipment ||
                     Inventory.PlayerInventory[i].ItemType == ItemTypes.Equipment)
                 {
-                    this.inventoryList_Filtered.Items.Add(Inventory.PlayerInventory[i]);
+                    this.filteredList.Items.Add(Inventory.PlayerInventory[i]);
                 }
             }
         }
 
-        Array equipmentSlots = Enum.GetValues(typeof(EquipmentSlots));
+        private Array equipmentSlots = Enum.GetValues(typeof(EquipmentSlots));
+    }
+    public class SpellbookControl : Control
+    {
+        private ScrollingList spellList;
+        private Button castSpellButton;
+        private Hotbar hotbar;
+
+        public SpellbookControl(Control parent, int x, int y, int width, int height, Hotbar hotbar)
+            : base(parent)
+        {
+            this.hotbar = hotbar;
+
+            this.spellList = new ScrollingList(this, 2, 1, this.Size.X - 2, 20) { IsVisible = false };
+            this.castSpellButton = new Button(this, "Cast", 1, 22, this.Size.X - 1, 3) { IsVisible = false };
+            this.castSpellButton.Click += castSpellButton_Click;
+        }
+        public override void UpdateStep()
+        {
+            this.populateSpellbook();
+
+            base.UpdateStep();
+        }
+
+        private void populateSpellbook()
+        {
+            this.spellList.SetList<Ability>(GameManager.Player.StatsPackage.AbilityList);
+        }
+        void castSpellButton_Click(object sender, MouseButtons button)
+        {
+            if (this.spellList.HasSelection)
+            {
+                hotbar.CastAbility((Ability)this.spellList.GetSelection());
+            }
+        }
+    }
+    public class CraftingControl : Control
+    {
+        public CraftingControl(Control parent)
+            : base(parent)
+        {
+
+        }
     }
 }

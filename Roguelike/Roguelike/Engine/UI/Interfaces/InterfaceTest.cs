@@ -42,14 +42,14 @@ namespace Roguelike.Engine.UI.Interfaces
             this.setupInterface();
 
             //Unit One
-            hpBarOne = new TrackingTitle(this, 22, 5, "HP", 15);
-            mpBarOne = new TrackingTitle(this, 39, 5, "MP", 15);
+            hpBarOne = new BarTitle(this, 22, 5, "HP", 15);
+            mpBarOne = new BarTitle(this, 39, 5, "MP", 15);
             mpBarOne.BarColor = Color.DodgerBlue;
             mpBarOne.FillColor = Color.DarkBlue;
 
             //Unit Two
-            hpBarTwo = new TrackingTitle(this, 70, 5, "HP", 15);
-            mpBarTwo = new TrackingTitle(this, 87, 5, "MP", 15);
+            hpBarTwo = new BarTitle(this, 70, 5, "HP", 15);
+            mpBarTwo = new BarTitle(this, 87, 5, "MP", 15);
             mpBarTwo.BarColor = Color.DodgerBlue;
             mpBarTwo.FillColor = Color.DarkBlue;
 
@@ -378,8 +378,8 @@ namespace Roguelike.Engine.UI.Interfaces
 
         Button backButton;
         Title interfaceTitle;
-        TrackingTitle hpBarOne, hpBarTwo;
-        TrackingTitle mpBarOne, mpBarTwo;
+        BarTitle hpBarOne, hpBarTwo;
+        BarTitle mpBarOne, mpBarTwo;
 
         TextBox combatLog;
     }
