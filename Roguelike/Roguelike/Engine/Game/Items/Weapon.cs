@@ -29,28 +29,33 @@ namespace Roguelike.Engine.Game.Items
         {
             if (results.UsedAbility.AbilityName == GameManager.Player.StatsPackage.AbilityList[0].AbilityName)
             {
+                int initialDamage = this.getWeaponDamage();
                 if (this.EquippedSlot == EquipmentSlots.MainHand) //Main Hand weapons just apply regular weapon damage
                 {
-                    results.AppliedDamage += this.baseWeaponDamage - results.UsedAbility.CalculateAbsorption(this.baseWeaponDamage, results.Target);
+                    results.AppliedDamage += initialDamage - results.UsedAbility.CalculateAbsorption(initialDamage, results.Target);
                 }
                 else if (this.EquippedSlot == EquipmentSlots.OffHand) //Off Hand weapons have a chance to damage, based off user's Haste stat
                 {
                     int chanceToHit = (int)(GameManager.Player.StatsPackage.PhysicalHaste.EffectiveValue);
                     if (RNG.Next(0, 100) < chanceToHit)
-                        results.AppliedDamage += this.baseWeaponDamage - results.UsedAbility.CalculateAbsorption(this.baseWeaponDamage, results.Target);
+                        results.AppliedDamage += initialDamage - results.UsedAbility.CalculateAbsorption(initialDamage, results.Target);
                 }
                 else if (this.EquippedSlot == EquipmentSlots.TwoHand) //Two Handed weapons have a chance to crit, based off user's crit chance and power
                 {
                     int chanceToCrit = (int)(GameManager.Player.StatsPackage.PhysicalCritChance);
                     if (RNG.Next(0, 100) <= chanceToCrit)
                     {
-                        int damage = (int)(this.baseWeaponDamage * GameManager.Player.StatsPackage.PhysicalCritPower);
+                        int damage = (int)(initialDamage * GameManager.Player.StatsPackage.PhysicalCritPower);
                         results.AppliedDamage += damage - results.UsedAbility.CalculateAbsorption(damage, results.Target);
                     }
                     else
-                        results.AppliedDamage += this.baseWeaponDamage - results.UsedAbility.CalculateAbsorption(this.baseWeaponDamage, results.Target);
+                        results.AppliedDamage += initialDamage - results.UsedAbility.CalculateAbsorption(initialDamage, results.Target);
                 }
             }
+        }
+        protected virtual int getWeaponDamage()
+        {
+            return this.baseWeaponDamage + RNG.Next(-this.Weight, this.Weight);
         }
 
         private Factories.WeaponTypes weaponType;

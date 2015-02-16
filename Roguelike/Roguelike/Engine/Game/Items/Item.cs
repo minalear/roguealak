@@ -53,8 +53,8 @@ namespace Roguelike.Engine.Game.Items
         public Color ForegroundColor { get { return this.foregroundColor; } set { this.foregroundColor = value; } }
         public Color BackgroundColor { get { return this.backgroundColor; } set { this.backgroundColor = value; } }
         public Level ParentLevel { get { return this.parentLevel; } set { this.parentLevel = value; } }
-        public int Weight { get; set; }
         public override string ListText { get { return this.name; } set { base.ListText = value; } }
+        public int Weight { get; set; }
     }
 
     public enum Rarities { Common, Uncommon, Rare, Epic, Legendary, Unique }
