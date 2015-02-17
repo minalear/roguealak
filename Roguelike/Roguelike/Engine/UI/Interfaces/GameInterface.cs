@@ -717,6 +717,8 @@ namespace Roguelike.Engine.UI.Interfaces
 
         void gameCursor_Selected(object sender, EventArgs args)
         {
+            //TODO: Add prompt when ability is not in range
+
             if (!castedAbility.CanAffordAbility(GameManager.Player.StatsPackage))
                 popupControl.DisplayMessage("You cannot afford to cast that ability.");
             else if (!castedAbility.IsOffCooldown())
@@ -1330,19 +1332,31 @@ namespace Roguelike.Engine.UI.Interfaces
     }
     public class SpellbookControl : Control
     {
+        private Title spellbookTitle;
         private ScrollingList spellList;
         private Button castSpellButton;
+        private TextBox spellDescription;
+
         private Hotbar hotbar;
 
         public SpellbookControl(Control parent, int x, int y, int width, int height, Hotbar hotbar)
             : base(parent)
         {
+            this.position = new Point(x, y);
+            this.size = new Point(width, height);
+
             this.hotbar = hotbar;
 
-            this.spellList = new ScrollingList(this, 2, 1, this.Size.X - 2, 20) { IsVisible = false };
-            this.castSpellButton = new Button(this, "Cast", 1, 22, this.Size.X - 1, 3) { IsVisible = false };
+            this.spellbookTitle = new Title(this, "-=Spell Boox=-", width / 2, 0);
+
+            this.spellList = new ScrollingList(this, 0, 1, this.Size.X, 15) { FillColor = new Color(20, 20, 20) };
+            this.castSpellButton = new Button(this, "Cast", 0, 16, this.Size.X, 3);
+            this.spellDescription = new TextBox(this, 0, 19, this.Size.X, this.Size.Y - 19) { FillColor = new Color(20, 20, 20) };
+
+            this.spellList.Selected += spellList_Selected;
             this.castSpellButton.Click += castSpellButton_Click;
         }
+
         public override void UpdateStep()
         {
             this.populateSpellbook();
@@ -1354,11 +1368,18 @@ namespace Roguelike.Engine.UI.Interfaces
         {
             this.spellList.SetList<Ability>(GameManager.Player.StatsPackage.AbilityList);
         }
-        void castSpellButton_Click(object sender, MouseButtons button)
+        private void castSpellButton_Click(object sender, MouseButtons button)
         {
             if (this.spellList.HasSelection)
             {
                 hotbar.CastAbility((Ability)this.spellList.GetSelection());
+            }
+        }
+        private void spellList_Selected(object sender, int index)
+        {
+            if (this.spellList.HasSelection)
+            {
+                this.spellDescription.Text = ((Ability)this.spellList.GetSelection()).GetDescription();
             }
         }
     }

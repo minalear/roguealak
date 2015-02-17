@@ -491,6 +491,8 @@ namespace Roguelike.Engine.UI.Interfaces
             this.colorIndex = 0;
             character.ForegroundColor = Color.Black;
 
+            this.itemLists.ClearSelection();
+
             this.raceSelect.Text = "[Choose Race]";
             this.cultureSelect.Text = "[Choose Culture]";
             this.classSelect.Text = "[Choose Class]";
@@ -564,6 +566,7 @@ namespace Roguelike.Engine.UI.Interfaces
 
             this.itemLists.SetList<Race>(this.races);
             this.selectionMode = SelectionModes.Race;
+            this.itemLists.ClearSelection();
 
             this.colorIndex = 0;
             character.ForegroundColor = Color.Black;
@@ -574,6 +577,7 @@ namespace Roguelike.Engine.UI.Interfaces
             {
                 this.selectionMode = SelectionModes.Culture;
                 this.itemLists.SetList<Culture>(this.chosenRace.SubCultures);
+                this.itemLists.ClearSelection();
 
                 this.colorIndex = 0;
                 character.ForegroundColor = Color.Black;
@@ -587,6 +591,7 @@ namespace Roguelike.Engine.UI.Interfaces
             {
                 this.selectionMode = SelectionModes.Class;
                 this.itemLists.SetList<Class>(this.classes);
+                this.itemLists.ClearSelection();
             }
             else
                 this.popupControl.DisplayMessage("You must choose a race and culture first.");
@@ -601,6 +606,7 @@ namespace Roguelike.Engine.UI.Interfaces
             {
                 this.itemLists.SetList<Effect>(this.chosenClass.ClassTraits);
                 this.selectionMode = SelectionModes.Trait;
+                this.itemLists.ClearSelection();
             }
         }
 

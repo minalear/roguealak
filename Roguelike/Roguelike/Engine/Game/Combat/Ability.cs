@@ -49,6 +49,15 @@ namespace Roguelike.Engine.Game.Combat
                 this.currentCD = 0;
         }
 
+        public virtual string GetDescription()
+        {
+            string description = this.AbilityName + " - " + this.abilityType.ToString() + "\n";
+            description += "MP: " + this.abilityCost + " - Range: " + this.range + "\n";
+            description += "Target: " + this.TargetingType.ToString();
+
+            return description;
+        }
+
         public CombatResults DoesAttackHit(StatsPackage caster, StatsPackage target)
         {
             CombatResults results = new CombatResults() { DidMiss = true, DidAvoid = false, Caster = caster, Target = target, UsedAbility = this };

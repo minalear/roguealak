@@ -16,6 +16,7 @@ namespace Roguelike.Engine.Game.Combat.Abilities
 
             this.abilityType = AbilityTypes.Physical;
             this.TargetingType = TargetingTypes.EntityTarget;
+            this.Range = 1;
         }
 
         public override CombatResults CalculateResults(Stats.StatsPackage caster, Stats.StatsPackage target)
