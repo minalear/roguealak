@@ -17,12 +17,12 @@ namespace Roguelike.Engine.Game.Items
 
         public override string GetDescription()
         {
-            string description = this.Name + "\n";
-            description += this.ItemRarity.ToString() + " " + this.WeaponSubType + " - " + this.EquipSlot.ToString() + "\n\n";
-            description += "Weight: " + this.Weight + "\nBase Dmg: " + this.baseWeaponDamage + " - Value: " + this.Value.ToString() + "\n\n";
-            description += this.ModPackage.GetStatInfo();
+            string desc = this.Name + "\n";
+            desc += this.WeaponSubType + " - " + this.WeaponType + " - " + this.ItemRarity.ToString() + "\n";
+            desc += this.Description + "\n\n";
+            desc += this.ModPackage.GetStatInfo();
 
-            return description;
+            return desc;
         }
 
         public override void OnAttack(Combat.CombatResults results)

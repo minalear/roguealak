@@ -32,11 +32,18 @@ namespace Roguelike.Engine.Game.Items
                 }
             }
         }
-        public virtual string GetDescription() { return this.Name + " - " + this.ItemType.ToString(); }
+        public virtual string GetDescription()
+        {
+            if (string.IsNullOrEmpty(this.description))
+                this.description = this.Name + " - " + this.ItemType.ToString();
+
+            return this.description;
+        }
 
         public virtual void OnUse(Entities.Entity entity) { }
 
         private string name = "[ITEM]";
+        private string description;
         private ItemTypes itemType = ItemTypes.Junk;
         private Point position = new Point(0, 0);
         private char token = '•';
@@ -46,6 +53,7 @@ namespace Roguelike.Engine.Game.Items
         private Level parentLevel;
 
         public string Name { get { return this.name; } set { this.name = value; } }
+        public string Description { get { return this.description; } set { this.description = value; } }
         public ItemTypes ItemType { get { return this.itemType; } set { this.itemType = value; } }
         public Point Position { get { return this.position; } set { this.position = value; } }
         public char Token { get { return this.token; } set { this.token = value; } }

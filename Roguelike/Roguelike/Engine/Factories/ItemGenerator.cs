@@ -221,7 +221,6 @@ namespace Roguelike.Engine.Factories.Weapons
         {
             return templates[RNG.Next(0, templates.Length)];
         }
-
         private static StatWeights getStatWeight(Factories.WeaponTypes type)
         {
             if (type == Factories.WeaponTypes.Axe)
@@ -496,7 +495,8 @@ namespace Roguelike.Engine.Factories.Consumables
         public static Food GenerateFood()
         {
             string name = healthyFoods[RNG.Next(0, healthyFoods.Length)];
-            return new Food() { Name = name, Value = 1, Weight = 2, OnUseEffect = new BasicFoodHeal(name.Length, false) };
+            string description = name + " is a nutritional item that will restore some health.";
+            return new Food() { Name = name, Value = 1, Weight = 2, OnUseEffect = new BasicFoodHeal(name.Length, false), Description = description };
         }
 
         private static string[] healthyFoods = new string[] { "Bread", "Cheese", "Apple", "Lettuce", "Cucumber", "Beef Jerky", "Lutefisk", "Sweet Roll" };

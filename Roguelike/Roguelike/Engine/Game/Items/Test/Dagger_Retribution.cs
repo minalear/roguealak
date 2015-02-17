@@ -24,16 +24,8 @@ namespace Roguelike.Engine.Game.Items.Test
             this.WeaponLevel = 3;
             this.ItemRarity = Rarities.Epic;
             this.BaseDamage = 50;
-        }
 
-        public override string GetDescription()
-        {
-            string description = this.Name + "\n";
-            description += this.WeaponSubType + " - " + this.WeaponType + " - " + this.ItemRarity.ToString() + "\n";
-            description += "These daggers were used by a legendary rogue of yore, who died from dysentary.  Now his daggers lay unused.\n\n";
-            description += this.ModPackage.GetStatInfo();
-
-            return description;
+            this.Description = "These daggers were used by a legendary rogue of yore, who died from dysentary.  Now his daggers lay unused.";
         }
 
         public override void OnAttack(Combat.CombatResults results)

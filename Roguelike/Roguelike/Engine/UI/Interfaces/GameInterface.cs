@@ -1032,7 +1032,11 @@ namespace Roguelike.Engine.UI.Interfaces
 
         private void populateInventoryList()
         {
+            int index = this.inventoryList.SelectedIndex;
             this.inventoryList.SetList(Inventory.PlayerInventory);
+
+            if (this.inventoryList.Items.Count > index)
+                this.inventoryList.SetSelection(index);
         }
         private void populateGroundList()
         {
