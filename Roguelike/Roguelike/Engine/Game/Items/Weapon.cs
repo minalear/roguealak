@@ -19,6 +19,7 @@ namespace Roguelike.Engine.Game.Items
         {
             string desc = this.Name + "\n";
             desc += this.WeaponSubType + " - " + this.WeaponType + " - " + this.ItemRarity.ToString() + "\n";
+            desc += this.EquipSlot.ToString() + "\n";
             desc += this.Description + "\n\n";
             desc += this.ModPackage.GetStatInfo();
 

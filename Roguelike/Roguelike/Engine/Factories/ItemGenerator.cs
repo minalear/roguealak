@@ -5,6 +5,7 @@ using Roguelike.Engine.Game.Stats;
 using Roguelike.Engine.Game.Combat;
 
 using Roguelike.Engine.Factories.Weapons;
+using Roguelike.Engine.Factories.Armor;
 using Roguelike.Engine.Factories.Consumables;
 
 namespace Roguelike.Engine.Factories
@@ -14,12 +15,14 @@ namespace Roguelike.Engine.Factories
         public static Item GenerateRandomItem()
         {
             int result = RNG.Next(0, 100);
-            if (result <= 25)
+            if (result <= 20)
                 return WeaponGenerator.GenerateRandomWeapon();
-            else if (result <= 50)
+            else if (result <= 40)
                 return ConsumableGenerator.GeneratePotion();
-            else if (result <= 75)
+            else if (result <= 60)
                 return ConsumableGenerator.GenerateScroll();
+            else if (result <= 80)
+                return ArmorGenerator.GenerateRandomArmor();
 
             return ConsumableGenerator.GenerateFood();
         }
@@ -491,6 +494,319 @@ namespace Roguelike.Engine.Factories.Weapons
                 new Shield_KiteShield()
                 #endregion
             };
+    }
+}
+namespace Roguelike.Engine.Factories.Armor
+{
+    public static class ArmorGenerator
+    {
+        public static Equipment GenerateRandomArmor()
+        {
+            Equipment armorPiece = new Equipment(getRandomSlot());
+            int rarity = getRandomRarityLevel();
+
+            armorPiece.ItemRarity = (Rarities)(rarity - 1);
+            armorPiece.Name = getRandomName(armorPiece.EquipSlot);
+            armorPiece.Value = RNG.Next(2, 150);
+            armorPiece.ModPackage = getRandomStats(getStatWeight(), rarity, 1.0);
+            armorPiece.Description = armorPiece.Name + " - " + armorPiece.EquipSlot.ToString();
+
+            return armorPiece;
+        }
+
+        private static int getRandomRarityLevel()
+        {
+            //1 - Common, 2 - Uncommon, 3 - Rare, 4 - Epic, 5 - Legendary, 6 - Unique
+            int result = RNG.Next(0, 1000);
+            if (result < 800)
+                return 1;
+            else if (result < 900)
+                return 2;
+            else if (result < 970)
+                return 3;
+            else if (result < 990)
+                return 4;
+            else if (result < 998)
+                return 5;
+            else if (result < 1000)
+                return 6;
+
+            return 1;
+        }
+        private static EquipmentSlots getRandomSlot()
+        {
+            Array slots = Enum.GetValues(typeof(EquipmentSlots));
+            return (EquipmentSlots)slots.GetValue(RNG.Next(0, slots.Length - 4)); //Don't include the weapon slots
+        }
+        private static string getRandomName(EquipmentSlots slot)
+        {
+            string name = string.Empty;
+
+            int result = RNG.Next(0, 100);
+            if (result <= 15)
+            {
+                string[] prefixes = new string[] { "Studded", "Improved", "Forged", "Reforged", "Ehanced", "Bolstered" };
+                name += prefixes[RNG.Next(0, prefixes.Length)] + " ";
+            }
+
+            if (slot == EquipmentSlots.Head)
+            {
+                string[] prefixes = new string[] { "Helm", "Helmet", "Cap", "Hat", "Hood", "Sombrero", "Mask" };
+                name += prefixes[RNG.Next(0, prefixes.Length)] + " of ";
+            }
+            else if (slot == EquipmentSlots.Shoulder)
+            {
+                string[] prefixes = new string[] { "Shoulderpads", "Cape", "Scarf", "Cloak", "Animal Pelt", "Living Monkey" };
+                name += prefixes[RNG.Next(0, prefixes.Length)] + " of ";
+            }
+            else if (slot == EquipmentSlots.Chest)
+            {
+                string[] prefixes = new string[] { "Chestpiece", "Jerkin", "Chestplate", "Tanktop", "Robe" };
+                name += prefixes[RNG.Next(0, prefixes.Length)] + " of ";
+            }
+            else if (slot == EquipmentSlots.Legs)
+            {
+                string[] prefixes = new string[] { "Leggings", "Greaves", "Pants", "Shorts", "Kilt", "Skirt", "Short Shorts", "Capris", "Underwear" };
+                name += prefixes[RNG.Next(0, prefixes.Length)] + " of ";
+            }
+            else if (slot == EquipmentSlots.Boots)
+            {
+                string[] prefixes = new string[] { "Boots", "Shoes", "Sneakers", "Sneaks", "Sandles", "Crocs" };
+                name += prefixes[RNG.Next(0, prefixes.Length)] + " of ";
+            }
+            else if (slot == EquipmentSlots.Gloves)
+            {
+                string[] prefixes = new string[] { "Gloves", "Gauntlet", "Fingerless Gloves", "Mittens", "Oven Mits", "Socks" };
+                name += prefixes[RNG.Next(0, prefixes.Length)] + " of ";
+            }
+            else if (slot == EquipmentSlots.Neck)
+            {
+                string[] prefixes = new string[] { "Necklace", "Amulet", "Choker", "Locket", "Pendant" };
+                name += prefixes[RNG.Next(0, prefixes.Length)] + " of ";
+            }
+            else if (slot == EquipmentSlots.Ring)
+            {
+                string[] prefixes = new string[] { "Ring", "Band", "Signet" };
+                name += prefixes[RNG.Next(0, prefixes.Length)] + " of ";
+            }
+            else if (slot == EquipmentSlots.Relic)
+            {
+                string[] prefixes = new string[] { "Relic", "Totem", "Heirloom", "Fetish" };
+                name += prefixes[RNG.Next(0, prefixes.Length)] + " of ";
+            }
+
+            string[] suffixes = new string[] { "Power", "the Smith", "Idiocy", "the Flinnan" };
+            name += suffixes[RNG.Next(0, suffixes.Length)];
+
+            return name;
+        }
+
+        private static StatWeights getStatWeight()
+        {
+            Array weights = Enum.GetValues(typeof(StatWeights));
+            return (StatWeights)weights.GetValue(RNG.Next(0, weights.Length));
+        }
+
+        private static ModPackage getRandomStats(StatWeights weight, int rarityLevel, double baseMultiplier)
+        {
+            if (weight == StatWeights.Defense)
+                return getDefenseStats(rarityLevel, baseMultiplier);
+            else if (weight == StatWeights.MagicalPower)
+                return getMagicalPowerStats(rarityLevel, baseMultiplier);
+            else if (weight == StatWeights.MagicalSpeed)
+                return getMagicalSpeedStats(rarityLevel, baseMultiplier);
+            else if (weight == StatWeights.PhysicalPower)
+                return getPhysicalPowerStats(rarityLevel, baseMultiplier);
+            else if (weight == StatWeights.PhysicalSpeed)
+                return getPhysicalSpeedStats(rarityLevel, baseMultiplier);
+
+            return getPhysicalPowerStats(rarityLevel, baseMultiplier);
+        }
+        private static ModPackage getPhysicalPowerStats(int rarityLevel, double baseMultiplier)
+        {
+            ModPackage package = new ModPackage();
+
+            double multiplier = baseMultiplier;
+            if (rarityLevel == 3)
+                multiplier += 0.2;
+            else if (rarityLevel == 4)
+                multiplier += 0.45;
+            else if (rarityLevel == 5)
+                multiplier += 1.0;
+            else if (rarityLevel == 6)
+                multiplier += 4.0;
+
+            for (int i = 0; i < rarityLevel; i++)
+            {
+                //1  - 50  -  Attack Power
+                //51 - 70  -  Crit Power
+                //71 - 90  -  Hit Chance
+                //91 - 95  -  Crit Chance
+                //96 - 100 -  Haste
+
+                int result = RNG.Next(1, 101);
+
+                if (result <= 50)
+                    package.AttackPower += (RNG.NextDouble(1, 10) * multiplier).Truncate(2);
+                else if (result <= 70)
+                    package.PhysicalCritPower += (RNG.NextDouble(0.1, 0.3) * multiplier).Truncate(2);
+                else if (result <= 90)
+                    package.PhysicalHitChance += (RNG.NextDouble(2, 6) * multiplier).Truncate(2);
+                else if (result <= 95)
+                    package.PhysicalCritChance += (RNG.NextDouble(1, 3) * multiplier).Truncate(2);
+                else if (result <= 100)
+                    package.PhysicalHaste += (RNG.NextDouble(1, 4) * multiplier).Truncate(2);
+            }
+            return package;
+        }
+        private static ModPackage getPhysicalSpeedStats(int rarityLevel, double baseMultiplier)
+        {
+            ModPackage package = new ModPackage();
+
+            double multiplier = baseMultiplier;
+            if (rarityLevel == 3)
+                multiplier += 0.2;
+            else if (rarityLevel == 4)
+                multiplier += 0.45;
+            else if (rarityLevel == 5)
+                multiplier += 1.0;
+            else if (rarityLevel == 6)
+                multiplier += 4.0;
+
+            for (int i = 0; i < rarityLevel; i++)
+            {
+                //1  -  30  -  Crit Chance
+                //31 -  60  -  Hit Chance
+                //61 -  75  -  Haste
+                //76 -  90  -  Attack Power
+                //91 -  100 -  Crit Power
+
+                int result = RNG.Next(1, 101);
+
+                if (result <= 30)
+                    package.PhysicalCritChance += (RNG.NextDouble(1.0, 3.0) * multiplier).Truncate(2);
+                else if (result <= 60)
+                    package.PhysicalHitChance += (RNG.NextDouble(2.0, 6.0) * multiplier).Truncate(2);
+                else if (result <= 75)
+                    package.PhysicalHaste += (RNG.NextDouble(1.0, 4.0) * multiplier).Truncate(2);
+                else if (result <= 90)
+                    package.AttackPower += (RNG.NextDouble(1, 10) * multiplier).Truncate(2);
+                else if (result <= 100)
+                    package.PhysicalCritPower += (RNG.NextDouble(0.1, 0.3) * multiplier).Truncate(2);
+            }
+            return package;
+        }
+        private static ModPackage getDefenseStats(int rarityLevel, double baseMultiplier)
+        {
+            ModPackage package = new ModPackage();
+
+            double multiplier = baseMultiplier;
+            if (rarityLevel == 3)
+                multiplier += 0.2;
+            else if (rarityLevel == 4)
+                multiplier += 0.45;
+            else if (rarityLevel == 5)
+                multiplier += 1.0;
+            else if (rarityLevel == 6)
+                multiplier += 4.0;
+
+            for (int i = 0; i < rarityLevel; i++)
+            {
+                //1  -  30  -  Health
+                //31 -  60  -  P Reduction
+                //61 -  75  -  S Reduction
+                //76 -  90  -  S Avoidance
+                //91 -  100 -  Health Regen
+
+                int result = RNG.Next(1, 101);
+
+                if (result <= 30)
+                    package.BonusHealth += (int)(RNG.NextDouble(10, 25) * multiplier).Truncate(2);
+                else if (result <= 60)
+                    package.PhysicalReduction += (RNG.NextDouble(0.25, 1.5) * multiplier).Truncate(2);
+                else if (result <= 75)
+                    package.SpellReduction += (RNG.NextDouble(0.2, 1.0) * multiplier).Truncate(2);
+                else if (result <= 90)
+                    package.SpellAvoidance += (RNG.NextDouble(0.1, 0.5) * multiplier).Truncate(2);
+                else if (result <= 100)
+                    package.BonusHealth += (int)(RNG.NextDouble(10, 25) * multiplier).Truncate(2); //TODO: Add Health regen
+            }
+            return package;
+        }
+        private static ModPackage getMagicalPowerStats(int rarityLevel, double baseMultiplier)
+        {
+            ModPackage package = new ModPackage();
+
+            double multiplier = baseMultiplier;
+            if (rarityLevel == 3)
+                multiplier += 0.2;
+            else if (rarityLevel == 4)
+                multiplier += 0.45;
+            else if (rarityLevel == 5)
+                multiplier += 1.0;
+            else if (rarityLevel == 6)
+                multiplier += 4.0;
+
+            for (int i = 0; i < rarityLevel; i++)
+            {
+                //1  - 50  -  Spell Power
+                //51 - 70  -  Crit Power
+                //71 - 90  -  Hit Chance
+                //91 - 95  -  Crit Chance
+                //96 - 100 -  Haste
+
+                int result = RNG.Next(1, 101);
+
+                if (result <= 50)
+                    package.SpellPower += (RNG.NextDouble(1, 10) * multiplier).Truncate(2);
+                else if (result <= 70)
+                    package.SpellCritPower += (RNG.NextDouble(0.1, 0.3) * multiplier).Truncate(2);
+                else if (result <= 90)
+                    package.SpellHitChance += (RNG.NextDouble(2, 6) * multiplier).Truncate(2);
+                else if (result <= 95)
+                    package.SpellCritChance += (RNG.NextDouble(1, 3) * multiplier).Truncate(2);
+                else if (result <= 100)
+                    package.SpellHaste += (RNG.NextDouble(1, 4) * multiplier).Truncate(2);
+            }
+            return package;
+        }
+        private static ModPackage getMagicalSpeedStats(int rarityLevel, double baseMultiplier)
+        {
+            ModPackage package = new ModPackage();
+
+            double multiplier = baseMultiplier;
+            if (rarityLevel == 3)
+                multiplier += 0.2;
+            else if (rarityLevel == 4)
+                multiplier += 0.45;
+            else if (rarityLevel == 5)
+                multiplier += 1.0;
+            else if (rarityLevel == 6)
+                multiplier += 4.0;
+
+            for (int i = 0; i < rarityLevel; i++)
+            {
+                //1  -  30  -  Haste
+                //31 -  60  -  Crit Chance
+                //61 -  75  -  Hit Chance
+                //76 -  90  -  Spell Power
+                //91 -  100 -  Crit Power
+
+                int result = RNG.Next(1, 101);
+
+                if (result <= 30)
+                    package.SpellHaste += (RNG.NextDouble(1, 4) * multiplier).Truncate(2);
+                else if (result <= 60)
+                    package.PhysicalCritChance += (RNG.NextDouble(1, 3) * multiplier).Truncate(2);
+                else if (result <= 75)
+                    package.SpellHitChance += (RNG.NextDouble(2, 6) * multiplier).Truncate(2);
+                else if (result <= 90)
+                    package.SpellPower += (RNG.NextDouble(1, 10) * multiplier).Truncate(2);
+                else if (result <= 100)
+                    package.SpellCritPower += (RNG.NextDouble(0.1, 0.3) * multiplier).Truncate(2);
+            }
+            return package;
+        }
     }
 }
 namespace Roguelike.Engine.Factories.Consumables

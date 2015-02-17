@@ -22,8 +22,7 @@ namespace Roguelike.Engine.Game.Items
         public static Equipment GloveSlot;
 
         public static Equipment NeckSlot;
-        public static Equipment RingOneSlot;
-        public static Equipment RingTwoSlot;
+        public static Equipment RingSlot;
         public static Equipment RelicSlot;
 
         public static Equipment MainHand;
@@ -58,10 +57,8 @@ namespace Roguelike.Engine.Game.Items
 
             else if (slot == EquipmentSlots.Neck)
                 return (NeckSlot != null);
-            else if (slot == EquipmentSlots.Ring1)
-                return (RingOneSlot != null);
-            else if (slot == EquipmentSlots.Ring2)
-                return (RingTwoSlot != null);
+            else if (slot == EquipmentSlots.Ring)
+                return (RingSlot != null);
             else if (slot == EquipmentSlots.Relic)
                 return (RelicSlot != null);
 
@@ -91,10 +88,8 @@ namespace Roguelike.Engine.Game.Items
 
             else if (slot == EquipmentSlots.Neck)
                 return NeckSlot;
-            else if (slot == EquipmentSlots.Ring1)
-                return RingOneSlot;
-            else if (slot == EquipmentSlots.Ring1)
-                return RingTwoSlot;
+            else if (slot == EquipmentSlots.Ring)
+                return RingSlot;
             else if (slot == EquipmentSlots.Relic)
                 return RelicSlot;
 
@@ -165,10 +160,8 @@ namespace Roguelike.Engine.Game.Items
 
                 else if (slot == EquipmentSlots.Neck)
                     unequipItem(NeckSlot, slot);
-                else if (slot == EquipmentSlots.Ring1)
-                    unequipItem(RingOneSlot, slot);
-                else if (slot == EquipmentSlots.Ring2)
-                    unequipItem(RingTwoSlot, slot);
+                else if (slot == EquipmentSlots.Ring)
+                    unequipItem(RingSlot, slot);
                 else if (slot == EquipmentSlots.Relic)
                     unequipItem(RelicSlot, slot);
 
@@ -205,10 +198,8 @@ namespace Roguelike.Engine.Game.Items
 
             if (ItemEquipped(EquipmentSlots.Neck))
                 stats = NeckSlot.ModPackage.ApplyPackage(stats);
-            if (ItemEquipped(EquipmentSlots.Ring1))
-                stats = RingOneSlot.ModPackage.ApplyPackage(stats);
-            if (ItemEquipped(EquipmentSlots.Ring2))
-                stats = RingTwoSlot.ModPackage.ApplyPackage(stats);
+            if (ItemEquipped(EquipmentSlots.Ring))
+                stats = RingSlot.ModPackage.ApplyPackage(stats);
             if (ItemEquipped(EquipmentSlots.Relic))
                 stats = RelicSlot.ModPackage.ApplyPackage(stats);
 
@@ -225,8 +216,7 @@ namespace Roguelike.Engine.Game.Items
             setToNull(EquipmentSlots.Boots);
             setToNull(EquipmentSlots.Gloves);
             setToNull(EquipmentSlots.Neck);
-            setToNull(EquipmentSlots.Ring1);
-            setToNull(EquipmentSlots.Ring2);
+            setToNull(EquipmentSlots.Ring);
             setToNull(EquipmentSlots.Relic);
             setToNull(EquipmentSlots.MainHand);
             setToNull(EquipmentSlots.OffHand);
@@ -270,10 +260,8 @@ namespace Roguelike.Engine.Game.Items
 
             else if (slot == EquipmentSlots.Neck)
                 NeckSlot = null;
-            else if (slot == EquipmentSlots.Ring1)
-                RingOneSlot = null;
-            else if (slot == EquipmentSlots.Ring2)
-                RingTwoSlot = null;
+            else if (slot == EquipmentSlots.Ring)
+                RingSlot = null;
             else if (slot == EquipmentSlots.Relic)
                 RelicSlot = null;
 
@@ -302,10 +290,8 @@ namespace Roguelike.Engine.Game.Items
 
             else if (slot == EquipmentSlots.Neck)
                 NeckSlot = item;
-            else if (slot == EquipmentSlots.Ring1)
-                RingOneSlot = item;
-            else if (slot == EquipmentSlots.Ring2)
-                RingTwoSlot = item;
+            else if (slot == EquipmentSlots.Ring)
+                RingSlot = item;
             else if (slot == EquipmentSlots.Relic)
                 RelicSlot = item;
 

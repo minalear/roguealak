@@ -17,6 +17,11 @@ namespace Roguelike.Engine.Game.Items
             this.itemSlot = slot;
         }
 
+        public override string GetDescription()
+        {
+            return this.Description + "\n\n" + this.ModPackage.GetStatInfo();
+        }
+
         public virtual void OnAttack(CombatResults results) { }
         public virtual void OnDefend(CombatResults results) { }
         public virtual void OnMove() { }
@@ -77,5 +82,5 @@ namespace Roguelike.Engine.Game.Items
         private static Color UNIQUE_ITEM_COLOR = Color.Red;
     }
 
-    public enum EquipmentSlots { Head, Shoulder, Chest, Legs, Boots, Gloves, Neck, Ring1, Ring2, Relic, MainHand, OffHand, OneHand, TwoHand }
+    public enum EquipmentSlots { Head, Shoulder, Chest, Legs, Boots, Gloves, Neck, Ring, Relic, MainHand, OffHand, OneHand, TwoHand }
 }

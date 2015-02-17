@@ -1231,10 +1231,8 @@ namespace Roguelike.Engine.UI.Interfaces
                 Inventory.UnequipItem(EquipmentSlots.Gloves);
             else if (tag == "NECK")
                 Inventory.UnequipItem(EquipmentSlots.Neck);
-            else if (tag == "RNG1")
-                Inventory.UnequipItem(EquipmentSlots.Ring1);
-            else if (tag == "RNG2")
-                Inventory.UnequipItem(EquipmentSlots.Ring2);
+            else if (tag == "RING")
+                Inventory.UnequipItem(EquipmentSlots.Ring);
             else if (tag == "RELC")
                 Inventory.UnequipItem(EquipmentSlots.Relic);
             else if (tag == "MH")
@@ -1264,10 +1262,8 @@ namespace Roguelike.Engine.UI.Interfaces
 
             else if (slot == EquipmentSlots.Neck)
                 return "NECK - ";
-            else if (slot == EquipmentSlots.Ring1)
-                return "RNG1 - ";
-            else if (slot == EquipmentSlots.Ring2)
-                return "RNG2 - ";
+            else if (slot == EquipmentSlots.Ring)
+                return "RING - ";
             else if (slot == EquipmentSlots.Relic)
                 return "RELC - ";
 
