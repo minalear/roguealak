@@ -14,10 +14,13 @@ namespace Roguelike.Engine.Factories
         public static Item GenerateRandomItem()
         {
             int result = RNG.Next(0, 100);
-            if (result <= 33)
+            if (result <= 25)
                 return WeaponGenerator.GenerateRandomWeapon();
-            else if (result <= 66)
+            else if (result <= 50)
                 return ConsumableGenerator.GeneratePotion();
+            else if (result <= 75)
+                return ConsumableGenerator.GenerateScroll();
+
             return ConsumableGenerator.GenerateFood();
         }
         private static ItemTypes getRandomItemType()
@@ -503,11 +506,19 @@ namespace Roguelike.Engine.Factories.Consumables
 
         public static Potion GeneratePotion()
         {
-            Effect[] potionEffects = new Effect[] { new BasicHealthPotion(), new BasicManaPotion(), new BasicPoisonPotion(), /*new BasicDeathPotion()*/ };
+            Effect[] potionEffects = new Effect[] { new BasicHealthPotion(), new BasicManaPotion(), new BasicPoisonPotion(), new BasicDeathPotion() };
 
             Potion potion = new Potion(potionEffects[RNG.Next(0, potionEffects.Length)]) { Name = "Unknown Potion", Description = "You don't know what this potion is.  Try it?" };
 
             return potion;
+        }
+
+        public static Scroll GenerateScroll()
+        {
+            Ability[] scrollAbilities = new Ability[] { new Game.Stats.Classes.Mage.Ability_Fireball(), new Game.Stats.Classes.Warlock.Ability_Havoc(), new AbilityBlink() };
+            Scroll scroll = new Scroll(scrollAbilities[RNG.Next(0, scrollAbilities.Length)]);
+
+            return scroll;
         }
 
         private static string[] healthyFoods = new string[] { "Bread", "Cheese", "Apple", "Lettuce", "Cucumber", "Beef Jerky", "Lutefisk", "Sweet Roll" };
@@ -584,6 +595,35 @@ namespace Roguelike.Engine.Factories.Consumables
         {
             entity.StatsPackage.DrainHealth((int)entity.StatsPackage.MaxHealth.EffectiveValue);
             base.OnApplication(entity);
+        }
+    }
+
+    public class AbilityBlink : Ability
+    {
+        public AbilityBlink()
+            : base(10)
+        {
+            this.AbilityName = "Blink";
+            this.AbilityNameShort = "Blink";
+
+            this.TargetingType = TargetingTypes.GroundTarget;
+            this.abilityType = AbilityTypes.Magical;
+            this.abilityCost = 10;
+            this.cooldown = 10;
+            this.range = 5;
+        }
+
+        public override CombatResults CalculateResults(StatsPackage caster, StatsPackage target)
+        {
+            return new CombatResults() { Caster = caster, Target = target, UsedAbility = this };
+        }
+
+        public override void CastAbilityGround(StatsPackage caster, int x0, int y0, int radius, Level level)
+        {
+            if (!GameManager.CurrentLevel.IsTileSolid(x0, y0))
+            {
+                GameManager.Player.TeleportPlayer(GameManager.CurrentLevel, new Microsoft.Xna.Framework.Point(x0, y0));
+            }
         }
     }
 }

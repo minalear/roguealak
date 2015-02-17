@@ -395,7 +395,7 @@ namespace Roguelike.Engine.UI.Interfaces
             this.equipmentButton.Click += equipmentButton_Click;
             this.spellbookButton.Click += spellbookButton_Click;
 
-            this.inventoryControl = new InventoryControl(this, 0, 0, 28, 44) { IsVisible = true };
+            this.inventoryControl = new InventoryControl(this, 0, 0, 28, 44, hotbar) { IsVisible = true };
             this.equipmentControl = new EquipmentControl(this, 0, 0, 28, 44) { IsVisible = false };
             this.spellbookControl = new SpellbookControl(this, 0, 0, 28, 44, hotbar) { IsVisible = false };
 
@@ -772,7 +772,7 @@ namespace Roguelike.Engine.UI.Interfaces
         public event Selection Selected;
         public delegate void Selection(object sender, EventArgs args);
 
-        public GameCursor(Interface parent, Rectangle viewport)
+        public GameCursor(Control parent, Rectangle viewport)
             : base(parent)
         {
             this.viewport = new Rectangle(
@@ -997,11 +997,14 @@ namespace Roguelike.Engine.UI.Interfaces
         private Button pickupButton, useButton;
         private Button dropButton;
 
-        public InventoryControl(Control parent, int x, int y, int width, int height)
+        private Hotbar hotbar;
+
+        public InventoryControl(Control parent, int x, int y, int width, int height, Hotbar hotbar)
             : base(parent)
         {
             this.position = new Point(x, y);
             this.size = new Point(width, height);
+            this.hotbar = hotbar;
 
             this.inventoryTitle = new Title(this, "-=Inventory=-", width / 2, 0, Title.TextAlignModes.Center);
             this.groundTitle = new Title(this, "-=Ground Items=-", width / 2, 19, Title.TextAlignModes.Center);
@@ -1067,14 +1070,23 @@ namespace Roguelike.Engine.UI.Interfaces
             if (inventoryList.HasSelection)
             {
                 Item item = (Item)this.inventoryList.GetSelection();
-                item.OnUse(GameManager.Player);
 
-                if (item.RemoveOnUse)
+                if (item.ItemType == ItemTypes.Scroll)
                 {
+                    this.hotbar.CastAbility(((Scroll)item).ScrollAbility);
+                    item.OnUse(GameManager.Player);
                     Inventory.PurgeItem(item);
                 }
+                else
+                {
+                    item.OnUse(GameManager.Player);
+                    if (item.RemoveOnUse)
+                    {
+                        Inventory.PurgeItem(item);
+                    }
 
-                GameManager.Step();
+                    GameManager.Step();
+                }
             }
             this.descriptionBox.Text = string.Empty;
         }

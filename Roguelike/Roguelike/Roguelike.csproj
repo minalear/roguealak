@@ -91,6 +91,7 @@
     <Compile Include="Engine\Game\Items\Food.cs" />
     <Compile Include="Engine\Game\Items\Equipment.cs" />
     <Compile Include="Engine\Game\Items\Potion.cs" />
+    <Compile Include="Engine\Game\Items\Scroll.cs" />
     <Compile Include="Engine\Game\Items\Test\BrokenSword.cs" />
     <Compile Include="Engine\Game\Items\Test\Broadsword.cs" />
     <Compile Include="Engine\Game\Items\Inventory.cs" />
