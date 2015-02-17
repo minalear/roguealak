@@ -212,7 +212,7 @@ namespace Roguelike.Engine.Game.Stats.Classes
                 this.EffectDescription = "Shadows have placed a grip upon your soul!  You feel much weaker.";
             }
 
-            public override void OnApplication()
+            public override void OnApplication(Entity entity)
             {
                 for (int i = 0; i < this.parent.AppliedEffects.Count; i++)
                 {
@@ -220,7 +220,7 @@ namespace Roguelike.Engine.Game.Stats.Classes
                         this.parent.AppliedEffects[i].OnRemoval();
                 }
 
-                base.OnApplication();
+                base.OnApplication(entity);
             }
 
             public override void CalculateStats()

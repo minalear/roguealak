@@ -41,6 +41,8 @@ namespace Roguelike.Engine.Game.Items
         }
 
         public virtual void OnUse(Entities.Entity entity) { }
+        public virtual void OnPickup() { }
+        public virtual void OnDrop() { }
 
         private string name = "[ITEM]";
         private string description;
@@ -51,6 +53,7 @@ namespace Roguelike.Engine.Game.Items
         private Color foregroundColor = Color.White;
         private Color backgroundColor = Color.Black;
         private Level parentLevel;
+        private bool removeOnUse = false;
 
         public string Name { get { return this.name; } set { this.name = value; } }
         public string Description { get { return this.description; } set { this.description = value; } }
@@ -62,6 +65,7 @@ namespace Roguelike.Engine.Game.Items
         public Color BackgroundColor { get { return this.backgroundColor; } set { this.backgroundColor = value; } }
         public Level ParentLevel { get { return this.parentLevel; } set { this.parentLevel = value; } }
         public override string ListText { get { return this.name; } set { base.ListText = value; } }
+        public bool RemoveOnUse { get { return this.removeOnUse; } set { this.removeOnUse = value; } }
         public int Weight { get; set; }
     }
 

@@ -7,12 +7,13 @@ using Roguelike.Engine.Game.Stats;
 
 namespace Roguelike.Engine.Game.Items
 {
-    public class Food : Item
+    public class Potion : Item
     {
-        public Food()
-            : base(ItemTypes.Food)
+        public Potion(Effect onUseEffect)
+            : base(ItemTypes.Potion)
         {
             this.RemoveOnUse = true;
+            this.onUseEffect = onUseEffect;
         }
 
         public override void OnUse(Entities.Entity entity)

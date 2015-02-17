@@ -60,7 +60,7 @@ namespace Roguelike.Engine.Game.Combat
         public virtual void OnDeath() { } //Whenever the entity dies
         public virtual void OnSpawn() { } //Called whenever the entity is spawned (by external force)
 
-        public virtual void OnApplication() { } //Whenever the effect is applied
+        public virtual void OnApplication(Entity entity) { } //Whenever the effect is applied
         public virtual void OnElapsed() //Removed due to lapsed duration
         {
             this.doPurge = true;

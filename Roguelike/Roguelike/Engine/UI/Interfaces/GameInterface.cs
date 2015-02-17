@@ -1049,7 +1049,6 @@ namespace Roguelike.Engine.UI.Interfaces
                 }
             }
             this.groundList.SetList<Item>(groundItems);
-            this.groundList.ClearSelection();
         }
 
         private void inventoryList_Selected(object sender, int index)
@@ -1066,13 +1065,30 @@ namespace Roguelike.Engine.UI.Interfaces
         private void useButton_Click(object sender, MouseButtons button)
         {
             if (inventoryList.HasSelection)
-                ((Item)this.inventoryList.GetSelection()).OnUse(GameManager.Player);
+            {
+                Item item = (Item)this.inventoryList.GetSelection();
+                item.OnUse(GameManager.Player);
+
+                if (item.RemoveOnUse)
+                {
+                    Inventory.PurgeItem(item);
+                }
+
+                GameManager.Step();
+            }
             this.descriptionBox.Text = string.Empty;
         }
         private void dropButton_Click(object sender, MouseButtons button)
         {
             if (inventoryList.HasSelection)
+            {
+                Item item = (Item)inventoryList.GetSelection();
+                item.OnDrop();
+
                 Inventory.DropItem(inventoryList.SelectedIndex, GameManager.CurrentLevel, GameManager.Player.X, GameManager.Player.Y);
+
+                GameManager.Step();
+            }
             this.descriptionBox.Text = string.Empty;
         }
         private void pickupButton_Click(object sender, MouseButtons button)
@@ -1081,8 +1097,11 @@ namespace Roguelike.Engine.UI.Interfaces
             {
                 Item item = (Item)groundList.GetSelection();
                 GameManager.CurrentLevel.PickupItem(item);
+                item.OnPickup();
 
                 Inventory.PlayerInventory.Add(item);
+
+                GameManager.Step();
             }
             this.descriptionBox.Text = string.Empty;
         }

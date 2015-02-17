@@ -136,7 +136,8 @@ namespace Roguelike.Engine.UI.Controls
                 this.objectList.Add(newList[i]);
             this.setupList();
 
-            this.ClearSelection();
+            if (this.selectedIndex >= this.Items.Count)
+                this.ClearSelection();
         }
         public void ClearSelection()
         {
@@ -176,6 +177,28 @@ namespace Roguelike.Engine.UI.Controls
         public ListItem GetSelection()
         {
             return this.objectList[this.selectedIndex];
+        }
+        public void RemoveItem(string item)
+        {
+            for (int i = 0; i < this.Items.Count; i++)
+            {
+                if (this.Items[i].ListText == item)
+                {
+                    this.Items.RemoveAt(i);
+                    break;
+                }
+            }
+            this.ClearSelection();
+        }
+        public void RemoveItem(int index)
+        {
+            if (index < this.Items.Count)
+            {
+                this.Items.RemoveAt(index);
+
+                if (this.selectedIndex >= this.Items.Count)
+                    this.ClearSelection();
+            }
         }
 
         protected void onHover()
@@ -217,12 +240,20 @@ namespace Roguelike.Engine.UI.Controls
         }
         private void writeLine(string line)
         {
-            //Ensure text doesn't go past the size of the list
-            int i = 0;
-            for (i = 0; i < line.Length && i < this.Size.X; i++)
-                GraphicConsole.Write(line[i]);
-            for (; i < this.Size.X; i++)
-                GraphicConsole.Write(' ');
+            if (!string.IsNullOrEmpty(line))
+            {
+                //Ensure text doesn't go past the size of the list
+                int i = 0;
+                for (i = 0; i < line.Length && i < this.Size.X; i++)
+                    GraphicConsole.Write(line[i]);
+                for (; i < this.Size.X; i++)
+                    GraphicConsole.Write(' ');
+            }
+            else
+            {
+                for (int i = 0; i < this.Size.X; i++)
+                    GraphicConsole.Write(' ');
+            }
         }
         private void setConsoleColors(int index)
         {

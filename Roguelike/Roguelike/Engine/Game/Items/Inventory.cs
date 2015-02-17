@@ -248,6 +248,11 @@ namespace Roguelike.Engine.Game.Items
                 equippedItems[i].OnMove();
         }
 
+        public static void PurgeItem(Item item)
+        {
+            inventory.Remove(item);
+        }
+
         private static void setToNull(EquipmentSlots slot)
         {
             if (slot == EquipmentSlots.Head)

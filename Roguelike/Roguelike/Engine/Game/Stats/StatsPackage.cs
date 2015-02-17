@@ -65,7 +65,7 @@ namespace Roguelike.Engine.Game.Stats
             effect.Parent = this;
 
             this.appliedEffects.Add(effect);
-            effect.OnApplication();
+            effect.OnApplication(this.ParentEntity);
         }
 
         public virtual void OnAttack(CombatResults results)

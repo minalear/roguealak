@@ -14,8 +14,10 @@ namespace Roguelike.Engine.Factories
         public static Item GenerateRandomItem()
         {
             int result = RNG.Next(0, 100);
-            if (result <= 50)
+            if (result <= 33)
                 return WeaponGenerator.GenerateRandomWeapon();
+            else if (result <= 66)
+                return ConsumableGenerator.GeneratePotion();
             return ConsumableGenerator.GenerateFood();
         }
         private static ItemTypes getRandomItemType()
@@ -499,6 +501,15 @@ namespace Roguelike.Engine.Factories.Consumables
             return new Food() { Name = name, Value = 1, Weight = 2, OnUseEffect = new BasicFoodHeal(name.Length, false), Description = description };
         }
 
+        public static Potion GeneratePotion()
+        {
+            Effect[] potionEffects = new Effect[] { new BasicHealthPotion(), new BasicManaPotion(), new BasicPoisonPotion(), /*new BasicDeathPotion()*/ };
+
+            Potion potion = new Potion(potionEffects[RNG.Next(0, potionEffects.Length)]) { Name = "Unknown Potion", Description = "You don't know what this potion is.  Try it?" };
+
+            return potion;
+        }
+
         private static string[] healthyFoods = new string[] { "Bread", "Cheese", "Apple", "Lettuce", "Cucumber", "Beef Jerky", "Lutefisk", "Sweet Roll" };
         private static string[] unhealthyFood = new string[] { "Feces" };
     }
@@ -507,16 +518,72 @@ namespace Roguelike.Engine.Factories.Consumables
     {
         int healAmount;
         public BasicFoodHeal(int healAmount, bool scale)
-            : base(1)
+            : base(0)
         {
+            this.EffectName = "Yum!";
+            this.EffectDescription = "You have recently eaten and are feeling the benefits.";
+
             this.healAmount = healAmount;
             if (scale) //Scale to user level
                 this.healAmount *= 1; //TODO: Scale healing to user level
         }
 
-        public override void OnApplication()
+        public override void UpdateStep()
         {
-            this.parent.AddHealth(this.healAmount);
+            if (this.healAmount > 0)
+            {
+                this.parent.AddHealth(2);
+                this.healAmount -= 2;
+            }
+            else
+                this.DoPurge = true;
+        }
+    }
+
+    public class BasicHealthPotion : Effect
+    {
+        public BasicHealthPotion()
+            : base(1) { }
+
+        public override void OnApplication(Game.Entities.Entity entity)
+        {
+            entity.StatsPackage.AddHealth(RNG.Next(5, (int)(entity.StatsPackage.MaxHealth / 2)));
+            base.OnApplication(entity);
+        }
+    }
+    public class BasicManaPotion : Effect
+    {
+        public BasicManaPotion()
+            : base(1) { }
+
+        public override void OnApplication(Game.Entities.Entity entity)
+        {
+            entity.StatsPackage.AddMana(RNG.Next(5, (int)(entity.StatsPackage.MaxHealth / 2)));
+            base.OnApplication(entity);
+        }
+    }
+    public class BasicPoisonPotion : Effect
+    {
+        public BasicPoisonPotion()
+            : base(1) { }
+
+        public override void OnApplication(Game.Entities.Entity entity)
+        {
+            MessageCenter.PostMessage("You have been poisoned!", "You have been poisoned by that potion!", entity);
+
+            entity.StatsPackage.ApplyEffect(new Game.Stats.Classes.Rogue.Effect_Poison());
+            base.OnApplication(entity);
+        }
+    }
+    public class BasicDeathPotion : Effect
+    {
+        public BasicDeathPotion()
+            : base(1) { }
+
+        public override void OnApplication(Game.Entities.Entity entity)
+        {
+            entity.StatsPackage.DrainHealth((int)entity.StatsPackage.MaxHealth.EffectiveValue);
+            base.OnApplication(entity);
         }
     }
 }
