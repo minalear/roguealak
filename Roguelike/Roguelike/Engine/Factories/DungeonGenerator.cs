@@ -36,11 +36,11 @@ namespace Roguelike.Engine.Factories
             dungeon.DungeonLevels[dungeon.DungeonLevels.Length - 1] = LevelGenerator.GenerateWinShrine(dungeon.DungeonLevels[dungeon.DungeonLevels.Length - 1]);
 
             //Export PNGs of Levels
-            /*for (int i = 0; i < dungeon.NumberOfLevels; i++)
+            for (int i = 1; i < dungeon.NumberOfLevels; i++)
             {
-                Factories.LevelGenerator.ExportPNG(dungeon.DungeonLevels[i]);
-                //dungeon.DungeonLevels[i] = setupSomeEnemies(dungeon.DungeonLevels[i]);
-            }*/
+                //Factories.LevelGenerator.ExportPNG(dungeon.DungeonLevels[i]);
+                dungeon.DungeonLevels[i] = setupSomeEnemies(dungeon.DungeonLevels[i]);
+            }
 
             return dungeon;
         }

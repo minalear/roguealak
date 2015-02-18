@@ -7,6 +7,7 @@ using Roguelike.Engine.Game.Combat;
 using Roguelike.Engine.Factories.Weapons;
 using Roguelike.Engine.Factories.Armor;
 using Roguelike.Engine.Factories.Consumables;
+using Roguelike.Engine.Factories.Misc;
 
 namespace Roguelike.Engine.Factories
 {
@@ -15,14 +16,16 @@ namespace Roguelike.Engine.Factories
         public static Item GenerateRandomItem()
         {
             int result = RNG.Next(0, 100);
-            if (result <= 20)
+            if (result <= 17)
                 return WeaponGenerator.GenerateRandomWeapon();
-            else if (result <= 40)
+            else if (result <= 34)
                 return ConsumableGenerator.GeneratePotion();
-            else if (result <= 60)
+            else if (result <= 51)
                 return ConsumableGenerator.GenerateScroll();
-            else if (result <= 80)
+            else if (result <= 68)
                 return ArmorGenerator.GenerateRandomArmor();
+            else if (result <= 85)
+                return MiscItemGenerator.GetRandomItem();
 
             return ConsumableGenerator.GenerateFood();
         }
@@ -824,7 +827,9 @@ namespace Roguelike.Engine.Factories.Consumables
         {
             Effect[] potionEffects = new Effect[] { new BasicHealthPotion(), new BasicManaPotion(), new BasicPoisonPotion(), new BasicDeathPotion() };
 
-            Potion potion = new Potion(potionEffects[RNG.Next(0, potionEffects.Length)]) { Name = "Unknown Potion", Description = "You don't know what this potion is.  Try it?" };
+            Potion potion = new Potion(potionEffects[RNG.Next(0, potionEffects.Length)]);
+            potion.Name = potion.OnUseEffect.EffectName;
+            potion.Description = potion.OnUseEffect.EffectName;
 
             return potion;
         }
@@ -870,7 +875,11 @@ namespace Roguelike.Engine.Factories.Consumables
     public class BasicHealthPotion : Effect
     {
         public BasicHealthPotion()
-            : base(1) { }
+            : base(1)
+        {
+            this.EffectName = "HP Potion";
+            this.EffectDescription = "Restores health upon quaffing the potion.";
+        }
 
         public override void OnApplication(Game.Entities.Entity entity)
         {
@@ -881,7 +890,11 @@ namespace Roguelike.Engine.Factories.Consumables
     public class BasicManaPotion : Effect
     {
         public BasicManaPotion()
-            : base(1) { }
+            : base(1)
+        {
+            this.EffectName = "MP Potion";
+            this.EffectDescription = "Restores mana upon quaffing the potion.";
+        }
 
         public override void OnApplication(Game.Entities.Entity entity)
         {
@@ -892,20 +905,35 @@ namespace Roguelike.Engine.Factories.Consumables
     public class BasicPoisonPotion : Effect
     {
         public BasicPoisonPotion()
-            : base(1) { }
+            : base(1)
+        {
+            this.EffectName = "Poison Potion";
+            this.EffectDescription = "Poison!  Don't drink.";
+        }
 
         public override void OnApplication(Game.Entities.Entity entity)
         {
-            MessageCenter.PostMessage("You have been poisoned!", "You have been poisoned by that potion!", entity);
-
-            entity.StatsPackage.ApplyEffect(new Game.Stats.Classes.Rogue.Effect_Poison());
-            base.OnApplication(entity);
+            int result = RNG.Next(0, 1000);
+            if (result == 0)
+            {
+                MessageCenter.PostMessage("The poison forms into golden coins in your stomach, which you retrieve after heaving. +5 Gold");
+                Inventory.Gold += 5;
+            }
+            else
+            {
+                MessageCenter.PostMessage("You have been poisoned!");
+                entity.StatsPackage.ApplyEffect(new Game.Stats.Classes.Rogue.Effect_Poison());
+            }
         }
     }
     public class BasicDeathPotion : Effect
     {
         public BasicDeathPotion()
-            : base(1) { }
+            : base(1)
+        {
+            this.EffectName = "Death Potion";
+            this.EffectDescription = "Kills you.  Like seriously, don't drink this.";
+        }
 
         public override void OnApplication(Game.Entities.Entity entity)
         {
@@ -939,6 +967,51 @@ namespace Roguelike.Engine.Factories.Consumables
             if (!GameManager.CurrentLevel.IsTileSolid(x0, y0))
             {
                 GameManager.Player.TeleportPlayer(GameManager.CurrentLevel, new Microsoft.Xna.Framework.Point(x0, y0));
+            }
+        }
+    }
+}
+namespace Roguelike.Engine.Factories.Misc
+{
+    public static class MiscItemGenerator
+    {
+        public static Item GetRandomItem()
+        {
+            if (RNG.Next(0, 100) <= 75)
+                return new GoldPiece();
+            return new GoldPouch();
+        }
+
+        public class GoldPiece : Item
+        {
+            public GoldPiece()
+                : base(ItemTypes.Gold)
+            {
+                this.Name = "Gold Piece";
+                this.Description = "A small golden coin with the face of a local noble emblazoned on the front.";
+            }
+
+            public override void OnPickup()
+            {
+                MessageCenter.PostMessage("You picked up a gold piece.");
+                Inventory.Gold++;
+            }
+        }
+        public class GoldPouch : Item
+        {
+            public GoldPouch()
+                : base(ItemTypes.Gold)
+            {
+                this.Name = "Gold Pouch";
+                this.Description = "A small pouch that makes metallica sounds as you move it about.";
+            }
+
+            public override void OnPickup()
+            {
+                int amount = RNG.Next(2, 12);
+
+                MessageCenter.PostMessage("You picked up " + amount + " gold pieces.");
+                Inventory.Gold += amount;
             }
         }
     }

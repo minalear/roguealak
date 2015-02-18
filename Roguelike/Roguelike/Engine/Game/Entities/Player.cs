@@ -39,10 +39,6 @@ namespace Roguelike.Engine.Game.Entities
 
             base.Update(gameTime);
         }
-        public override void OnInteract(Entity entity)
-        {
-
-        }
         public override void MoveToTile(int x, int y)
         {
             this.X = x;
@@ -63,6 +59,11 @@ namespace Roguelike.Engine.Game.Entities
             GameManager.SetCameraOffset();
 
             this.parentLevel.Entities.Add(this);
+        }
+        public override void OnDeath()
+        {
+            MessageCenter.MessageLog.Clear();
+            base.OnDeath();
         }
 
         private Point getDestination()

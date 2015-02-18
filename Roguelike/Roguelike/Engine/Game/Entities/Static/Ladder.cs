@@ -27,10 +27,8 @@ namespace Roguelike.Engine.Game.Entities
         {
             if (entity.EntityType == EntityTypes.Player)
             {
-                GameManager.Player.TeleportPlayer(this.targetLevel, this.targetDestination);
                 Pathing.PathCalculator.CacheLevel(this.targetLevel);
-
-
+                GameManager.Player.TeleportPlayer(this.targetLevel, this.targetDestination);
             }
         }
     }

@@ -991,6 +991,7 @@ namespace Roguelike.Engine.UI.Interfaces
     {
         private Title inventoryTitle;
         private Title groundTitle;
+        private Title goldTracker;
 
         private ScrollingList inventoryList;
         private ScrollingList groundList;
@@ -1010,8 +1011,9 @@ namespace Roguelike.Engine.UI.Interfaces
 
             this.inventoryTitle = new Title(this, "-=Inventory=-", width / 2, 0, Title.TextAlignModes.Center);
             this.groundTitle = new Title(this, "-=Ground Items=-", width / 2, 19, Title.TextAlignModes.Center);
+            this.goldTracker = new Title(this, "Gold: ###", 0, 1, Title.TextAlignModes.Left) { TextColor = Color.Goldenrod, FillColor = new Color(20, 20, 20) };
 
-            this.inventoryList = new ScrollingList(this, 0, 1, this.Size.X, 15) { FillColor = new Color(20, 20, 20) };
+            this.inventoryList = new ScrollingList(this, 0, 2, this.Size.X, 14) { FillColor = new Color(20, 20, 20) };
             this.groundList = new ScrollingList(this, 0, 20, this.Size.X, 8) { FillColor = new Color(20, 20, 20) };
 
             this.useButton = new Button(this, "Use", 0, 16, 14, 3);
@@ -1032,7 +1034,17 @@ namespace Roguelike.Engine.UI.Interfaces
             this.populateInventoryList();
             this.populateGroundList();
 
+            this.goldTracker.Text = "Gold: " + Inventory.Gold.ToString();
+
             base.UpdateStep();
+        }
+        public override void DrawStep()
+        {
+            GraphicConsole.SetColors(Color.White, new Color(20, 20, 20));
+            DrawingUtilities.DrawLine(this.Position.X, this.Position.Y + 1, this.Position.X + this.Size.X - 1, this.Position.Y + 1, ' ');
+            GraphicConsole.ResetColor();
+
+            base.DrawStep();
         }
 
         private void populateInventoryList()
@@ -1113,7 +1125,8 @@ namespace Roguelike.Engine.UI.Interfaces
                 GameManager.CurrentLevel.PickupItem(item);
                 item.OnPickup();
 
-                Inventory.PlayerInventory.Add(item);
+                if (item.ItemType != ItemTypes.Gold)
+                    Inventory.PlayerInventory.Add(item);
 
                 GameManager.Step();
             }

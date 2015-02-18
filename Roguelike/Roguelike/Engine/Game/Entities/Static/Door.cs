@@ -18,7 +18,7 @@ namespace Roguelike.Engine.Game.Entities
 
         public override void OnInteract(Entity entity)
         {
-            if ((entity.EntityType == EntityTypes.Player || entity.EntityType == EntityTypes.NPC) && this.isClosed)
+            if (/*(entity.EntityType == EntityTypes.Player || entity.EntityType == EntityTypes.NPC) && */this.isClosed)
             {
                 this.isClosed = false;
                 this.isSolid = false;

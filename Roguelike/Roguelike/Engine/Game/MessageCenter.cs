@@ -20,6 +20,10 @@ namespace Roguelike.Engine.Game
 
             messageLog.Insert(0, message);
         }
+        public static void PostMessage(string shortMessage)
+        {
+            messageLog.Insert(0, new Message(shortMessage));
+        }
         public static void PostMessage(Message message)
         {
             messageLog.Insert(0, message);
@@ -43,6 +47,11 @@ namespace Roguelike.Engine.Game
                 this.TextColor = Color.LimeGreen;
             else
                 this.TextColor = Color.White;
+        }
+        public Message(string text)
+        {
+            this.shortMessage = text;
+            this.TextColor = Color.White;
         }
 
         public override string ListText { get { return shortMessage; } set { shortMessage = value; } }

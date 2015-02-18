@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
+using Roguelike.Engine.Game.Stats;
 
 namespace Roguelike.Engine.Game.Entities
 {
@@ -12,7 +13,6 @@ namespace Roguelike.Engine.Game.Entities
         List<Point> path = new List<Point>();
 
         public static bool AllowedToMove = true;
-        private int health = 10;
 
         public PathingEntity(Level parent)
             : base(parent)
@@ -21,8 +21,19 @@ namespace Roguelike.Engine.Game.Entities
             this.BackgroundColor = Color.Pink;
 
             this.token = '♥';
-            this.EntityType = EntityTypes.NPC;
+            this.EntityType = EntityTypes.Enemy;
             this.isSolid = true;
+
+            this.statsPackage = new StatsPackage(this)
+            {
+                UnitName = "Demon Heart",
+
+                AttackPower = new Stat() { BaseValue = 25.0 },
+                PhysicalAvoidance = new Stat() { BaseValue = 15.0 },
+                PhysicalReduction = new Stat() { BaseValue = 20.0 },
+                PhysicalHitChance = new Stat() { BaseValue = 75.0 },
+                Health = 150
+            };
         }
 
         public override void DrawStep(Rectangle viewport)
@@ -32,9 +43,6 @@ namespace Roguelike.Engine.Game.Entities
 
         public override void UpdateStep()
         {
-            if (this.health <= 0)
-                this.DoPurge = true;
-
             this.getPlayerPosition();
             this.calculatePath();
             //this.paintPath();
@@ -52,17 +60,18 @@ namespace Roguelike.Engine.Game.Entities
             base.Update(gameTime);
         }
 
-        public override void OnInteract(Entity entity)
-        {
-            if (entity.EntityType == EntityTypes.Player)
-                this.health = 0;
-
-            base.OnInteract(entity);
-        }
-
         public override void MoveToTile(int x, int y)
         {
-            base.MoveToTile(x, y);
+            if (this.parentLevel.IsBlockedByEntity(x, y))
+            {
+                Entity entity = this.parentLevel.GetEntity(x, y);
+                if (entity.EntityType == EntityTypes.Player)
+                    entity.Attack(this, this.statsPackage.AbilityList[0]);
+                else
+                    entity.OnInteract(this);
+            }
+            else
+                base.MoveToTile(x, y);
         }
 
         private void calculatePath()

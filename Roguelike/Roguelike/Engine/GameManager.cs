@@ -135,8 +135,8 @@ namespace Roguelike.Engine
             populateSpellbook();
             SetCameraOffset();
 
-            Game.Items.Inventory.PlayerInventory.Add(new Game.Items.Test.Dagger_Retribution());
-            Game.Items.Inventory.PlayerInventory.Add(new Game.Items.Test.Dagger_Retribution());
+            /*Game.Items.Inventory.PlayerInventory.Add(new Game.Items.Test.Dagger_Retribution());
+            Game.Items.Inventory.PlayerInventory.Add(new Game.Items.Test.Dagger_Retribution());*/
 
             CurrentLevel.Entities.Add(Player);
         }

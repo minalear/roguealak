@@ -281,11 +281,11 @@ namespace Roguelike.Engine.Factories
                 int room = RNG.Next(0, roomNumber);
                 Point position = new Point(RNG.Next(level.Rooms[room].Left, level.Rooms[room].Right), RNG.Next(level.Rooms[room].Top, level.Rooms[room].Bottom));
 
-                Weapon weapon = ItemGenerator.GenerateRandomWeapon();
-                weapon.Position = position;
-                weapon.ParentLevel = level;
+                Item item = ItemGenerator.GenerateRandomItem();
+                item.Position = position;
+                item.ParentLevel = level;
 
-                level.FloorItems.Add(weapon);
+                level.FloorItems.Add(item);
             }
 
             return level;
