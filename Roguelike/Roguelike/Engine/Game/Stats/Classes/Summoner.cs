@@ -132,6 +132,8 @@ namespace Roguelike.Engine.Game.Stats.Classes
                     MaxHealth = 25,
                     PhysicalHitChance = 100
                 };
+
+                this.statsPackage.AbilityList[0] = new Combat.Abilities.BasicAttack() { Range = 100 };
             }
 
             public override void UpdateStep()
