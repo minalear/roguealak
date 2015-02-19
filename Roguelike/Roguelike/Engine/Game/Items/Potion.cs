@@ -22,6 +22,11 @@ namespace Roguelike.Engine.Game.Items
                 entity.StatsPackage.ApplyEffect(this.onUseEffect);
         }
 
+        public override string GetDescription()
+        {
+            return this.Name + " - " + this.ItemType.ToString() + "\n" + "Gold: " + this.Value + "\n" + this.Description;
+        }
+
         private Effect onUseEffect;
         public Effect OnUseEffect { get { return this.onUseEffect; } set { this.onUseEffect = value; } }
     }

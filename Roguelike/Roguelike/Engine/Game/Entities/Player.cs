@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
@@ -44,6 +45,7 @@ namespace Roguelike.Engine.Game.Entities
             this.X = x;
             this.y = y;
 
+            this.PlayerStats.OnMove();
             Items.Inventory.OnMove();
 
             GameManager.Step();
@@ -62,7 +64,7 @@ namespace Roguelike.Engine.Game.Entities
         }
         public override void OnDeath()
         {
-            MessageCenter.MessageLog.Clear();
+            GameManager.ChangeGameState(GameStates.Dead);
             base.OnDeath();
         }
 
@@ -187,7 +189,7 @@ namespace Roguelike.Engine.Game.Entities
         {
             int radius = 10;
 
-            for (int angle = 0; angle < 360; angle += 1)
+            for (int angle = 0; angle <= 360; angle += 1)
             {
                 for (int r = 0; r < radius; r++)
                 {

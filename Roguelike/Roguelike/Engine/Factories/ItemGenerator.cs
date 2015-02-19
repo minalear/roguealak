@@ -829,14 +829,14 @@ namespace Roguelike.Engine.Factories.Consumables
 
             Potion potion = new Potion(potionEffects[RNG.Next(0, potionEffects.Length)]);
             potion.Name = potion.OnUseEffect.EffectName;
-            potion.Description = potion.OnUseEffect.EffectName;
+            potion.Description = potion.OnUseEffect.EffectDescription;
 
             return potion;
         }
 
         public static Scroll GenerateScroll()
         {
-            Ability[] scrollAbilities = new Ability[] { new Game.Stats.Classes.Mage.Ability_Fireball(), new Game.Stats.Classes.Warlock.Ability_Havoc(), new AbilityBlink() };
+            Ability[] scrollAbilities = new Ability[] { new ScrollAbilityBlink(), new ScrollAbilityFireball(), new ScrollAbilityManaBurst() };
             Scroll scroll = new Scroll(scrollAbilities[RNG.Next(0, scrollAbilities.Length)]);
 
             return scroll;
@@ -883,7 +883,11 @@ namespace Roguelike.Engine.Factories.Consumables
 
         public override void OnApplication(Game.Entities.Entity entity)
         {
-            entity.StatsPackage.AddHealth(RNG.Next(5, (int)(entity.StatsPackage.MaxHealth / 2)));
+            int amount = RNG.Next(5, (int)(entity.StatsPackage.MaxHealth / 2));
+            entity.StatsPackage.AddHealth(amount);
+
+            MessageCenter.PostMessage("Restored " + amount + " health.");
+
             base.OnApplication(entity);
         }
     }
@@ -898,7 +902,11 @@ namespace Roguelike.Engine.Factories.Consumables
 
         public override void OnApplication(Game.Entities.Entity entity)
         {
-            entity.StatsPackage.AddMana(RNG.Next(5, (int)(entity.StatsPackage.MaxHealth / 2)));
+            int amount = RNG.Next(5, (int)(entity.StatsPackage.MaxMana / 2));
+            entity.StatsPackage.AddMana(amount);
+
+            MessageCenter.PostMessage("Restored " + amount + " mana.");
+
             base.OnApplication(entity);
         }
     }
@@ -938,14 +946,15 @@ namespace Roguelike.Engine.Factories.Consumables
         public override void OnApplication(Game.Entities.Entity entity)
         {
             entity.StatsPackage.DrainHealth((int)entity.StatsPackage.MaxHealth.EffectiveValue);
+            MessageCenter.PostMessage("That potion just killed your ass.");
             base.OnApplication(entity);
         }
     }
 
-    public class AbilityBlink : Ability
+    public class ScrollAbilityBlink : Ability
     {
-        public AbilityBlink()
-            : base(10)
+        public ScrollAbilityBlink()
+            : base(0)
         {
             this.AbilityName = "Blink";
             this.AbilityNameShort = "Blink";
@@ -968,6 +977,67 @@ namespace Roguelike.Engine.Factories.Consumables
             {
                 GameManager.Player.TeleportPlayer(GameManager.CurrentLevel, new Microsoft.Xna.Framework.Point(x0, y0));
             }
+        }
+    }
+    public class ScrollAbilityFireball : Ability
+    {
+        public ScrollAbilityFireball()
+            : base(0)
+        {
+            this.AbilityName = "Fireball";
+            this.AbilityNameShort = "Fireball";
+
+            this.TargetingType = TargetingTypes.EntityTarget;
+            this.AbilityType = AbilityTypes.Magical;
+            this.Range = 8;
+        }
+
+        public override CombatResults CalculateResults(StatsPackage caster, StatsPackage target)
+        {
+            CombatResults results = this.DoesAttackHit(caster, target);
+
+            if (!results.DidMiss && !results.DidAvoid)
+            {
+                int damage = 100;
+                if (RNG.Next(0, 100) <= 10)
+                {
+                    damage *= 2;
+                    results.DidCrit = true;
+                }
+
+                results.PureDamage = damage;
+                results.AbsorbedDamage = this.CalculateAbsorption(damage, target);
+                results.AppliedDamage = results.PureDamage - results.AbsorbedDamage;
+                results.ReflectedDamage = this.CalculateReflectedDamage(results.AppliedDamage, target);
+
+                if (!target.HasEffect("Ignite"))
+                {
+                    int result = RNG.Next(0, 100);
+                    if (result <= 15)
+                        target.ApplyEffect(new Game.Stats.Classes.Mage.Effect_FireballDOT(target));
+                }
+            }
+
+            return results;
+        }
+    }
+    public class ScrollAbilityManaBurst : Ability
+    {
+        public ScrollAbilityManaBurst()
+            : base(0)
+        {
+            this.AbilityName = "Mana Burst";
+            this.AbilityNameShort = "Mana Burst";
+
+            this.TargetingType = TargetingTypes.EntityTarget;
+            this.AbilityType = AbilityTypes.Magical;
+            this.Range = 8;
+        }
+
+        public override CombatResults CalculateResults(StatsPackage caster, StatsPackage target)
+        {
+            target.DrainMana(RNG.Next(0, (int)target.MaxMana.EffectiveValue));
+            return new CombatResults() { Caster = caster, Target = target, UsedAbility = this };
         }
     }
 }

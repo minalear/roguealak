@@ -55,6 +55,8 @@ namespace Roguelike.Engine.UI.Interfaces
             this.spellTitle = new Title(this, "Spell Stats", 16, 21, Title.TextAlignModes.Center) { TextColor = Color.LightGray };
             this.defenseTitle = new Title(this, "Defensive Stats", 16, 29, Title.TextAlignModes.Center) { TextColor = Color.LightGray };
             this.freePointsTitle = new Title(this, "Free Points: ##", 3, 37, Title.TextAlignModes.Left);
+            this.statsResetButton = new Button(this, "Reset Points", 20, 37, 12, 1);
+            this.statsResetButton.Click += statsResetButton_Click;
 
             this.strButton = new Button(this, "-STR-", 3, 14, 5, 1); this.strButton.Click += strButton_Click;
             this.agiButton = new Button(this, "-AGI-", 3, 16, 5, 1); this.agiButton.Click += agiButton_Click;
@@ -470,6 +472,9 @@ namespace Roguelike.Engine.UI.Interfaces
                 player.Endurance = endRaceMod + endClassMod + endFreeMod;
                 player.Fortitude = frtRaceMod + frtClassMod + frtFreeMod;
 
+                //Prevents the text from persisting through to the next interface
+                this.nameInput.Text = string.Empty;
+
                 GameManager.SetupGame(player);
                 GameManager.ChangeGameState(GameStates.Game);
 
@@ -575,6 +580,9 @@ namespace Roguelike.Engine.UI.Interfaces
         {
             if (this.chosenRace != null)
             {
+                this.chosenCulture = null;
+                this.cultureSelect.Text = "[Choose Culture]";
+
                 this.selectionMode = SelectionModes.Culture;
                 this.itemLists.SetList<Culture>(this.chosenRace.SubCultures);
                 this.itemLists.ClearSelection();
@@ -589,6 +597,9 @@ namespace Roguelike.Engine.UI.Interfaces
         {
             if (this.chosenCulture != null)
             {
+                this.chosenClass = null;
+                this.classSelect.Text = "[Choose Class]";
+
                 this.selectionMode = SelectionModes.Class;
                 this.itemLists.SetList<Class>(this.classes);
                 this.itemLists.ClearSelection();
@@ -604,6 +615,9 @@ namespace Roguelike.Engine.UI.Interfaces
                 popupControl.DisplayMessage("There are no more traits to pick from.");
             else
             {
+                this.chosenTrait = null;
+                this.traitSelect.Text = "[Choose Trait]";
+
                 this.itemLists.SetList<Effect>(this.chosenClass.ClassTraits);
                 this.selectionMode = SelectionModes.Trait;
                 this.itemLists.ClearSelection();
@@ -703,6 +717,23 @@ namespace Roguelike.Engine.UI.Interfaces
             }
 
             this.calculateStats();
+        }
+
+        void statsResetButton_Click(object sender, MouseButtons button)
+        {
+            strFreeMod = 0;
+            agiFreeMod = 0;
+            dexFreeMod = 0;
+
+            intFreeMod = 0;
+            wilFreeMod = 0;
+            wisFreeMod = 0;
+
+            conFreeMod = 0;
+            endFreeMod = 0;
+            frtFreeMod = 0;
+
+            availablePoints = MAX_FREE_POINTS;
         }
 
         #region Stat Description Buttons
@@ -918,6 +949,7 @@ namespace Roguelike.Engine.UI.Interfaces
         Button strAdd, strRem, agiAdd, agiRem, dexAdd, dexRem, intAdd, intRem, wilAdd, wilRem, wisAdd, wisRem, conAdd, conRem, endAdd, endRem, frtAdd, frtRem;
         Button strButton, agiButton, dexButton, intButton, wilButton, wisButton, conButton, endButton, frtButton;
         Title physicalTitle, spellTitle, defenseTitle, freePointsTitle;
+        Button statsResetButton;
 
         //Lists
         private List<Race> races = new List<Race>() { new Human(), new Elf(), new Dwarf() };

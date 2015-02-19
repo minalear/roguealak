@@ -12,21 +12,24 @@ namespace Roguelike.Engine.UI.Interfaces
 {
     public class WinInterface : Interface
     {
-        Title message;
-        Button backButton;
+        Title message, score;
+        Button continueButton;
 
         public WinInterface()
         {
             this.message = new Title(this, "You have Won!", GraphicConsole.BufferWidth / 2, GraphicConsole.BufferHeight / 2, Title.TextAlignModes.Center);
+            this.score = new Title(this, "Score", GraphicConsole.BufferWidth / 2, this.message.Position.Y + 1, Title.TextAlignModes.Center);
 
-            backButton = new Button(this, "X", GraphicConsole.BufferWidth - 1, 0, 1, 1);
-            backButton.Click += backButton_Pressed;
+            continueButton = new Button(this, "Continue", this.message.Position.X - 5, this.message.Position.Y + 4);
+            continueButton.Click += backButton_Pressed;
         }
 
         public override void OnCall()
         {
-            Inventory.ClearInventory();
-            SpellBook.ClearSpells();
+            GameManager.FakeScore += Inventory.Gold;
+            this.score.Text = "Score: " + GameManager.FakeScore + ".  Sweet Rolls = " + GameManager.SweetRolls + ".  Gold = " + Inventory.Gold;
+
+            GameManager.ResetGame();
             
             base.OnCall();
         }

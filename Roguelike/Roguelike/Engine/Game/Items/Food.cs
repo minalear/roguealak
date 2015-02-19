@@ -19,6 +19,13 @@ namespace Roguelike.Engine.Game.Items
         {
             if (this.onUseEffect != null)
                 entity.StatsPackage.ApplyEffect(this.onUseEffect);
+
+            //TODO Remove this when it's not fucking stupid
+            if (this.Name == "Sweet Roll")
+            {
+                GameManager.FakeScore += 10;
+                GameManager.SweetRolls++;
+            }
         }
 
         private Effect onUseEffect;

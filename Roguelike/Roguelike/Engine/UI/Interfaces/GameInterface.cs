@@ -14,9 +14,9 @@ namespace Roguelike.Engine.UI.Interfaces
 {
     public class GameInterface : Interface
     {
-        BarTitle healthBar, manaBar;
-        Title playerTitle;
-        Popup popupControl;
+        private BarTitle healthBar, manaBar;
+        private Title playerTitle;
+        private Popup popupControl;
 
         private LeftTab leftTab;
         private RightTab rightTab;
@@ -51,7 +51,7 @@ namespace Roguelike.Engine.UI.Interfaces
             this.rightTab = new RightTab(this, hotbar);
             this.bottomTab = new BottomTab(this, this.leftTab, this.rightTab);
 
-            this.menuButton = new Button(this, "Menu", 3, GraphicConsole.BufferHeight - 2, 6, 1) { KeyShortcut = Keys.Escape };
+            this.menuButton = new Button(this, "Menu", 3, GraphicConsole.BufferHeight - 2, 6, 1);
             this.mapButton = new Button(this, "Map*", 10, GraphicConsole.BufferHeight - 2, 6, 1) { KeyShortcut = Keys.M };
 
             this.menuButton.Click += menuButton_Pressed;
@@ -97,6 +97,65 @@ namespace Roguelike.Engine.UI.Interfaces
         {
             GameManager.CurrentLevel.Update(gameTime);
 
+            //Right Tab
+            if (InputManager.KeyWasReleased(Keys.I))
+            {
+                rightTab.IsVisible = true;
+                rightTab.OpenMenu("Inventory");
+
+                this.DrawStep();
+            }
+            else if (InputManager.KeyWasReleased(Keys.E))
+            {
+                rightTab.IsVisible = true;
+                rightTab.OpenMenu("Equipment");
+
+                this.DrawStep();
+            }
+            else if (InputManager.KeyWasReleased(Keys.B))
+            {
+                rightTab.IsVisible = true;
+                rightTab.OpenMenu("Spellbook");
+
+                this.DrawStep();
+            }
+
+            //Left Tab
+            if (InputManager.KeyWasReleased(Keys.C))
+            {
+                leftTab.IsVisible = true;
+
+                this.DrawStep();
+            }
+            else if (InputManager.KeyWasReleased(Keys.K))
+            {
+                leftTab.IsVisible = true;
+
+                this.DrawStep();
+            }
+
+            //Bottom Tab
+            if (InputManager.KeyWasReleased(Keys.Tab))
+            {
+                bottomTab.IsVisible = !bottomTab.IsVisible;
+                this.DrawStep();
+            }
+
+            //Escape
+            if (InputManager.KeyWasReleased(Keys.Escape))
+            {
+                if (leftTab.IsVisible || rightTab.IsVisible || bottomTab.IsVisible)
+                {
+                    leftTab.IsVisible = false;
+                    rightTab.IsVisible = false;
+                    bottomTab.IsVisible = false;
+                }
+                else
+                    menuButton_Pressed(this, MouseButtons.Left);
+
+                this.DrawStep();
+            }
+
             base.Update(gameTime);
         }
 
@@ -109,9 +168,6 @@ namespace Roguelike.Engine.UI.Interfaces
             manaBar.MaxValue = GameManager.Player.StatsPackage.MaxMana;
 
             playerTitle.Text = GameManager.Player.StatsPackage.GetFormattedName();
-
-            if (GameManager.Player.StatsPackage.Health <= 0)
-                GameManager.ChangeGameState(GameStates.Dead);
 
             base.UpdateStep();
         }
@@ -269,6 +325,37 @@ namespace Roguelike.Engine.UI.Interfaces
             this.effectDescriptions.Text = ((Game.Combat.Effect)(this.effectList.Items[index])).EffectDescription;
         }
 
+        public void OpenMenu(string menu)
+        {
+            if (menu == "Character")
+            {
+                baseStats.Enabled = true;
+                effectiveStats.Enabled = false;
+                currentEffects.Enabled = false;
+
+                baseStats_Pressed(this);
+            }
+            else if (menu == "Stats")
+            {
+                baseStats.Enabled = false;
+                effectiveStats.Enabled = true;
+                currentEffects.Enabled = false;
+
+                effectiveStats_Pressed(this);
+            }
+            else if (menu == "Effects")
+            {
+                baseStats.Enabled = false;
+                effectiveStats.Enabled = false;
+                currentEffects.Enabled = true;
+
+                currentEffects_Pressed(this);
+            }
+
+            this.parent.UpdateStep();
+            this.parent.DrawStep();
+        }
+
         void baseStats_Pressed(object sender)
         {
             this.infoMode = InformationModes.BaseStats;
@@ -420,6 +507,37 @@ namespace Roguelike.Engine.UI.Interfaces
             base.DrawStep();
         }
 
+        public void OpenMenu(string menu)
+        {
+            if (menu == "Inventory")
+            {
+                inventoryButton.Enabled = true;
+                equipmentButton.Enabled = false;
+                spellbookButton.Enabled = false;
+
+                inventoryButton_Click(this);
+            }
+            else if (menu == "Equipment")
+            {
+                inventoryButton.Enabled = false;
+                equipmentButton.Enabled = true;
+                spellbookButton.Enabled = false;
+
+                equipmentButton_Click(this);
+            }
+            else if (menu == "Spellbook")
+            {
+                inventoryButton.Enabled = false;
+                equipmentButton.Enabled = false;
+                spellbookButton.Enabled = true;
+
+                spellbookButton_Click(this);
+            }
+
+            this.parent.UpdateStep();
+            this.parent.DrawStep();
+        }
+
         void inventoryButton_Click(object sender)
         {
             this.inventoryControl.IsVisible = true;
@@ -473,7 +591,7 @@ namespace Roguelike.Engine.UI.Interfaces
         }
         public override void UpdateStep()
         {
-            this.messageList.SetList<Message>(MessageCenter.MessageLog);
+            this.messageList.SetList<MessageCenter.Message>(MessageCenter.MessageLog);
 
             base.UpdateStep();
         }
@@ -488,7 +606,7 @@ namespace Roguelike.Engine.UI.Interfaces
                 this.messageList.IsVisible = false;
 
                 if (this.messageList.HasSelection)
-                    this.messageInformation.Text = ((Message)this.messageList.GetSelection()).DetailedMessage;
+                    this.messageInformation.Text = ((MessageCenter.Message)this.messageList.GetSelection()).DetailedMessage;
                 this.contextButton.Text = "◄";
             }
             else
@@ -1071,7 +1189,9 @@ namespace Roguelike.Engine.UI.Interfaces
         private void inventoryList_Selected(object sender, int index)
         {
             if (this.inventoryList.HasSelection)
+            {
                 this.descriptionBox.Text = ((Item)this.inventoryList.GetSelection()).GetDescription();
+            }
         }
         private void groundList_Selected(object sender, int index)
         {
@@ -1183,6 +1303,8 @@ namespace Roguelike.Engine.UI.Interfaces
 
             if (Inventory.ItemEquipped(slot))
                 this.descriptionBox.Text = Inventory.GetEquipment(slot).GetDescription();
+            else if (slot == EquipmentSlots.MainHand && Inventory.ItemEquipped(EquipmentSlots.TwoHand))
+                this.descriptionBox.Text = Inventory.TwoHand.GetDescription();
             else
                 this.descriptionBox.Text = " ";
         }
@@ -1204,6 +1326,8 @@ namespace Roguelike.Engine.UI.Interfaces
 
                 GameManager.Player.StatsPackage.CalculateStats();
                 GameManager.Player.StatsPackage = Inventory.CalculateStats(GameManager.Player.StatsPackage);
+
+                GameManager.Step();
             }
             this.descriptionBox.Text = string.Empty;
         }
@@ -1226,6 +1350,8 @@ namespace Roguelike.Engine.UI.Interfaces
 
                 GameManager.Player.StatsPackage.CalculateStats();
                 GameManager.Player.StatsPackage = Inventory.CalculateStats(GameManager.Player.StatsPackage);
+
+                GameManager.Step();
             }
             this.descriptionBox.Text = string.Empty;
         }

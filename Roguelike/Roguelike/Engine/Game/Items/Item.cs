@@ -35,7 +35,7 @@ namespace Roguelike.Engine.Game.Items
         public virtual string GetDescription()
         {
             if (string.IsNullOrEmpty(this.description))
-                this.description = this.Name + " - " + this.ItemType.ToString();
+                return this.Name + " - " + this.ItemType.ToString();
 
             return this.description;
         }

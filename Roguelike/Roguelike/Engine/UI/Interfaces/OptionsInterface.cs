@@ -36,12 +36,12 @@ namespace Roguelike.Engine.UI.Interfaces
         }
         void saveQuitButton_Pressed(object sender, MouseButtons button)
         {
-            Game.Items.Inventory.ClearInventory();
+            GameManager.ResetGame();
             GameManager.ChangeGameState(GameStates.MainMenu);
         }
         void quitButton_Pressed(object sender, MouseButtons button)
         {
-            Game.Items.Inventory.ClearInventory();
+            GameManager.ResetGame();
             Program.Exit();
         }
     }

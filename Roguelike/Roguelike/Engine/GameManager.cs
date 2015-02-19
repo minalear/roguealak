@@ -25,6 +25,9 @@ namespace Roguelike.Engine
         public static Level CurrentLevel { get { return currentLevel; } set { currentLevel = value; } }
         public static Dungeon CurrentDungeon { get { return TestDungeon; } set { TestDungeon = value; } }
 
+        public static int FakeScore = 0;
+        public static int SweetRolls = 0;
+
         public static Rectangle Viewport = new Rectangle(1, 3, 123, 47);
         public static void Initialize()
         {
@@ -103,6 +106,17 @@ namespace Roguelike.Engine
         {
             GameManager.CameraOffset.X = Player.X - GraphicConsole.BufferWidth / 2;
             GameManager.CameraOffset.Y = Player.Y - GraphicConsole.BufferHeight / 2;
+        }
+
+        public static void ResetGame()
+        {
+            SpellBook.ClearSpells();
+            Inventory.ClearInventory();
+
+            MessageCenter.MessageLog.Clear();
+
+            FakeScore = 0;
+            SweetRolls = 0;
         }
 
         private static void spawnPlayer(PlayerStats stats)

@@ -220,6 +220,10 @@ namespace Roguelike.Engine.Game.Items
             setToNull(EquipmentSlots.Relic);
             setToNull(EquipmentSlots.MainHand);
             setToNull(EquipmentSlots.OffHand);
+            setToNull(EquipmentSlots.TwoHand);
+            setToNull(EquipmentSlots.OneHand);
+
+            Gold = 0;
         }
 
         public static void OnAttack(CombatResults results)

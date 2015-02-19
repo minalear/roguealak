@@ -98,6 +98,23 @@ namespace Roguelike.Engine.Game.Stats.Classes
                         parent.PurgeEffect(parent.AppliedEffects[i]);
                 }
             }
+
+            public override void OnMove()
+            {
+                //If the impling is not on the same level as the player
+                if (impling.ParentLevel != this.parent.ParentEntity.ParentLevel)
+                {
+                    this.impling.DoPurge = true;
+
+                    this.impling = new Entity_Impling(this.parent.ParentEntity, this.parent.ParentEntity.ParentLevel);
+                    this.impling.X = this.Parent.ParentEntity.X + 1;
+                    this.impling.Y = this.Parent.ParentEntity.Y;
+
+                    this.parent.ParentEntity.ParentLevel.Entities.Add(this.impling);
+                }
+
+                base.OnMove();
+            }
         }
         public class Entity_Impling : Entity
         {
@@ -167,6 +184,7 @@ namespace Roguelike.Engine.Game.Stats.Classes
                     "Impling sacrificed himself to save his master!",
                     string.Format("{0} sacrificed himself to save his master, {1}.", this.statsPackage.UnitName, this.owner.StatsPackage.UnitName),
                     this);
+                this.owner.StatsPackage.RemoveEffect(typeof(Effect_SoulLink));
 
                 base.OnDeath();
             }
@@ -177,7 +195,7 @@ namespace Roguelike.Engine.Game.Stats.Classes
 
                 for (int i = 0; i < potentialTargets.Count; i++)
                 {
-                    if (potentialTargets[i].EntityType == EntityTypes.Enemy)
+                    if (potentialTargets[i].EntityType == EntityTypes.Enemy && this.parentLevel.IsLineOfSight(new Point(this.X, this.Y), new Point(potentialTargets[i].X, potentialTargets[i].Y)))
                     {
                         this.target = potentialTargets[i];
                         this.hasTarget = true;

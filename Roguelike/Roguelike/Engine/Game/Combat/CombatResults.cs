@@ -19,7 +19,7 @@ namespace Roguelike.Engine.Game.Combat
 
         private void outputCombatLogInfo()
         {
-            Message message = new Message("", this.Caster.ParentEntity);
+            MessageCenter.Message message = new MessageCenter.Message("", this.Caster.ParentEntity);
             
             if (this.UsedAbility.AbilityType == AbilityTypes.Physical || this.UsedAbility.AbilityType == AbilityTypes.Magical)
             {
