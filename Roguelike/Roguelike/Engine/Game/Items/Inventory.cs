@@ -14,14 +14,14 @@ namespace Roguelike.Engine.Game.Items
 
         public static List<Item> PlayerInventory { get { return inventory; } set { inventory = value; } }
 
+        #region Variables
         public static Equipment HeadSlot;
+        public static Equipment NeckSlot;
         public static Equipment ShoulderSlot;
         public static Equipment ChestSlot;
         public static Equipment LegsSlot;
         public static Equipment BootsSlot;
-        public static Equipment GloveSlot;
-
-        public static Equipment NeckSlot;
+        public static Equipment GlovesSlot;
         public static Equipment RingSlot;
         public static Equipment RelicSlot;
 
@@ -30,6 +30,7 @@ namespace Roguelike.Engine.Game.Items
         public static Equipment TwoHand;
 
         public static int Gold = 0;
+        #endregion
 
         public static void DropItem(int index, Level level, int x, int y)
         {
@@ -44,6 +45,8 @@ namespace Roguelike.Engine.Game.Items
         {
             if (slot == EquipmentSlots.Head)
                 return (HeadSlot != null);
+            else if (slot == EquipmentSlots.Neck)
+                return (NeckSlot != null);
             else if (slot == EquipmentSlots.Shoulder)
                 return (ShoulderSlot != null);
             else if (slot == EquipmentSlots.Chest)
@@ -53,10 +56,8 @@ namespace Roguelike.Engine.Game.Items
             else if (slot == EquipmentSlots.Boots)
                 return (BootsSlot != null);
             else if (slot == EquipmentSlots.Gloves)
-                return (GloveSlot != null);
-
-            else if (slot == EquipmentSlots.Neck)
-                return (NeckSlot != null);
+                return (GlovesSlot != null);
+            
             else if (slot == EquipmentSlots.Ring)
                 return (RingSlot != null);
             else if (slot == EquipmentSlots.Relic)
@@ -75,6 +76,8 @@ namespace Roguelike.Engine.Game.Items
         {
             if (slot == EquipmentSlots.Head)
                 return HeadSlot;
+            else if (slot == EquipmentSlots.Neck)
+                return NeckSlot;
             else if (slot == EquipmentSlots.Shoulder)
                 return ShoulderSlot;
             else if (slot == EquipmentSlots.Chest)
@@ -84,10 +87,8 @@ namespace Roguelike.Engine.Game.Items
             else if (slot == EquipmentSlots.Boots)
                 return BootsSlot;
             else if (slot == EquipmentSlots.Gloves)
-                return GloveSlot;
-
-            else if (slot == EquipmentSlots.Neck)
-                return NeckSlot;
+                return GlovesSlot;
+            
             else if (slot == EquipmentSlots.Ring)
                 return RingSlot;
             else if (slot == EquipmentSlots.Relic)
@@ -156,7 +157,7 @@ namespace Roguelike.Engine.Game.Items
                 else if (slot == EquipmentSlots.Boots)
                     unequipItem(BootsSlot, slot);
                 else if (slot == EquipmentSlots.Gloves)
-                    unequipItem(GloveSlot, slot);
+                    unequipItem(GlovesSlot, slot);
 
                 else if (slot == EquipmentSlots.Neck)
                     unequipItem(NeckSlot, slot);
@@ -185,6 +186,8 @@ namespace Roguelike.Engine.Game.Items
 
             if (ItemEquipped(EquipmentSlots.Head))
                 stats = HeadSlot.ModPackage.ApplyPackage(stats);
+            if (ItemEquipped(EquipmentSlots.Neck))
+                stats = NeckSlot.ModPackage.ApplyPackage(stats);
             if (ItemEquipped(EquipmentSlots.Shoulder))
                 stats = ShoulderSlot.ModPackage.ApplyPackage(stats);
             if (ItemEquipped(EquipmentSlots.Chest))
@@ -194,10 +197,7 @@ namespace Roguelike.Engine.Game.Items
             if (ItemEquipped(EquipmentSlots.Boots))
                 stats = BootsSlot.ModPackage.ApplyPackage(stats);
             if (ItemEquipped(EquipmentSlots.Gloves))
-                stats = GloveSlot.ModPackage.ApplyPackage(stats);
-
-            if (ItemEquipped(EquipmentSlots.Neck))
-                stats = NeckSlot.ModPackage.ApplyPackage(stats);
+                stats = GlovesSlot.ModPackage.ApplyPackage(stats);
             if (ItemEquipped(EquipmentSlots.Ring))
                 stats = RingSlot.ModPackage.ApplyPackage(stats);
             if (ItemEquipped(EquipmentSlots.Relic))
@@ -210,14 +210,15 @@ namespace Roguelike.Engine.Game.Items
             inventory.Clear();
 
             setToNull(EquipmentSlots.Head);
+            setToNull(EquipmentSlots.Neck);
             setToNull(EquipmentSlots.Shoulder);
             setToNull(EquipmentSlots.Chest);
             setToNull(EquipmentSlots.Legs);
             setToNull(EquipmentSlots.Boots);
             setToNull(EquipmentSlots.Gloves);
-            setToNull(EquipmentSlots.Neck);
             setToNull(EquipmentSlots.Ring);
             setToNull(EquipmentSlots.Relic);
+
             setToNull(EquipmentSlots.MainHand);
             setToNull(EquipmentSlots.OffHand);
             setToNull(EquipmentSlots.TwoHand);
@@ -251,6 +252,8 @@ namespace Roguelike.Engine.Game.Items
         {
             if (slot == EquipmentSlots.Head)
                 HeadSlot = null;
+            else if (slot == EquipmentSlots.Neck)
+                NeckSlot = null;
             else if (slot == EquipmentSlots.Shoulder)
                 ShoulderSlot = null;
             else if (slot == EquipmentSlots.Chest)
@@ -260,10 +263,8 @@ namespace Roguelike.Engine.Game.Items
             else if (slot == EquipmentSlots.Boots)
                 BootsSlot = null;
             else if (slot == EquipmentSlots.Gloves)
-                GloveSlot = null;
-
-            else if (slot == EquipmentSlots.Neck)
-                NeckSlot = null;
+                GlovesSlot = null;
+            
             else if (slot == EquipmentSlots.Ring)
                 RingSlot = null;
             else if (slot == EquipmentSlots.Relic)
@@ -281,6 +282,8 @@ namespace Roguelike.Engine.Game.Items
         {
             if (slot == EquipmentSlots.Head)
                 HeadSlot = item;
+            else if (slot == EquipmentSlots.Neck)
+                NeckSlot = item;
             else if (slot == EquipmentSlots.Shoulder)
                 ShoulderSlot = item;
             else if (slot == EquipmentSlots.Chest)
@@ -290,10 +293,8 @@ namespace Roguelike.Engine.Game.Items
             else if (slot == EquipmentSlots.Boots)
                 BootsSlot = item;
             else if (slot == EquipmentSlots.Gloves)
-                GloveSlot = item;
-
-            else if (slot == EquipmentSlots.Neck)
-                NeckSlot = item;
+                GlovesSlot = item;
+            
             else if (slot == EquipmentSlots.Ring)
                 RingSlot = item;
             else if (slot == EquipmentSlots.Relic)

@@ -1360,6 +1360,8 @@ namespace Roguelike.Engine.UI.Interfaces
         {
             if (tag == "HELM")
                 Inventory.UnequipItem(EquipmentSlots.Head);
+            else if (tag == "NECK")
+                Inventory.UnequipItem(EquipmentSlots.Neck);
             else if (tag == "BACK")
                 Inventory.UnequipItem(EquipmentSlots.Shoulder);
             else if (tag == "CHST")
@@ -1370,8 +1372,6 @@ namespace Roguelike.Engine.UI.Interfaces
                 Inventory.UnequipItem(EquipmentSlots.Boots);
             else if (tag == "GLVS")
                 Inventory.UnequipItem(EquipmentSlots.Gloves);
-            else if (tag == "NECK")
-                Inventory.UnequipItem(EquipmentSlots.Neck);
             else if (tag == "RING")
                 Inventory.UnequipItem(EquipmentSlots.Ring);
             else if (tag == "RELC")
@@ -1390,6 +1390,8 @@ namespace Roguelike.Engine.UI.Interfaces
         {
             if (slot == EquipmentSlots.Head)
                 return "HELM - ";
+            else if (slot == EquipmentSlots.Neck)
+                return "NECK - ";
             else if (slot == EquipmentSlots.Shoulder)
                 return "BACK - ";
             else if (slot == EquipmentSlots.Chest)
@@ -1400,9 +1402,7 @@ namespace Roguelike.Engine.UI.Interfaces
                 return "BOTS - ";
             else if (slot == EquipmentSlots.Gloves)
                 return "GLVS - ";
-
-            else if (slot == EquipmentSlots.Neck)
-                return "NECK - ";
+            
             else if (slot == EquipmentSlots.Ring)
                 return "RING - ";
             else if (slot == EquipmentSlots.Relic)

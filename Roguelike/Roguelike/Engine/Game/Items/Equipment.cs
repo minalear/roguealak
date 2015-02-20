@@ -82,5 +82,5 @@ namespace Roguelike.Engine.Game.Items
         private static Color UNIQUE_ITEM_COLOR = Color.Red;
     }
 
-    public enum EquipmentSlots { Head, Shoulder, Chest, Legs, Boots, Gloves, Neck, Ring, Relic, MainHand, OffHand, OneHand, TwoHand }
+    public enum EquipmentSlots { Head, Neck, Shoulder, Chest, Legs, Boots, Gloves, Ring, Relic, MainHand, OffHand, OneHand, TwoHand }
 }
