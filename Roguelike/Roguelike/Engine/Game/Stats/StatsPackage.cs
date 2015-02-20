@@ -48,12 +48,10 @@ namespace Roguelike.Engine.Game.Stats
                 this.abilityList[i].UpdateStep();
             }
 
-            if (!this.IsDead())
-            {
-                this.AddHealth(this.hpPerTurn);
-                this.AddMana(this.mpPerTurn);
-            }
-            else if (this.IsDead())
+            this.AddHealth(this.hpPerTurn);
+            this.AddMana(this.mpPerTurn);
+
+            if (this.IsDead())
             {
                 this.OnDeath();
             }
@@ -98,7 +96,7 @@ namespace Roguelike.Engine.Game.Stats
 
         public virtual void AddHealth(int amount)
         {
-            if (amount != 0)
+            if (amount != 0 && !this.IsDead())
             {
                 for (int i = 0; i < this.appliedEffects.Count; i++)
                     amount = this.appliedEffects[i].OnHealthGain(amount);
@@ -110,7 +108,7 @@ namespace Roguelike.Engine.Game.Stats
         }
         public virtual void DrainHealth(int amount)
         {
-            if (amount != 0 && !this.isImmune)
+            if (amount != 0 && !this.isImmune && !this.IsDead())
             {
                 for (int i = 0; i < this.appliedEffects.Count; i++)
                     amount = this.appliedEffects[i].OnHealthLoss(amount);
@@ -122,7 +120,7 @@ namespace Roguelike.Engine.Game.Stats
         }
         public virtual void DealDOTDamage(int amount, Effect effect)
         {
-            if (!this.isImmune)
+            if (!this.isImmune && !this.IsDead())
             {
                 int absorption = 0;
                 if (effect.EffectType == EffectTypes.Magical)
@@ -145,7 +143,7 @@ namespace Roguelike.Engine.Game.Stats
 
         public virtual void AddMana(int amount)
         {
-            if (amount != 0)
+            if (amount != 0 && !this.IsDead())
             {
                 for (int i = 0; i < this.appliedEffects.Count; i++)
                     amount = this.appliedEffects[i].OnManaGain(amount);
@@ -157,7 +155,7 @@ namespace Roguelike.Engine.Game.Stats
         }
         public virtual void DrainMana(int amount)
         {
-            if (amount != 0)
+            if (amount != 0 && !this.IsDead())
             {
                 for (int i = 0; i < this.appliedEffects.Count; i++)
                     amount = this.appliedEffects[i].OnManaLoss(amount);

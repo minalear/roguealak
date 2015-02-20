@@ -12,6 +12,7 @@ namespace Roguelike.Engine
     {
         private static KeyboardStream _inputStream;
         private static bool _acceptInput;
+        private static Forms.Form _windowForm;
 
         private static KeyboardState _priorKeyboardState;
         private static KeyboardState _currentKeyboardState;
@@ -48,6 +49,9 @@ namespace Roguelike.Engine
             _inputStream = new KeyboardStream();
 
             AcceptInput = false;
+
+            var control = Forms.Control.FromHandle(Program.Game.Window.Handle);
+            _windowForm = control.FindForm();
         }
         public static void ResetTimeHeld(Keys key)
         {
@@ -116,37 +120,40 @@ namespace Roguelike.Engine
         }
         public static void Update(GameTime gameTime)
         {
-            // Keyboard
-            _priorKeyboardState = _currentKeyboardState;
-            _currentKeyboardState = Keyboard.GetState();
-            foreach (var key in Enum.GetValues(typeof(Keys)))
+            if (_windowForm.Focused)
             {
-                if (_currentKeyboardState[(Keys)key] == KeyState.Down)
-                    _keyHeldTimes[(Keys)key] = _keyHeldTimes[(Keys)key] + gameTime.ElapsedGameTime;
-                else
-                    _keyHeldTimes[(Keys)key] = TimeSpan.Zero;
-            }
-            // Mouse
-            _priorMouseState = _currentMouseState;
-            _currentMouseState = Mouse.GetState();
-            foreach (var mouseButton in Enum.GetValues(typeof(MouseButtons)))
-            {
-                if (_mouseButtonMaps[(MouseButtons)mouseButton](_currentMouseState) == ButtonState.Pressed)
-                    _mouseButtonHeldTimes[(MouseButtons)mouseButton] += gameTime.ElapsedGameTime;
-                else
-                    _mouseButtonHeldTimes[(MouseButtons)mouseButton] = TimeSpan.Zero;
-            }
-
-            if (_acceptInput)
-            {
-                Keys[] pressedKeys = _currentKeyboardState.GetPressedKeys();
-                for (int i = 0; i < pressedKeys.Length; i++)
+                // Keyboard
+                _priorKeyboardState = _currentKeyboardState;
+                _currentKeyboardState = Keyboard.GetState();
+                foreach (var key in Enum.GetValues(typeof(Keys)))
                 {
-                    if (_priorKeyboardState.IsKeyUp(pressedKeys[i]))
+                    if (_currentKeyboardState[(Keys)key] == KeyState.Down)
+                        _keyHeldTimes[(Keys)key] = _keyHeldTimes[(Keys)key] + gameTime.ElapsedGameTime;
+                    else
+                        _keyHeldTimes[(Keys)key] = TimeSpan.Zero;
+                }
+                // Mouse
+                _priorMouseState = _currentMouseState;
+                _currentMouseState = Mouse.GetState();
+                foreach (var mouseButton in Enum.GetValues(typeof(MouseButtons)))
+                {
+                    if (_mouseButtonMaps[(MouseButtons)mouseButton](_currentMouseState) == ButtonState.Pressed)
+                        _mouseButtonHeldTimes[(MouseButtons)mouseButton] += gameTime.ElapsedGameTime;
+                    else
+                        _mouseButtonHeldTimes[(MouseButtons)mouseButton] = TimeSpan.Zero;
+                }
+
+                if (_acceptInput)
+                {
+                    Keys[] pressedKeys = _currentKeyboardState.GetPressedKeys();
+                    for (int i = 0; i < pressedKeys.Length; i++)
                     {
-                        char ch = getCharFromKey(pressedKeys[i]);
-                        if (ch != '\t')
-                            _inputStream.WriteByte((byte)ch);
+                        if (_priorKeyboardState.IsKeyUp(pressedKeys[i]))
+                        {
+                            char ch = getCharFromKey(pressedKeys[i]);
+                            if (ch != '\t')
+                                _inputStream.WriteByte((byte)ch);
+                        }
                     }
                 }
             }

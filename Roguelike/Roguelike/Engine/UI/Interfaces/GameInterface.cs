@@ -153,7 +153,7 @@ namespace Roguelike.Engine.UI.Interfaces
                 else
                     menuButton_Pressed(this, MouseButtons.Left);
 
-                this.DrawStep();
+                GameManager.DrawStep();
             }
 
             base.Update(gameTime);
