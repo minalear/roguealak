@@ -98,6 +98,10 @@ namespace Roguelike.Engine.UI.Controls
                     else
                     {
                         this.selectedIndex = -1;
+
+                        if (this.Deselected != null)
+                            this.Deselected(this);
+
                         InterfaceManager.DrawStep();
                     }
                 }
@@ -285,8 +289,10 @@ namespace Roguelike.Engine.UI.Controls
 
         public event ItemHovered Hover;
         public event ItemSelected Selected;
+        public event ItemDeselected Deselected;
         public delegate void ItemHovered(object sender, int index);
         public delegate void ItemSelected(object sender, int index);
+        public delegate void ItemDeselected(object sender);
 
         #region Properties
         public List<ListItem> Items { get { return this.objectList; } set { this.SetList(value); } }

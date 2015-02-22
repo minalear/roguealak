@@ -14,6 +14,8 @@ namespace Roguelike.Engine.UI.Controls
             this.text = text;
             this.Position = new Point(x, y);
             this.Size = new Point(text.Length, 1);
+
+            this.textAlignMode = TextAlignModes.Left;
         }
         public Title(Control parent, string text, int x, int y, TextAlignModes alignMode)
             : base(parent)

@@ -11,8 +11,9 @@ namespace Roguelike.Engine.Game.Stats
         public string Title;
 
         public string Race;
+        public string Culture;
         public string Class;
-        public string Gender;
+        public string Gender = "Male";
 
         public override string UnitName { get { return this.Name; } set { this.Name = value; } }
 

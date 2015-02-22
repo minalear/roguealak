@@ -459,6 +459,9 @@ namespace Roguelike.Engine.UI.Interfaces
                     player.ApplyEffect(this.chosenTrait);
 
                 player.Name = nameInput.Text.Trim();
+                player.Race = chosenRace.Name;
+                player.Culture = chosenCulture.Name;
+                player.Class = chosenClass.Name;
 
                 player.Strength = strRaceMod + strClassMod + strFreeMod;
                 player.Agility = agiRaceMod + agiClassMod + agiFreeMod;

@@ -57,6 +57,9 @@ namespace Roguelike.Engine.UI.Interfaces
             Game.Stats.PlayerStats stats = new Game.Stats.PlayerStats(null);
 
             stats.Name = "Quickstart McGee";
+            stats.Class = "Fagmo";
+            stats.Culture = "Regular-ass";
+            stats.Race = "Human";
             stats.Township = "Downtown McDowntown";
             stats.Title = "Wolfkin";
 

@@ -29,6 +29,30 @@ namespace Roguelike.Engine.Game.Stats
         {
             return this.UnitName;
         }
+        public virtual string GetInformation()
+        {
+            string info =
+                    "-=Physical Stats=-" + "<br>" +
+                    "Attack Power: " + GameManager.Player.PlayerStats.AttackPower + "<br>" +
+                    "       Haste: " + GameManager.Player.PlayerStats.PhysicalHaste + "%<br>" +
+                    "  Hit Chance: " + GameManager.Player.PlayerStats.PhysicalHitChance + "%<br>" +
+                    " Crit Chance: " + GameManager.Player.PlayerStats.PhysicalCritChance + "%<br>" +
+                    "  Crit Power: " + GameManager.Player.PlayerStats.PhysicalCritPower + "<br>" +
+                    "   Reduction: " + GameManager.Player.PlayerStats.PhysicalReduction + "%<br>" +
+                    "  Reflection: " + GameManager.Player.PlayerStats.PhysicalReflection + "%<br>" +
+                    "   Avoidance: " + GameManager.Player.PlayerStats.PhysicalAvoidance + "%<br><br>" +
+
+                    "-=Magical Stats=-" + "<br>" +
+                    "Spell Power: " + GameManager.Player.PlayerStats.SpellPower + "<br>" +
+                    "      Haste: " + GameManager.Player.PlayerStats.SpellHaste + "%<br>" +
+                    " Hit Chance: " + GameManager.Player.PlayerStats.SpellHitChance + "%<br>" +
+                    "Crit Chance: " + GameManager.Player.PlayerStats.SpellCritChance + "%<br>" +
+                    " Crit Power: " + GameManager.Player.PlayerStats.SpellCritPower + "<br>" +
+                    "  Reduction: " + GameManager.Player.PlayerStats.SpellReduction + "%<br>" +
+                    " Reflection: " + GameManager.Player.PlayerStats.SpellReflection + "%<br>" +
+                    "  Avoidance: " + GameManager.Player.PlayerStats.SpellAvoidance + "%";
+            return info;
+        }
 
         public virtual void UpdateStep()
         {

@@ -218,7 +218,7 @@ namespace Roguelike.Engine.UI.Interfaces
     }
     public class BarTitle : Control
     {
-        public BarTitle(Interface parent, int x, int y, string textRoot, int width)
+        public BarTitle(Control parent, int x, int y, string textRoot, int width)
             : base(parent)
         {
             this.text = textRoot;
@@ -280,73 +280,66 @@ namespace Roguelike.Engine.UI.Interfaces
 
     public class LeftTab : Control
     {
-        private TextBox leftTabInformation, effectDescriptions;
-        private ScrollingList effectList;
-        private ToggleButton baseStats, effectiveStats, currentEffects;
-        private InformationModes infoMode = InformationModes.BaseStats;
+        private ToggleButton characterButton, currentEffects;
         private ToggleButtonGroup buttonGroup;
+
+        private CharacterControl characterControl;
+        private EffectsControl effectsControl;
 
         public LeftTab(Interface parent)
             : base(parent)
         {
             this.Position = new Point(1, 3);
-            this.Size = new Point(28, GraphicConsole.BufferHeight - 6);
+            this.Size = new Point(28, 44);
 
-            this.leftTabInformation = new TextBox(this, this.Position.X - 1, this.Position.Y - 3, this.Size.X - 1, this.Size.Y);
-            this.leftTabInformation.Text = "Information";
-
-            this.effectList = new ScrollingList(this, this.Position.X - 1, this.Position.Y + 2, this.Size.X, 16);
-            this.effectList.Selected += effectList_Selected;
-            this.effectDescriptions = new TextBox(this, this.Position.X - 1, this.Position.Y + 19, this.Size.X, 22);
-
-            this.effectList.IsVisible = false;
-            this.effectDescriptions.IsVisible = false;
+            this.characterControl = new CharacterControl(this, 0, 0, this.Size.X, this.Size.Y);
+            this.effectsControl = new EffectsControl(this, 0, 0, this.Size.X, this.Size.Y) { IsVisible = false };
 
             this.buttonGroup = new ToggleButtonGroup(this);
+            this.characterButton = new ToggleButton(this, "⌂", this.Size.X + 1, this.Position.Y - 3, 1, 1);
+            this.currentEffects = new ToggleButton(this, "§", this.Size.X + 1, this.Position.Y - 2, 1, 1);
+            //this.currentEffects = new ToggleButton(this, "○", this.Size.X + 1, this.Position.Y - 1, 1, 1);
+            this.characterButton.Enabled = true;
 
-            this.baseStats = new ToggleButton(this, "⌂", this.Size.X - 1, this.Position.Y - 3, 1, 1);
-            this.effectiveStats = new ToggleButton(this, "§", this.Size.X - 1, this.Position.Y - 2, 1, 1);
-            this.currentEffects = new ToggleButton(this, "○", this.Size.X - 1, this.Position.Y - 1, 1, 1);
-            this.baseStats.Enabled = true;
-
-            this.buttonGroup.AddButton(this.baseStats);
-            this.buttonGroup.AddButton(this.effectiveStats);
+            this.buttonGroup.AddButton(this.characterButton);
             this.buttonGroup.AddButton(this.currentEffects);
 
-            this.baseStats.Click += baseStats_Pressed;
-            this.effectiveStats.Click += effectiveStats_Pressed;
+            this.characterButton.Click += characterButton_Pressed;
             this.currentEffects.Click += currentEffects_Pressed;
 
             this.IsVisible = false;
         }
 
-        void effectList_Selected(object sender, int index)
+        public override void DrawStep()
         {
-            this.effectDescriptions.Text = ((Game.Combat.Effect)(this.effectList.Items[index])).EffectDescription;
-        }
+            this.clearArea();
 
+            //Border
+            DrawingUtilities.DrawLine(this.Size.X + 1, this.Position.Y, this.Size.X + 1, this.Size.Y + 2, '│');
+            GraphicConsole.Put('╤', this.Size.X + 1, this.Position.Y - 1);
+            GraphicConsole.Put('┴', this.Size.X + 1, this.Size.Y + 3);
+
+            //Border Around Toggle Switches
+            DrawingUtilities.DrawLine(this.Position.X + this.Size.X + 2, this.Position.Y, this.Position.X + this.Size.X + 2, this.Position.Y + 4, '│');
+            GraphicConsole.Put('╤', this.Position.X + this.Size.X + 2, this.Position.Y - 1);
+            GraphicConsole.Put('┘', this.Position.X + this.Size.X + 2, this.Position.Y + 4);
+            GraphicConsole.Put('─', this.Position.X + this.Size.X + 1, this.Position.Y + 4);
+            GraphicConsole.Put('├', this.Position.X + this.Size.X, this.Position.Y + 4);
+
+            base.DrawStep();
+        }
         public void OpenMenu(string menu)
         {
             if (menu == "Character")
             {
-                baseStats.Enabled = true;
-                effectiveStats.Enabled = false;
+                characterButton.Enabled = true;
                 currentEffects.Enabled = false;
 
-                baseStats_Pressed(this);
-            }
-            else if (menu == "Stats")
-            {
-                baseStats.Enabled = false;
-                effectiveStats.Enabled = true;
-                currentEffects.Enabled = false;
-
-                effectiveStats_Pressed(this);
+                characterButton_Pressed(this);
             }
             else if (menu == "Effects")
             {
-                baseStats.Enabled = false;
-                effectiveStats.Enabled = false;
+                characterButton.Enabled = false;
                 currentEffects.Enabled = true;
 
                 currentEffects_Pressed(this);
@@ -356,103 +349,16 @@ namespace Roguelike.Engine.UI.Interfaces
             this.parent.DrawStep();
         }
 
-        void baseStats_Pressed(object sender)
+        void characterButton_Pressed(object sender)
         {
-            this.infoMode = InformationModes.BaseStats;
-
-            this.leftTabInformation.IsVisible = true;
-            this.effectList.IsVisible = false;
-            this.effectDescriptions.IsVisible = false;
-        }
-        void effectiveStats_Pressed(object sender)
-        {
-            this.infoMode = InformationModes.EffectiveStats;
-
-            this.leftTabInformation.IsVisible = true;
-            this.effectList.IsVisible = false;
-            this.effectDescriptions.IsVisible = false;
+            this.characterControl.IsVisible = true;
+            this.effectsControl.IsVisible = false;
         }
         void currentEffects_Pressed(object sender)
         {
-            this.infoMode = InformationModes.CurrentEffects;
-
-            this.leftTabInformation.IsVisible = true;
-            this.effectList.IsVisible = true;
-            this.effectDescriptions.IsVisible = true;
+            this.characterControl.IsVisible = false;
+            this.effectsControl.IsVisible = true;
         }
-
-        public override void DrawStep()
-        {
-            DrawingUtilities.DrawRect(this.Position.X, this.Position.Y, this.Size.X, this.Size.Y, ' ', true);
-
-            DrawingUtilities.DrawLine(this.Size.X + 1, this.Position.Y, this.Size.X + 1, this.Size.Y + 2, '│');
-            GraphicConsole.Put('╤', this.Size.X + 1, this.Position.Y - 1);
-            GraphicConsole.Put('┴', this.Size.X + 1, this.Size.Y + 3);
-
-            base.DrawStep();
-        }
-
-        public override void UpdateStep()
-        {
-            this.leftTabInformation.Text =
-                    GameManager.Player.PlayerStats.Name + "<br>" + //Name
-                        "Level: 1<br><br>";
-
-            if (this.infoMode == InformationModes.BaseStats)
-            {
-                this.leftTabInformation.Text +=
-                    "<color red>STR: " + GameManager.Player.PlayerStats.Strength + "<br>" +
-                    "<color orange>AGI: " + GameManager.Player.PlayerStats.Agility + "<br>" +
-                    "<color yellow>DEX: " + GameManager.Player.PlayerStats.Dexterity + "<br><br>" +
-
-                    "<color blue>INT: " + GameManager.Player.PlayerStats.Intelligence + "<br>" +
-                    "<color purple>WIL: " + GameManager.Player.PlayerStats.Willpower + "<br>" +
-                    "<color cyan>WIS: " + GameManager.Player.PlayerStats.Wisdom + "<br><br>" +
-
-                    "<color green>CON: " + GameManager.Player.PlayerStats.Constitution + "<br>" +
-                    "<color gray>END: " + GameManager.Player.PlayerStats.Endurance + "<br>" +
-                    "<color pink>FRT: " + GameManager.Player.PlayerStats.Fortitude;
-            }
-            else if (this.infoMode == InformationModes.EffectiveStats)
-            {
-                this.leftTabInformation.Text +=
-                    "---Physical Stats---" + "<br><br>" +
-                    "Attack Power: " + GameManager.Player.PlayerStats.AttackPower + "<br>" +
-                    "       Haste: " + GameManager.Player.PlayerStats.PhysicalHaste + "%<br>" +
-                    "  Hit Chance: " + GameManager.Player.PlayerStats.PhysicalHitChance + "%<br>" +
-                    " Crit Chance: " + GameManager.Player.PlayerStats.PhysicalCritChance + "%<br>" +
-                    "  Crit Power: " + GameManager.Player.PlayerStats.PhysicalCritPower + "<br>" +
-                    "   Reduction: " + GameManager.Player.PlayerStats.PhysicalReduction + "%<br>" +
-                    "  Reflection: " + GameManager.Player.PlayerStats.PhysicalReflection + "%<br>" +
-                    "   Avoidance: " + GameManager.Player.PlayerStats.PhysicalAvoidance + "%<br><br><br>" +
-
-                    "---Magical Stats---" + "<br><br>" +
-                    "Spell Power: " + GameManager.Player.PlayerStats.SpellPower + "<br>" +
-                    "      Haste: " + GameManager.Player.PlayerStats.SpellHaste + "%<br>" +
-                    " Hit Chance: " + GameManager.Player.PlayerStats.SpellHitChance + "%<br>" +
-                    "Crit Chance: " + GameManager.Player.PlayerStats.SpellCritChance + "%<br>" +
-                    " Crit Power: " + GameManager.Player.PlayerStats.SpellCritPower + "<br>" +
-                    "  Reduction: " + GameManager.Player.PlayerStats.SpellReduction + "%<br>" +
-                    " Reflection: " + GameManager.Player.PlayerStats.SpellReflection + "%<br>" +
-                    "  Avoidance: " + GameManager.Player.PlayerStats.SpellAvoidance + "%";
-            }
-            else if (this.infoMode == InformationModes.CurrentEffects)
-            {
-                this.leftTabInformation.Text +=
-                    "---Current Effects---" + "<br>";
-
-                this.effectList.SetList(GameManager.Player.StatsPackage.AppliedEffects);
-            }
-
-            base.UpdateStep();
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            base.Update(gameTime);
-        }
-
-        private enum InformationModes { BaseStats, EffectiveStats, CurrentEffects }
     }
     public class RightTab : Control
     {
@@ -490,7 +396,7 @@ namespace Roguelike.Engine.UI.Interfaces
         }
         public override void DrawStep()
         {
-            DrawingUtilities.DrawRect(this.Position.X, this.Position.Y, this.Size.X, this.Size.Y, ' ', true);
+            this.clearArea();
 
             //Left Border
             DrawingUtilities.DrawLine(this.Position.X - 1, this.Position.Y, this.Position.X - 1, this.Size.Y + 2, '│');
@@ -1102,6 +1008,126 @@ namespace Roguelike.Engine.UI.Interfaces
         public int Range { get { return this.range; } set { this.range = value; } }
 
         public enum AimingModes { Off, Point, Line, DrawLine, Path }
+    }
+
+    //Left Tab Controls
+    public class CharacterControl : Control
+    {
+        //Character Info
+        private Title characterName;
+        private Title characterClass;
+        private Title characterLevel;
+        private BarTitle expBar;
+
+        //Primary Stats
+        private Title strTitle;
+        private Title agiTitle;
+        private Title dexTitle;
+
+        private Title intTitle;
+        private Title wilTitle;
+        private Title wisTitle;
+
+        private Title conTitle;
+        private Title endTitle;
+        private Title frtTitle;
+
+        //Effective Stats
+        private TextBox effectiveStats;
+
+        public CharacterControl(Control parent, int x, int y, int width, int height)
+            : base(parent)
+        {
+            this.position = new Point(x, y);
+            this.size = new Point(width, height);
+
+            //Character Info
+            this.characterName = new Title(this, "Billy Bob Thorton", 0, 0, Title.TextAlignModes.Left);
+            this.characterClass = new Title(this, "Singer/Movie Star", 0, 1, Title.TextAlignModes.Left);
+            this.characterLevel = new Title(this, "Level: -7", 0, 2, Title.TextAlignModes.Left);
+
+            this.expBar = new BarTitle(this, 0, 4, "EXP", this.size.X - 1);
+            this.expBar.FillColor = new Color(150, 140, 60);
+            this.expBar.BarColor = new Color(255, 240, 100);
+
+            //Primary Stats
+            this.strTitle = new Title(this, "STR: ##", 1, 6);
+            this.agiTitle = new Title(this, "AGI: ##", 1, 7);
+            this.dexTitle = new Title(this, "DEX: ##", 1, 8);
+
+            this.intTitle = new Title(this, "INT: ##", 1, 10);
+            this.wilTitle = new Title(this, "WIL: ##", 1, 11);
+            this.wisTitle = new Title(this, "WIS: ##", 1, 12);
+
+            this.conTitle = new Title(this, "CON: ##", 1, 14);
+            this.endTitle = new Title(this, "END: ##", 1, 15);
+            this.frtTitle = new Title(this, "FRT: ##", 1, 16);
+
+            //Effective Stats
+            this.effectiveStats = new TextBox(this, 0, 19, this.Size.X, this.Size.Y - 19);
+        }
+
+        public override void UpdateStep()
+        {
+            //Character Info
+            this.characterName.Text = GameManager.Player.PlayerStats.Name;
+            this.characterClass.Text = GameManager.Player.PlayerStats.Culture + " " + GameManager.Player.PlayerStats.Race + " - " + GameManager.Player.PlayerStats.Class;
+            this.characterLevel.Text = "Level: 1";
+
+            //Primary Stats
+            this.strTitle.Text = "STR: " + GameManager.Player.PlayerStats.Strength;
+            this.agiTitle.Text = "AGI: " + GameManager.Player.PlayerStats.Agility;
+            this.dexTitle.Text = "DEX: " + GameManager.Player.PlayerStats.Dexterity;
+
+            this.intTitle.Text = "INT: " + GameManager.Player.PlayerStats.Intelligence;
+            this.wilTitle.Text = "WIL: " + GameManager.Player.PlayerStats.Willpower;
+            this.wisTitle.Text = "WIS: " + GameManager.Player.PlayerStats.Wisdom;
+
+            this.conTitle.Text = "CON: " + GameManager.Player.PlayerStats.Constitution;
+            this.endTitle.Text = "END: " + GameManager.Player.PlayerStats.Endurance;
+            this.frtTitle.Text = "FRT: " + GameManager.Player.PlayerStats.Fortitude;
+
+            //Effective Stats
+            this.effectiveStats.Text = GameManager.Player.StatsPackage.GetInformation();
+
+            base.UpdateStep();
+        }
+    }
+    public class EffectsControl : Control
+    {
+        private Title effectsTitle;
+        private ScrollingList effectsList;
+        private TextBox effectDescription;
+
+        public EffectsControl(Control parent, int x, int y, int width, int height)
+            : base(parent)
+        {
+            this.position = new Point(x, y);
+            this.size = new Point(width, height);
+
+            this.effectsTitle = new Title(this, "-=Current Effects=-", this.size.X / 2, 0, Title.TextAlignModes.Center);
+            this.effectsList = new ScrollingList(this, 0, 2, this.size.X, 24) { FillColor = new Color(20, 20, 20) };
+            this.effectDescription = new TextBox(this, 0, 27, this.size.X, 17) { FillColor = new Color(20, 20, 20) };
+
+            this.effectsList.Selected += effectsList_Selected;
+            this.effectsList.Deselected += effectsList_Deselected;
+        }
+
+        public override void UpdateStep()
+        {
+            this.effectsList.SetList<Game.Combat.Effect>(GameManager.Player.PlayerStats.AppliedEffects);
+
+            base.UpdateStep();
+        }
+
+        void effectsList_Selected(object sender, int index)
+        {
+            this.effectDescription.Text = ((Game.Combat.Effect)(this.effectsList.Items[index])).EffectDescription;
+        }
+        void effectsList_Deselected(object sender)
+        {
+            this.effectDescription.Text = " ";
+        }
     }
 
     //Right Tab Controls
