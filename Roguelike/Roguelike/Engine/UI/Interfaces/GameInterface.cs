@@ -124,12 +124,14 @@ namespace Roguelike.Engine.UI.Interfaces
             if (InputManager.KeyWasReleased(Keys.C))
             {
                 leftTab.IsVisible = true;
+                leftTab.OpenMenu("Character");
 
                 this.DrawStep();
             }
             else if (InputManager.KeyWasReleased(Keys.K))
             {
                 leftTab.IsVisible = true;
+                leftTab.OpenMenu("Effects");
 
                 this.DrawStep();
             }

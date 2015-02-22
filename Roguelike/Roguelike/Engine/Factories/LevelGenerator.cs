@@ -298,12 +298,12 @@ namespace Roguelike.Engine.Factories
             Point destination = new Point();
 
             int sourceRoom = RNG.Next(0, source.Rooms.Count);
-            position.X = RNG.Next(source.Rooms[sourceRoom].Left, source.Rooms[sourceRoom].Right);
-            position.Y = RNG.Next(source.Rooms[sourceRoom].Top, source.Rooms[sourceRoom].Bottom);
+            position.X = RNG.Next(source.Rooms[sourceRoom].Left + 1, source.Rooms[sourceRoom].Right - 1);
+            position.Y = RNG.Next(source.Rooms[sourceRoom].Top + 1, source.Rooms[sourceRoom].Bottom - 1);
 
             int targetRoom = RNG.Next(0, target.Rooms.Count);
-            destination.X = RNG.Next(target.Rooms[targetRoom].Left, target.Rooms[targetRoom].Right);
-            destination.Y = RNG.Next(target.Rooms[targetRoom].Top, target.Rooms[targetRoom].Bottom);
+            destination.X = RNG.Next(target.Rooms[targetRoom].Left + 1, target.Rooms[targetRoom].Right - 1);
+            destination.Y = RNG.Next(target.Rooms[targetRoom].Top + 1, target.Rooms[targetRoom].Bottom - 1);
 
             source.DownwardLadder = new Ladder(source, target, destination) { X = position.X, Y = position.Y, Token = TokenReference.LADDER_DOWN };
             target.UpwardLadder = new Ladder(target, source, position) { X = destination.X, Y = destination.Y, Token = TokenReference.LADDER_UP };
