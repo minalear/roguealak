@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Roguelike.Engine.Game;
-using Roguelike.Engine.Game.Entities;
-using Roguelike.Engine.Game.Entities.Static;
-using Roguelike.Engine.Game.Items;
+using Roguelike.Core;
+using Roguelike.Core.Entities;
+using Roguelike.Core.Entities.Static;
+using Roguelike.Core.Items;
 
 namespace Roguelike.Engine.Factories
 {

@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.Xna.Framework;
 using Roguelike.Core.Entities;
 using Roguelike.Core.Stats;
 using Roguelike.Engine.UI.Controls;

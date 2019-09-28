@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Roguelike.Core.Combat;
-using Roguelike.Engine.UI.Controls;
-using Microsoft.Xna.Framework;
 
 namespace Roguelike.Core.Stats.Races
 {

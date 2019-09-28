@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
 using Roguelike.Core.Combat;
-using Roguelike.Engine.UI.Controls;
 
 namespace Roguelike.Core.Stats.Classes
 {

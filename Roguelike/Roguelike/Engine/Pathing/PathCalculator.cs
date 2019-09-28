@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Roguelike.Engine.Game;
-using Microsoft.Xna.Framework;
-using DeenGames.Utils.AStarPathFinder;
+using Roguelike.Core;
+//using DeenGames.Utils.AStarPathFinder;
 
 namespace Roguelike.Engine.Pathing
 {

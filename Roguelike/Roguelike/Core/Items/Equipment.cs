@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Roguelike.Engine.UI.Controls;
 using Roguelike.Core.Combat;
 using Roguelike.Core.Stats;
-using Microsoft.Xna.Framework;
 
 namespace Roguelike.Core.Items
 {

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Roguelike.Core.Combat.Abilities;
 
 namespace Roguelike.Core.Combat

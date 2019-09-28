@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Roguelike.Engine.Game;
-using Roguelike.Engine.Game.Items;
-using Roguelike.Engine.Game.Stats;
+using Roguelike.Core;
+using Roguelike.Core.Items;
+using Roguelike.Core.Stats;
 
 namespace Roguelike.Engine.Factories
 {

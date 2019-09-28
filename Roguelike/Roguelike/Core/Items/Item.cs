@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.Xna.Framework;
 using Roguelike.Engine.UI.Controls;
 
 namespace Roguelike.Core.Items

@@ -1,7 +1,6 @@
 ﻿using System;
 using Roguelike.Core.Entities;
 using Roguelike.Core.Stats;
-using Microsoft.Xna.Framework;
 
 namespace Roguelike.Core.Combat.Effects
 {

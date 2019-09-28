@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 using Roguelike.Engine.UI.Controls;
-using Roguelike.Engine.Game;
-using Roguelike.Engine.Game.Stats;
-using Roguelike.Engine.Game.Combat;
-using Roguelike.Engine.Game.Stats.Races;
-using Roguelike.Engine.Game.Stats.Classes;
+using Roguelike.Core;
+using Roguelike.Core.Stats;
+using Roguelike.Core.Combat;
+using Roguelike.Core.Stats.Races;
+using Roguelike.Core.Stats.Classes;
 
 namespace Roguelike.Engine.UI.Interfaces
 {

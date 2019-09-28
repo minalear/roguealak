@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
-using Roguelike.Engine.Game;
 using Roguelike.Engine.UI.Interfaces;
 
 namespace Roguelike.Engine.UI

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -14,9 +14,125 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="OpenTK" Version="3.1.0" />
+    <Reference Include="OpenTK, Version=3.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\OpenTK.3.1.0\lib\net20\OpenTK.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
-
+  <ItemGroup>
+    <Compile Include="Core\Combat\Abilities\BasicAttack.cs" />
+    <Compile Include="Core\Combat\Abilities\BasicPoisonAttack.cs" />
+    <Compile Include="Core\Combat\Abilities\CarpetBomb.cs" />
+    <Compile Include="Core\Combat\Abilities\PlantBomb.cs" />
+    <Compile Include="Core\Combat\Abilities\ShieldWall.cs" />
+    <Compile Include="Core\Combat\Ability.cs" />
+    <Compile Include="Core\Combat\CombatManager.cs" />
+    <Compile Include="Core\Combat\CombatResults.cs" />
+    <Compile Include="Core\Combat\Effect.cs" />
+    <Compile Include="Core\Combat\Effects\BasicBleed.cs" />
+    <Compile Include="Core\Combat\Effects\ManaDrain.cs" />
+    <Compile Include="Core\Combat\Effects\RogueEvasion.cs" />
+    <Compile Include="Core\Combat\Effects\ShieldWall.cs" />
+    <Compile Include="Core\Combat\Effects\SimpleDot.cs" />
+    <Compile Include="Core\Combat\SpellBook.cs" />
+    <Compile Include="Core\Dungeon.cs" />
+    <Compile Include="Core\Entities\Dynamic\Bomb.cs" />
+    <Compile Include="Core\Entities\Dynamic\Fire.cs" />
+    <Compile Include="Core\Entities\Dynamic\FlameBreath.cs" />
+    <Compile Include="Core\Entities\Enemies\PathingEntity.cs" />
+    <Compile Include="Core\Entities\Enemies\PracticeDummy.cs" />
+    <Compile Include="Core\Entities\Entity.cs" />
+    <Compile Include="Core\Entities\Player.cs" />
+    <Compile Include="Core\Entities\Static\Chest.cs" />
+    <Compile Include="Core\Entities\Static\Door.cs" />
+    <Compile Include="Core\Entities\Static\Ladder.cs" />
+    <Compile Include="Core\Entities\Static\WinShrine.cs" />
+    <Compile Include="Core\Items\Armor.cs" />
+    <Compile Include="Core\Items\Equipment.cs" />
+    <Compile Include="Core\Items\Food.cs" />
+    <Compile Include="Core\Items\Inventory.cs" />
+    <Compile Include="Core\Items\Item.cs" />
+    <Compile Include="Core\Items\Potion.cs" />
+    <Compile Include="Core\Items\Scroll.cs" />
+    <Compile Include="Core\Items\Test\Broadsword.cs" />
+    <Compile Include="Core\Items\Test\BrokenSword.cs" />
+    <Compile Include="Core\Items\Test\Dagger_Retribution.cs" />
+    <Compile Include="Core\Items\Weapon.cs" />
+    <Compile Include="Core\Level.cs" />
+    <Compile Include="Core\MessageCenter.cs" />
+    <Compile Include="Core\Stats\Classes\Berserker.cs" />
+    <Compile Include="Core\Stats\Classes\Class.cs" />
+    <Compile Include="Core\Stats\Classes\Cleric.cs" />
+    <Compile Include="Core\Stats\Classes\Mage.cs" />
+    <Compile Include="Core\Stats\Classes\Rogue.cs" />
+    <Compile Include="Core\Stats\Classes\Shaman.cs" />
+    <Compile Include="Core\Stats\Classes\Skullomancer.cs" />
+    <Compile Include="Core\Stats\Classes\Summoner.cs" />
+    <Compile Include="Core\Stats\Classes\Warlock.cs" />
+    <Compile Include="Core\Stats\Classes\Warrior.cs" />
+    <Compile Include="Core\Stats\ModPackage.cs" />
+    <Compile Include="Core\Stats\PlayerStats.cs" />
+    <Compile Include="Core\Stats\Races\Dwarf.cs" />
+    <Compile Include="Core\Stats\Races\Elf.cs" />
+    <Compile Include="Core\Stats\Races\Human.cs" />
+    <Compile Include="Core\Stats\Races\Race.cs" />
+    <Compile Include="Core\Stats\StatsPackage.cs" />
+    <Compile Include="Engine\Factories\DungeonGenerator.cs" />
+    <Compile Include="Engine\Factories\ItemGenerator.cs" />
+    <Compile Include="Engine\Factories\LevelGenerator.cs" />
+    <Compile Include="Engine\Factories\NameGenerator.cs" />
+    <Compile Include="Engine\Factories\TownGenerator.cs" />
+    <Compile Include="Engine\Factories\WeaponTypes.cs" />
+    <Compile Include="Engine\Game.cs" />
+    <Compile Include="Engine\GameManager.cs" />
+    <Compile Include="Engine\GameTime.cs" />
+    <Compile Include="Engine\GraphicConsole.cs" />
+    <Compile Include="Engine\InputManager.cs" />
+    <Compile Include="Engine\Pathing\PathCalculator.cs" />
+    <Compile Include="Engine\UI\Controls\AnimBox.cs" />
+    <Compile Include="Engine\UI\Controls\Button.cs" />
+    <Compile Include="Engine\UI\Controls\ButtonGroup.cs" />
+    <Compile Include="Engine\UI\Controls\CheckBox.cs" />
+    <Compile Include="Engine\UI\Controls\CheckBoxGroup.cs" />
+    <Compile Include="Engine\UI\Controls\Control.cs" />
+    <Compile Include="Engine\UI\Controls\InputBox.cs" />
+    <Compile Include="Engine\UI\Controls\Popup.cs" />
+    <Compile Include="Engine\UI\Controls\ScrollingList.cs" />
+    <Compile Include="Engine\UI\Controls\Slider.cs" />
+    <Compile Include="Engine\UI\Controls\TextBox.cs" />
+    <Compile Include="Engine\UI\Controls\Title.cs" />
+    <Compile Include="Engine\UI\Controls\ToggleButton.cs" />
+    <Compile Include="Engine\UI\Controls\ToggleButtonGroup.cs" />
+    <Compile Include="Engine\UI\Interface.cs" />
+    <Compile Include="Engine\UI\InterfaceManager.cs" />
+    <Compile Include="Engine\UI\Interfaces\AboutInterface.cs" />
+    <Compile Include="Engine\UI\Interfaces\CharacterCreation.cs" />
+    <Compile Include="Engine\UI\Interfaces\DeadInterface.cs" />
+    <Compile Include="Engine\UI\Interfaces\GameInterface.cs" />
+    <Compile Include="Engine\UI\Interfaces\InterfaceTest.cs" />
+    <Compile Include="Engine\UI\Interfaces\ItemTestingInterface.cs" />
+    <Compile Include="Engine\UI\Interfaces\MainMenuInterface.cs" />
+    <Compile Include="Engine\UI\Interfaces\MapInterface.cs" />
+    <Compile Include="Engine\UI\Interfaces\OptionsInterface.cs" />
+    <Compile Include="Engine\UI\Interfaces\WinInterface.cs" />
+    <Compile Include="Engine\Utilities.cs" />
+    <Compile Include="MainGame.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="OpenTK.dll.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

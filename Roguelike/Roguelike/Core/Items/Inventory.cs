@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Roguelike.Core.Stats;
 using Roguelike.Core.Combat;
 
@@ -35,7 +32,7 @@ namespace Roguelike.Core.Items
         public static void DropItem(int index, Level level, int x, int y)
         {
             inventory[index].ParentLevel = level;
-            inventory[index].Position = new Microsoft.Xna.Framework.Point(x, y);
+            inventory[index].Position = new Point(x, y);
 
             level.FloorItems.Add(inventory[index]);
             inventory.RemoveAt(index);

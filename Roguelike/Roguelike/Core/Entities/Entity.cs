@@ -1,6 +1,4 @@
 ﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Roguelike.Core.Stats;
 using Roguelike.Core.Combat;
 

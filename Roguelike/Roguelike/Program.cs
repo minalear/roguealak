@@ -19,7 +19,7 @@ namespace Roguelike
         }
 
         public static MainGame Game { get { return game; } }
-        public static Microsoft.Xna.Framework.Content.ContentManager Content { get { return game.Content; } }
+        public static ContentManager Content { get { return game.Content; } }
     }
 }
 

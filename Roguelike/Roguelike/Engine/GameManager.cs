@@ -1,11 +1,10 @@
 ﻿using System;
-using Microsoft.Xna.Framework;
 using Roguelike.Engine.UI;
-using Roguelike.Engine.Game;
-using Roguelike.Engine.Game.Entities;
-using Roguelike.Engine.Game.Stats;
-using Roguelike.Engine.Game.Combat;
-using Roguelike.Engine.Game.Items;
+using Roguelike.Core;
+using Roguelike.Core.Entities;
+using Roguelike.Core.Stats;
+using Roguelike.Core.Combat;
+using Roguelike.Core.Items;
 
 namespace Roguelike.Engine
 {

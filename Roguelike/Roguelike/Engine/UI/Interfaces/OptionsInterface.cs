@@ -1,10 +1,7 @@
 ﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using Roguelike.Engine.UI;
 using Roguelike.Engine.UI.Controls;
-using Roguelike.Engine.Game;
+using Roguelike.Core;
 
 namespace Roguelike.Engine.UI.Interfaces
 {

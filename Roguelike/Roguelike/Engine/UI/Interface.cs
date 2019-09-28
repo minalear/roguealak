@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Text;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using Roguelike.Engine.UI.Controls;
 
 namespace Roguelike.Engine.UI

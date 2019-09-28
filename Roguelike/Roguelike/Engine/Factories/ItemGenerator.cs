@@ -1,8 +1,8 @@
 ﻿using System;
-using Roguelike.Engine.Game;
-using Roguelike.Engine.Game.Items;
-using Roguelike.Engine.Game.Stats;
-using Roguelike.Engine.Game.Combat;
+using Roguelike.Core;
+using Roguelike.Core.Items;
+using Roguelike.Core.Stats;
+using Roguelike.Core.Combat;
 
 using Roguelike.Engine.Factories.Weapons;
 using Roguelike.Engine.Factories.Armor;
@@ -975,7 +975,7 @@ namespace Roguelike.Engine.Factories.Consumables
         {
             if (!GameManager.CurrentLevel.IsTileSolid(x0, y0))
             {
-                GameManager.Player.TeleportPlayer(GameManager.CurrentLevel, new Microsoft.Xna.Framework.Point(x0, y0));
+                GameManager.Player.TeleportPlayer(GameManager.CurrentLevel, new Point(x0, y0));
             }
         }
     }
