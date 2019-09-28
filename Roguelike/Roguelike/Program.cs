@@ -2,7 +2,6 @@ using System;
 
 namespace Roguelike
 {
-#if WINDOWS || XBOX
     static class Program
     {
         static MainGame game;
@@ -22,6 +21,5 @@ namespace Roguelike
         public static MainGame Game { get { return game; } }
         public static Microsoft.Xna.Framework.Content.ContentManager Content { get { return game.Content; } }
     }
-#endif
 }
 

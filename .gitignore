@@ -1,0 +1,8 @@
+[Bb]in/
+[Oo]bj/
+.vs/
+*.exe
+*.un~
+*~
+[Pp]ackages/
+*.diagsession
