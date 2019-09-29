@@ -22,8 +22,8 @@ namespace Roguelike.Engine.UI.Interfaces
             mainTitle = new Title(this, "Roguealak", GraphicConsole.BufferWidth / 2, 2, Title.TextAlignModes.Center);
             subTitle = new Title(this, generateSubTitle(), GraphicConsole.BufferWidth / 2, 3, Title.TextAlignModes.Center);
 
-            mainTitle.TextColor = Color.Red;
-            subTitle.TextColor = Color.LightGray;
+            mainTitle.TextColor = Color4.Red;
+            subTitle.TextColor = Color4.LightGray;
 
             startNewGame = new Button(this, "New Game", GraphicConsole.BufferWidth / 2 - 15, 10, 30, 3) { KeyShortcut = Keys.N };
             resumeGame = new Button(this, "Item Testing", GraphicConsole.BufferWidth / 2 - 15, 14, 30, 3) { KeyShortcut = Keys.L };
@@ -51,7 +51,7 @@ namespace Roguelike.Engine.UI.Interfaces
 
         void optionsButton_Pressed(object sender, MouseButtons button)
         {
-            Game.Stats.PlayerStats stats = new Game.Stats.PlayerStats(null);
+            Core.Stats.PlayerStats stats = new Core.Stats.PlayerStats(null);
 
             stats.Name = "Quickstart McGee";
             stats.Class = "Fagmo";

@@ -29,8 +29,7 @@ namespace Roguelike.Engine.UI.Controls
 
         void button_Click(object sender, MouseButtons button)
         {
-            if (Click != null)
-                Click((Button)sender);
+            Click?.Invoke((Button)sender);
         }
 
         public event ButtonClicked Click;

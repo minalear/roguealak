@@ -17,7 +17,7 @@ namespace Roguelike.Core.Entities
             statsPackage = new StatsPackage(this);
         }
 
-        public virtual void DrawStep(Box2 viewport)
+        public virtual void DrawStep(Rectangle viewport)
         {
             int pointX = x - GameManager.CameraOffset.X + (int)viewport.Left;
             int pointY = y - GameManager.CameraOffset.Y + (int)viewport.Top;

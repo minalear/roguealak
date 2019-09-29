@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using OpenTK.Graphics;
 
 namespace Roguelike.Engine.UI.Controls
 {
@@ -18,7 +17,7 @@ namespace Roguelike.Engine.UI.Controls
 
         public override void DrawStep()
         {
-            GraphicConsole.SetColors(Color.Transparent, fillColor);
+            GraphicConsole.SetColors(Color4.Transparent, fillColor);
             DrawingUtilities.DrawRect(Position.X, Position.Y, Size.X, Size.Y, ' ', true);
 
             if (!scroll)
@@ -205,13 +204,11 @@ namespace Roguelike.Engine.UI.Controls
 
         protected void onHover()
         {
-            if (Hover != null)
-                Hover(this, hoverIndex);
+            Hover?.Invoke(this, hoverIndex);
         }
         protected void onSelect()
         {
-            if (Selected != null)
-                Selected(this, selectedIndex);
+            Selected?.Invoke(this, selectedIndex);
         }
 
         private void setupList()
@@ -268,14 +265,14 @@ namespace Roguelike.Engine.UI.Controls
         }
 
         private List<ListItem> objectList;
-        private Color textColor = Color.White;
-        private Color fillColor = Color.Black;
-        private Color selectedTextColor = Color.Black;
-        private Color selectedFillColor = Color.White;
-        private Color hoverTextColor = Color.White;
-        private Color hoverFillColor = new Color(170, 181, 187);
-        private Color scrollRailColor = Color.Gray;
-        private Color scrollBarColor = Color.LightGray;
+        private Color4 textColor = Color4.White;
+        private Color4 fillColor = Color4.Black;
+        private Color4 selectedTextColor = Color4.Black;
+        private Color4 selectedFillColor = Color4.White;
+        private Color4 hoverTextColor = Color4.White;
+        private Color4 hoverFillColor = new Color4(170, 181, 187, 255);
+        private Color4 scrollRailColor = Color4.Gray;
+        private Color4 scrollBarColor = Color4.LightGray;
 
         private bool scroll = false;
         private int selectedIndex = -1;
@@ -294,27 +291,27 @@ namespace Roguelike.Engine.UI.Controls
 
         #region Properties
         public List<ListItem> Items { get { return objectList; } set { SetList(value); } }
-        public Color TextColor { get { return textColor; } set { textColor = value; } }
-        public Color FillColor { get { return fillColor; } set { fillColor = value; } }
-        public Color SelectedTextColor { get { return selectedTextColor; } set { selectedTextColor = value; } }
-        public Color SelectedFillColor { get { return selectedFillColor; } set { selectedFillColor = value; } }
-        public Color HoverTextColor { get { return hoverTextColor; } set { hoverTextColor = value; } }
-        public Color HoverFillColor { get { return hoverFillColor; } set { hoverFillColor = value; } }
-        public Color ScrollRailColor { get { return scrollRailColor; } set { scrollRailColor = value; } }
-        public Color ScrollBarColor { get { return scrollBarColor; } set { scrollBarColor = value; } }
+        public Color4 TextColor { get { return textColor; } set { textColor = value; } }
+        public Color4 FillColor { get { return fillColor; } set { fillColor = value; } }
+        public Color4 SelectedTextColor { get { return selectedTextColor; } set { selectedTextColor = value; } }
+        public Color4 SelectedFillColor { get { return selectedFillColor; } set { selectedFillColor = value; } }
+        public Color4 HoverTextColor { get { return hoverTextColor; } set { hoverTextColor = value; } }
+        public Color4 HoverFillColor { get { return hoverFillColor; } set { hoverFillColor = value; } }
+        public Color4 ScrollRailColor { get { return scrollRailColor; } set { scrollRailColor = value; } }
+        public Color4 ScrollBarColor { get { return scrollBarColor; } set { scrollBarColor = value; } }
         public bool HasSelection { get { return (selectedIndex != -1); } }
         public int SelectedIndex { get { return selectedIndex; } set { SetSelection(value); } }
         #endregion
     }
     public class ListItem
     {
-        public virtual Color TextColor { get; set; }
+        public virtual Color4 TextColor { get; set; }
         public virtual string ListText { get; set; }
 
         public ListItem()
         {
             ListText = " ";
-            TextColor = Color.White;
+            TextColor = Color4.White;
         }
 
         public static implicit operator string(ListItem item)
@@ -323,7 +320,7 @@ namespace Roguelike.Engine.UI.Controls
         }
         public static implicit operator ListItem(string item)
         {
-            return new ListItem() { ListText = item, TextColor = Color.White };
+            return new ListItem() { ListText = item, TextColor = Color4.White };
         }
     }
 }

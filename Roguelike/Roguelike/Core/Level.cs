@@ -22,7 +22,7 @@ namespace Roguelike.Core
             levelMatrix = new LevelMatrix(width, height);
         }
 
-        public void DrawLevel(Box2 viewport)
+        public void DrawLevel(Rectangle viewport)
         {
             levelMatrix.DrawStep(viewport);
 
@@ -32,7 +32,7 @@ namespace Roguelike.Core
             for (int i = 0; i < entities.Count; i++)
                 entities[i].DrawStep(viewport);
         }
-        public void DrawLevel(Box2 viewport, Point offset)
+        public void DrawLevel(Rectangle viewport, Point offset)
         {
             levelMatrix.DrawStep(viewport, offset);
         }
@@ -156,7 +156,7 @@ namespace Roguelike.Core
                 }
             }
         }
-        public void StainTile(Box2 area, Color4 color)
+        public void StainTile(Rectangle area, Color4 color)
         {
             for (int y = (int)area.Top; y < area.Bottom; y++)
             {
@@ -269,7 +269,7 @@ namespace Roguelike.Core
 
             return entityList;
         }
-        public List<Entity> GetEntities(Box2 area)
+        public List<Entity> GetEntities(Rectangle area)
         {
             var entityList = new List<Entity>();
 
@@ -467,7 +467,7 @@ namespace Roguelike.Core
             }
         }
         private static void Swap<T>(ref T lhs, ref T rhs) { T temp; temp = lhs; lhs = rhs; rhs = temp; }
-        public void DrawRectangle(MatrixLevels level, Box2 rectangle, char token, bool solid)
+        public void DrawRectangle(MatrixLevels level, Rectangle rectangle, char token, bool solid)
         {
             if (!solid)
             {
@@ -493,7 +493,7 @@ namespace Roguelike.Core
                 }
             }
         }
-        public void DrawRectangle(MatrixLevels level, Box2 rectangle, char token, bool solid, Color4 fore, Color4 back)
+        public void DrawRectangle(MatrixLevels level, Rectangle rectangle, char token, bool solid, Color4 fore, Color4 back)
         {
             if (!solid)
             {
@@ -719,14 +719,14 @@ namespace Roguelike.Core
             initializeMatrix();
         }
 
-        public void DrawStep(Box2 viewport)
+        public void DrawStep(Rectangle viewport)
         {
-            for (int y = (int)viewport.Top; y < viewport.Bottom; y++)
+            for (int y = viewport.Top; y < viewport.Bottom; y++)
             {
-                for (int x = (int)viewport.Left; x < viewport.Right; x++)
+                for (int x = viewport.Left; x < viewport.Right; x++)
                 {
-                    int coordX = GameManager.CameraOffset.X + x - (int)viewport.Left;
-                    int coordY = GameManager.CameraOffset.Y + y - (int)viewport.Top;
+                    int coordX = GameManager.CameraOffset.X + x - viewport.Left;
+                    int coordY = GameManager.CameraOffset.Y + y - viewport.Top;
 
                     if (coordX >= 0 && coordX < width && coordY >= 0 && coordY < height)
                     {
@@ -740,14 +740,14 @@ namespace Roguelike.Core
                 }
             }
         }
-        public void DrawStep(Box2 viewport, Point offset)
+        public void DrawStep(Rectangle viewport, Point offset)
         {
-            for (int y = (int)viewport.Top; y < viewport.Bottom; y++)
+            for (int y = viewport.Top; y < viewport.Bottom; y++)
             {
-                for (int x = (int)viewport.Left; x < viewport.Right; x++)
+                for (int x = viewport.Left; x < viewport.Right; x++)
                 {
-                    int coordX = offset.X + x - (int)viewport.Left;
-                    int coordY = offset.Y + y - (int)viewport.Top;
+                    int coordX = offset.X + x - viewport.Left;
+                    int coordY = offset.Y + y - viewport.Top;
 
                     if (coordX >= 0 && coordX < width && coordY >= 0 && coordY < height)
                     {

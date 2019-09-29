@@ -1,5 +1,5 @@
 ﻿using System;
-using Roguelike.Engine.UI;
+using OpenTK.Input;
 using Roguelike.Engine.UI.Controls;
 using Roguelike.Core;
 
@@ -15,7 +15,7 @@ namespace Roguelike.Engine.UI.Interfaces
         public MapInterface()
         {
             title = new Title(this, "Map", GraphicConsole.BufferWidth / 2, 1, Title.TextAlignModes.Center);
-            backButton = new Button(this, "X", GraphicConsole.BufferWidth - 2, 1, 1, 1) { KeyShortcut = Keys.Escape };
+            backButton = new Button(this, "X", GraphicConsole.BufferWidth - 2, 1, 1, 1) { KeyShortcut = Key.Escape };
             backButton.Click += backButton_Pressed;
         }
 
@@ -170,20 +170,20 @@ namespace Roguelike.Engine.UI.Interfaces
             }
         }
 
-        private const Keys UP_KEY = Keys.W;
-        private const Keys DOWN_KEY = Keys.S;
-        private const Keys LEFT_KEY = Keys.A;
-        private const Keys RIGHT_KEY = Keys.D;
+        private const Key UP_KEY = Key.W;
+        private const Key DOWN_KEY = Key.S;
+        private const Key LEFT_KEY = Key.A;
+        private const Key RIGHT_KEY = Key.D;
 
-        private const Keys UP_KEY_ALT = Keys.NumPad8;
-        private const Keys DOWN_KEY_ALT = Keys.NumPad2;
-        private const Keys LEFT_KEY_ALT = Keys.NumPad4;
-        private const Keys RIGHT_KEY_ALT = Keys.NumPad6;
+        private const Key UP_KEY_ALT = Key.Keypad8;
+        private const Key DOWN_KEY_ALT = Key.Keypad2;
+        private const Key LEFT_KEY_ALT = Key.Keypad4;
+        private const Key RIGHT_KEY_ALT = Key.Keypad6;
 
-        private const Keys UP_RIGHT_KEY_ALT = Keys.NumPad9;
-        private const Keys UP_LEFT_KEY_ALT = Keys.NumPad7;
-        private const Keys DOWN_RIGHT_KEY_ALT = Keys.NumPad3;
-        private const Keys DOWN_LEFT_KEY_ALT = Keys.NumPad1;
+        private const Key UP_RIGHT_KEY_ALT = Key.Keypad9;
+        private const Key UP_LEFT_KEY_ALT = Key.Keypad7;
+        private const Key DOWN_RIGHT_KEY_ALT = Key.Keypad3;
+        private const Key DOWN_LEFT_KEY_ALT = Key.Keypad1;
 
         private static TimeSpan MOVEMENT_DELAY = new TimeSpan(0, 0, 0, 0, 50);
     }

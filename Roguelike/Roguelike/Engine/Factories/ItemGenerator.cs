@@ -44,7 +44,7 @@ namespace Roguelike.Engine.Factories
         }
 
         private static Array itemTypes = Enum.GetValues(typeof(ItemTypes));
-        private static Array weaponTypes = Enum.GetValues(typeof(Factories.WeaponTypes));
+        private static Array weaponTypes = Enum.GetValues(typeof(WeaponTypes));
     }
 }
 
@@ -52,7 +52,7 @@ namespace Roguelike.Engine.Factories.Weapons
 {
     public static class WeaponGenerator
     {
-        private static Array weaponTypes = Enum.GetValues(typeof(Factories.WeaponTypes));
+        //private static Array weaponTypes = Enum.GetValues(typeof(WeaponTypes));
 
         public static Weapon GenerateRandomWeapon()
         {
@@ -881,7 +881,7 @@ namespace Roguelike.Engine.Factories.Consumables
             EffectDescription = "Restores health upon quaffing the potion.";
         }
 
-        public override void OnApplication(Game.Entities.Entity entity)
+        public override void OnApplication(Core.Entities.Entity entity)
         {
             int amount = RNG.Next(5, (int)(entity.StatsPackage.MaxHealth / 2));
             entity.StatsPackage.AddHealth(amount);
@@ -900,7 +900,7 @@ namespace Roguelike.Engine.Factories.Consumables
             EffectDescription = "Restores mana upon quaffing the potion.";
         }
 
-        public override void OnApplication(Game.Entities.Entity entity)
+        public override void OnApplication(Core.Entities.Entity entity)
         {
             int amount = RNG.Next(5, (int)(entity.StatsPackage.MaxMana / 2));
             entity.StatsPackage.AddMana(amount);
@@ -919,7 +919,7 @@ namespace Roguelike.Engine.Factories.Consumables
             EffectDescription = "Poison!  Don't drink.";
         }
 
-        public override void OnApplication(Game.Entities.Entity entity)
+        public override void OnApplication(Core.Entities.Entity entity)
         {
             int result = RNG.Next(0, 1000);
             if (result == 0)
@@ -930,7 +930,7 @@ namespace Roguelike.Engine.Factories.Consumables
             else
             {
                 MessageCenter.PostMessage("You have been poisoned!");
-                entity.StatsPackage.ApplyEffect(new Game.Stats.Classes.Rogue.Effect_Poison());
+                entity.StatsPackage.ApplyEffect(new Core.Stats.Classes.Rogue.Effect_Poison());
             }
         }
     }
@@ -943,7 +943,7 @@ namespace Roguelike.Engine.Factories.Consumables
             EffectDescription = "Kills you.  Like seriously, don't drink ";
         }
 
-        public override void OnApplication(Game.Entities.Entity entity)
+        public override void OnApplication(Core.Entities.Entity entity)
         {
             entity.StatsPackage.DrainHealth((int)entity.StatsPackage.MaxHealth.EffectiveValue);
             MessageCenter.PostMessage("That potion just killed your ass.");
@@ -1014,7 +1014,7 @@ namespace Roguelike.Engine.Factories.Consumables
                 {
                     int result = RNG.Next(0, 100);
                     if (result <= 15)
-                        target.ApplyEffect(new Game.Stats.Classes.Mage.Effect_FireballDOT(target));
+                        target.ApplyEffect(new Core.Stats.Classes.Mage.Effect_FireballDOT(target));
                 }
             }
 

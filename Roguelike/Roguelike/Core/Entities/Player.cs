@@ -19,7 +19,7 @@ namespace Roguelike.Core.Entities
             isSolid = true;
         }
 
-        public override void DrawStep(Box2 viewport)
+        public override void DrawStep(Rectangle viewport)
         {
             base.DrawStep(viewport);
         }
@@ -253,15 +253,15 @@ namespace Roguelike.Core.Entities
         private const Key LEFT_KEY = Key.A;
         private const Key RIGHT_KEY = Key.D;
 
-        private const Key UP_KEY_ALT = Key.Number8;
-        private const Key DOWN_KEY_ALT = Key.Number2;
-        private const Key LEFT_KEY_ALT = Key.Number4;
-        private const Key RIGHT_KEY_ALT = Key.Number6;
+        private const Key UP_KEY_ALT = Key.Keypad8;
+        private const Key DOWN_KEY_ALT = Key.Keypad2;
+        private const Key LEFT_KEY_ALT = Key.Keypad4;
+        private const Key RIGHT_KEY_ALT = Key.Keypad6;
 
-        private const Key UP_RIGHT_KEY_ALT = Key.Number9;
-        private const Key UP_LEFT_KEY_ALT = Key.Number7;
-        private const Key DOWN_RIGHT_KEY_ALT = Key.Number3;
-        private const Key DOWN_LEFT_KEY_ALT = Key.Number1;
+        private const Key UP_RIGHT_KEY_ALT = Key.Keypad9;
+        private const Key UP_LEFT_KEY_ALT = Key.Keypad7;
+        private const Key DOWN_RIGHT_KEY_ALT = Key.Keypad3;
+        private const Key DOWN_LEFT_KEY_ALT = Key.Keypad1;
 
         private const Key WAIT_KEY = Key.Number5;
 

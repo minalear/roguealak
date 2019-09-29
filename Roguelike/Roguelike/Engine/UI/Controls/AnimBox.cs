@@ -21,7 +21,7 @@ namespace Roguelike.Engine.UI.Controls
         public AnimBox(Control parent, int frameCount)
             : base(parent)
         {
-            frameCount = frameCount;
+            this.frameCount = frameCount;
             animationFrames = new string[frameCount];
 
             currentFrame = 0;
@@ -42,7 +42,7 @@ namespace Roguelike.Engine.UI.Controls
         {
             if (!isPaused)
             {
-                elapsedTime += gameTime.ElapsedGameTime.Milliseconds;
+                elapsedTime += gameTime.ElapsedTime.Milliseconds;
 
                 if (elapsedTime >= timePerFrame)
                     UpdateStep();

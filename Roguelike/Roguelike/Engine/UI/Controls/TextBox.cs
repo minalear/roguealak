@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using OpenTK.Graphics;
 
 namespace Roguelike.Engine.UI.Controls
 {
@@ -147,18 +145,18 @@ namespace Roguelike.Engine.UI.Controls
         private char scrollRail = '║';
         private char scrollBar = '▓';
 
-        private Color textColor = Color.White;
-        private Color fillColor = Color.Black;
-        private Color scrollRailColor = Color.Gray;
-        private Color scrollBarColor = Color.LightGray;
+        private Color4 textColor = Color4.White;
+        private Color4 fillColor = Color4.Black;
+        private Color4 scrollRailColor = Color4.Gray;
+        private Color4 scrollBarColor = Color4.LightGray;
 
         #region Properties
         public string Text { get { return text; } set { setText(value); } }
         public float ScrollValue { get { return scrollValue; } set { scrollValue = value; } }
-        public Color TextColor { get { return textColor; } set { textColor = value; } }
-        public Color FillColor { get { return fillColor; } set { fillColor = value; } }
-        public Color ScrollRailColor { get { return scrollRailColor; } set { scrollRailColor = value; } }
-        public Color ScrollBarColor { get { return scrollBarColor; } set { scrollBarColor = value; } }
+        public Color4 TextColor { get { return textColor; } set { textColor = value; } }
+        public Color4 FillColor { get { return fillColor; } set { fillColor = value; } }
+        public Color4 ScrollRailColor { get { return scrollRailColor; } set { scrollRailColor = value; } }
+        public Color4 ScrollBarColor { get { return scrollBarColor; } set { scrollBarColor = value; } }
         public char ScrollRail { get { return scrollRail; } set { scrollRail = value; } }
         public char ScrollBar { get { return scrollBar; } set { scrollBar = value; } } 
         #endregion

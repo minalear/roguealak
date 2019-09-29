@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using OpenTK.Graphics;
 
 namespace Roguelike.Engine.UI.Controls
 {
@@ -10,8 +8,8 @@ namespace Roguelike.Engine.UI.Controls
         public CheckBox(Control parent, int x, int y) 
             : base(parent)
         {
-            ForegroundColor = Color.White;
-            BackgroundColor = Color.Black;
+            ForegroundColor = Color4.White;
+            BackgroundColor = Color4.Black;
 
             Size = new Point(1, 1);
             Position = new Point(x, y);
@@ -72,8 +70,7 @@ namespace Roguelike.Engine.UI.Controls
         {
             enabled = !enabled;
 
-            if (Toggled != null)
-                Toggled(this);
+            Toggled?.Invoke(this);
         }
 
         private char enabledToken = '⌂';
@@ -82,17 +79,17 @@ namespace Roguelike.Engine.UI.Controls
         private bool enabled = false;
         private bool isHover = false;
 
-        private Color foregroundColorEnabled = Color.Black;
-        private Color foregroundColorDisabled = Color.White;
-        private Color foregroundColorHover = Color.White;
+        private Color4 foregroundColorEnabled = Color4.Black;
+        private Color4 foregroundColorDisabled = Color4.White;
+        private Color4 foregroundColorHover = Color4.White;
 
-        private Color backgroundColorEnabled = Color.White;
-        private Color backgroundColorDisabled = Color.Black;
-        private Color backgroundColorHover = new Color(170, 181, 187);
+        private Color4 backgroundColorEnabled = Color4.White;
+        private Color4 backgroundColorDisabled = Color4.Black;
+        private Color4 backgroundColorHover = new Color4(170, 181, 187, 255);
 
         #region Properties
-        public Color ForegroundColor { get; set; }
-        public Color BackgroundColor { get; set; }
+        public Color4 ForegroundColor { get; set; }
+        public Color4 BackgroundColor { get; set; }
         public char EnabledToken { get { return enabledToken; } set { enabledToken = value; } }
         public char DisabledToken { get { return disabledToken; } set { disabledToken = value; } }
         public bool Enabled { get { return enabled; } set { enabled = value; } }

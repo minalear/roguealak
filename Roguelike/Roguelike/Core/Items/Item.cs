@@ -20,7 +20,7 @@ namespace Roguelike.Core.Items
         {
             return ListText;
         }
-        public void DrawStep(Box2 viewport)
+        public void DrawStep(Rectangle viewport)
         {
             int pointX = position.X - GameManager.CameraOffset.X + viewport.X;
             int pointY = position.Y - GameManager.CameraOffset.Y + viewport.Y;

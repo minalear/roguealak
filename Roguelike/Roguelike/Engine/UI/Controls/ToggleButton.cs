@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using OpenTK.Graphics;
 
 namespace Roguelike.Engine.UI.Controls
 {
@@ -12,7 +10,7 @@ namespace Roguelike.Engine.UI.Controls
         {
             setDefaults();
 
-            text = text;
+            this.text = text;
             position = new Point(x, y);
             size = new Point(text.Length + 2, 3);
 
@@ -23,7 +21,7 @@ namespace Roguelike.Engine.UI.Controls
         {
             setDefaults();
 
-            text = text;
+            this.text = text;
             position = new Point(x, y);
             size = new Point(width, height);
 
@@ -37,7 +35,7 @@ namespace Roguelike.Engine.UI.Controls
             if (mode == ButtonModes.Hover)
             {
                 //Fill Area
-                GraphicConsole.SetColors(Color.Transparent, fillColorHover);
+                GraphicConsole.SetColors(Color4.Transparent, fillColorHover);
                 DrawingUtilities.DrawRect(Position.X, Position.Y, Size.X, Size.Y, ' ', true);
 
                 //Write Text
@@ -48,7 +46,7 @@ namespace Roguelike.Engine.UI.Controls
             else if (!enabled)
             {
                 //Fill Area
-                GraphicConsole.SetColors(Color.Transparent, fillColor);
+                GraphicConsole.SetColors(Color4.Transparent, fillColor);
                 DrawingUtilities.DrawRect(Position.X, Position.Y, Size.X, Size.Y, ' ', true);
 
                 //Write Text
@@ -59,7 +57,7 @@ namespace Roguelike.Engine.UI.Controls
             else if (enabled)
             {
                 //Fill Area
-                GraphicConsole.SetColors(Color.Transparent, fillColorPressed);
+                GraphicConsole.SetColors(Color4.Transparent, fillColorPressed);
                 DrawingUtilities.DrawRect(Position.X, Position.Y, Size.X, Size.Y, ' ', true);
 
                 //Write Text
@@ -110,8 +108,7 @@ namespace Roguelike.Engine.UI.Controls
         {
             enabled = !enabled;
 
-            if (Click != null)
-                Click(this);
+            Click?.Invoke(this);
 
             if (enabled)
                 mode = ButtonModes.Pressed;
@@ -120,8 +117,7 @@ namespace Roguelike.Engine.UI.Controls
         }
         protected void onButtonHover()
         {
-            if (Hover != null)
-                Hover(this);
+            Hover?.Invoke(this);
         }
 
         private void setDefaults()
@@ -142,9 +138,9 @@ namespace Roguelike.Engine.UI.Controls
         }
 
         private string text;
-        private Color textColor, fillColor;
-        private Color textColorHover, fillColorHover;
-        private Color textColorPressed, fillColorPressed;
+        private Color4 textColor, fillColor;
+        private Color4 textColorHover, fillColorHover;
+        private Color4 textColorPressed, fillColorPressed;
         private ButtonModes mode;
         private Point textPosition;
         private bool enabled = false;
@@ -153,23 +149,23 @@ namespace Roguelike.Engine.UI.Controls
 
         #region Properties
         public string Text { get { return text; } set { text = value; setTextPosition(); } }
-        public Color TextColor { get { return textColor; } set { textColor = value; } }
-        public Color FillColor { get { return fillColor; } set { fillColor = value; } }
-        public Color TextColorHover { get { return textColorHover; } set { textColorHover = value; } }
-        public Color FillColorHover { get { return fillColorHover; } set { fillColorHover = value; } }
-        public Color TextColorPressed { get { return textColorPressed; } set { textColorPressed = value; } }
-        public Color FillColorPressed { get { return fillColorPressed; } set { fillColorPressed = value; } }
+        public Color4 TextColor { get { return textColor; } set { textColor = value; } }
+        public Color4 FillColor { get { return fillColor; } set { fillColor = value; } }
+        public Color4 TextColorHover { get { return textColorHover; } set { textColorHover = value; } }
+        public Color4 FillColorHover { get { return fillColorHover; } set { fillColorHover = value; } }
+        public Color4 TextColorPressed { get { return textColorPressed; } set { textColorPressed = value; } }
+        public Color4 FillColorPressed { get { return fillColorPressed; } set { fillColorPressed = value; } }
         public bool Enabled { get { return enabled; } set { enabled = value; } }
         #endregion
         #region Constants
-        private static Color DEFAULT_TEXT_COLOR = Color.White;
-        private static Color DEFAULT_FILL_COLOR = Color.Black;
+        private static Color4 DEFAULT_TEXT_COLOR = Color4.White;
+        private static Color4 DEFAULT_FILL_COLOR = Color4.Black;
 
-        private static Color DEFAULT_TEXT_HOVER_COLOR = Color.White;
-        private static Color DEFAULT_FILL_HOVER_COLOR = new Color(170, 181, 187);
+        private static Color4 DEFAULT_TEXT_HOVER_COLOR = Color4.White;
+        private static Color4 DEFAULT_FILL_HOVER_COLOR = new Color4(170, 181, 187, 255);
 
-        private static Color DEFAULT_TEXT_PRESSED_COLOR = Color.Black;
-        private static Color DEFAULT_FILL_PRESSED_COLOR = Color.White;
+        private static Color4 DEFAULT_TEXT_PRESSED_COLOR = Color4.Black;
+        private static Color4 DEFAULT_FILL_PRESSED_COLOR = Color4.White;
         #endregion
 
         public event ButtonToggled Click;

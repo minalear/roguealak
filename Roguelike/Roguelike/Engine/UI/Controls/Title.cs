@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using OpenTK.Graphics;
 
 namespace Roguelike.Engine.UI.Controls
 {
@@ -10,7 +8,7 @@ namespace Roguelike.Engine.UI.Controls
         public Title(Control parent, string text, int x, int y)
             : base(parent)
         {
-            text = text;
+            this.text = text;
             Position = new Point(x, y);
             Size = new Point(text.Length, 1);
 
@@ -19,7 +17,7 @@ namespace Roguelike.Engine.UI.Controls
         public Title(Control parent, string text, int x, int y, TextAlignModes alignMode)
             : base(parent)
         {
-            text = text;
+            this.text = text;
             Position = new Point(x, y);
             Size = new Point(text.Length, 1);
 
@@ -55,14 +53,14 @@ namespace Roguelike.Engine.UI.Controls
 
         private string text;
         private TextAlignModes textAlignMode = TextAlignModes.Center;
-        private Color textColor = Color.White;
-        private Color fillColor = Color.Black;
+        private Color4 textColor = Color4.White;
+        private Color4 fillColor = Color4.Black;
 
         #region Properties
         public string Text { get { return text; } set { text = value; } }
         public TextAlignModes AlignMode { get { return textAlignMode; } set { textAlignMode = value; } }
-        public Color TextColor { get { return textColor; } set { textColor = value; } }
-        public Color FillColor { get { return fillColor; } set { fillColor = value; } } 
+        public Color4 TextColor { get { return textColor; } set { textColor = value; } }
+        public Color4 FillColor { get { return fillColor; } set { fillColor = value; } } 
         #endregion
 
         public enum TextAlignModes { Center, Left, Right }

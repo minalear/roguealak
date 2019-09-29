@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Roguelike.Engine.UI;
+using OpenTK.Graphics;
 using Roguelike.Engine.UI.Controls;
 using Roguelike.Core;
 using Roguelike.Core.Items;
@@ -22,10 +22,10 @@ namespace Roguelike.Engine.UI.Interfaces
             generateButton = new Button(this, "Generate", 72, 1);
             generateButton.Click += generateButton_Click;
             infoBox = new TextBox(this, 72, 5, 40, 37);
-            infoBox.FillColor = new Color(25, 25, 25);
+            infoBox.FillColor = new Color4(25, 25, 25, 255);
 
             itemGenList = new ScrollingList(this, 1, 2, 70, 40);
-            itemGenList.FillColor = new Color(25, 25, 25);
+            itemGenList.FillColor = new Color4(25, 25, 25, 255);
             itemGenList.Selected += itemGenList_Selected;
         }
 

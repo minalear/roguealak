@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Text;
-using System.Collections.Generic;
 using Roguelike.Engine.UI.Controls;
 
 namespace Roguelike.Engine.UI

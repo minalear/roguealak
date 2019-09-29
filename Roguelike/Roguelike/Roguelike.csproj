@@ -123,6 +123,7 @@
     <Compile Include="Engine\InputManager.cs" />
     <Compile Include="Engine\Pathing\PathCalculator.cs" />
     <Compile Include="Engine\Point.cs" />
+    <Compile Include="Engine\Rectangle.cs" />
     <Compile Include="Engine\UI\Controls\AnimBox.cs" />
     <Compile Include="Engine\UI\Controls\Button.cs" />
     <Compile Include="Engine\UI\Controls\ButtonGroup.cs" />

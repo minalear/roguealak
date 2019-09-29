@@ -27,5 +27,7 @@ namespace Roguelike.Engine
         {
             return !a.Equals(b);
         }
+
+        public static Point Zero = new Point(0, 0);
     }
 }

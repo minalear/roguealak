@@ -103,8 +103,8 @@ namespace Roguelike.Engine
 
         public static void SetCameraOffset()
         {
-            GameManager.CameraOffset.X = Player.X - GraphicConsole.BufferWidth / 2;
-            GameManager.CameraOffset.Y = Player.Y - GraphicConsole.BufferHeight / 2;
+            CameraOffset.X = Player.X - GraphicConsole.BufferWidth / 2;
+            CameraOffset.Y = Player.Y - GraphicConsole.BufferHeight / 2;
         }
 
         public static void ResetGame()

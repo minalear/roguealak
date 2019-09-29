@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using OpenTK;
+using OpenTK.Input;
+using OpenTK.Graphics;
 using Roguelike.Engine.UI;
 using Roguelike.Engine.UI.Controls;
 using Roguelike.Core;
@@ -27,8 +30,8 @@ namespace Roguelike.Engine.UI.Interfaces
         {
             healthBar = new BarTitle(this, 2, 1, "HP", 20);
             manaBar = new BarTitle(this, GraphicConsole.BufferWidth - 23, 1, "MP", 20);
-            manaBar.BarColor = Color.DodgerBlue;
-            manaBar.FillColor = Color.DarkBlue;
+            manaBar.BarColor = Color4.DodgerBlue;
+            manaBar.FillColor = Color4.DarkBlue;
 
             playerTitle = new Title(this, "[Name] of [Town] the [Title] - Level ##", GraphicConsole.BufferWidth / 2, 1, Title.TextAlignModes.Center);
 
@@ -49,7 +52,7 @@ namespace Roguelike.Engine.UI.Interfaces
             bottomTab = new BottomTab(this, leftTab, rightTab);
 
             menuButton = new Button(this, "Menu", 3, GraphicConsole.BufferHeight - 2, 6, 1);
-            mapButton = new Button(this, "Map*", 10, GraphicConsole.BufferHeight - 2, 6, 1) { KeyShortcut = Keys.M };
+            mapButton = new Button(this, "Map*", 10, GraphicConsole.BufferHeight - 2, 6, 1) { KeyShortcut = Key.M };
 
             menuButton.Click += menuButton_Pressed;
             mapButton.Click += mapButton_Pressed;
@@ -95,21 +98,21 @@ namespace Roguelike.Engine.UI.Interfaces
             GameManager.CurrentLevel.Update(gameTime);
 
             //Right Tab
-            if (InputManager.KeyWasReleased(Keys.I))
+            if (InputManager.KeyWasReleased(Key.I))
             {
                 rightTab.IsVisible = true;
                 rightTab.OpenMenu("Inventory");
 
                 DrawStep();
             }
-            else if (InputManager.KeyWasReleased(Keys.E))
+            else if (InputManager.KeyWasReleased(Key.E))
             {
                 rightTab.IsVisible = true;
                 rightTab.OpenMenu("Equipment");
 
                 DrawStep();
             }
-            else if (InputManager.KeyWasReleased(Keys.B))
+            else if (InputManager.KeyWasReleased(Key.B))
             {
                 rightTab.IsVisible = true;
                 rightTab.OpenMenu("Spellbook");
@@ -118,14 +121,14 @@ namespace Roguelike.Engine.UI.Interfaces
             }
 
             //Left Tab
-            if (InputManager.KeyWasReleased(Keys.C))
+            if (InputManager.KeyWasReleased(Key.C))
             {
                 leftTab.IsVisible = true;
                 leftTab.OpenMenu("Character");
 
                 DrawStep();
             }
-            else if (InputManager.KeyWasReleased(Keys.K))
+            else if (InputManager.KeyWasReleased(Key.K))
             {
                 leftTab.IsVisible = true;
                 leftTab.OpenMenu("Effects");
@@ -134,14 +137,14 @@ namespace Roguelike.Engine.UI.Interfaces
             }
 
             //Bottom Tab
-            if (InputManager.KeyWasReleased(Keys.Tab))
+            if (InputManager.KeyWasReleased(Key.Tab))
             {
                 bottomTab.IsVisible = !bottomTab.IsVisible;
                 DrawStep();
             }
 
             //Escape
-            if (InputManager.KeyWasReleased(Keys.Escape))
+            if (InputManager.KeyWasReleased(Key.Escape))
             {
                 if (leftTab.IsVisible || rightTab.IsVisible || bottomTab.IsVisible)
                 {
@@ -229,13 +232,13 @@ namespace Roguelike.Engine.UI.Interfaces
 
         public override void DrawStep()
         {
-            GraphicConsole.SetColors(Color.Transparent, fillColor);
+            GraphicConsole.SetColors(Color4.Transparent, fillColor);
             DrawingUtilities.DrawLine(Position.X, Position.Y, Position.X + Size.X, Position.Y, ' ');
 
             if (percent != 0)
             {
                 int barLength = (int)(percent * Size.X);
-                GraphicConsole.SetColors(Color.Transparent, barColor);
+                GraphicConsole.SetColors(Color4.Transparent, barColor);
                 DrawingUtilities.DrawLine(Position.X, Position.Y, Position.X + barLength, Position.Y, ' ');
             }
 
@@ -264,17 +267,17 @@ namespace Roguelike.Engine.UI.Interfaces
         private string formattedText;
         private double percent;
 
-        private Color barColor = Color.Red;
-        private Color fillColor = Color.DarkRed;
-        private Color textColor = Color.Black;
+        private Color4 barColor = Color4.Red;
+        private Color4 fillColor = Color4.DarkRed;
+        private Color4 textColor = Color4.Black;
 
         public double CurrentValue { get { return currentValue; } set { currentValue = value; } }
         public double MaxValue { get { return maxValue; } set { maxValue = value; } }
         public string Text { get { return text; } set { text = value; UpdateStep(); DrawStep(); } }
         public double Percent { get { return percent; } }
-        public Color BarColor { get { return barColor; } set { barColor = value; } }
-        public Color FillColor { get { return fillColor; } set { fillColor = value; } }
-        public Color TextColor { get { return textColor; } set { textColor = value; } }
+        public Color4 BarColor { get { return barColor; } set { barColor = value; } }
+        public Color4 FillColor { get { return fillColor; } set { fillColor = value; } }
+        public Color4 TextColor { get { return textColor; } set { textColor = value; } }
     }
 
     public class LeftTab : Control
@@ -482,8 +485,8 @@ namespace Roguelike.Engine.UI.Interfaces
             contextButton = new Button(this, "►", 0, 0, 1, 1);
             contextButton.Click += contextButton_Click;
 
-            leftTab = leftTab;
-            rightTab = rightTab;
+            this.leftTab = leftTab;
+            this.rightTab = rightTab;
 
             IsVisible = false;
         }
@@ -568,15 +571,15 @@ namespace Roguelike.Engine.UI.Interfaces
         public Hotbar(Interface parent)
             : base(parent)
         {
-            button1 = new Button(this, "[ ABIL 1 ]", 70, 48, 10, 1) { KeyShortcut = Keys.D1 };
-            button2 = new Button(this, "[ ABIL 2 ]", 83, 48, 10, 1) { KeyShortcut = Keys.D2 };
-            button3 = new Button(this, "[ ABIL 3 ]", 96, 48, 10, 1) { KeyShortcut = Keys.D3 };
-            button4 = new Button(this, "[ ABIL 4 ]", 109, 48, 10, 1) { KeyShortcut = Keys.D4 };
+            button1 = new Button(this, "[ ABIL 1 ]", 70, 48, 10, 1) { KeyShortcut = Key.Number1 };
+            button2 = new Button(this, "[ ABIL 2 ]", 83, 48, 10, 1) { KeyShortcut = Key.Number2 };
+            button3 = new Button(this, "[ ABIL 3 ]", 96, 48, 10, 1) { KeyShortcut = Key.Number3 };
+            button4 = new Button(this, "[ ABIL 4 ]", 109, 48, 10, 1) { KeyShortcut = Key.Number4 };
 
-            buttonS1 = new Button(this, "[ ABIL 5 ]", 70, 48, 10, 1) { IsVisible = false, KeyShortcut = Keys.D1 };
-            buttonS2 = new Button(this, "[ ABIL 6 ]", 83, 48, 10, 1) { IsVisible = false, KeyShortcut = Keys.D2 };
-            buttonS3 = new Button(this, "[ ABIL 7 ]", 96, 48, 10, 1) { IsVisible = false, KeyShortcut = Keys.D3 };
-            buttonS4 = new Button(this, "[ ABIL 8 ]", 109, 48, 10, 1) { IsVisible = false, KeyShortcut = Keys.D4 };
+            buttonS1 = new Button(this, "[ ABIL 5 ]", 70, 48, 10, 1) { IsVisible = false, KeyShortcut = Key.Number1 };
+            buttonS2 = new Button(this, "[ ABIL 6 ]", 83, 48, 10, 1) { IsVisible = false, KeyShortcut = Key.Number2 };
+            buttonS3 = new Button(this, "[ ABIL 7 ]", 96, 48, 10, 1) { IsVisible = false, KeyShortcut = Key.Number3 };
+            buttonS4 = new Button(this, "[ ABIL 8 ]", 109, 48, 10, 1) { IsVisible = false, KeyShortcut = Key.Number4 };
 
             button1.Click += button1_Pressed;
             button2.Click += button2_Pressed;
@@ -650,7 +653,7 @@ namespace Roguelike.Engine.UI.Interfaces
         }
         public override void Update(GameTime gameTime)
         {
-            if (InputManager.KeyWasPressed(Keys.LeftShift))
+            if (InputManager.KeyWasPressed(Key.LShift))
                 swapHotBar();
 
             base.Update(gameTime);
@@ -779,10 +782,10 @@ namespace Roguelike.Engine.UI.Interfaces
         private Point point0, point1;
         private AimingModes aimingMode;
 
-        private Color foregroundColorCursor = Color.Goldenrod;
-        private Color backgroundColorCursor = Color.Black;
-        private Color foregroundColorFill = Color.Crimson;
-        private Color backgroundColorFill = Color.Black;
+        private Color4 foregroundColorCursor = Color4.Goldenrod;
+        private Color4 backgroundColorCursor = Color4.Black;
+        private Color4 foregroundColorFill = Color4.Crimson;
+        private Color4 backgroundColorFill = Color4.Black;
 
         private const char CURSOR = '#';
         private const char FILL_CURSOR = '•';
@@ -827,7 +830,7 @@ namespace Roguelike.Engine.UI.Interfaces
                     }
                     else
                     {
-                        GraphicConsole.SetColors(Color.Red, backgroundColorCursor);
+                        GraphicConsole.SetColors(Color4.Red, backgroundColorCursor);
                         GraphicConsole.Put('X', point0.X, point0.Y);
                     }
                 }
@@ -961,7 +964,7 @@ namespace Roguelike.Engine.UI.Interfaces
                     delay = maxDelay;
                 }
 
-                delay += gameTime.ElapsedGameTime.Milliseconds;
+                delay += gameTime.ElapsedTime.Milliseconds;
             }
             else
                 delay = 0.0;
@@ -982,7 +985,7 @@ namespace Roguelike.Engine.UI.Interfaces
         public void Enable(AimingModes mode, int range)
         {
             point0 = Point.Zero;
-            range = range;
+            this.range = range;
 
             if (mode == AimingModes.DrawLine)
             {
@@ -1046,8 +1049,8 @@ namespace Roguelike.Engine.UI.Interfaces
             characterLevel = new Title(this, "Level: -7", 0, 2, Title.TextAlignModes.Left);
 
             expBar = new BarTitle(this, 0, 4, "EXP", size.X - 1);
-            expBar.FillColor = new Color(150, 140, 60);
-            expBar.BarColor = new Color(255, 240, 100);
+            expBar.FillColor = new Color4(150, 140, 60, 255);
+            expBar.BarColor = new Color4(255, 240, 100, 255);
 
             //Primary Stats
             strTitle = new Title(this, "STR: ##", 1, 6);
@@ -1105,8 +1108,8 @@ namespace Roguelike.Engine.UI.Interfaces
             size = new Point(width, height);
 
             effectsTitle = new Title(this, "-=Current Effects=-", size.X / 2, 0, Title.TextAlignModes.Center);
-            effectsList = new ScrollingList(this, 0, 2, size.X, 24) { FillColor = new Color(20, 20, 20) };
-            effectDescription = new TextBox(this, 0, 27, size.X, 17) { FillColor = new Color(20, 20, 20) };
+            effectsList = new ScrollingList(this, 0, 2, size.X, 24) { FillColor = new Color4(20, 20, 20, 255) };
+            effectDescription = new TextBox(this, 0, 27, size.X, 17) { FillColor = new Color4(20, 20, 20, 255) };
 
             effectsList.Selected += effectsList_Selected;
             effectsList.Deselected += effectsList_Deselected;
@@ -1114,14 +1117,14 @@ namespace Roguelike.Engine.UI.Interfaces
 
         public override void UpdateStep()
         {
-            effectsList.SetList<Game.Combat.Effect>(GameManager.Player.PlayerStats.AppliedEffects);
+            effectsList.SetList(GameManager.Player.PlayerStats.AppliedEffects);
 
             base.UpdateStep();
         }
 
         void effectsList_Selected(object sender, int index)
         {
-            effectDescription.Text = ((Game.Combat.Effect)(effectsList.Items[index])).EffectDescription;
+            effectDescription.Text = ((Effect)(effectsList.Items[index])).EffectDescription;
         }
         void effectsList_Deselected(object sender)
         {
@@ -1150,20 +1153,20 @@ namespace Roguelike.Engine.UI.Interfaces
         {
             position = new Point(x, y);
             size = new Point(width, height);
-            hotbar = hotbar;
+            this.hotbar = hotbar;
 
             inventoryTitle = new Title(this, "-=Inventory=-", width / 2, 0, Title.TextAlignModes.Center);
             groundTitle = new Title(this, "-=Ground Items=-", width / 2, 19, Title.TextAlignModes.Center);
-            goldTracker = new Title(this, "Gold: ###", 0, 1, Title.TextAlignModes.Left) { TextColor = Color.Goldenrod, FillColor = new Color(20, 20, 20) };
+            goldTracker = new Title(this, "Gold: ###", 0, 1, Title.TextAlignModes.Left) { TextColor = Color4.Goldenrod, FillColor = new Color4(20, 20, 20, 255) };
 
-            inventoryList = new ScrollingList(this, 0, 2, Size.X, 14) { FillColor = new Color(20, 20, 20) };
-            groundList = new ScrollingList(this, 0, 20, Size.X, 8) { FillColor = new Color(20, 20, 20) };
+            inventoryList = new ScrollingList(this, 0, 2, Size.X, 14) { FillColor = new Color4(20, 20, 20, 255) };
+            groundList = new ScrollingList(this, 0, 20, Size.X, 8) { FillColor = new Color4(20, 20, 20, 255) };
 
             useButton = new Button(this, "Use", 0, 16, 14, 3);
             dropButton = new Button(this, "Drop", 14, 16, 14, 3);
             pickupButton = new Button(this, "Pickup", 0, 28, 28, 3);
 
-            descriptionBox = new TextBox(this, 0, 31, Size.X, 13) { FillColor = new Color(20, 20, 20) };
+            descriptionBox = new TextBox(this, 0, 31, Size.X, 13) { FillColor = new Color4(20, 20, 20, 255) };
 
             inventoryList.Selected += inventoryList_Selected;
             groundList.Selected += groundList_Selected;
@@ -1183,7 +1186,7 @@ namespace Roguelike.Engine.UI.Interfaces
         }
         public override void DrawStep()
         {
-            GraphicConsole.SetColors(Color.White, new Color(20, 20, 20));
+            GraphicConsole.SetColors(Color4.White, new Color4(20, 20, 20, 255));
             DrawingUtilities.DrawLine(Position.X, Position.Y + 1, Position.X + Size.X - 1, Position.Y + 1, ' ');
             GraphicConsole.ResetColor();
 
@@ -1297,9 +1300,9 @@ namespace Roguelike.Engine.UI.Interfaces
             equipmentTitle = new Title(this, "-=Equipment=-", width / 2, 0, Title.TextAlignModes.Center);
             inventoryTitle = new Title(this, "-=Inventory=-", width / 2, 16, Title.TextAlignModes.Center);
 
-            equipmentList = new ScrollingList(this, 0, 1, width, 12) { FillColor = new Color(20, 20, 20) };
-            filteredList = new ScrollingList(this, 0, 17, width, 12) { FillColor = new Color(20, 20, 20) };
-            descriptionBox = new TextBox(this, 0, 29, width, 15) { FillColor = new Color(20, 20, 20) };
+            equipmentList = new ScrollingList(this, 0, 1, width, 12) { FillColor = new Color4(20, 20, 20, 255) };
+            filteredList = new ScrollingList(this, 0, 17, width, 12) { FillColor = new Color4(20, 20, 20, 255) };
+            descriptionBox = new TextBox(this, 0, 29, width, 15) { FillColor = new Color4(20, 20, 20, 255) };
 
             equipButton = new Button(this, "Equip", 0, 13, 14, 3);
             unequipButton = new Button(this, "Unequip", 14, 13, 14, 3);
@@ -1464,7 +1467,7 @@ namespace Roguelike.Engine.UI.Interfaces
                 else
                 {
                     item.ListText += "{[EMPTY]}";
-                    item.TextColor = Color.White;
+                    item.TextColor = Color4.White;
                 }
 
                 equipmentList.Items.Add(item);
@@ -1477,7 +1480,7 @@ namespace Roguelike.Engine.UI.Interfaces
                 equipmentList.Items[equipmentList.Items.Count - 2].TextColor = Inventory.TwoHand.TextColor;
 
                 equipmentList.Items[equipmentList.Items.Count - 1].ListText = "  OH - {[Two Handed]}";
-                equipmentList.Items[equipmentList.Items.Count - 1].TextColor = new Color(100, 100, 100);
+                equipmentList.Items[equipmentList.Items.Count - 1].TextColor = new Color4(100, 100, 100, 255);
             }
 
             //Filtered Inventory List
@@ -1509,13 +1512,13 @@ namespace Roguelike.Engine.UI.Interfaces
             position = new Point(x, y);
             size = new Point(width, height);
 
-            hotbar = hotbar;
+            this.hotbar = hotbar;
 
             spellbookTitle = new Title(this, "-=Spell Boox=-", width / 2, 0);
 
-            spellList = new ScrollingList(this, 0, 1, Size.X, 15) { FillColor = new Color(20, 20, 20) };
+            spellList = new ScrollingList(this, 0, 1, Size.X, 15) { FillColor = new Color4(20, 20, 20, 255) };
             castSpellButton = new Button(this, "Cast", 0, 16, Size.X, 3);
-            spellDescription = new TextBox(this, 0, 19, Size.X, Size.Y - 19) { FillColor = new Color(20, 20, 20) };
+            spellDescription = new TextBox(this, 0, 19, Size.X, Size.Y - 19) { FillColor = new Color4(20, 20, 20, 255) };
 
             spellList.Selected += spellList_Selected;
             castSpellButton.Click += castSpellButton_Click;

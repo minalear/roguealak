@@ -1,7 +1,7 @@
 ﻿using System;
-using Roguelike.Engine.UI;
+using OpenTK.Input;
+using OpenTK.Graphics;
 using Roguelike.Engine.UI.Controls;
-using Roguelike.Core;
 
 namespace Roguelike.Engine.UI.Interfaces
 {
@@ -16,11 +16,11 @@ namespace Roguelike.Engine.UI.Interfaces
         public OptionsInterface()
         {
             mainTitle = new Title(this, "Roguealak", GraphicConsole.BufferWidth / 2, 2, Title.TextAlignModes.Center);
-            mainTitle.TextColor = Color.Red;
+            mainTitle.TextColor = Color4.Red;
 
-            continueGame = new Button(this, "Continue", GraphicConsole.BufferWidth / 2 - 15, 10, 30, 3) { KeyShortcut = Keys.Escape };
+            continueGame = new Button(this, "Continue", GraphicConsole.BufferWidth / 2 - 15, 10, 30, 3) { KeyShortcut = Key.Escape };
             saveQuitButton = new Button(this, "Save and Quit", GraphicConsole.BufferWidth / 2 - 15, 14, 30, 3);
-            quitButton = new Button(this, "Quit", GraphicConsole.BufferWidth / 2 - 15, 18, 30, 3) { KeyShortcut = Keys.Q };
+            quitButton = new Button(this, "Quit", GraphicConsole.BufferWidth / 2 - 15, 18, 30, 3) { KeyShortcut = Key.Q };
 
             continueGame.Click += continueGame_Pressed;
             saveQuitButton.Click += saveQuitButton_Pressed;

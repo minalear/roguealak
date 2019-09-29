@@ -1,5 +1,5 @@
 ﻿using System;
-using Roguelike.Engine.UI;
+using OpenTK.Graphics;
 using Roguelike.Engine.UI.Controls;
 using Roguelike.Core;
 using Roguelike.Core.Stats;
@@ -29,9 +29,9 @@ namespace Roguelike.Engine.UI.Interfaces
             rightUnit = new PlayerStats(null) { UnitName = "Janodolph", Gender = "Male", Class = "Magician" };
 
             //leftUnit = ClassGenerator.GenerateRandomStats();
-            leftUnit.ParentEntity = new Game.Entities.Player(null) { X = 0, Y = 0 };
+            leftUnit.ParentEntity = new Core.Entities.Player(null) { X = 0, Y = 0 };
             //rightUnit = ClassGenerator.GenerateRandomStats();
-            rightUnit.ParentEntity = new Game.Entities.Player(null) { X = 1, Y = 0 };
+            rightUnit.ParentEntity = new Core.Entities.Player(null) { X = 1, Y = 0 };
 
             leftUnit.SetInitialStats();
             rightUnit.SetInitialStats();
@@ -41,14 +41,14 @@ namespace Roguelike.Engine.UI.Interfaces
             //Unit One
             hpBarOne = new BarTitle(this, 22, 5, "HP", 15);
             mpBarOne = new BarTitle(this, 39, 5, "MP", 15);
-            mpBarOne.BarColor = Color.DodgerBlue;
-            mpBarOne.FillColor = Color.DarkBlue;
+            mpBarOne.BarColor = Color4.DodgerBlue;
+            mpBarOne.FillColor = Color4.DarkBlue;
 
             //Unit Two
             hpBarTwo = new BarTitle(this, 70, 5, "HP", 15);
             mpBarTwo = new BarTitle(this, 87, 5, "MP", 15);
-            mpBarTwo.BarColor = Color.DodgerBlue;
-            mpBarTwo.FillColor = Color.DarkBlue;
+            mpBarTwo.BarColor = Color4.DodgerBlue;
+            mpBarTwo.FillColor = Color4.DarkBlue;
 
             leftUnitName = new Title(this, leftUnit.UnitName + " the " + leftUnit.Class, 38, 3, Title.TextAlignModes.Center);
             rightUnitName = new Title(this, rightUnit.UnitName + " the " + rightUnit.Class, 86, 3, Title.TextAlignModes.Center);
@@ -207,7 +207,7 @@ namespace Roguelike.Engine.UI.Interfaces
                 "Spl Avd: " + leftUnit.SpellAvoidance + "<br><br>";
 
             leftUnitInfo.Text += "Applied Effects<br>";
-            foreach (Game.Combat.Effect effect in leftUnit.AppliedEffects)
+            foreach (Core.Combat.Effect effect in leftUnit.AppliedEffects)
                 leftUnitInfo.Text += effect.EffectName + "<br>";
 
             rightUnitInfo.Text =
@@ -230,7 +230,7 @@ namespace Roguelike.Engine.UI.Interfaces
                 "Spl Avd: " + rightUnit.SpellAvoidance + "<br><br>";
 
             rightUnitInfo.Text += "Applied Effects<br>";
-            foreach (Game.Combat.Effect effect in rightUnit.AppliedEffects)
+            foreach (Core.Combat.Effect effect in rightUnit.AppliedEffects)
                 rightUnitInfo.Text += effect.EffectName + "<br>";
         }
         private void setAbilitiesToBars()
@@ -252,8 +252,8 @@ namespace Roguelike.Engine.UI.Interfaces
             leftUnit = new PlayerStats(null) { UnitName = "Randolph", Gender = "Male", Class = "Warrior" };
             rightUnit = new PlayerStats(null) { UnitName = "Janodolph", Gender = "Male", Class = "Magician" };
 
-            leftUnit.ParentEntity = new Game.Entities.Player(null) { X = 0, Y = 0 };
-            rightUnit.ParentEntity = new Game.Entities.Player(null) { X = 1, Y = 0 };
+            leftUnit.ParentEntity = new Core.Entities.Player(null) { X = 0, Y = 0 };
+            rightUnit.ParentEntity = new Core.Entities.Player(null) { X = 1, Y = 0 };
 
             leftUnit.SetInitialStats();
             rightUnit.SetInitialStats();
@@ -338,12 +338,12 @@ namespace Roguelike.Engine.UI.Interfaces
         {
             if (leftUnit.AbilityList.Count >= index + 1)
             {
-                if (leftUnit.AbilityList[index].TargetingType == Game.Combat.TargetingTypes.EntityTarget)
+                if (leftUnit.AbilityList[index].TargetingType == Core.Combat.TargetingTypes.EntityTarget)
                 {
                     CombatManager.PerformAbility(leftUnit, rightUnit, leftUnit.AbilityList[index]);
                     combatTurn();
                 }
-                else if (leftUnit.AbilityList[index].TargetingType == Game.Combat.TargetingTypes.Self)
+                else if (leftUnit.AbilityList[index].TargetingType == Core.Combat.TargetingTypes.Self)
                 {
                     CombatManager.PerformAbility(leftUnit, leftUnit, leftUnit.AbilityList[index]);
                     combatTurn();
@@ -354,12 +354,12 @@ namespace Roguelike.Engine.UI.Interfaces
         {
             if (rightUnit.AbilityList.Count >= index + 1)
             {
-                if (rightUnit.AbilityList[index].TargetingType == Game.Combat.TargetingTypes.EntityTarget)
+                if (rightUnit.AbilityList[index].TargetingType == Core.Combat.TargetingTypes.EntityTarget)
                 {
                     CombatManager.PerformAbility(rightUnit, leftUnit, rightUnit.AbilityList[index]);
                     combatTurn();
                 }
-                else if (rightUnit.AbilityList[index].TargetingType == Game.Combat.TargetingTypes.Self)
+                else if (rightUnit.AbilityList[index].TargetingType == Core.Combat.TargetingTypes.Self)
                 {
                     CombatManager.PerformAbility(rightUnit, rightUnit, rightUnit.AbilityList[index]);
                     combatTurn();

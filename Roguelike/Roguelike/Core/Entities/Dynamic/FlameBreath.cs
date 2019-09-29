@@ -25,7 +25,7 @@ namespace Roguelike.Core.Entities.Dynamic
             isSolid = false;
         }
 
-        public override void DrawStep(Box2 viewport)
+        public override void DrawStep(Rectangle viewport)
         {
             double angle = Math.Atan2(direction.Y, direction.X);
 

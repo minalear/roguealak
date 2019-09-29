@@ -27,7 +27,7 @@ namespace Roguelike.Core.Entities
             EntityType = EntityTypes.Other;
         }
 
-        public override void DrawStep(Box2 viewport)
+        public override void DrawStep(Rectangle viewport)
         {
             if (drawExplosionRadius)
                 drawExplosion(viewport);
@@ -64,7 +64,7 @@ namespace Roguelike.Core.Entities
             GameManager.Player.UpdateStep();
         }
 
-        private void drawExplosion(Box2 viewport)
+        private void drawExplosion(Rectangle viewport)
         {
             for (int angle = 0; angle < 360; angle += 1)
             {
@@ -87,7 +87,7 @@ namespace Roguelike.Core.Entities
         {
             return explosionColors[RNG.Next(0, explosionColors.Length)];
         }
-        private void putChar(char ch, int x, int y, Box2 viewport)
+        private void putChar(char ch, int x, int y, Rectangle viewport)
         {
             int pointX = x - GameManager.CameraOffset.X + viewport.X;
             int pointY = y - GameManager.CameraOffset.Y + viewport.Y;

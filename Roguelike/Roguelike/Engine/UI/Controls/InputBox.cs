@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using OpenTK.Graphics;
 
 namespace Roguelike.Engine.UI.Controls
 {
@@ -32,7 +30,7 @@ namespace Roguelike.Engine.UI.Controls
         {
             clearArea();
 
-            GraphicConsole.SetColors(Color.Transparent, fillColor);
+            GraphicConsole.SetColors(Color4.Transparent, fillColor);
             DrawingUtilities.DrawRect(Position.X, Position.Y, Size.X, Size.Y, ' ', true);
 
             if (text != string.Empty)
@@ -49,7 +47,7 @@ namespace Roguelike.Engine.UI.Controls
             if (hasFocus)
             {
                 #region HasFocus Branch
-                cursorCounter += gameTime.ElapsedGameTime.TotalMilliseconds;
+                cursorCounter += gameTime.ElapsedTime.TotalMilliseconds;
 
                 if (cursorCounter >= cursorFlickerRate * 2)
                     cursorCounter = 0.0;
@@ -152,8 +150,8 @@ namespace Roguelike.Engine.UI.Controls
         }
 
         private string text;
-        private Color textColor = Color.White;
-        private Color fillColor = Color.Black;
+        private Color4 textColor = Color4.White;
+        private Color4 fillColor = Color4.Black;
 
         private bool hasFocus = false;
         private bool isMultiline = false;
@@ -170,8 +168,8 @@ namespace Roguelike.Engine.UI.Controls
 
         #region Properties
         public string Text { get { return text; } set { text = value; } }
-        public Color TextColor { get { return textColor; } set { textColor = value; } }
-        public Color FillColor { get { return fillColor; } set { fillColor = value; } }
+        public Color4 TextColor { get { return textColor; } set { textColor = value; } }
+        public Color4 FillColor { get { return fillColor; } set { fillColor = value; } }
         public bool HasFocus { get { return hasFocus; } set { hasFocus = value; } }
         //public bool IsMultiline { get { return isMultiline; } set { isMultiline = value; } }
         public bool ShowCursor { get { return showCursor; } set { showCursor = value; } }

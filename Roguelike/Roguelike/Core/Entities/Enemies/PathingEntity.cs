@@ -36,7 +36,7 @@ namespace Roguelike.Core.Entities
             };
         }
 
-        public override void DrawStep(Box2 viewport)
+        public override void DrawStep(Rectangle viewport)
         {
             base.DrawStep(viewport);
         }

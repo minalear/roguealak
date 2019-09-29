@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using OpenTK.Graphics;
 using Roguelike.Engine.UI.Controls;
 using Roguelike.Core;
 using Roguelike.Core.Stats;
@@ -100,7 +101,7 @@ namespace Roguelike.Engine.UI.Interfaces
 
             popupControl = new Popup(this);
 
-            character = new TokenTile() { Token = '@', ForegroundColor = Color.Black, BackgroundColor = Color.Black };
+            character = new TokenTile() { Token = '@', ForegroundColor = Color4.Black, BackgroundColor = Color4.Black };
             colorLeftButton = new Button(this, "«", 8, 40, 2, 3);
             colorRightButton = new Button(this, "» ", 15, 40, 2, 3);
 
@@ -362,9 +363,9 @@ namespace Roguelike.Engine.UI.Interfaces
         private int getModAmount()
         {
             TimeSpan pressed = new TimeSpan(0, 0, 0, 0, 125);
-            if (InputManager.KeyWasPressedFor(Keys.LeftShift, pressed))
+            if (InputManager.KeyWasPressedFor(OpenTK.Input.Key.LShift, pressed))
                 return 5;
-            else if (InputManager.KeyWasPressedFor(Keys.LeftControl, pressed))
+            else if (InputManager.KeyWasPressedFor(OpenTK.Input.Key.LControl, pressed))
                 return 10;
             return 1;
         }

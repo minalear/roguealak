@@ -30,7 +30,7 @@ namespace Roguelike.Engine.UI.Controls
             isAbsolute = false;
             IsVisible = true;
 
-            parent = parent;
+            this.parent = parent;
             parent.Children.Add(this);
             children = new List<Control>();
         }

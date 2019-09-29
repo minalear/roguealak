@@ -1,4 +1,5 @@
 ﻿using System;
+using OpenTK.Graphics;
 using Roguelike.Core;
 using Roguelike.Core.Entities;
 using Roguelike.Core.Items;
@@ -196,7 +197,7 @@ namespace Roguelike.Engine.Factories
             int roomsToGenerate = 25;
             for (int i = 0; i < roomsToGenerate; i++)
             {
-                Rectangle roomRect = new Rectangle();
+                var roomRect = new Rectangle();
 
                 do
                 {
@@ -226,7 +227,7 @@ namespace Roguelike.Engine.Factories
                     }
                 }
 
-                Room room = new Room() { X = roomRect.X, Y = roomRect.Y, Width = roomRect.Width, Height = roomRect.Height };
+                var room = new Room() { X = roomRect.X, Y = roomRect.Y, Width = roomRect.Width, Height = roomRect.Height };
                 level.Rooms.Add(room);
             }
 
@@ -312,7 +313,7 @@ namespace Roguelike.Engine.Factories
             source.Entities.Add(source.DownwardLadder);
             target.Entities.Add(target.UpwardLadder);
 
-            target.UpwardLadder.ForegroundColor = Color.DarkGoldenrod;
+            target.UpwardLadder.ForegroundColor = Color4.DarkGoldenrod;
         }
         public static Level GenerateWinShrine(Level level)
         {

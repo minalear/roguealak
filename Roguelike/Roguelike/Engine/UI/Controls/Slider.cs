@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using OpenTK.Graphics;
 
 namespace Roguelike.Engine.UI.Controls
 {
@@ -24,12 +22,12 @@ namespace Roguelike.Engine.UI.Controls
 
             if (mode == SliderModes.Horizontal)
             {
-                size = new Point(size, 1);
+                this.size = new Point(size, 1);
                 railToken = '═';
             }
             else
             {
-                size = new Point(1, size);
+                this.size = new Point(1, size);
                 railToken = '║';
             }
 
@@ -76,8 +74,7 @@ namespace Roguelike.Engine.UI.Controls
         {
             setBarPosition();
 
-            if (ValueChanged != null)
-                ValueChanged(this, currentValue / 100f);
+            ValueChanged?.Invoke(this, currentValue / 100f);
         }
 
         private void setBarPosition()
@@ -110,9 +107,9 @@ namespace Roguelike.Engine.UI.Controls
         private char railToken = '═';
         private char barToken = '▓';
 
-        private Color barColor = Color.LightGray;
-        private Color railColor = Color.DarkGray;
-        private Color fillColor = Color.Black;
+        private Color4 barColor = Color4.LightGray;
+        private Color4 railColor = Color4.DarkGray;
+        private Color4 fillColor = Color4.Black;
         private int scrollSize;
 
         private float currentValue = 0f;
@@ -121,9 +118,9 @@ namespace Roguelike.Engine.UI.Controls
         public SliderModes SliderMode { get { return sliderMode; } set { sliderMode = value; } }
         public char RailToken { get { return railToken; } set { railToken = value; } }
         public char BarToken { get { return barToken; } set { barToken = value; } }
-        public Color BarColor { get { return barColor; } set { barColor = value; } }
-        public Color RailColor { get { return railColor; } set { railColor = value; } }
-        public Color FillColor { get { return fillColor; } set { fillColor = value; } }
+        public Color4 BarColor { get { return barColor; } set { barColor = value; } }
+        public Color4 RailColor { get { return railColor; } set { railColor = value; } }
+        public Color4 FillColor { get { return fillColor; } set { fillColor = value; } }
         public float Value { get { return currentValue; } set { currentValue = value; onValueChange(); } }
 
         public enum SliderModes { Horizontal, Vertical }

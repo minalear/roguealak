@@ -1,4 +1,5 @@
 ﻿using System;
+using OpenTK.Graphics;
 
 namespace Roguelike.Engine
 {
@@ -75,34 +76,34 @@ namespace Roguelike.Engine
             return text;
         }
 
-        public static Color GetColor(string colorName)
+        public static Color4 GetColor(string colorName)
         {
             colorName = colorName.ToLower();
 
             if (colorName == "red")
-                return Color.Red;
+                return Color4.Red;
             if (colorName == "blue")
-                return new Color(80, 109, 255);
+                return new Color4(80, 109, 255, 255);
             if (colorName == "yellow")
-                return Color.Yellow;
+                return Color4.Yellow;
             if (colorName == "green")
-                return Color.Green;
+                return Color4.Green;
             if (colorName == "orange")
-                return Color.Orange;
+                return Color4.Orange;
             if (colorName == "purple")
-                return Color.Purple;
+                return Color4.Purple;
             if (colorName == "cyan")
-                return Color.Cyan;
+                return Color4.Cyan;
             if (colorName == "pink")
-                return Color.Pink;
+                return Color4.Pink;
             if (colorName == "gray")
-                return Color.Gray;
+                return Color4.Gray;
             if (colorName == "darkgray")
-                return Color.DarkGray;
+                return Color4.DarkGray;
             if (colorName == "transparent" || colorName == "clear")
-                return Color.Transparent;
+                return Color4.Transparent;
 
-            return Color.White;
+            return Color4.White;
         }
     }
     public static class DrawingUtilities
@@ -186,9 +187,9 @@ namespace Roguelike.Engine
             }
         }
 
-        public static Color BlendColor(Color colorOne, Color colorTwo, int intensity)
+        public static Color4 BlendColor(Color4 colorOne, Color4 colorTwo, int intensity)
         {
-            return new Color((colorOne.R + colorTwo.R) / 2, (colorOne.G + colorTwo.G) / 2, (colorOne.B + colorTwo.B) / 2);
+            return new Color4((colorOne.R + colorTwo.R) / 2, (colorOne.G + colorTwo.G) / 2, (colorOne.B + colorTwo.B) / 2, 255);
         }
 
         public static Point GetScreenPositionFromWorld(Point point)

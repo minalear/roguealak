@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Roguelike.Engine.UI;
+using OpenTK.Graphics;
 
 namespace Roguelike.Engine.UI.Controls
 {
@@ -48,7 +46,7 @@ namespace Roguelike.Engine.UI.Controls
         {
             if (visible)
             {
-                elapsedTime += gameTime.ElapsedGameTime.Milliseconds;
+                elapsedTime += gameTime.ElapsedTime.Milliseconds;
 
                 if (elapsedTime >= duration)
                 {
@@ -67,8 +65,8 @@ namespace Roguelike.Engine.UI.Controls
         {
             visible = true;
 
-            message = message;
-            duration = duration;
+            this.message = message;
+            this.duration = duration;
 
             elapsedTime = 0.0;
 
@@ -79,7 +77,7 @@ namespace Roguelike.Engine.UI.Controls
         {
             visible = true;
 
-            message = message;
+            this.message = message;
             duration = message.Length * timePerCharacter;
 
             elapsedTime = 0.0;
@@ -131,10 +129,10 @@ namespace Roguelike.Engine.UI.Controls
         private double duration = 0.0;
         private double elapsedTime = 0.0;
 
-        private Color textColor = Color.White;
-        private Color fillColor = Color.Black;
-        private Color borderColor = Color.Red;
-        private Color borderFill = Color.Black;
+        private Color4 textColor = Color4.White;
+        private Color4 fillColor = Color4.Black;
+        private Color4 borderColor = Color4.Red;
+        private Color4 borderFill = Color4.Black;
         private char borderToken = '∙';
 
         private bool isMultilined = false;
@@ -142,9 +140,9 @@ namespace Roguelike.Engine.UI.Controls
 
         private double timePerCharacter = 100.0;
 
-        public Color TextColor { get { return textColor; } set { textColor = value; } }
-        public Color FillColor { get { return fillColor; } set { fillColor = value; } }
-        public Color BorderColor { get { return borderColor; } set { borderColor = value; } }
+        public Color4 TextColor { get { return textColor; } set { textColor = value; } }
+        public Color4 FillColor { get { return fillColor; } set { fillColor = value; } }
+        public Color4 BorderColor { get { return borderColor; } set { borderColor = value; } }
         public char BorderToken { get { return borderToken; } set { borderToken = value; } }
     }
 }
