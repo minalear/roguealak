@@ -37,7 +37,7 @@ namespace Roguelike.Core.Combat.Abilities
                         int x = (int)(x0 + 0.5 + r * Math.Cos(angle));
                         int y = (int)(y0 + 0.5 + r * Math.Sin(angle));
 
-                        int result = RNG.Next(0, 250);
+                        int result = Engine.RNG.Next(0, 250);
                         if (level.GetEntity(x, y) == null && result <= 2 && !level.IsOutOfBounds(x, y))
                         {
                             Bomb bomb = new Bomb(level, 20) { X = x, Y = y };

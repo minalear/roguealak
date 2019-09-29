@@ -1,73 +1,61 @@
 using System;
+using OpenTK;
 using Roguelike.Engine;
 using Roguelike.Core;
 using Roguelike.Engine.UI;
+using Roguelike.Engine.Console;
 
 namespace Roguelike
 {
     public class MainGame : Engine.Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-
         public MainGame()
         {
-            graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
+            Content = new ContentManager();
 
-            GraphicConsole.Initialize(graphics, Window);
+            GraphicConsole.Instance = new GraphicConsole(this, 125, 50);
 
-            GraphicConsole.BufferWidth = 125;
-            GraphicConsole.BufferHeight = 50;
-
-            GraphicConsole.Scale = Vector2.One;
-            GraphicConsole.DisplayCursor = false;
-
-            IsMouseVisible = true;
+            //GraphicConsole.Instance.Scale = Vector2.One;
+            //GraphicConsole.Instance.DisplayCursor = false;
         }
 
-        protected override void Initialize()
+        public override void Initialize()
         {
             Engine.Factories.NameGenerator.Initialize();
             CombatManager.Initialize();
-            InputManager.Initialize();
+            InputManager.Initialize(this);
             InterfaceManager.Initialize();
 
             base.Initialize();
         }
 
-        protected override void LoadContent()
+        public override void LoadContent()
         {
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            GraphicConsole.LoadSpriteBatch(spriteBatch, Content);
             GameManager.Initialize();
 
             GameManager.UpdateStep();
             GameManager.DrawStep();
         }
 
-        protected override void UnloadContent()
+        public override void UnloadContent()
         {
 
         }
 
-        protected override void Update(GameTime gameTime)
+        public override void UpdateFrame(GameTime gameTime)
         {
-            GraphicConsole.Update(gameTime);
+            GraphicConsole.Instance.UpdateFrame(gameTime);
             InterfaceManager.Update(gameTime);
             InputManager.Update(gameTime);
 
-            base.Update(gameTime);
+            base.UpdateFrame(gameTime);
         }
 
-        protected override void Draw(GameTime gameTime)
+        public override void RenderFrame(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Black);
+            GraphicConsole.Instance.RenderFrame();
 
-            GraphicConsole.Draw(gameTime);
-
-            base.Draw(gameTime);
+            base.RenderFrame(gameTime);
         }
     }
 }

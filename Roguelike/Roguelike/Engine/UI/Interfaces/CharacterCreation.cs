@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using OpenTK.Input;
 using OpenTK.Graphics;
+using Roguelike.Engine.Console;
 using Roguelike.Engine.UI.Controls;
 using Roguelike.Core;
 using Roguelike.Core.Stats;
@@ -14,8 +16,8 @@ namespace Roguelike.Engine.UI.Interfaces
     {
         public CharacterCreation()
         {
-            mainTitle = new Title(this, "Character Creation", GraphicConsole.BufferWidth / 2, 1, Title.TextAlignModes.Center);
-            backButton = new Button(this, "X", GraphicConsole.BufferWidth - 1, 0, 1, 1) { KeyShortcut = Keys.Escape };
+            mainTitle = new Title(this, "Character Creation", GraphicConsole.Instance.BufferWidth / 2, 1, Title.TextAlignModes.Center);
+            backButton = new Button(this, "X", GraphicConsole.Instance.BufferWidth - 1, 0, 1, 1) { KeyShortcut = Key.Escape };
             backButton.Click += backButton_Click;          
 
             itemLists = new ScrollingList(this, 35, 4, 25, 34);
@@ -23,9 +25,9 @@ namespace Roguelike.Engine.UI.Interfaces
             informationBox = new TextBox(this, 88, 4, 35, 34);
             detailedStatBox = new TextBox(this, 63, 4, 22, 34);
 
-            nextButton = new Button(this, "Next", GraphicConsole.BufferWidth - 6, GraphicConsole.BufferHeight - 4, 6, 3);
+            nextButton = new Button(this, "Next", GraphicConsole.Instance.BufferWidth - 6, GraphicConsole.Instance.BufferHeight - 4, 6, 3);
             nextButton.Click += nextButton_Click;
-            resetButton = new Button(this, "Reset", nextButton.Position.X - 8, GraphicConsole.BufferHeight - 4, 7, 3);
+            resetButton = new Button(this, "Reset", nextButton.Position.X - 8, GraphicConsole.Instance.BufferHeight - 4, 7, 3);
             resetButton.Click += resetButton_Click;
 
             #region General Box
@@ -50,9 +52,9 @@ namespace Roguelike.Engine.UI.Interfaces
             traitSelect.Click += traitSelect_Click;
             #endregion
             #region Stats Box
-            physicalTitle = new Title(this, "Physical Stats", 16, 13, Title.TextAlignModes.Center) { TextColor = Color.LightGray };
-            spellTitle = new Title(this, "Spell Stats", 16, 21, Title.TextAlignModes.Center) { TextColor = Color.LightGray };
-            defenseTitle = new Title(this, "Defensive Stats", 16, 29, Title.TextAlignModes.Center) { TextColor = Color.LightGray };
+            physicalTitle = new Title(this, "Physical Stats", 16, 13, Title.TextAlignModes.Center) { TextColor = Color4.LightGray };
+            spellTitle = new Title(this, "Spell Stats", 16, 21, Title.TextAlignModes.Center) { TextColor = Color4.LightGray };
+            defenseTitle = new Title(this, "Defensive Stats", 16, 29, Title.TextAlignModes.Center) { TextColor = Color4.LightGray };
             freePointsTitle = new Title(this, "Free Points: ##", 3, 37, Title.TextAlignModes.Left);
             statsResetButton = new Button(this, "Reset Points", 20, 37, 12, 1);
             statsResetButton.Click += statsResetButton_Click;
@@ -131,14 +133,14 @@ namespace Roguelike.Engine.UI.Interfaces
             //General Box
             drawBox(1, 3, 12, 9);
             drawBox(12, 3, 32, 9);
-            GraphicConsole.Put('╦', 12, 3);
-            GraphicConsole.Put('╩', 12, 9);
+            GraphicConsole.Instance.Put('╦', 12, 3);
+            GraphicConsole.Instance.Put('╩', 12, 9);
 
             //Stats Box
             drawBox(1, 11, 32, 36);
             drawBox(1, 36, 32, 38);
-            GraphicConsole.Put('╠',  1, 36);
-            GraphicConsole.Put('╣', 32, 36);
+            GraphicConsole.Instance.Put('╠',  1, 36);
+            GraphicConsole.Instance.Put('╣', 32, 36);
 
             //List Box
             drawBox(34, 3, 60, 38);
@@ -153,74 +155,74 @@ namespace Roguelike.Engine.UI.Interfaces
             drawBox(1, 39, 7, 43);
             drawBox(7, 39, 17, 43);
 
-            GraphicConsole.SetCursor(10, 40);
-            GraphicConsole.Write("Color");
+            GraphicConsole.Instance.SetCursor(10, 40);
+            GraphicConsole.Instance.Write("Color");
 
-            GraphicConsole.Put('╦', 7, 39);
-            GraphicConsole.Put('╩', 7, 43);
+            GraphicConsole.Instance.Put('╦', 7, 39);
+            GraphicConsole.Instance.Put('╩', 7, 43);
 
-            GraphicConsole.SetColors(character.ForegroundColor, character.BackgroundColor);
-            GraphicConsole.Put(character.Token, 4, 41);
-            GraphicConsole.ResetColor();
+            GraphicConsole.Instance.SetColors(character.ForegroundColor, character.BackgroundColor);
+            GraphicConsole.Instance.Put(character.Token, 4, 41);
+            GraphicConsole.Instance.ClearColor();
         }
         private void writeStatInfo()
         {
             #region Melee Physical Damage Stats
             //Strength
-            GraphicConsole.SetCursor(10, 14); GraphicConsole.Write(strRaceMod.ToString());
-            GraphicConsole.SetCursor(14, 14); GraphicConsole.Write(strClassMod.ToString());
-            GraphicConsole.SetCursor(18, 14); GraphicConsole.Write(strFreeMod.ToString());
-            GraphicConsole.SetCursor(22, 14); GraphicConsole.Write((strRaceMod + strClassMod + strFreeMod).ToString());
+            GraphicConsole.Instance.SetCursor(10, 14); GraphicConsole.Instance.Write(strRaceMod.ToString());
+            GraphicConsole.Instance.SetCursor(14, 14); GraphicConsole.Instance.Write(strClassMod.ToString());
+            GraphicConsole.Instance.SetCursor(18, 14); GraphicConsole.Instance.Write(strFreeMod.ToString());
+            GraphicConsole.Instance.SetCursor(22, 14); GraphicConsole.Instance.Write((strRaceMod + strClassMod + strFreeMod).ToString());
 
             //Agility
-            GraphicConsole.SetCursor(10, 16); GraphicConsole.Write(agiRaceMod.ToString());
-            GraphicConsole.SetCursor(14, 16); GraphicConsole.Write(agiClassMod.ToString());
-            GraphicConsole.SetCursor(18, 16); GraphicConsole.Write(agiFreeMod.ToString());
-            GraphicConsole.SetCursor(22, 16); GraphicConsole.Write((agiRaceMod + agiClassMod + agiFreeMod).ToString());
+            GraphicConsole.Instance.SetCursor(10, 16); GraphicConsole.Instance.Write(agiRaceMod.ToString());
+            GraphicConsole.Instance.SetCursor(14, 16); GraphicConsole.Instance.Write(agiClassMod.ToString());
+            GraphicConsole.Instance.SetCursor(18, 16); GraphicConsole.Instance.Write(agiFreeMod.ToString());
+            GraphicConsole.Instance.SetCursor(22, 16); GraphicConsole.Instance.Write((agiRaceMod + agiClassMod + agiFreeMod).ToString());
 
             //Dexterity
-            GraphicConsole.SetCursor(10, 18); GraphicConsole.Write(dexRaceMod.ToString());
-            GraphicConsole.SetCursor(14, 18); GraphicConsole.Write(dexClassMod.ToString());
-            GraphicConsole.SetCursor(18, 18); GraphicConsole.Write(dexFreeMod.ToString());
-            GraphicConsole.SetCursor(22, 18); GraphicConsole.Write((dexRaceMod + dexClassMod + dexFreeMod).ToString());
+            GraphicConsole.Instance.SetCursor(10, 18); GraphicConsole.Instance.Write(dexRaceMod.ToString());
+            GraphicConsole.Instance.SetCursor(14, 18); GraphicConsole.Instance.Write(dexClassMod.ToString());
+            GraphicConsole.Instance.SetCursor(18, 18); GraphicConsole.Instance.Write(dexFreeMod.ToString());
+            GraphicConsole.Instance.SetCursor(22, 18); GraphicConsole.Instance.Write((dexRaceMod + dexClassMod + dexFreeMod).ToString());
             #endregion
             #region Spell Physical Damage Stats
             //Intelligence
-            GraphicConsole.SetCursor(10, 22); GraphicConsole.Write(intRaceMod.ToString());
-            GraphicConsole.SetCursor(14, 22); GraphicConsole.Write(intClassMod.ToString());
-            GraphicConsole.SetCursor(18, 22); GraphicConsole.Write(intFreeMod.ToString());
-            GraphicConsole.SetCursor(22, 22); GraphicConsole.Write((intRaceMod + intClassMod + intFreeMod).ToString());
+            GraphicConsole.Instance.SetCursor(10, 22); GraphicConsole.Instance.Write(intRaceMod.ToString());
+            GraphicConsole.Instance.SetCursor(14, 22); GraphicConsole.Instance.Write(intClassMod.ToString());
+            GraphicConsole.Instance.SetCursor(18, 22); GraphicConsole.Instance.Write(intFreeMod.ToString());
+            GraphicConsole.Instance.SetCursor(22, 22); GraphicConsole.Instance.Write((intRaceMod + intClassMod + intFreeMod).ToString());
 
             //Willpower
-            GraphicConsole.SetCursor(10, 24); GraphicConsole.Write(wilRaceMod.ToString());
-            GraphicConsole.SetCursor(14, 24); GraphicConsole.Write(wilClassMod.ToString());
-            GraphicConsole.SetCursor(18, 24); GraphicConsole.Write(wilFreeMod.ToString());
-            GraphicConsole.SetCursor(22, 24); GraphicConsole.Write((wilRaceMod + wilClassMod + wilFreeMod).ToString());
+            GraphicConsole.Instance.SetCursor(10, 24); GraphicConsole.Instance.Write(wilRaceMod.ToString());
+            GraphicConsole.Instance.SetCursor(14, 24); GraphicConsole.Instance.Write(wilClassMod.ToString());
+            GraphicConsole.Instance.SetCursor(18, 24); GraphicConsole.Instance.Write(wilFreeMod.ToString());
+            GraphicConsole.Instance.SetCursor(22, 24); GraphicConsole.Instance.Write((wilRaceMod + wilClassMod + wilFreeMod).ToString());
 
             //Wisdom
-            GraphicConsole.SetCursor(10, 26); GraphicConsole.Write(wisRaceMod.ToString());
-            GraphicConsole.SetCursor(14, 26); GraphicConsole.Write(wisClassMod.ToString());
-            GraphicConsole.SetCursor(18, 26); GraphicConsole.Write(wisFreeMod.ToString());
-            GraphicConsole.SetCursor(22, 26); GraphicConsole.Write((wisRaceMod + wisClassMod + wisFreeMod).ToString());
+            GraphicConsole.Instance.SetCursor(10, 26); GraphicConsole.Instance.Write(wisRaceMod.ToString());
+            GraphicConsole.Instance.SetCursor(14, 26); GraphicConsole.Instance.Write(wisClassMod.ToString());
+            GraphicConsole.Instance.SetCursor(18, 26); GraphicConsole.Instance.Write(wisFreeMod.ToString());
+            GraphicConsole.Instance.SetCursor(22, 26); GraphicConsole.Instance.Write((wisRaceMod + wisClassMod + wisFreeMod).ToString());
             #endregion
             #region Defense Stats
             //Constitution
-            GraphicConsole.SetCursor(10, 30); GraphicConsole.Write(conRaceMod.ToString());
-            GraphicConsole.SetCursor(14, 30); GraphicConsole.Write(conClassMod.ToString());
-            GraphicConsole.SetCursor(18, 30); GraphicConsole.Write(conFreeMod.ToString());
-            GraphicConsole.SetCursor(22, 30); GraphicConsole.Write((conRaceMod + conClassMod + conFreeMod).ToString());
+            GraphicConsole.Instance.SetCursor(10, 30); GraphicConsole.Instance.Write(conRaceMod.ToString());
+            GraphicConsole.Instance.SetCursor(14, 30); GraphicConsole.Instance.Write(conClassMod.ToString());
+            GraphicConsole.Instance.SetCursor(18, 30); GraphicConsole.Instance.Write(conFreeMod.ToString());
+            GraphicConsole.Instance.SetCursor(22, 30); GraphicConsole.Instance.Write((conRaceMod + conClassMod + conFreeMod).ToString());
 
             //Endurance
-            GraphicConsole.SetCursor(10, 32); GraphicConsole.Write(endRaceMod.ToString());
-            GraphicConsole.SetCursor(14, 32); GraphicConsole.Write(endClassMod.ToString());
-            GraphicConsole.SetCursor(18, 32); GraphicConsole.Write(endFreeMod.ToString());
-            GraphicConsole.SetCursor(22, 32); GraphicConsole.Write((endRaceMod + endClassMod + endFreeMod).ToString());
+            GraphicConsole.Instance.SetCursor(10, 32); GraphicConsole.Instance.Write(endRaceMod.ToString());
+            GraphicConsole.Instance.SetCursor(14, 32); GraphicConsole.Instance.Write(endClassMod.ToString());
+            GraphicConsole.Instance.SetCursor(18, 32); GraphicConsole.Instance.Write(endFreeMod.ToString());
+            GraphicConsole.Instance.SetCursor(22, 32); GraphicConsole.Instance.Write((endRaceMod + endClassMod + endFreeMod).ToString());
 
             //Fortitude
-            GraphicConsole.SetCursor(10, 34); GraphicConsole.Write(frtRaceMod.ToString());
-            GraphicConsole.SetCursor(14, 34); GraphicConsole.Write(frtClassMod.ToString());
-            GraphicConsole.SetCursor(18, 34); GraphicConsole.Write(frtFreeMod.ToString());
-            GraphicConsole.SetCursor(22, 34); GraphicConsole.Write((frtRaceMod + frtClassMod + frtFreeMod).ToString());
+            GraphicConsole.Instance.SetCursor(10, 34); GraphicConsole.Instance.Write(frtRaceMod.ToString());
+            GraphicConsole.Instance.SetCursor(14, 34); GraphicConsole.Instance.Write(frtClassMod.ToString());
+            GraphicConsole.Instance.SetCursor(18, 34); GraphicConsole.Instance.Write(frtFreeMod.ToString());
+            GraphicConsole.Instance.SetCursor(22, 34); GraphicConsole.Instance.Write((frtRaceMod + frtClassMod + frtFreeMod).ToString());
             #endregion
         }
         private void setStatInformation(string stat)
@@ -251,10 +253,10 @@ namespace Roguelike.Engine.UI.Interfaces
             DrawingUtilities.DrawLine(x0, y0 + 1, x0, y1 - 1, '║');
             DrawingUtilities.DrawLine(x1, y0 + 1, x1, y1 - 1, '║');
 
-            GraphicConsole.Put('╔', x0, y0);
-            GraphicConsole.Put('╚', x0, y1);
-            GraphicConsole.Put('╗', x1, y0);
-            GraphicConsole.Put('╝', x1, y1);
+            GraphicConsole.Instance.Put('╔', x0, y0);
+            GraphicConsole.Instance.Put('╚', x0, y1);
+            GraphicConsole.Instance.Put('╗', x1, y0);
+            GraphicConsole.Instance.Put('╝', x1, y1);
         }
 
         private void addToStat(string stat)
@@ -496,7 +498,7 @@ namespace Roguelike.Engine.UI.Interfaces
             chosenTrait = null;
 
             colorIndex = 0;
-            character.ForegroundColor = Color.Black;
+            character.ForegroundColor = Color4.Black;
 
             itemLists.ClearSelection();
 
@@ -576,7 +578,7 @@ namespace Roguelike.Engine.UI.Interfaces
             itemLists.ClearSelection();
 
             colorIndex = 0;
-            character.ForegroundColor = Color.Black;
+            character.ForegroundColor = Color4.Black;
         }
         void cultureSelect_Click(object sender, MouseButtons button)
         {
@@ -590,7 +592,7 @@ namespace Roguelike.Engine.UI.Interfaces
                 itemLists.ClearSelection();
 
                 colorIndex = 0;
-                character.ForegroundColor = Color.Black;
+                character.ForegroundColor = Color4.Black;
             }
             else
                 popupControl.DisplayMessage("You must choose a Race first.");
@@ -658,7 +660,7 @@ namespace Roguelike.Engine.UI.Interfaces
                 frtRaceMod = tempStats.Strength;
 
                 colorIndex = 0;
-                character.ForegroundColor = Color.Black;
+                character.ForegroundColor = Color4.Black;
             }
             else if (selectionMode == SelectionModes.Culture)
             {

@@ -1,4 +1,5 @@
 using System;
+using Roguelike.Engine;
 
 namespace Roguelike
 {
@@ -15,7 +16,7 @@ namespace Roguelike
 
         public static void Exit()
         {
-            game.Exit();
+            //game.Exit();
         }
 
         public static MainGame Game { get { return game; } }

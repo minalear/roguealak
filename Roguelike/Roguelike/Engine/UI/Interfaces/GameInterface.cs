@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using OpenTK;
 using OpenTK.Input;
 using OpenTK.Graphics;
-using Roguelike.Engine.UI;
+using Roguelike.Engine.Console;
 using Roguelike.Engine.UI.Controls;
 using Roguelike.Core;
 using Roguelike.Core.Combat;
@@ -29,11 +29,11 @@ namespace Roguelike.Engine.UI.Interfaces
         public GameInterface()
         {
             healthBar = new BarTitle(this, 2, 1, "HP", 20);
-            manaBar = new BarTitle(this, GraphicConsole.BufferWidth - 23, 1, "MP", 20);
+            manaBar = new BarTitle(this, GraphicConsole.Instance.BufferWidth - 23, 1, "MP", 20);
             manaBar.BarColor = Color4.DodgerBlue;
             manaBar.FillColor = Color4.DarkBlue;
 
-            playerTitle = new Title(this, "[Name] of [Town] the [Title] - Level ##", GraphicConsole.BufferWidth / 2, 1, Title.TextAlignModes.Center);
+            playerTitle = new Title(this, "[Name] of [Town] the [Title] - Level ##", GraphicConsole.Instance.BufferWidth / 2, 1, Title.TextAlignModes.Center);
 
             popupControl = new Popup(this);
 
@@ -43,7 +43,7 @@ namespace Roguelike.Engine.UI.Interfaces
             rightPanelButton = new Button(this, "▓", 123, 48, 1, 1);
             rightPanelButton.Click += rightPanelButton_Pressed;
 
-            combatLogButton = new Button(this, "<. .>", GraphicConsole.BufferWidth / 2 - 2, GraphicConsole.BufferHeight - 2, 5, 1);
+            combatLogButton = new Button(this, "<. .>", GraphicConsole.Instance.BufferWidth / 2 - 2, GraphicConsole.Instance.BufferHeight - 2, 5, 1);
             combatLogButton.Click += combatLogButton_Pressed;
 
             hotbar = new Hotbar(this);
@@ -51,8 +51,8 @@ namespace Roguelike.Engine.UI.Interfaces
             rightTab = new RightTab(this, hotbar);
             bottomTab = new BottomTab(this, leftTab, rightTab);
 
-            menuButton = new Button(this, "Menu", 3, GraphicConsole.BufferHeight - 2, 6, 1);
-            mapButton = new Button(this, "Map*", 10, GraphicConsole.BufferHeight - 2, 6, 1) { KeyShortcut = Key.M };
+            menuButton = new Button(this, "Menu", 3, GraphicConsole.Instance.BufferHeight - 2, 6, 1);
+            mapButton = new Button(this, "Map*", 10, GraphicConsole.Instance.BufferHeight - 2, 6, 1) { KeyShortcut = Key.M };
 
             menuButton.Click += menuButton_Pressed;
             mapButton.Click += mapButton_Pressed;
@@ -183,39 +183,39 @@ namespace Roguelike.Engine.UI.Interfaces
 
         private void drawInterfaceBars()
         {
-            GraphicConsole.ResetColor();
+            GraphicConsole.Instance.ClearColor();
 
             //Header Bar
-            DrawingUtilities.DrawLine(1, 1, GraphicConsole.BufferWidth - 2, 1, ' ');
-            DrawingUtilities.DrawLine(0, 0, GraphicConsole.BufferWidth, 0, '═');
-            DrawingUtilities.DrawLine(0, 2, GraphicConsole.BufferWidth, 2, '═');
+            DrawingUtilities.DrawLine(1, 1, GraphicConsole.Instance.BufferWidth - 2, 1, ' ');
+            DrawingUtilities.DrawLine(0, 0, GraphicConsole.Instance.BufferWidth, 0, '═');
+            DrawingUtilities.DrawLine(0, 2, GraphicConsole.Instance.BufferWidth, 2, '═');
 
             //Left Bar
-            DrawingUtilities.DrawLine(0, 1, 0, GraphicConsole.BufferHeight - 2, '│');
+            DrawingUtilities.DrawLine(0, 1, 0, GraphicConsole.Instance.BufferHeight - 2, '│');
 
             //Right Bar
-            DrawingUtilities.DrawLine(GraphicConsole.BufferWidth, 1, GraphicConsole.BufferWidth, GraphicConsole.BufferHeight - 2, '│');
+            DrawingUtilities.DrawLine(GraphicConsole.Instance.BufferWidth, 1, GraphicConsole.Instance.BufferWidth, GraphicConsole.Instance.BufferHeight - 2, '│');
 
             //Bottom Bar
-            DrawingUtilities.DrawLine(1, GraphicConsole.BufferHeight - 2, GraphicConsole.BufferWidth - 2, GraphicConsole.BufferHeight - 2, ' ');
-            DrawingUtilities.DrawLine(0, GraphicConsole.BufferHeight, GraphicConsole.BufferWidth, GraphicConsole.BufferHeight, '─');
-            DrawingUtilities.DrawLine(0, GraphicConsole.BufferHeight - 3, GraphicConsole.BufferWidth, GraphicConsole.BufferHeight - 3, '─');
+            DrawingUtilities.DrawLine(1, GraphicConsole.Instance.BufferHeight - 2, GraphicConsole.Instance.BufferWidth - 2, GraphicConsole.Instance.BufferHeight - 2, ' ');
+            DrawingUtilities.DrawLine(0, GraphicConsole.Instance.BufferHeight, GraphicConsole.Instance.BufferWidth, GraphicConsole.Instance.BufferHeight, '─');
+            DrawingUtilities.DrawLine(0, GraphicConsole.Instance.BufferHeight - 3, GraphicConsole.Instance.BufferWidth, GraphicConsole.Instance.BufferHeight - 3, '─');
 
             //Bottom Left Corner
-            GraphicConsole.Put('├', 0, GraphicConsole.BufferHeight - 3);
-            GraphicConsole.Put('└', 0, GraphicConsole.BufferHeight);
+            GraphicConsole.Instance.Put('├', 0, GraphicConsole.Instance.BufferHeight - 3);
+            GraphicConsole.Instance.Put('└', 0, GraphicConsole.Instance.BufferHeight);
 
             //Bottom Right Corner
-            GraphicConsole.Put('┤', GraphicConsole.BufferWidth, GraphicConsole.BufferHeight - 3);
-            GraphicConsole.Put('┘', GraphicConsole.BufferWidth, GraphicConsole.BufferHeight);
+            GraphicConsole.Instance.Put('┤', GraphicConsole.Instance.BufferWidth, GraphicConsole.Instance.BufferHeight - 3);
+            GraphicConsole.Instance.Put('┘', GraphicConsole.Instance.BufferWidth, GraphicConsole.Instance.BufferHeight);
 
             //Top Left Corner
-            GraphicConsole.Put('╒', 0, 0);
-            GraphicConsole.Put('╞', 0, 2);
+            GraphicConsole.Instance.Put('╒', 0, 0);
+            GraphicConsole.Instance.Put('╞', 0, 2);
 
             //Top Right Corner
-            GraphicConsole.Put('╕', GraphicConsole.BufferWidth, 0);
-            GraphicConsole.Put('╡', GraphicConsole.BufferWidth, 2);
+            GraphicConsole.Instance.Put('╕', GraphicConsole.Instance.BufferWidth, 0);
+            GraphicConsole.Instance.Put('╡', GraphicConsole.Instance.BufferWidth, 2);
         }
     }
     public class BarTitle : Control
@@ -232,21 +232,21 @@ namespace Roguelike.Engine.UI.Interfaces
 
         public override void DrawStep()
         {
-            GraphicConsole.SetColors(Color4.Transparent, fillColor);
+            GraphicConsole.Instance.SetColors(Color4.Transparent, fillColor);
             DrawingUtilities.DrawLine(Position.X, Position.Y, Position.X + Size.X, Position.Y, ' ');
 
             if (percent != 0)
             {
                 int barLength = (int)(percent * Size.X);
-                GraphicConsole.SetColors(Color4.Transparent, barColor);
+                GraphicConsole.Instance.SetColors(Color4.Transparent, barColor);
                 DrawingUtilities.DrawLine(Position.X, Position.Y, Position.X + barLength, Position.Y, ' ');
             }
 
-            GraphicConsole.SetCursor(Position.X + (Size.X / 2 - formattedText.Length / 2), Position.Y);
+            GraphicConsole.Instance.SetCursor(Position.X + (Size.X / 2 - formattedText.Length / 2), Position.Y);
             for (int i = 0; i < formattedText.Length; i++)
             {
-                GraphicConsole.SetColors(textColor, GraphicConsole.GetColorsAtTile(GraphicConsole.CursorLeft, GraphicConsole.CursorTop)[1]);
-                GraphicConsole.Write(formattedText[i]);
+                GraphicConsole.Instance.SetColors(textColor, GraphicConsole.Instance.GetColorsAtTile(GraphicConsole.Instance.CursorLeft, GraphicConsole.Instance.CursorTop).Item2);
+                GraphicConsole.Instance.Write(formattedText[i]);
             }
 
             base.DrawStep();
@@ -318,15 +318,15 @@ namespace Roguelike.Engine.UI.Interfaces
 
             //Border
             DrawingUtilities.DrawLine(Size.X + 1, Position.Y, Size.X + 1, Size.Y + 2, '│');
-            GraphicConsole.Put('╤', Size.X + 1, Position.Y - 1);
-            GraphicConsole.Put('┴', Size.X + 1, Size.Y + 3);
+            GraphicConsole.Instance.Put('╤', Size.X + 1, Position.Y - 1);
+            GraphicConsole.Instance.Put('┴', Size.X + 1, Size.Y + 3);
 
             //Border Around Toggle Switches
             DrawingUtilities.DrawLine(Position.X + Size.X + 2, Position.Y, Position.X + Size.X + 2, Position.Y + 4, '│');
-            GraphicConsole.Put('╤', Position.X + Size.X + 2, Position.Y - 1);
-            GraphicConsole.Put('┘', Position.X + Size.X + 2, Position.Y + 4);
-            GraphicConsole.Put('─', Position.X + Size.X + 1, Position.Y + 4);
-            GraphicConsole.Put('├', Position.X + Size.X, Position.Y + 4);
+            GraphicConsole.Instance.Put('╤', Position.X + Size.X + 2, Position.Y - 1);
+            GraphicConsole.Instance.Put('┘', Position.X + Size.X + 2, Position.Y + 4);
+            GraphicConsole.Instance.Put('─', Position.X + Size.X + 1, Position.Y + 4);
+            GraphicConsole.Instance.Put('├', Position.X + Size.X, Position.Y + 4);
 
             base.DrawStep();
         }
@@ -374,8 +374,8 @@ namespace Roguelike.Engine.UI.Interfaces
         public RightTab(Interface parent, Hotbar hotbar)
             : base(parent)
         {
-            Size = new Point(28, GraphicConsole.BufferHeight - 6);
-            Position = new Point(GraphicConsole.BufferWidth - Size.X - 1, 3);
+            Size = new Point(28, GraphicConsole.Instance.BufferHeight - 6);
+            Position = new Point(GraphicConsole.Instance.BufferWidth - Size.X - 1, 3);
 
             inventoryButton = new ToggleButton(this, "⌂", -2, 0, 1, 1) { Enabled = true };
             equipmentButton = new ToggleButton(this, "♦", -2, 1, 1, 1) { Enabled = false };
@@ -402,15 +402,15 @@ namespace Roguelike.Engine.UI.Interfaces
 
             //Left Border
             DrawingUtilities.DrawLine(Position.X - 1, Position.Y, Position.X - 1, Size.Y + 2, '│');
-            GraphicConsole.Put('╤', Position.X - 1, Position.Y - 1);
-            GraphicConsole.Put('┴', Position.X - 1, Size.Y + 3);
+            GraphicConsole.Instance.Put('╤', Position.X - 1, Position.Y - 1);
+            GraphicConsole.Instance.Put('┴', Position.X - 1, Size.Y + 3);
 
             //Border Around Toggle Switches
             DrawingUtilities.DrawLine(Position.X - 3, Position.Y, Position.X - 3, Position.Y + 4, '│');
-            GraphicConsole.Put('╤', Position.X - 3, Position.Y - 1);
-            GraphicConsole.Put('└', Position.X - 3, Position.Y + 4);
-            GraphicConsole.Put('─', Position.X - 2, Position.Y + 4);
-            GraphicConsole.Put('┤', Position.X - 1, Position.Y + 4);
+            GraphicConsole.Instance.Put('╤', Position.X - 3, Position.Y - 1);
+            GraphicConsole.Instance.Put('└', Position.X - 3, Position.Y + 4);
+            GraphicConsole.Instance.Put('─', Position.X - 2, Position.Y + 4);
+            GraphicConsole.Instance.Put('┤', Position.X - 1, Position.Y + 4);
 
             base.DrawStep();
         }
@@ -531,7 +531,7 @@ namespace Roguelike.Engine.UI.Interfaces
             int panelWidth, panelHeight;
 
             x = 30;
-            y = GraphicConsole.BufferHeight - 10;
+            y = GraphicConsole.Instance.BufferHeight - 10;
             panelWidth = 94;
             panelHeight = 7;
 
@@ -539,21 +539,21 @@ namespace Roguelike.Engine.UI.Interfaces
             DrawingUtilities.DrawRect(x, y, panelWidth - x + 1, panelHeight, ' ', true);
 
             if (leftTab.IsVisible)
-                GraphicConsole.Put('├', x - 1, y - 1);
+                GraphicConsole.Instance.Put('├', x - 1, y - 1);
             else
             {
-                DrawingUtilities.DrawLine(x - 1, y, x - 1, GraphicConsole.BufferHeight - 4, '│');
-                GraphicConsole.Put('┌', x - 1, y - 1);
-                GraphicConsole.Put('┴', x - 1, GraphicConsole.BufferHeight - 3);
+                DrawingUtilities.DrawLine(x - 1, y, x - 1, GraphicConsole.Instance.BufferHeight - 4, '│');
+                GraphicConsole.Instance.Put('┌', x - 1, y - 1);
+                GraphicConsole.Instance.Put('┴', x - 1, GraphicConsole.Instance.BufferHeight - 3);
             }
 
             if (rightTab.IsVisible)
-                GraphicConsole.Put('┤', panelWidth + 1, y - 1);
+                GraphicConsole.Instance.Put('┤', panelWidth + 1, y - 1);
             else
             {
-                DrawingUtilities.DrawLine(panelWidth + 1, y, panelWidth + 1, GraphicConsole.BufferHeight - 4, '│');
-                GraphicConsole.Put('┐', panelWidth + 1, y - 1);
-                GraphicConsole.Put('┴', panelWidth + 1, GraphicConsole.BufferHeight - 3);
+                DrawingUtilities.DrawLine(panelWidth + 1, y, panelWidth + 1, GraphicConsole.Instance.BufferHeight - 4, '│');
+                GraphicConsole.Instance.Put('┐', panelWidth + 1, y - 1);
+                GraphicConsole.Instance.Put('┴', panelWidth + 1, GraphicConsole.Instance.BufferHeight - 3);
             }
         }
     }
@@ -825,39 +825,39 @@ namespace Roguelike.Engine.UI.Interfaces
                 {
                     if (isInRange)
                     {
-                        GraphicConsole.SetColors(foregroundColorCursor, backgroundColorCursor);
-                        GraphicConsole.Put(CURSOR, point0.X, point0.Y);
+                        GraphicConsole.Instance.SetColors(foregroundColorCursor, backgroundColorCursor);
+                        GraphicConsole.Instance.Put(CURSOR, point0.X, point0.Y);
                     }
                     else
                     {
-                        GraphicConsole.SetColors(Color4.Red, backgroundColorCursor);
-                        GraphicConsole.Put('X', point0.X, point0.Y);
+                        GraphicConsole.Instance.SetColors(Color4.Red, backgroundColorCursor);
+                        GraphicConsole.Instance.Put('X', point0.X, point0.Y);
                     }
                 }
                 else if (aimingMode == AimingModes.Line)
                 {
-                    /*GraphicConsole.SetColors(foregroundColorFill, backgroundColorFill);
+                    /*GraphicConsole.Instance.SetColors(foregroundColorFill, backgroundColorFill);
                     DrawingUtilities.DrawLine(point0.X, point0.Y, point1.X, point1.Y, FILL_CURSOR);*/
                     GameManager.CurrentLevel.DrawLine(MatrixLevels.Effect, DrawingUtilities.GetWorldPositionFromScreen(point0), DrawingUtilities.GetWorldPositionFromScreen(point1), FILL_CURSOR);
 
-                    GraphicConsole.SetColors(foregroundColorCursor, backgroundColorCursor);
-                    GraphicConsole.Put(CURSOR, point0.X, point0.Y);
+                    GraphicConsole.Instance.SetColors(foregroundColorCursor, backgroundColorCursor);
+                    GraphicConsole.Instance.Put(CURSOR, point0.X, point0.Y);
                 }
                 else if (aimingMode == AimingModes.DrawLine)
                 {
                     if (point1 == new Point(-1, -1))
                     {
-                        GraphicConsole.SetColors(foregroundColorCursor, backgroundColorCursor);
-                        GraphicConsole.Put(CURSOR, point0.X, point0.Y);
+                        GraphicConsole.Instance.SetColors(foregroundColorCursor, backgroundColorCursor);
+                        GraphicConsole.Instance.Put(CURSOR, point0.X, point0.Y);
                     }
                     else
                     {
-                        GraphicConsole.SetColors(foregroundColorFill, backgroundColorFill);
+                        GraphicConsole.Instance.SetColors(foregroundColorFill, backgroundColorFill);
                         DrawingUtilities.DrawLine(point0.X, point0.Y, point1.X, point1.Y, FILL_CURSOR);
 
-                        GraphicConsole.SetColors(foregroundColorCursor, backgroundColorCursor);
-                        GraphicConsole.Put(CURSOR, point0.X, point0.Y);
-                        GraphicConsole.Put(CURSOR, point1.X, point1.Y);
+                        GraphicConsole.Instance.SetColors(foregroundColorCursor, backgroundColorCursor);
+                        GraphicConsole.Instance.Put(CURSOR, point0.X, point0.Y);
+                        GraphicConsole.Instance.Put(CURSOR, point1.X, point1.Y);
                     }
                 }
             }
@@ -1186,9 +1186,9 @@ namespace Roguelike.Engine.UI.Interfaces
         }
         public override void DrawStep()
         {
-            GraphicConsole.SetColors(Color4.White, new Color4(20, 20, 20, 255));
+            GraphicConsole.Instance.SetColors(Color4.White, new Color4(20, 20, 20, 255));
             DrawingUtilities.DrawLine(Position.X, Position.Y + 1, Position.X + Size.X - 1, Position.Y + 1, ' ');
-            GraphicConsole.ResetColor();
+            GraphicConsole.Instance.ClearColor();
 
             base.DrawStep();
         }

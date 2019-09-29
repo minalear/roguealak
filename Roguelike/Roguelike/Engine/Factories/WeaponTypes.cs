@@ -27,19 +27,19 @@ namespace Roguelike.Engine.Factories
 
         public int GetRandomDamage()
         {
-            return RNG.Next(DamageMin, DamageMax);
+            return Engine.RNG.Next(DamageMin, DamageMax);
         }
         public int GetRandomWeight()
         {
-            return RNG.Next(WeightMin, WeightMax);
+            return Engine.RNG.Next(WeightMin, WeightMax);
         }
         public StatWeights GetRandomStatWeight()
         {
-            return WeaponStats[RNG.Next(0, WeaponStats.Length)];
+            return WeaponStats[Engine.RNG.Next(0, WeaponStats.Length)];
         }
         public EquipmentSlots GetRandomSlot()
         {
-            return Slots[RNG.Next(0, Slots.Length)];
+            return Slots[Engine.RNG.Next(0, Slots.Length)];
         }
 
         public Weapon GenerateWeapon()

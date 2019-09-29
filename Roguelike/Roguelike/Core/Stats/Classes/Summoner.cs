@@ -120,7 +120,7 @@ namespace Roguelike.Core.Stats.Classes
             private Point ownerPosition;
 
             private int sightRange = 6;
-            private int attackRange = 12;
+            // private int attackRange = 12;
 
             private List<Point> path = new List<Point>();
             private bool hasTarget = false;

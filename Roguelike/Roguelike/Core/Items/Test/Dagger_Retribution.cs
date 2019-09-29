@@ -45,7 +45,7 @@ namespace Roguelike.Core.Items.Test
                         damage += (int)(damage * 0.5);
 
                     int chanceToHit = (int)(GameManager.Player.StatsPackage.PhysicalHaste.EffectiveValue);
-                    if (RNG.Next(0, 100) < chanceToHit)
+                    if (Engine.RNG.Next(0, 100) < chanceToHit)
                         results.AppliedDamage += damage - results.UsedAbility.CalculateAbsorption(damage, results.Target);
                 }
             }

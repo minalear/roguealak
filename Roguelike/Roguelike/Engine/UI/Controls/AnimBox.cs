@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Timers;
+using Roguelike.Engine.Console;
 
 namespace Roguelike.Engine.UI.Controls
 {
@@ -32,8 +33,8 @@ namespace Roguelike.Engine.UI.Controls
         public override void DrawStep()
         {
             clearArea();
-            GraphicConsole.SetCursor(Position.X, Position.Y);
-            GraphicConsole.Write(animationFrames[currentFrame]);
+            GraphicConsole.Instance.SetCursor(Position.X, Position.Y);
+            GraphicConsole.Instance.Write(animationFrames[currentFrame]);
 
             base.DrawStep();
         }

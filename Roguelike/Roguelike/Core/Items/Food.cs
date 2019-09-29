@@ -1,6 +1,7 @@
 ﻿using System;
 using Roguelike.Core.Combat;
 using Roguelike.Core.Stats;
+using Roguelike.Engine;
 
 namespace Roguelike.Core.Items
 {

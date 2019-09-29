@@ -18,6 +18,10 @@ namespace Roguelike.Engine
                 return (X == ((Point)obj).X && Y == ((Point)obj).Y);
             return false;
         }
+        public override int GetHashCode()
+        {
+            return (X + Y).GetHashCode();
+        }
 
         public static bool operator ==(Point a, Point b)
         {

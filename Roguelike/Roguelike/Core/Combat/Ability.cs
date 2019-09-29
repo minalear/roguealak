@@ -63,14 +63,14 @@ namespace Roguelike.Core.Combat
         {
             CombatResults results = new CombatResults() { DidMiss = true, DidAvoid = false, Caster = caster, Target = target, UsedAbility = this };
 
-            int result = RNG.Next(0, 100);
+            int result = Engine.RNG.Next(0, 100);
             if (abilityType == AbilityTypes.Physical)
             {
                 if (result <= caster.PhysicalHitChance.EffectiveValue)
                 {
                     results.DidMiss = false;
 
-                    result = RNG.Next(0, 100);
+                    result = Engine.RNG.Next(0, 100);
                     if (result <= target.PhysicalAvoidance.EffectiveValue)
                         results.DidAvoid = true;
                     else
@@ -83,7 +83,7 @@ namespace Roguelike.Core.Combat
                 {
                     results.DidMiss = false;
 
-                    result = RNG.Next(0, 100);
+                    result = Engine.RNG.Next(0, 100);
                     if (result <= target.SpellAvoidance.EffectiveValue)
                         results.DidAvoid = true;
                     else
@@ -95,7 +95,7 @@ namespace Roguelike.Core.Combat
         }
         public bool DoesAttackCrit(StatsPackage caster)
         {
-            int result = RNG.Next(0, 100);
+            int result = Engine.RNG.Next(0, 100);
             if (abilityType == AbilityTypes.Physical)
             {
                 if (result <= caster.PhysicalCritChance.EffectiveValue)

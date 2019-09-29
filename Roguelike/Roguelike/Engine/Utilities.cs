@@ -1,5 +1,6 @@
 ﻿using System;
 using OpenTK.Graphics;
+using Roguelike.Engine.Console;
 
 namespace Roguelike.Engine
 {
@@ -116,7 +117,7 @@ namespace Roguelike.Engine
                 {
                     for (int k = x; k < x + width; k++)
                     {
-                        GraphicConsole.Put(token, k, l);
+                        GraphicConsole.Instance.Put(token, k, l);
                     }
                 }
             }
@@ -127,14 +128,14 @@ namespace Roguelike.Engine
 
                 for (int l = y; l <= y + height; l++)
                 {
-                    GraphicConsole.Put(token, x, l);
-                    GraphicConsole.Put(token, x + width, l);
+                    GraphicConsole.Instance.Put(token, x, l);
+                    GraphicConsole.Instance.Put(token, x + width, l);
                 }
 
                 for (int k = x; k <= x + width; k++)
                 {
-                    GraphicConsole.Put(token, k, y);
-                    GraphicConsole.Put(token, k, y + height);
+                    GraphicConsole.Instance.Put(token, k, y);
+                    GraphicConsole.Instance.Put(token, k, y + height);
                 }
             }
         }
@@ -149,9 +150,9 @@ namespace Roguelike.Engine
             {
                 /*if (!(steep ? plot(y, x) : plot(x, y))) return;*/
                 if (steep)
-                    GraphicConsole.Put(token, y, x);
+                    GraphicConsole.Instance.Put(token, y, x);
                 else
-                    GraphicConsole.Put(token, x, y);
+                    GraphicConsole.Instance.Put(token, x, y);
 
                 err = err - dY;
                 if (err < 0) { y += ystep; err += dX; }
@@ -166,14 +167,14 @@ namespace Roguelike.Engine
 
             while (x >= y)
             {
-                GraphicConsole.Put(token, x + xp, y + yp);
-                GraphicConsole.Put(token, y + xp, x + yp);
-                GraphicConsole.Put(token, -x + xp, y + yp);
-                GraphicConsole.Put(token, -y + xp, x + yp);
-                GraphicConsole.Put(token, -x + xp, -y + yp);
-                GraphicConsole.Put(token, -y + xp, -x + yp);
-                GraphicConsole.Put(token, x + xp, -y + yp);
-                GraphicConsole.Put(token, y + xp, -x + yp);
+                GraphicConsole.Instance.Put(token, x + xp, y + yp);
+                GraphicConsole.Instance.Put(token, y + xp, x + yp);
+                GraphicConsole.Instance.Put(token, -x + xp, y + yp);
+                GraphicConsole.Instance.Put(token, -y + xp, x + yp);
+                GraphicConsole.Instance.Put(token, -x + xp, -y + yp);
+                GraphicConsole.Instance.Put(token, -y + xp, -x + yp);
+                GraphicConsole.Instance.Put(token, x + xp, -y + yp);
+                GraphicConsole.Instance.Put(token, y + xp, -x + yp);
                 y++;
                 if (radiusError < 0)
                 {
@@ -211,15 +212,15 @@ namespace Roguelike.Engine
     {
         public static float Truncate(this float f, int digits)
         {
-            double mult = System.Math.Pow(10.0, digits);
-            double result = System.Math.Truncate(mult * f) / mult;
+            double mult = Math.Pow(10.0, digits);
+            double result = Math.Truncate(mult * f) / mult;
             return (float)result;
         }
 
         public static double Truncate(this double f, int digits)
         {
-            double mult = System.Math.Pow(10.0, digits);
-            double result = System.Math.Truncate(mult * f) / mult;
+            double mult = Math.Pow(10.0, digits);
+            double result = Math.Truncate(mult * f) / mult;
             return result;
         }
     }

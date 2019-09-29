@@ -4,6 +4,7 @@ using OpenTK.Graphics;
 using Roguelike.Core.Stats;
 using Roguelike.Core.Combat;
 using Roguelike.Engine;
+using Roguelike.Engine.Console;
 
 namespace Roguelike.Core.Entities
 {
@@ -26,8 +27,8 @@ namespace Roguelike.Core.Entities
             {
                 if (!parentLevel.IsOutOfBounds(x, y) && parentLevel.Matrix.TerrainMatrix[x, y].IsVisible)
                 {
-                    GraphicConsole.SetColors(foregroundColor, backgroundColor);
-                    GraphicConsole.Put(token, pointX, pointY);
+                    GraphicConsole.Instance.SetColors(foregroundColor, backgroundColor);
+                    GraphicConsole.Instance.Put(token, pointX, pointY);
                 }
             }
         }

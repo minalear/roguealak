@@ -32,7 +32,7 @@ namespace Roguelike.Core.Entities.Static
         }
         private void spewOutContents()
         {
-            int numItems = RNG.Next(1, 4);
+            int numItems = Engine.RNG.Next(1, 4);
             for (int i = 0; i < numItems; i++)
             {
                 Item item = ItemGenerator.GenerateRandomItem();

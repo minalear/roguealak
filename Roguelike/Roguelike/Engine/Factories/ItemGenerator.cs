@@ -15,7 +15,7 @@ namespace Roguelike.Engine.Factories
     {
         public static Item GenerateRandomItem()
         {
-            int result = RNG.Next(0, 100);
+            int result = Engine.RNG.Next(0, 100);
             if (result <= 17)
                 return WeaponGenerator.GenerateRandomWeapon();
             else if (result <= 34)
@@ -31,7 +31,7 @@ namespace Roguelike.Engine.Factories
         }
         private static ItemTypes getRandomItemType()
         {
-            return (ItemTypes)itemTypes.GetValue(RNG.Next(0, itemTypes.Length));
+            return (ItemTypes)itemTypes.GetValue(Engine.RNG.Next(0, itemTypes.Length));
         }
 
         public static Weapon GenerateRandomWeapon()
@@ -93,43 +93,43 @@ namespace Roguelike.Engine.Factories.Weapons
             if (rarity == Rarities.Common) //Common
             {
                 string[] tags = new string[] { string.Empty, "Basic ", "Chipped ", "Rusted " };
-                name += tags[RNG.Next(0, tags.Length)] + subtype;
+                name += tags[Engine.RNG.Next(0, tags.Length)] + subtype;
 
                 return name;
             }
             else if (rarity == Rarities.Uncommon) //Uncommon
             {
                 string[] tags = new string[] { string.Empty, "Enhanced ", "Solid ", "Improved ", "Hardened ", "Battle-worn " };
-                name += tags[RNG.Next(0, tags.Length)] + subtype;
+                name += tags[Engine.RNG.Next(0, tags.Length)] + subtype;
 
-                if (RNG.Next(0, 100) <= 75)
+                if (Engine.RNG.Next(0, 100) <= 75)
                     return name;
             }
             else if (rarity == Rarities.Rare) //Rare
             {
                 string[] tags = new string[] { string.Empty, "Greater ", "Rare ", "Enchanted ", "Mithril ", "Reinforced " };
-                name += tags[RNG.Next(0, tags.Length)] + subtype;
+                name += tags[Engine.RNG.Next(0, tags.Length)] + subtype;
 
-                if (RNG.Next(0, 100) <= 45)
+                if (Engine.RNG.Next(0, 100) <= 45)
                     return name;
             }
             else if (rarity == Rarities.Epic) //Epic
             {
                 string[] tags = new string[] { string.Empty, "Insane ", "Chaotic ", "Mythical ", "Infused " };
-                name += tags[RNG.Next(0, tags.Length)] + subtype;
+                name += tags[Engine.RNG.Next(0, tags.Length)] + subtype;
 
-                if (RNG.Next(0, 100) <= 15)
+                if (Engine.RNG.Next(0, 100) <= 15)
                     return name;
             }
             else if (rarity == Rarities.Legendary) //Legendary
             {
                 string[] tags = new string[] { "Legendary ", "Cataclysmic ", "Dragonbane ", "Godlike " };
-                name += tags[RNG.Next(0, tags.Length)] + subtype;
+                name += tags[Engine.RNG.Next(0, tags.Length)] + subtype;
             }
             else if (rarity == Rarities.Unique) //Unique
             {
                 string[] tags = new string[] { "Unique " };
-                name += tags[RNG.Next(0, tags.Length)] + subtype;
+                name += tags[Engine.RNG.Next(0, tags.Length)] + subtype;
             }
             #endregion
 
@@ -138,27 +138,27 @@ namespace Roguelike.Engine.Factories.Weapons
             if (weight == StatWeights.Defense)
             {
                 string[] tags = new string[] { "the Sentinel", "the Whale", "the Tank", "the Behemoth", "the Iron Brigade", "the Steelskin", "the Fortress" };
-                name += tags[RNG.Next(0, tags.Length)];
+                name += tags[Engine.RNG.Next(0, tags.Length)];
             }
             else if (weight == StatWeights.MagicalPower)
             {
                 string[] tags = new string[] { "the Hawk", "the Owl", "the Eagle", "the Arcane", "the Spellsword", "the Dragon", "the Mind" };
-                name += tags[RNG.Next(0, tags.Length)];
+                name += tags[Engine.RNG.Next(0, tags.Length)];
             }
             else if (weight == StatWeights.MagicalSpeed)
             {
                 string[] tags = new string[] { "the Sparrow", "the Swift Mind", "the Talon", "the Flame", "Lightning", "the Lover", "the Magician" };
-                name += tags[RNG.Next(0, tags.Length)];
+                name += tags[Engine.RNG.Next(0, tags.Length)];
             }
             else if (weight == StatWeights.PhysicalPower)
             {
                 string[] tags = new string[] { "the Bear", "the Fist", "the Hammer Lords", "Power", "the Caber Toss", "the Ram", "the Brute" };
-                name += tags[RNG.Next(0, tags.Length)];
+                name += tags[Engine.RNG.Next(0, tags.Length)];
             }
             else if (weight == StatWeights.PhysicalSpeed)
             {
                 string[] tags = new string[] { "the Monkey", "the Feline", "the Snake", "the Cobra", "the Bandit", "the Marksman", "the Zephyr" };
-                name += tags[RNG.Next(0, tags.Length)];
+                name += tags[Engine.RNG.Next(0, tags.Length)];
             }
 
             return name;
@@ -167,12 +167,12 @@ namespace Roguelike.Engine.Factories.Weapons
         private static Factories.WeaponTypes getRandomWeaponType()
         {
             Array weaponTypes = Enum.GetValues(typeof(Factories.WeaponTypes));
-            return (Factories.WeaponTypes)weaponTypes.GetValue(RNG.Next(0, weaponTypes.Length));
+            return (Factories.WeaponTypes)weaponTypes.GetValue(Engine.RNG.Next(0, weaponTypes.Length));
         }
         private static int getRandomRarityLevel()
         {
             //1 - Common, 2 - Uncommon, 3 - Rare, 4 - Epic, 5 - Legendary, 6 - Unique
-            int result = RNG.Next(0, 1000);
+            int result = Engine.RNG.Next(0, 1000);
             if (result < 800)
                 return 1;
             else if (result < 900)
@@ -230,7 +230,7 @@ namespace Roguelike.Engine.Factories.Weapons
 
         private static WeaponGenTemplate generateRandomWeaponFramework()
         {
-            return templates[RNG.Next(0, templates.Length)];
+            return templates[Engine.RNG.Next(0, templates.Length)];
         }
         private static StatWeights getStatWeight(Factories.WeaponTypes type)
         {
@@ -293,18 +293,18 @@ namespace Roguelike.Engine.Factories.Weapons
                 //91 - 95  -  Crit Chance
                 //96 - 100 -  Haste
 
-                int result = RNG.Next(1, 101);
+                int result = Engine.RNG.Next(1, 101);
 
                 if (result <= 50)
-                    package.AttackPower += (RNG.NextDouble(1, 10) * multiplier).Truncate(2);
+                    package.AttackPower += (Engine.RNG.NextDouble(1, 10) * multiplier).Truncate(2);
                 else if (result <= 70)
-                    package.PhysicalCritPower += (RNG.NextDouble(0.1, 0.3) * multiplier).Truncate(2);
+                    package.PhysicalCritPower += (Engine.RNG.NextDouble(0.1, 0.3) * multiplier).Truncate(2);
                 else if (result <= 90)
-                    package.PhysicalHitChance += (RNG.NextDouble(2, 6) * multiplier).Truncate(2);
+                    package.PhysicalHitChance += (Engine.RNG.NextDouble(2, 6) * multiplier).Truncate(2);
                 else if (result <= 95)
-                    package.PhysicalCritChance += (RNG.NextDouble(1, 3) * multiplier).Truncate(2);
+                    package.PhysicalCritChance += (Engine.RNG.NextDouble(1, 3) * multiplier).Truncate(2);
                 else if (result <= 100)
-                    package.PhysicalHaste += (RNG.NextDouble(1, 4) * multiplier).Truncate(2);
+                    package.PhysicalHaste += (Engine.RNG.NextDouble(1, 4) * multiplier).Truncate(2);
             }
             return package;
         }
@@ -330,18 +330,18 @@ namespace Roguelike.Engine.Factories.Weapons
                 //76 -  90  -  Attack Power
                 //91 -  100 -  Crit Power
 
-                int result = RNG.Next(1, 101);
+                int result = Engine.RNG.Next(1, 101);
 
                 if (result <= 30)
-                    package.PhysicalCritChance += (RNG.NextDouble(1.0, 3.0) * multiplier).Truncate(2);
+                    package.PhysicalCritChance += (Engine.RNG.NextDouble(1.0, 3.0) * multiplier).Truncate(2);
                 else if (result <= 60)
-                    package.PhysicalHitChance += (RNG.NextDouble(2.0, 6.0) * multiplier).Truncate(2);
+                    package.PhysicalHitChance += (Engine.RNG.NextDouble(2.0, 6.0) * multiplier).Truncate(2);
                 else if (result <= 75)
-                    package.PhysicalHaste += (RNG.NextDouble(1.0, 4.0) * multiplier).Truncate(2);
+                    package.PhysicalHaste += (Engine.RNG.NextDouble(1.0, 4.0) * multiplier).Truncate(2);
                 else if (result <= 90)
-                    package.AttackPower += (RNG.NextDouble(1, 10) * multiplier).Truncate(2);
+                    package.AttackPower += (Engine.RNG.NextDouble(1, 10) * multiplier).Truncate(2);
                 else if (result <= 100)
-                    package.PhysicalCritPower += (RNG.NextDouble(0.1, 0.3) * multiplier).Truncate(2);
+                    package.PhysicalCritPower += (Engine.RNG.NextDouble(0.1, 0.3) * multiplier).Truncate(2);
             }
             return package;
         }
@@ -367,18 +367,18 @@ namespace Roguelike.Engine.Factories.Weapons
                 //76 -  90  -  S Avoidance
                 //91 -  100 -  Health Regen
 
-                int result = RNG.Next(1, 101);
+                int result = Engine.RNG.Next(1, 101);
 
                 if (result <= 30)
-                    package.BonusHealth += (int)(RNG.NextDouble(10, 25) * multiplier).Truncate(2);
+                    package.BonusHealth += (int)(Engine.RNG.NextDouble(10, 25) * multiplier).Truncate(2);
                 else if (result <= 60)
-                    package.PhysicalReduction += (RNG.NextDouble(0.25, 1.5) * multiplier).Truncate(2);
+                    package.PhysicalReduction += (Engine.RNG.NextDouble(0.25, 1.5) * multiplier).Truncate(2);
                 else if (result <= 75)
-                    package.SpellReduction += (RNG.NextDouble(0.2, 1.0) * multiplier).Truncate(2);
+                    package.SpellReduction += (Engine.RNG.NextDouble(0.2, 1.0) * multiplier).Truncate(2);
                 else if (result <= 90)
-                    package.SpellAvoidance += (RNG.NextDouble(0.1, 0.5) * multiplier).Truncate(2);
+                    package.SpellAvoidance += (Engine.RNG.NextDouble(0.1, 0.5) * multiplier).Truncate(2);
                 else if (result <= 100)
-                    package.BonusHealth += (int)(RNG.NextDouble(10, 25) * multiplier).Truncate(2); //TODO: Add Health regen
+                    package.BonusHealth += (int)(Engine.RNG.NextDouble(10, 25) * multiplier).Truncate(2); //TODO: Add Health regen
             }
             return package;
         }
@@ -404,18 +404,18 @@ namespace Roguelike.Engine.Factories.Weapons
                 //91 - 95  -  Crit Chance
                 //96 - 100 -  Haste
 
-                int result = RNG.Next(1, 101);
+                int result = Engine.RNG.Next(1, 101);
 
                 if (result <= 50)
-                    package.SpellPower += (RNG.NextDouble(1, 10) * multiplier).Truncate(2);
+                    package.SpellPower += (Engine.RNG.NextDouble(1, 10) * multiplier).Truncate(2);
                 else if (result <= 70)
-                    package.SpellCritPower += (RNG.NextDouble(0.1, 0.3) * multiplier).Truncate(2);
+                    package.SpellCritPower += (Engine.RNG.NextDouble(0.1, 0.3) * multiplier).Truncate(2);
                 else if (result <= 90)
-                    package.SpellHitChance += (RNG.NextDouble(2, 6) * multiplier).Truncate(2);
+                    package.SpellHitChance += (Engine.RNG.NextDouble(2, 6) * multiplier).Truncate(2);
                 else if (result <= 95)
-                    package.SpellCritChance += (RNG.NextDouble(1, 3) * multiplier).Truncate(2);
+                    package.SpellCritChance += (Engine.RNG.NextDouble(1, 3) * multiplier).Truncate(2);
                 else if (result <= 100)
-                    package.SpellHaste += (RNG.NextDouble(1, 4) * multiplier).Truncate(2);
+                    package.SpellHaste += (Engine.RNG.NextDouble(1, 4) * multiplier).Truncate(2);
             }
             return package;
         }
@@ -441,18 +441,18 @@ namespace Roguelike.Engine.Factories.Weapons
                 //76 -  90  -  Spell Power
                 //91 -  100 -  Crit Power
 
-                int result = RNG.Next(1, 101);
+                int result = Engine.RNG.Next(1, 101);
 
                 if (result <= 30)
-                    package.SpellHaste += (RNG.NextDouble(1, 4) * multiplier).Truncate(2);
+                    package.SpellHaste += (Engine.RNG.NextDouble(1, 4) * multiplier).Truncate(2);
                 else if (result <= 60)
-                    package.PhysicalCritChance += (RNG.NextDouble(1, 3) * multiplier).Truncate(2);
+                    package.PhysicalCritChance += (Engine.RNG.NextDouble(1, 3) * multiplier).Truncate(2);
                 else if (result <= 75)
-                    package.SpellHitChance += (RNG.NextDouble(2, 6) * multiplier).Truncate(2);
+                    package.SpellHitChance += (Engine.RNG.NextDouble(2, 6) * multiplier).Truncate(2);
                 else if (result <= 90)
-                    package.SpellPower += (RNG.NextDouble(1, 10) * multiplier).Truncate(2);
+                    package.SpellPower += (Engine.RNG.NextDouble(1, 10) * multiplier).Truncate(2);
                 else if (result <= 100)
-                    package.SpellCritPower += (RNG.NextDouble(0.1, 0.3) * multiplier).Truncate(2);
+                    package.SpellCritPower += (Engine.RNG.NextDouble(0.1, 0.3) * multiplier).Truncate(2);
             }
             return package;
         }
@@ -510,7 +510,7 @@ namespace Roguelike.Engine.Factories.Armor
 
             armorPiece.ItemRarity = (Rarities)(rarity - 1);
             armorPiece.Name = getRandomName(armorPiece.EquipSlot);
-            armorPiece.Value = RNG.Next(2, 150);
+            armorPiece.Value = Engine.RNG.Next(2, 150);
             armorPiece.ModPackage = getRandomStats(getStatWeight(), rarity, 1.0);
             armorPiece.Description = armorPiece.Name + " - " + armorPiece.EquipSlot.ToString();
 
@@ -520,7 +520,7 @@ namespace Roguelike.Engine.Factories.Armor
         private static int getRandomRarityLevel()
         {
             //1 - Common, 2 - Uncommon, 3 - Rare, 4 - Epic, 5 - Legendary, 6 - Unique
-            int result = RNG.Next(0, 1000);
+            int result = Engine.RNG.Next(0, 1000);
             if (result < 800)
                 return 1;
             else if (result < 900)
@@ -539,67 +539,67 @@ namespace Roguelike.Engine.Factories.Armor
         private static EquipmentSlots getRandomSlot()
         {
             Array slots = Enum.GetValues(typeof(EquipmentSlots));
-            return (EquipmentSlots)slots.GetValue(RNG.Next(0, slots.Length - 4)); //Don't include the weapon slots
+            return (EquipmentSlots)slots.GetValue(Engine.RNG.Next(0, slots.Length - 4)); //Don't include the weapon slots
         }
         private static string getRandomName(EquipmentSlots slot)
         {
             string name = string.Empty;
 
-            int result = RNG.Next(0, 100);
+            int result = Engine.RNG.Next(0, 100);
             if (result <= 15)
             {
                 string[] prefixes = new string[] { "Studded", "Improved", "Forged", "Reforged", "Ehanced", "Bolstered" };
-                name += prefixes[RNG.Next(0, prefixes.Length)] + " ";
+                name += prefixes[Engine.RNG.Next(0, prefixes.Length)] + " ";
             }
 
             if (slot == EquipmentSlots.Head)
             {
                 string[] prefixes = new string[] { "Helm", "Helmet", "Cap", "Hat", "Hood", "Sombrero", "Mask" };
-                name += prefixes[RNG.Next(0, prefixes.Length)] + " of ";
+                name += prefixes[Engine.RNG.Next(0, prefixes.Length)] + " of ";
             }
             else if (slot == EquipmentSlots.Shoulder)
             {
                 string[] prefixes = new string[] { "Shoulderpads", "Cape", "Scarf", "Cloak", "Animal Pelt", "Living Monkey" };
-                name += prefixes[RNG.Next(0, prefixes.Length)] + " of ";
+                name += prefixes[Engine.RNG.Next(0, prefixes.Length)] + " of ";
             }
             else if (slot == EquipmentSlots.Chest)
             {
                 string[] prefixes = new string[] { "Chestpiece", "Jerkin", "Chestplate", "Tanktop", "Robe" };
-                name += prefixes[RNG.Next(0, prefixes.Length)] + " of ";
+                name += prefixes[Engine.RNG.Next(0, prefixes.Length)] + " of ";
             }
             else if (slot == EquipmentSlots.Legs)
             {
                 string[] prefixes = new string[] { "Leggings", "Greaves", "Pants", "Shorts", "Kilt", "Skirt", "Short Shorts", "Capris", "Underwear" };
-                name += prefixes[RNG.Next(0, prefixes.Length)] + " of ";
+                name += prefixes[Engine.RNG.Next(0, prefixes.Length)] + " of ";
             }
             else if (slot == EquipmentSlots.Boots)
             {
                 string[] prefixes = new string[] { "Boots", "Shoes", "Sneakers", "Sneaks", "Sandles", "Crocs" };
-                name += prefixes[RNG.Next(0, prefixes.Length)] + " of ";
+                name += prefixes[Engine.RNG.Next(0, prefixes.Length)] + " of ";
             }
             else if (slot == EquipmentSlots.Gloves)
             {
                 string[] prefixes = new string[] { "Gloves", "Gauntlet", "Fingerless Gloves", "Mittens", "Oven Mits", "Socks" };
-                name += prefixes[RNG.Next(0, prefixes.Length)] + " of ";
+                name += prefixes[Engine.RNG.Next(0, prefixes.Length)] + " of ";
             }
             else if (slot == EquipmentSlots.Neck)
             {
                 string[] prefixes = new string[] { "Necklace", "Amulet", "Choker", "Locket", "Pendant" };
-                name += prefixes[RNG.Next(0, prefixes.Length)] + " of ";
+                name += prefixes[Engine.RNG.Next(0, prefixes.Length)] + " of ";
             }
             else if (slot == EquipmentSlots.Ring)
             {
                 string[] prefixes = new string[] { "Ring", "Band", "Signet" };
-                name += prefixes[RNG.Next(0, prefixes.Length)] + " of ";
+                name += prefixes[Engine.RNG.Next(0, prefixes.Length)] + " of ";
             }
             else if (slot == EquipmentSlots.Relic)
             {
                 string[] prefixes = new string[] { "Relic", "Totem", "Heirloom", "Fetish" };
-                name += prefixes[RNG.Next(0, prefixes.Length)] + " of ";
+                name += prefixes[Engine.RNG.Next(0, prefixes.Length)] + " of ";
             }
 
             string[] suffixes = new string[] { "Power", "the Smith", "Idiocy", "the Flinnan" };
-            name += suffixes[RNG.Next(0, suffixes.Length)];
+            name += suffixes[Engine.RNG.Next(0, suffixes.Length)];
 
             return name;
         }
@@ -607,7 +607,7 @@ namespace Roguelike.Engine.Factories.Armor
         private static StatWeights getStatWeight()
         {
             Array weights = Enum.GetValues(typeof(StatWeights));
-            return (StatWeights)weights.GetValue(RNG.Next(0, weights.Length));
+            return (StatWeights)weights.GetValue(Engine.RNG.Next(0, weights.Length));
         }
 
         private static ModPackage getRandomStats(StatWeights weight, int rarityLevel, double baseMultiplier)
@@ -647,18 +647,18 @@ namespace Roguelike.Engine.Factories.Armor
                 //91 - 95  -  Crit Chance
                 //96 - 100 -  Haste
 
-                int result = RNG.Next(1, 101);
+                int result = Engine.RNG.Next(1, 101);
 
                 if (result <= 50)
-                    package.AttackPower += (RNG.NextDouble(1, 10) * multiplier).Truncate(2);
+                    package.AttackPower += (Engine.RNG.NextDouble(1, 10) * multiplier).Truncate(2);
                 else if (result <= 70)
-                    package.PhysicalCritPower += (RNG.NextDouble(0.1, 0.3) * multiplier).Truncate(2);
+                    package.PhysicalCritPower += (Engine.RNG.NextDouble(0.1, 0.3) * multiplier).Truncate(2);
                 else if (result <= 90)
-                    package.PhysicalHitChance += (RNG.NextDouble(2, 6) * multiplier).Truncate(2);
+                    package.PhysicalHitChance += (Engine.RNG.NextDouble(2, 6) * multiplier).Truncate(2);
                 else if (result <= 95)
-                    package.PhysicalCritChance += (RNG.NextDouble(1, 3) * multiplier).Truncate(2);
+                    package.PhysicalCritChance += (Engine.RNG.NextDouble(1, 3) * multiplier).Truncate(2);
                 else if (result <= 100)
-                    package.PhysicalHaste += (RNG.NextDouble(1, 4) * multiplier).Truncate(2);
+                    package.PhysicalHaste += (Engine.RNG.NextDouble(1, 4) * multiplier).Truncate(2);
             }
             return package;
         }
@@ -684,18 +684,18 @@ namespace Roguelike.Engine.Factories.Armor
                 //76 -  90  -  Attack Power
                 //91 -  100 -  Crit Power
 
-                int result = RNG.Next(1, 101);
+                int result = Engine.RNG.Next(1, 101);
 
                 if (result <= 30)
-                    package.PhysicalCritChance += (RNG.NextDouble(1.0, 3.0) * multiplier).Truncate(2);
+                    package.PhysicalCritChance += (Engine.RNG.NextDouble(1.0, 3.0) * multiplier).Truncate(2);
                 else if (result <= 60)
-                    package.PhysicalHitChance += (RNG.NextDouble(2.0, 6.0) * multiplier).Truncate(2);
+                    package.PhysicalHitChance += (Engine.RNG.NextDouble(2.0, 6.0) * multiplier).Truncate(2);
                 else if (result <= 75)
-                    package.PhysicalHaste += (RNG.NextDouble(1.0, 4.0) * multiplier).Truncate(2);
+                    package.PhysicalHaste += (Engine.RNG.NextDouble(1.0, 4.0) * multiplier).Truncate(2);
                 else if (result <= 90)
-                    package.AttackPower += (RNG.NextDouble(1, 10) * multiplier).Truncate(2);
+                    package.AttackPower += (Engine.RNG.NextDouble(1, 10) * multiplier).Truncate(2);
                 else if (result <= 100)
-                    package.PhysicalCritPower += (RNG.NextDouble(0.1, 0.3) * multiplier).Truncate(2);
+                    package.PhysicalCritPower += (Engine.RNG.NextDouble(0.1, 0.3) * multiplier).Truncate(2);
             }
             return package;
         }
@@ -721,18 +721,18 @@ namespace Roguelike.Engine.Factories.Armor
                 //76 -  90  -  S Avoidance
                 //91 -  100 -  Health Regen
 
-                int result = RNG.Next(1, 101);
+                int result = Engine.RNG.Next(1, 101);
 
                 if (result <= 30)
-                    package.BonusHealth += (int)(RNG.NextDouble(10, 25) * multiplier).Truncate(2);
+                    package.BonusHealth += (int)(Engine.RNG.NextDouble(10, 25) * multiplier).Truncate(2);
                 else if (result <= 60)
-                    package.PhysicalReduction += (RNG.NextDouble(0.25, 1.5) * multiplier).Truncate(2);
+                    package.PhysicalReduction += (Engine.RNG.NextDouble(0.25, 1.5) * multiplier).Truncate(2);
                 else if (result <= 75)
-                    package.SpellReduction += (RNG.NextDouble(0.2, 1.0) * multiplier).Truncate(2);
+                    package.SpellReduction += (Engine.RNG.NextDouble(0.2, 1.0) * multiplier).Truncate(2);
                 else if (result <= 90)
-                    package.SpellAvoidance += (RNG.NextDouble(0.1, 0.5) * multiplier).Truncate(2);
+                    package.SpellAvoidance += (Engine.RNG.NextDouble(0.1, 0.5) * multiplier).Truncate(2);
                 else if (result <= 100)
-                    package.BonusHealth += (int)(RNG.NextDouble(10, 25) * multiplier).Truncate(2); //TODO: Add Health regen
+                    package.BonusHealth += (int)(Engine.RNG.NextDouble(10, 25) * multiplier).Truncate(2); //TODO: Add Health regen
             }
             return package;
         }
@@ -758,18 +758,18 @@ namespace Roguelike.Engine.Factories.Armor
                 //91 - 95  -  Crit Chance
                 //96 - 100 -  Haste
 
-                int result = RNG.Next(1, 101);
+                int result = Engine.RNG.Next(1, 101);
 
                 if (result <= 50)
-                    package.SpellPower += (RNG.NextDouble(1, 10) * multiplier).Truncate(2);
+                    package.SpellPower += (Engine.RNG.NextDouble(1, 10) * multiplier).Truncate(2);
                 else if (result <= 70)
-                    package.SpellCritPower += (RNG.NextDouble(0.1, 0.3) * multiplier).Truncate(2);
+                    package.SpellCritPower += (Engine.RNG.NextDouble(0.1, 0.3) * multiplier).Truncate(2);
                 else if (result <= 90)
-                    package.SpellHitChance += (RNG.NextDouble(2, 6) * multiplier).Truncate(2);
+                    package.SpellHitChance += (Engine.RNG.NextDouble(2, 6) * multiplier).Truncate(2);
                 else if (result <= 95)
-                    package.SpellCritChance += (RNG.NextDouble(1, 3) * multiplier).Truncate(2);
+                    package.SpellCritChance += (Engine.RNG.NextDouble(1, 3) * multiplier).Truncate(2);
                 else if (result <= 100)
-                    package.SpellHaste += (RNG.NextDouble(1, 4) * multiplier).Truncate(2);
+                    package.SpellHaste += (Engine.RNG.NextDouble(1, 4) * multiplier).Truncate(2);
             }
             return package;
         }
@@ -795,18 +795,18 @@ namespace Roguelike.Engine.Factories.Armor
                 //76 -  90  -  Spell Power
                 //91 -  100 -  Crit Power
 
-                int result = RNG.Next(1, 101);
+                int result = Engine.RNG.Next(1, 101);
 
                 if (result <= 30)
-                    package.SpellHaste += (RNG.NextDouble(1, 4) * multiplier).Truncate(2);
+                    package.SpellHaste += (Engine.RNG.NextDouble(1, 4) * multiplier).Truncate(2);
                 else if (result <= 60)
-                    package.PhysicalCritChance += (RNG.NextDouble(1, 3) * multiplier).Truncate(2);
+                    package.PhysicalCritChance += (Engine.RNG.NextDouble(1, 3) * multiplier).Truncate(2);
                 else if (result <= 75)
-                    package.SpellHitChance += (RNG.NextDouble(2, 6) * multiplier).Truncate(2);
+                    package.SpellHitChance += (Engine.RNG.NextDouble(2, 6) * multiplier).Truncate(2);
                 else if (result <= 90)
-                    package.SpellPower += (RNG.NextDouble(1, 10) * multiplier).Truncate(2);
+                    package.SpellPower += (Engine.RNG.NextDouble(1, 10) * multiplier).Truncate(2);
                 else if (result <= 100)
-                    package.SpellCritPower += (RNG.NextDouble(0.1, 0.3) * multiplier).Truncate(2);
+                    package.SpellCritPower += (Engine.RNG.NextDouble(0.1, 0.3) * multiplier).Truncate(2);
             }
             return package;
         }
@@ -818,7 +818,7 @@ namespace Roguelike.Engine.Factories.Consumables
     {
         public static Food GenerateFood()
         {
-            string name = healthyFoods[RNG.Next(0, healthyFoods.Length)];
+            string name = healthyFoods[Engine.RNG.Next(0, healthyFoods.Length)];
             string description = name + " is a nutritional item that will restore some health.";
             return new Food() { Name = name, Value = 1, Weight = 2, OnUseEffect = new BasicFoodHeal(name.Length, false), Description = description };
         }
@@ -827,7 +827,7 @@ namespace Roguelike.Engine.Factories.Consumables
         {
             Effect[] potionEffects = new Effect[] { new BasicHealthPotion(), new BasicManaPotion(), new BasicPoisonPotion(), new BasicDeathPotion() };
 
-            Potion potion = new Potion(potionEffects[RNG.Next(0, potionEffects.Length)]);
+            Potion potion = new Potion(potionEffects[Engine.RNG.Next(0, potionEffects.Length)]);
             potion.Name = potion.OnUseEffect.EffectName;
             potion.Description = potion.OnUseEffect.EffectDescription;
 
@@ -837,7 +837,7 @@ namespace Roguelike.Engine.Factories.Consumables
         public static Scroll GenerateScroll()
         {
             Ability[] scrollAbilities = new Ability[] { new ScrollAbilityBlink(), new ScrollAbilityFireball(), new ScrollAbilityManaBurst() };
-            Scroll scroll = new Scroll(scrollAbilities[RNG.Next(0, scrollAbilities.Length)]);
+            Scroll scroll = new Scroll(scrollAbilities[Engine.RNG.Next(0, scrollAbilities.Length)]);
 
             return scroll;
         }
@@ -855,7 +855,7 @@ namespace Roguelike.Engine.Factories.Consumables
             EffectName = "Yum!";
             EffectDescription = "You have recently eaten and are feeling the benefits.";
 
-            healAmount = healAmount;
+            this.healAmount = healAmount;
             if (scale) //Scale to user level
                 healAmount *= 1; //TODO: Scale healing to user level
         }
@@ -883,7 +883,7 @@ namespace Roguelike.Engine.Factories.Consumables
 
         public override void OnApplication(Core.Entities.Entity entity)
         {
-            int amount = RNG.Next(5, (int)(entity.StatsPackage.MaxHealth / 2));
+            int amount = Engine.RNG.Next(5, (int)(entity.StatsPackage.MaxHealth / 2));
             entity.StatsPackage.AddHealth(amount);
 
             MessageCenter.PostMessage("Restored " + amount + " health.");
@@ -902,7 +902,7 @@ namespace Roguelike.Engine.Factories.Consumables
 
         public override void OnApplication(Core.Entities.Entity entity)
         {
-            int amount = RNG.Next(5, (int)(entity.StatsPackage.MaxMana / 2));
+            int amount = Engine.RNG.Next(5, (int)(entity.StatsPackage.MaxMana / 2));
             entity.StatsPackage.AddMana(amount);
 
             MessageCenter.PostMessage("Restored " + amount + " mana.");
@@ -921,7 +921,7 @@ namespace Roguelike.Engine.Factories.Consumables
 
         public override void OnApplication(Core.Entities.Entity entity)
         {
-            int result = RNG.Next(0, 1000);
+            int result = Engine.RNG.Next(0, 1000);
             if (result == 0)
             {
                 MessageCenter.PostMessage("The poison forms into golden coins in your stomach, which you retrieve after heaving. +5 Gold");
@@ -999,7 +999,7 @@ namespace Roguelike.Engine.Factories.Consumables
             if (!results.DidMiss && !results.DidAvoid)
             {
                 int damage = 100;
-                if (RNG.Next(0, 100) <= 10)
+                if (Engine.RNG.Next(0, 100) <= 10)
                 {
                     damage *= 2;
                     results.DidCrit = true;
@@ -1012,7 +1012,7 @@ namespace Roguelike.Engine.Factories.Consumables
 
                 if (!target.HasEffect("Ignite"))
                 {
-                    int result = RNG.Next(0, 100);
+                    int result = Engine.RNG.Next(0, 100);
                     if (result <= 15)
                         target.ApplyEffect(new Core.Stats.Classes.Mage.Effect_FireballDOT(target));
                 }
@@ -1036,7 +1036,7 @@ namespace Roguelike.Engine.Factories.Consumables
 
         public override CombatResults CalculateResults(StatsPackage caster, StatsPackage target)
         {
-            target.DrainMana(RNG.Next(0, (int)target.MaxMana.EffectiveValue));
+            target.DrainMana(Engine.RNG.Next(0, (int)target.MaxMana.EffectiveValue));
             return new CombatResults() { Caster = caster, Target = target, UsedAbility = this };
         }
     }
@@ -1047,7 +1047,7 @@ namespace Roguelike.Engine.Factories.Misc
     {
         public static Item GetRandomItem()
         {
-            if (RNG.Next(0, 100) <= 75)
+            if (Engine.RNG.Next(0, 100) <= 75)
                 return new GoldPiece();
             return new GoldPouch();
         }
@@ -1078,7 +1078,7 @@ namespace Roguelike.Engine.Factories.Misc
 
             public override void OnPickup()
             {
-                int amount = RNG.Next(2, 12);
+                int amount = Engine.RNG.Next(2, 12);
 
                 MessageCenter.PostMessage("You picked up " + amount + " gold pieces.");
                 Inventory.Gold += amount;

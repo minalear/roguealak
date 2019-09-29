@@ -63,7 +63,7 @@ namespace Roguelike.Core.Stats.Classes
                     results.AppliedDamage = results.PureDamage - results.AbsorbedDamage;
                     results.ReflectedDamage = CalculateReflectedDamage(results.AppliedDamage, target);
 
-                    int result = RNG.Next(0, 100);
+                    int result = Engine.RNG.Next(0, 100);
                     if (result <= 15)
                     {
                         if (!target.HasEffect(typeof(Effect_Poison)))

@@ -1,5 +1,6 @@
 ﻿using System;
 using OpenTK.Graphics;
+using Roguelike.Engine.Console;
 
 namespace Roguelike.Engine.UI.Controls
 {
@@ -17,20 +18,20 @@ namespace Roguelike.Engine.UI.Controls
 
         public override void DrawStep()
         {
-            GraphicConsole.SetCursor(Position.X, Position.Y);
+            GraphicConsole.Instance.SetCursor(Position.X, Position.Y);
 
             if (isHover) //Mouse is hovering
-                GraphicConsole.SetColors(foregroundColorHover, backgroundColorHover);
+                GraphicConsole.Instance.SetColors(foregroundColorHover, backgroundColorHover);
             else if (enabled) //Check box is checked
-                GraphicConsole.SetColors(foregroundColorEnabled, backgroundColorEnabled);
+                GraphicConsole.Instance.SetColors(foregroundColorEnabled, backgroundColorEnabled);
             else //Check box isn't checked
-                GraphicConsole.SetColors(foregroundColorDisabled, backgroundColorDisabled);
+                GraphicConsole.Instance.SetColors(foregroundColorDisabled, backgroundColorDisabled);
 
 
             if (enabled)
-                GraphicConsole.Write(enabledToken);
+                GraphicConsole.Instance.Write(enabledToken);
             else
-                GraphicConsole.Write(disabledToken);
+                GraphicConsole.Instance.Write(disabledToken);
 
             base.DrawStep();
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Roguelike.Engine.Console;
 using Roguelike.Engine.UI.Interfaces;
 
 namespace Roguelike.Engine.UI
@@ -27,7 +28,7 @@ namespace Roguelike.Engine.UI
 
         public static void SwitchInterface(GameStates gameState)
         {
-            GraphicConsole.Clear();
+            GraphicConsole.Instance.Clear();
 
             activeInterface = interfaces[gameState];
             activeInterface.OnCall();
@@ -35,7 +36,7 @@ namespace Roguelike.Engine.UI
 
         public static void DrawStep()
         {
-            GraphicConsole.Clear();
+            GraphicConsole.Instance.Clear();
             activeInterface.DrawStep();
         }
 

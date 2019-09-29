@@ -6,7 +6,7 @@ namespace Roguelike.Core.Combat.Effects
 {
     public class RogueEvasion : Effect
     {
-        double evasionBonus = 25.0;
+        // double evasionBonus = 25.0;
 
         public RogueEvasion(StatsPackage package)
             : base(package, 0)

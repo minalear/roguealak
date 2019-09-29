@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using OpenTK.Graphics;
+using Roguelike.Engine.Console;
 using Roguelike.Engine.UI.Controls;
-using Roguelike.Core;
 using Roguelike.Core.Items;
 
 namespace Roguelike.Engine.UI.Interfaces
@@ -18,7 +18,7 @@ namespace Roguelike.Engine.UI.Interfaces
         public ItemTestingInterface()
             : base()
         {
-            Title interfaceTitle = new Title(this, "Item Testing", GraphicConsole.BufferWidth / 2, 0, Title.TextAlignModes.Center);
+            Title interfaceTitle = new Title(this, "Item Testing", GraphicConsole.Instance.BufferWidth / 2, 0, Title.TextAlignModes.Center);
             generateButton = new Button(this, "Generate", 72, 1);
             generateButton.Click += generateButton_Click;
             infoBox = new TextBox(this, 72, 5, 40, 37);

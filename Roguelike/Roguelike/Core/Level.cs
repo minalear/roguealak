@@ -5,6 +5,7 @@ using OpenTK.Graphics;
 using Roguelike.Core.Entities;
 using Roguelike.Core.Items;
 using Roguelike.Engine;
+using Roguelike.Engine.Console;
 
 namespace Roguelike.Core
 {
@@ -196,7 +197,7 @@ namespace Roguelike.Core
             {
                 if (levelMatrix.TerrainMatrix[x, y].IsSolid)
                 {
-                    if (RNG.Next(0, 5) == 0) //Generate Rubble
+                    if (Engine.RNG.Next(0, 5) == 0) //Generate Rubble
                     {
                         levelMatrix.TerrainMatrix[x, y].Token = TokenReference.FLOOR_RUBBLE;
                         levelMatrix.TerrainMatrix[x, y].IsSolid = false;
@@ -458,9 +459,9 @@ namespace Roguelike.Core
             {
                 /*if (!(steep ? plot(y, x) : plot(x, y))) return;*/
                 if (steep)
-                    GraphicConsole.Put(token, y, x);
+                    GraphicConsole.Instance.Put(token, y, x);
                 else
-                    GraphicConsole.Put(token, x, y);
+                    GraphicConsole.Instance.Put(token, x, y);
 
                 err = err - dY;
                 if (err < 0) { y += ystep; err += dX; }
@@ -574,16 +575,16 @@ namespace Roguelike.Core
         {
             if (isVisible)
             {
-                GraphicConsole.SetColors(foregroundColor, backgroundColor);
-                GraphicConsole.Put(token, coordX, coordY);
+                GraphicConsole.Instance.SetColors(foregroundColor, backgroundColor);
+                GraphicConsole.Instance.Put(token, coordX, coordY);
             }
             else if (wasVisible)
             {
                 var halfColor = foregroundColor;
                 halfColor.A = 125;
 
-                GraphicConsole.SetColors(halfColor, backgroundColor);
-                GraphicConsole.Put(token, coordX, coordY);
+                GraphicConsole.Instance.SetColors(halfColor, backgroundColor);
+                GraphicConsole.Instance.Put(token, coordX, coordY);
             }
         }
         public void DamageTile()
@@ -664,8 +665,8 @@ namespace Roguelike.Core
         {
             if (Token != ' ')
             {
-                GraphicConsole.SetColors(ForegroundColor, BackgroundColor);
-                GraphicConsole.Put(Token, coordX, coordY);
+                GraphicConsole.Instance.SetColors(ForegroundColor, BackgroundColor);
+                GraphicConsole.Instance.Put(Token, coordX, coordY);
             }
         }
     }

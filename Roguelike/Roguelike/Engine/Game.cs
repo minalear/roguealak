@@ -30,6 +30,7 @@ namespace Roguelike.Engine
 
         public virtual void Reshape() { }
 
-        public GameWindow Window { get; private set; }
+        public GameWindow Window { get; protected set; }
+        public ContentManager Content { get; protected set; }
     }
 }

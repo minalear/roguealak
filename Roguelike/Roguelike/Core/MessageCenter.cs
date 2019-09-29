@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using OpenTK.Graphics;
 using Roguelike.Core.Entities;
 using Roguelike.Engine.UI.Controls;
 
@@ -35,21 +36,21 @@ namespace Roguelike.Core
             public Message(string text, Entity sender)
             {
                 shortMessage = text;
-                sender = sender;
+                this.sender = sender;
 
                 if (sender.EntityType == Entity.EntityTypes.Enemy)
-                    TextColor = Color.Red;
+                    TextColor = Color4.Red;
                 else if (sender.EntityType == Entity.EntityTypes.Player)
-                    TextColor = Color.LimeGreen;
+                    TextColor = Color4.LimeGreen;
                 else
-                    TextColor = Color.White;
+                    TextColor = Color4.White;
 
                 detailedMessage = text;
             }
             public Message(string text)
             {
                 shortMessage = text;
-                TextColor = Color.White;
+                TextColor = Color4.White;
 
                 detailedMessage = text;
             }

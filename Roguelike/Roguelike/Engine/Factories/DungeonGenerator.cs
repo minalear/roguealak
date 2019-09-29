@@ -52,7 +52,7 @@ namespace Roguelike.Engine.Factories
 
                 if (level.Rooms.Count > 0)
                 {
-                    int room = RNG.Next(0, level.Rooms.Count);
+                    int room = Engine.RNG.Next(0, level.Rooms.Count);
 
                     x = level.Rooms[room].X + 1;
                     y = level.Rooms[room].Y + 1;

@@ -36,13 +36,13 @@ namespace Roguelike.Core.Items
                 else if (EquippedSlot == EquipmentSlots.OffHand) //Off Hand weapons have a chance to damage, based off user's Haste stat
                 {
                     int chanceToHit = (int)(GameManager.Player.StatsPackage.PhysicalHaste.EffectiveValue);
-                    if (RNG.Next(0, 100) < chanceToHit)
+                    if (Engine.RNG.Next(0, 100) < chanceToHit)
                         results.AppliedDamage += initialDamage - results.UsedAbility.CalculateAbsorption(initialDamage, results.Target);
                 }
                 else if (EquippedSlot == EquipmentSlots.TwoHand) //Two Handed weapons have a chance to crit, based off user's crit chance and power
                 {
                     int chanceToCrit = (int)(GameManager.Player.StatsPackage.PhysicalCritChance);
-                    if (RNG.Next(0, 100) <= chanceToCrit)
+                    if (Engine.RNG.Next(0, 100) <= chanceToCrit)
                     {
                         int damage = (int)(initialDamage * GameManager.Player.StatsPackage.PhysicalCritPower);
                         results.AppliedDamage += damage - results.UsedAbility.CalculateAbsorption(damage, results.Target);
@@ -54,7 +54,7 @@ namespace Roguelike.Core.Items
         }
         protected virtual int getWeaponDamage()
         {
-            return baseWeaponDamage + RNG.Next(-Weight, Weight);
+            return baseWeaponDamage + Engine.RNG.Next(-Weight, Weight);
         }
 
         private WeaponTypes weaponType;

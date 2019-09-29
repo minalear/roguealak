@@ -1,5 +1,6 @@
 ﻿using System;
 using OpenTK.Graphics;
+using Roguelike.Engine.Console;
 
 namespace Roguelike.Engine.UI.Controls
 {
@@ -40,8 +41,8 @@ namespace Roguelike.Engine.UI.Controls
         {
             drawRail();
 
-            GraphicConsole.SetColors(barColor, fillColor);
-            GraphicConsole.Put(barToken, barPosition.X, barPosition.Y);
+            GraphicConsole.Instance.SetColors(barColor, fillColor);
+            GraphicConsole.Instance.Put(barToken, barPosition.X, barPosition.Y);
             
             base.DrawStep();
         }
@@ -96,7 +97,7 @@ namespace Roguelike.Engine.UI.Controls
         }
         private void drawRail()
         {
-            GraphicConsole.SetColors(railColor, fillColor);
+            GraphicConsole.Instance.SetColors(railColor, fillColor);
             if (sliderMode == SliderModes.Horizontal)
                 DrawingUtilities.DrawLine(Position.X, Position.Y, Position.X + Size.X, Position.Y, railToken);
             else if (sliderMode == SliderModes.Vertical)

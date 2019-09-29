@@ -53,7 +53,7 @@ namespace Roguelike.Core.Stats.Classes
             public override void CastAbilityGround(StatsPackage caster, int x0, int y0, int radius, Level level)
             {
                 Rectangle area = new Rectangle(x0 - 5, y0 - 2, 11, 5);
-                level.StainTile(area, Color.Blue);
+                level.StainTile(area, Color4.Blue);
             }
         }
         public class Ability_PaintCircle : Ability

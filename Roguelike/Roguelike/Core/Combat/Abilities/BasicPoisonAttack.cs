@@ -1,4 +1,5 @@
 ﻿using System;
+using Roguelike.Engine;
 
 namespace Roguelike.Core.Combat.Abilities
 {
@@ -29,7 +30,7 @@ namespace Roguelike.Core.Combat.Abilities
                 results.ReflectedDamage = CalculateReflectedDamage(results.AppliedDamage, target);
             }
 
-            int result = RNG.Next(0, 100);
+            int result = Engine.RNG.Next(0, 100);
             if (result <= 100)
             {
                 if (!target.HasEffect("Basic DoT"))

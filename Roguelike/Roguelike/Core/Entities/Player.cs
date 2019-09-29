@@ -42,7 +42,7 @@ namespace Roguelike.Core.Entities
         public override void MoveToTile(int x, int y)
         {
             X = x;
-            y = y;
+            Y = y;
 
             PlayerStats.OnMove();
             Items.Inventory.OnMove();

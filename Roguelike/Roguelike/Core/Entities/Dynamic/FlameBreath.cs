@@ -42,7 +42,7 @@ namespace Roguelike.Core.Entities.Dynamic
 
                     if (!affectedTiles.Contains(position))
                     {
-                        parentLevel.SetToken(MatrixLevels.Effect, position.X, position.Y, getFlameToken(), getFlameColor(), Color.Black);
+                        parentLevel.SetToken(MatrixLevels.Effect, position.X, position.Y, getFlameToken(), getFlameColor(), Color4.Black);
                         affectedTiles.Add(position);
                     }
 
@@ -80,17 +80,17 @@ namespace Roguelike.Core.Entities.Dynamic
         {
             char[] token = new char[] { '*', '#', '☼', '≈', '░' };
 
-            return token[RNG.Next(0, token.Length)];
+            return token[Engine.RNG.Next(0, token.Length)];
         }
         private Color4 getFlameColor()
         {
             var explosionColors = new Color4[] { Color4.Red, Color4.DarkGoldenrod, Color4.Orange, Color4.DarkOrange, Color4.Maroon };
-            return explosionColors[RNG.Next(0, explosionColors.Length)];
+            return explosionColors[Engine.RNG.Next(0, explosionColors.Length)];
         }
         private Color4 getScorchColor()
         {
             var explosionColors = new Color4[] { new Color4(25, 25, 25, 255), new Color4(35, 35, 35, 255), new Color4(5, 5, 5, 255) };
-            return explosionColors[RNG.Next(0, explosionColors.Length)];
+            return explosionColors[Engine.RNG.Next(0, explosionColors.Length)];
         }
     }
 }

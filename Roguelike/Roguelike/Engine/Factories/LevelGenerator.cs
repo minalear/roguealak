@@ -176,7 +176,7 @@ namespace Roguelike.Engine.Factories
                 #endregion
 
                 //Do we change direction?
-                int rand = RNG.Next(1, 101);
+                int rand = Engine.RNG.Next(1, 101);
                 if (rand >= 100 - chanceToChange)
                 {
                     chanceToChange = InitialChance;
@@ -201,16 +201,16 @@ namespace Roguelike.Engine.Factories
 
                 do
                 {
-                    roomRect.Width = RNG.Next(5, 15);
-                    roomRect.Height = RNG.Next(5, 15);
+                    roomRect.Width = Engine.RNG.Next(5, 15);
+                    roomRect.Height = Engine.RNG.Next(5, 15);
 
                     if (roomRect.Width % 2 == 0)
                         roomRect.Width++;
                     if (roomRect.Height % 2 == 0)
                         roomRect.Height++;
 
-                    roomRect.X = RNG.Next(1, level.Matrix.Width - roomRect.Width - 2);
-                    roomRect.Y = RNG.Next(1, level.Matrix.Height - roomRect.Height - 2);
+                    roomRect.X = Engine.RNG.Next(1, level.Matrix.Width - roomRect.Width - 2);
+                    roomRect.Y = Engine.RNG.Next(1, level.Matrix.Height - roomRect.Height - 2);
 
                     if (roomRect.X % 2 == 0)
                         roomRect.X++;
@@ -273,12 +273,12 @@ namespace Roguelike.Engine.Factories
         private static Level generateItems(Level level)
         {
             int roomNumber = level.Rooms.Count;
-            int items = roomNumber * 2 + RNG.Next(-10, 10);
+            int items = roomNumber * 2 + Engine.RNG.Next(-10, 10);
 
             for (int i = 0; i < items; i++)
             {
-                int room = RNG.Next(0, roomNumber);
-                Point position = new Point(RNG.Next(level.Rooms[room].Left, level.Rooms[room].Right), RNG.Next(level.Rooms[room].Top, level.Rooms[room].Bottom));
+                int room = Engine.RNG.Next(0, roomNumber);
+                Point position = new Point(Engine.RNG.Next(level.Rooms[room].Left, level.Rooms[room].Right), Engine.RNG.Next(level.Rooms[room].Top, level.Rooms[room].Bottom));
 
                 Item item = ItemGenerator.GenerateRandomItem();
                 item.Position = position;
@@ -296,13 +296,13 @@ namespace Roguelike.Engine.Factories
             Point position = new Point();
             Point destination = new Point();
 
-            int sourceRoom = RNG.Next(0, source.Rooms.Count);
-            position.X = RNG.Next(source.Rooms[sourceRoom].Left + 1, source.Rooms[sourceRoom].Right - 1);
-            position.Y = RNG.Next(source.Rooms[sourceRoom].Top + 1, source.Rooms[sourceRoom].Bottom - 1);
+            int sourceRoom = Engine.RNG.Next(0, source.Rooms.Count);
+            position.X = Engine.RNG.Next(source.Rooms[sourceRoom].Left + 1, source.Rooms[sourceRoom].Right - 1);
+            position.Y = Engine.RNG.Next(source.Rooms[sourceRoom].Top + 1, source.Rooms[sourceRoom].Bottom - 1);
 
-            int targetRoom = RNG.Next(0, target.Rooms.Count);
-            destination.X = RNG.Next(target.Rooms[targetRoom].Left + 1, target.Rooms[targetRoom].Right - 1);
-            destination.Y = RNG.Next(target.Rooms[targetRoom].Top + 1, target.Rooms[targetRoom].Bottom - 1);
+            int targetRoom = Engine.RNG.Next(0, target.Rooms.Count);
+            destination.X = Engine.RNG.Next(target.Rooms[targetRoom].Left + 1, target.Rooms[targetRoom].Right - 1);
+            destination.Y = Engine.RNG.Next(target.Rooms[targetRoom].Top + 1, target.Rooms[targetRoom].Bottom - 1);
 
             source.DownwardLadder = new Ladder(source, target, destination) { X = position.X, Y = position.Y, Token = TokenReference.LADDER_DOWN };
             target.UpwardLadder = new Ladder(target, source, position) { X = destination.X, Y = destination.Y, Token = TokenReference.LADDER_UP };
@@ -332,11 +332,11 @@ namespace Roguelike.Engine.Factories
             int targetRoom = -1;
             do
             {
-                targetRoom = RNG.Next(0, level.Rooms.Count);
+                targetRoom = Engine.RNG.Next(0, level.Rooms.Count);
             } while (targetRoom == ladderRoom);
 
-            position.X = RNG.Next(level.Rooms[targetRoom].Left, level.Rooms[targetRoom].Right);
-            position.Y = RNG.Next(level.Rooms[targetRoom].Top, level.Rooms[targetRoom].Bottom);
+            position.X = Engine.RNG.Next(level.Rooms[targetRoom].Left, level.Rooms[targetRoom].Right);
+            position.Y = Engine.RNG.Next(level.Rooms[targetRoom].Top, level.Rooms[targetRoom].Bottom);
 
             WinShrine shrine = new WinShrine(level) { X = position.X, Y = position.Y };
             level.Entities.Add(shrine);
@@ -378,7 +378,7 @@ namespace Roguelike.Engine.Factories
         }
         private static Direction getPerpDirection(Direction direction)
         {
-            int rand = RNG.Next(0, 11);
+            int rand = Engine.RNG.Next(0, 11);
 
             if (direction == Direction.Down || direction == Direction.Up)
             {

@@ -1,5 +1,6 @@
 ﻿using System;
 using OpenTK.Graphics;
+using Roguelike.Engine.Console;
 
 namespace Roguelike.Engine.UI.Controls
 {
@@ -16,7 +17,7 @@ namespace Roguelike.Engine.UI.Controls
 
         public override void DrawStep()
         {
-            GraphicConsole.SetColors(textColor, fillColor);
+            GraphicConsole.Instance.SetColors(textColor, fillColor);
             DrawingUtilities.DrawRect(Position.X, Position.Y, Size.X, Size.Y, ' ', true);
 
             if (!string.IsNullOrEmpty(text))
@@ -24,17 +25,17 @@ namespace Roguelike.Engine.UI.Controls
                 if (scroll)
                 {
                     //Scroll Bar Rail
-                    GraphicConsole.SetColors(scrollRailColor, fillColor);
+                    GraphicConsole.Instance.SetColors(scrollRailColor, fillColor);
                     for (int h = Position.Y; h < Size.Y + Position.Y; h++)
                     {
-                        GraphicConsole.SetCursor(Position.X + Size.X, h);
-                        GraphicConsole.Write(scrollRail);
+                        GraphicConsole.Instance.SetCursor(Position.X + Size.X, h);
+                        GraphicConsole.Instance.Write(scrollRail);
                     }
 
                     //Scroll Bar
-                    GraphicConsole.SetColors(scrollBarColor, fillColor);
-                    GraphicConsole.SetCursor(Position.X + Size.X, (int)(scrollValue / 100f * Size.Y) + Position.Y);
-                    GraphicConsole.Write(scrollBar);
+                    GraphicConsole.Instance.SetColors(scrollBarColor, fillColor);
+                    GraphicConsole.Instance.SetCursor(Position.X + Size.X, (int)(scrollValue / 100f * Size.Y) + Position.Y);
+                    GraphicConsole.Instance.Write(scrollBar);
 
                     string[] lines = text.Split('\n');
                     lineCount = lines.Length;
@@ -43,7 +44,7 @@ namespace Roguelike.Engine.UI.Controls
                     if (line < 0)
                         line = 0;
 
-                    GraphicConsole.SetColors(textColor, fillColor);
+                    GraphicConsole.Instance.SetColors(textColor, fillColor);
                     for (int y = 0; y < Size.Y && y < lines.Length; y++)
                     {
                         if (line < lines.Length)
@@ -99,7 +100,7 @@ namespace Roguelike.Engine.UI.Controls
         }
         private void writeLine(string line, int x, int y)
         {
-            GraphicConsole.SetCursor(x, y);
+            GraphicConsole.Instance.SetCursor(x, y);
             for (int i = 0; i < line.Length; i++)
             {
                 if (line[i] == '<')
@@ -122,18 +123,18 @@ namespace Roguelike.Engine.UI.Controls
                         formatTag = formatTag.Remove(formatTag.Length - 1);
 
                         //Retrieve the color and apply it
-                        GraphicConsole.SetColors(TextUtilities.GetColor(formatTag), fillColor);
+                        GraphicConsole.Instance.SetColors(TextUtilities.GetColor(formatTag), fillColor);
                     }
                     else if (formatTag == "<color>") //End Custom Color
                     {
                         //Reset colors back to normal
-                        GraphicConsole.SetColors(textColor, fillColor);
+                        GraphicConsole.Instance.SetColors(textColor, fillColor);
                     }
                 }
-                GraphicConsole.Write(line[i]);
+                GraphicConsole.Instance.Write(line[i]);
             }
 
-            GraphicConsole.Write('\n');
+            GraphicConsole.Instance.Write('\n');
         }
 
         private string text;

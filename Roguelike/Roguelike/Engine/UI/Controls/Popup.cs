@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using OpenTK.Graphics;
+using Roguelike.Engine.Console;
 
 namespace Roguelike.Engine.UI.Controls
 {
@@ -17,26 +18,26 @@ namespace Roguelike.Engine.UI.Controls
         {
             if (visible)
             {
-                GraphicConsole.SetColors(Color.Transparent, fillColor);
+                GraphicConsole.Instance.SetColors(Color4.Transparent, fillColor);
                 DrawingUtilities.DrawRect(position.X, position.Y, size.X, size.Y, ' ', true);
 
-                GraphicConsole.SetColors(borderColor, fillColor);
+                GraphicConsole.Instance.SetColors(borderColor, fillColor);
                 DrawingUtilities.DrawRect(position.X, position.Y, size.X, size.Y, borderToken, false);
 
                 if (isMultilined)
                 {
                     for (int i = 0; i < lines.Length; i++)
                     {
-                        GraphicConsole.SetColors(textColor, fillColor);
-                        GraphicConsole.SetCursor((GraphicConsole.BufferWidth / 2) - (size.X - 4) / 2, position.Y + 2 + i);
-                        GraphicConsole.Write(lines[i]);
+                        GraphicConsole.Instance.SetColors(textColor, fillColor);
+                        GraphicConsole.Instance.SetCursor((GraphicConsole.Instance.BufferWidth / 2) - (size.X - 4) / 2, position.Y + 2 + i);
+                        GraphicConsole.Instance.Write(lines[i]);
                     }
                 }
                 else
                 {
-                    GraphicConsole.SetColors(textColor, fillColor);
-                    GraphicConsole.SetCursor((GraphicConsole.BufferWidth / 2) - (size.X - 4) / 2, GraphicConsole.BufferHeight / 2);
-                    GraphicConsole.Write(message);
+                    GraphicConsole.Instance.SetColors(textColor, fillColor);
+                    GraphicConsole.Instance.SetCursor((GraphicConsole.Instance.BufferWidth / 2) - (size.X - 4) / 2, GraphicConsole.Instance.BufferHeight / 2);
+                    GraphicConsole.Instance.Write(message);
                 }
             }
 
@@ -99,8 +100,8 @@ namespace Roguelike.Engine.UI.Controls
                         longestWidth = lines[i].Length;
                 }
 
-                position.X = (GraphicConsole.BufferWidth / 2) - longestWidth / 2 - 2;
-                position.Y = (GraphicConsole.BufferHeight / 2) - 2;
+                position.X = (GraphicConsole.Instance.BufferWidth / 2) - longestWidth / 2 - 2;
+                position.Y = (GraphicConsole.Instance.BufferHeight / 2) - 2;
 
                 size.X = longestWidth + 4;
                 size.Y = lines.Length + 4; //Line Count + spacing + border
@@ -114,8 +115,8 @@ namespace Roguelike.Engine.UI.Controls
             }
             else
             {
-                position.X = (GraphicConsole.BufferWidth / 2) - message.Length / 2 - 2;
-                position.Y = (GraphicConsole.BufferHeight / 2) - 2;
+                position.X = (GraphicConsole.Instance.BufferWidth / 2) - message.Length / 2 - 2;
+                position.Y = (GraphicConsole.Instance.BufferHeight / 2) - 2;
 
                 size.X = message.Length + 4;
                 size.Y = 5;

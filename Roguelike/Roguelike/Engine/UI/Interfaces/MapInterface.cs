@@ -1,5 +1,6 @@
 ﻿using System;
 using OpenTK.Input;
+using Roguelike.Engine.Console;
 using Roguelike.Engine.UI.Controls;
 using Roguelike.Core;
 
@@ -14,8 +15,8 @@ namespace Roguelike.Engine.UI.Interfaces
 
         public MapInterface()
         {
-            title = new Title(this, "Map", GraphicConsole.BufferWidth / 2, 1, Title.TextAlignModes.Center);
-            backButton = new Button(this, "X", GraphicConsole.BufferWidth - 2, 1, 1, 1) { KeyShortcut = Key.Escape };
+            title = new Title(this, "Map", GraphicConsole.Instance.BufferWidth / 2, 1, Title.TextAlignModes.Center);
+            backButton = new Button(this, "X", GraphicConsole.Instance.BufferWidth - 2, 1, 1, 1) { KeyShortcut = Key.Escape };
             backButton.Click += backButton_Pressed;
         }
 
@@ -49,39 +50,39 @@ namespace Roguelike.Engine.UI.Interfaces
 
         private void drawInterfaceBars()
         {
-            GraphicConsole.ResetColor();
+            GraphicConsole.Instance.ClearColor();
 
             //Header Bar
-            DrawingUtilities.DrawLine(1, 1, GraphicConsole.BufferWidth - 2, 1, ' ');
-            DrawingUtilities.DrawLine(0, 0, GraphicConsole.BufferWidth, 0, '═');
-            DrawingUtilities.DrawLine(0, 2, GraphicConsole.BufferWidth, 2, '═');
+            DrawingUtilities.DrawLine(1, 1, GraphicConsole.Instance.BufferWidth - 2, 1, ' ');
+            DrawingUtilities.DrawLine(0, 0, GraphicConsole.Instance.BufferWidth, 0, '═');
+            DrawingUtilities.DrawLine(0, 2, GraphicConsole.Instance.BufferWidth, 2, '═');
 
             //Left Bar
-            DrawingUtilities.DrawLine(0, 1, 0, GraphicConsole.BufferHeight - 2, '│');
+            DrawingUtilities.DrawLine(0, 1, 0, GraphicConsole.Instance.BufferHeight - 2, '│');
 
             //Right Bar
-            DrawingUtilities.DrawLine(GraphicConsole.BufferWidth, 1, GraphicConsole.BufferWidth, GraphicConsole.BufferHeight - 2, '│');
+            DrawingUtilities.DrawLine(GraphicConsole.Instance.BufferWidth, 1, GraphicConsole.Instance.BufferWidth, GraphicConsole.Instance.BufferHeight - 2, '│');
 
             //Bottom Bar
-            DrawingUtilities.DrawLine(1, GraphicConsole.BufferHeight - 2, GraphicConsole.BufferWidth - 2, GraphicConsole.BufferHeight - 2, ' ');
-            DrawingUtilities.DrawLine(0, GraphicConsole.BufferHeight, GraphicConsole.BufferWidth, GraphicConsole.BufferHeight, '─');
-            DrawingUtilities.DrawLine(0, GraphicConsole.BufferHeight - 3, GraphicConsole.BufferWidth, GraphicConsole.BufferHeight - 3, '─');
+            DrawingUtilities.DrawLine(1, GraphicConsole.Instance.BufferHeight - 2, GraphicConsole.Instance.BufferWidth - 2, GraphicConsole.Instance.BufferHeight - 2, ' ');
+            DrawingUtilities.DrawLine(0, GraphicConsole.Instance.BufferHeight, GraphicConsole.Instance.BufferWidth, GraphicConsole.Instance.BufferHeight, '─');
+            DrawingUtilities.DrawLine(0, GraphicConsole.Instance.BufferHeight - 3, GraphicConsole.Instance.BufferWidth, GraphicConsole.Instance.BufferHeight - 3, '─');
 
             //Bottom Left Corner
-            GraphicConsole.Put('├', 0, GraphicConsole.BufferHeight - 3);
-            GraphicConsole.Put('└', 0, GraphicConsole.BufferHeight);
+            GraphicConsole.Instance.Put('├', 0, GraphicConsole.Instance.BufferHeight - 3);
+            GraphicConsole.Instance.Put('└', 0, GraphicConsole.Instance.BufferHeight);
 
             //Bottom Right Corner
-            GraphicConsole.Put('┤', GraphicConsole.BufferWidth, GraphicConsole.BufferHeight - 3);
-            GraphicConsole.Put('┘', GraphicConsole.BufferWidth, GraphicConsole.BufferHeight);
+            GraphicConsole.Instance.Put('┤', GraphicConsole.Instance.BufferWidth, GraphicConsole.Instance.BufferHeight - 3);
+            GraphicConsole.Instance.Put('┘', GraphicConsole.Instance.BufferWidth, GraphicConsole.Instance.BufferHeight);
 
             //Top Left Corner
-            GraphicConsole.Put('╒', 0, 0);
-            GraphicConsole.Put('╞', 0, 2);
+            GraphicConsole.Instance.Put('╒', 0, 0);
+            GraphicConsole.Instance.Put('╞', 0, 2);
 
             //Top Right Corner
-            GraphicConsole.Put('╕', GraphicConsole.BufferWidth, 0);
-            GraphicConsole.Put('╡', GraphicConsole.BufferWidth, 2);
+            GraphicConsole.Instance.Put('╕', GraphicConsole.Instance.BufferWidth, 0);
+            GraphicConsole.Instance.Put('╡', GraphicConsole.Instance.BufferWidth, 2);
         }
 
         private void getKeyboardInput()

@@ -1,9 +1,7 @@
 ﻿using System;
-using Roguelike.Engine.UI;
+using Roguelike.Engine.Console;
 using Roguelike.Engine.UI.Controls;
-using Roguelike.Core;
 using Roguelike.Core.Items;
-using Roguelike.Core.Combat;
 
 namespace Roguelike.Engine.UI.Interfaces
 {
@@ -14,8 +12,8 @@ namespace Roguelike.Engine.UI.Interfaces
 
         public WinInterface()
         {
-            message = new Title(this, "You have Won!", GraphicConsole.BufferWidth / 2, GraphicConsole.BufferHeight / 2, Title.TextAlignModes.Center);
-            score = new Title(this, "Score", GraphicConsole.BufferWidth / 2, message.Position.Y + 1, Title.TextAlignModes.Center);
+            message = new Title(this, "You have Won!", GraphicConsole.Instance.BufferWidth / 2, GraphicConsole.Instance.BufferHeight / 2, Title.TextAlignModes.Center);
+            score = new Title(this, "Score", GraphicConsole.Instance.BufferWidth / 2, message.Position.Y + 1, Title.TextAlignModes.Center);
 
             continueButton = new Button(this, "Continue", message.Position.X - 5, message.Position.Y + 4);
             continueButton.Click += backButton_Pressed;

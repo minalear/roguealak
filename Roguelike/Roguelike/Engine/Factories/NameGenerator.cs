@@ -5,7 +5,7 @@ namespace Roguelike.Engine.Factories
 {
     public static class NameGenerator
     {
-        private static string[] firstNames, lastNames, townNames, titles, dungeonNames;
+        private static string[] firstNames, lastNames, /*townNames, titles,*/ dungeonNames;
 
         public static void Initialize()
         {
@@ -16,12 +16,12 @@ namespace Roguelike.Engine.Factories
 
         public static string GenerateFirstName()
         {
-            return firstNames[RNG.Next(0, firstNames.Length)];
+            return firstNames[Engine.RNG.Next(0, firstNames.Length)];
         }
 
         public static string GenerateLastName()
         {
-            return lastNames[RNG.Next(0, lastNames.Length)];
+            return lastNames[Engine.RNG.Next(0, lastNames.Length)];
         }
 
         public static string GenerateTownName()
@@ -36,7 +36,7 @@ namespace Roguelike.Engine.Factories
 
         public static string GenerateDungeonName()
         {
-            return dungeonNames[RNG.Next(0, dungeonNames.Length)];
+            return dungeonNames[Engine.RNG.Next(0, dungeonNames.Length)];
         }
     }
 }

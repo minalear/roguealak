@@ -1,4 +1,6 @@
 ﻿using System;
+using OpenTK.Graphics;
+using Roguelike.Engine.Console;
 using Roguelike.Engine.UI;
 using Roguelike.Core;
 using Roguelike.Core.Entities;
@@ -39,7 +41,7 @@ namespace Roguelike.Engine
         public static void Update(GameTime gameTime)
         {
             if (CurrentGameState == GameStates.Game)
-                GameManager.CurrentLevel.Update(gameTime);
+                CurrentLevel.Update(gameTime);
 
             InterfaceManager.Update(gameTime);
         }
@@ -48,7 +50,7 @@ namespace Roguelike.Engine
         {
             if (CurrentGameState == GameStates.Game)
             {
-                GameManager.CurrentLevel.UpdateStep();
+                CurrentLevel.UpdateStep();
                 Pathing.PathCalculator.UpdateStep();
             }
 
@@ -57,7 +59,7 @@ namespace Roguelike.Engine
 
         public static void DrawStep()
         {
-            GraphicConsole.Clear();
+            GraphicConsole.Instance.Clear();
 
             if (CurrentGameState == GameStates.Game)
                 DrawGameWorld();
@@ -103,8 +105,8 @@ namespace Roguelike.Engine
 
         public static void SetCameraOffset()
         {
-            CameraOffset.X = Player.X - GraphicConsole.BufferWidth / 2;
-            CameraOffset.Y = Player.Y - GraphicConsole.BufferHeight / 2;
+            CameraOffset.X = Player.X - GraphicConsole.Instance.BufferWidth / 2;
+            CameraOffset.Y = Player.Y - GraphicConsole.Instance.BufferHeight / 2;
         }
 
         public static void ResetGame()
@@ -125,13 +127,13 @@ namespace Roguelike.Engine
 
             if (CurrentLevel.Rooms.Count > 0)
             {
-                int room = RNG.Next(0, CurrentLevel.Rooms.Count);
+                int room = Engine.RNG.Next(0, CurrentLevel.Rooms.Count);
 
                 x = CurrentLevel.Rooms[room].X + 1;
                 y = CurrentLevel.Rooms[room].Y + 1;
             }
 
-            Player = new Player(CurrentLevel) { X = x, Y = y, Token = '@', ForegroundColor = Color.Gold, IsSolid = true };
+            Player = new Player(CurrentLevel) { X = x, Y = y, Token = '@', ForegroundColor = Color4.Gold, IsSolid = true };
 
             Player.StatsPackage = stats;
             Player.PlayerStats.SetInitialStats();

@@ -13,7 +13,7 @@ namespace Roguelike.Core.Items
             Name = "Scroll of " + ability.AbilityName;
             Description = "This is a scroll that lets you cast the ability " + ability.AbilityName;
 
-            ability = ability;
+            this.ability = ability;
             RemoveOnUse = true;
         }
 

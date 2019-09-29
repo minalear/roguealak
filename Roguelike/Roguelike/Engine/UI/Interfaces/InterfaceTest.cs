@@ -1,5 +1,6 @@
 ﻿using System;
 using OpenTK.Graphics;
+using Roguelike.Engine.Console;
 using Roguelike.Engine.UI.Controls;
 using Roguelike.Core;
 using Roguelike.Core.Stats;
@@ -56,7 +57,7 @@ namespace Roguelike.Engine.UI.Interfaces
 
         public override void DrawStep()
         {
-            GraphicConsole.Clear();
+            GraphicConsole.Instance.Clear();
 
             base.DrawStep();
         }
@@ -89,11 +90,11 @@ namespace Roguelike.Engine.UI.Interfaces
 
         private void setupInterface()
         {
-            interfaceTitle = new Title(this, "Combat Testing", GraphicConsole.BufferWidth / 2, 0, Title.TextAlignModes.Center);
-            backButton = new Button(this, "X", GraphicConsole.BufferWidth - 1, 0, 1, 1);
+            interfaceTitle = new Title(this, "Combat Testing", GraphicConsole.Instance.BufferWidth / 2, 0, Title.TextAlignModes.Center);
+            backButton = new Button(this, "X", GraphicConsole.Instance.BufferWidth - 1, 0, 1, 1);
             backButton.Click += backButton_Pressed;
 
-            combatLog = new TextBox(this, 23, 45, GraphicConsole.BufferWidth - 46, 5);
+            combatLog = new TextBox(this, 23, 45, GraphicConsole.Instance.BufferWidth - 46, 5);
 
             //Left Player
             strOne = new Title(this, "STR: ##", 2, 10, Title.TextAlignModes.Left);
@@ -121,19 +122,19 @@ namespace Roguelike.Engine.UI.Interfaces
             leftButtonSet = new LeftAdjustmentButtons(this, leftUnit);
 
             //Right Player
-            strTwo = new Title(this, "STR: ##", GraphicConsole.BufferWidth - 2, 10, Title.TextAlignModes.Right);
-            agiTwo = new Title(this, "AGI: ##", GraphicConsole.BufferWidth - 2, 11, Title.TextAlignModes.Right);
-            dexTwo = new Title(this, "DEX: ##", GraphicConsole.BufferWidth - 2, 12, Title.TextAlignModes.Right);
+            strTwo = new Title(this, "STR: ##", GraphicConsole.Instance.BufferWidth - 2, 10, Title.TextAlignModes.Right);
+            agiTwo = new Title(this, "AGI: ##", GraphicConsole.Instance.BufferWidth - 2, 11, Title.TextAlignModes.Right);
+            dexTwo = new Title(this, "DEX: ##", GraphicConsole.Instance.BufferWidth - 2, 12, Title.TextAlignModes.Right);
 
-            intTwo = new Title(this, "INT: ##", GraphicConsole.BufferWidth - 2, 14, Title.TextAlignModes.Right);
-            wilTwo = new Title(this, "WIL: ##", GraphicConsole.BufferWidth - 2, 15, Title.TextAlignModes.Right);
-            wisTwo = new Title(this, "WIS: ##", GraphicConsole.BufferWidth - 2, 16, Title.TextAlignModes.Right);
+            intTwo = new Title(this, "INT: ##", GraphicConsole.Instance.BufferWidth - 2, 14, Title.TextAlignModes.Right);
+            wilTwo = new Title(this, "WIL: ##", GraphicConsole.Instance.BufferWidth - 2, 15, Title.TextAlignModes.Right);
+            wisTwo = new Title(this, "WIS: ##", GraphicConsole.Instance.BufferWidth - 2, 16, Title.TextAlignModes.Right);
 
-            conTwo = new Title(this, "CON: ##", GraphicConsole.BufferWidth - 2, 18, Title.TextAlignModes.Right);
-            endTwo = new Title(this, "END: ##", GraphicConsole.BufferWidth - 2, 19, Title.TextAlignModes.Right);
-            frtTwo = new Title(this, "FRT: ##", GraphicConsole.BufferWidth - 2, 20, Title.TextAlignModes.Right);
+            conTwo = new Title(this, "CON: ##", GraphicConsole.Instance.BufferWidth - 2, 18, Title.TextAlignModes.Right);
+            endTwo = new Title(this, "END: ##", GraphicConsole.Instance.BufferWidth - 2, 19, Title.TextAlignModes.Right);
+            frtTwo = new Title(this, "FRT: ##", GraphicConsole.Instance.BufferWidth - 2, 20, Title.TextAlignModes.Right);
 
-            rightUnitInfo = new TextBox(this, GraphicConsole.BufferWidth - 20, 22, 20, 25);
+            rightUnitInfo = new TextBox(this, GraphicConsole.Instance.BufferWidth - 20, 22, 20, 25);
 
             for (int i = 0; i < leftSpells.Length; i++)
                 rightSpells[i] = new Button(this, "[ ABIL " + (i + 1) + " ]", 83, 13 + (i * 4), 10, 3);
@@ -402,7 +403,7 @@ namespace Roguelike.Engine.UI.Interfaces
         public LeftAdjustmentButtons(Interface parent, PlayerStats stats)
             : base(parent)
         {
-            stats = stats;
+            this.stats = stats;
 
             strAdd = new Button(this, "+", 11, 10, 1, 1);
             agiAdd = new Button(this, "+", 11, 11, 1, 1);
@@ -574,7 +575,7 @@ namespace Roguelike.Engine.UI.Interfaces
         public RightAdjustmentButtons(Interface parent, PlayerStats stats)
             : base(parent)
         {
-            stats = stats;
+            this.stats = stats;
 
             strAdd = new Button(this, "+", 111, 10, 1, 1);
             agiAdd = new Button(this, "+", 111, 11, 1, 1);

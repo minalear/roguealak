@@ -134,7 +134,7 @@ namespace Roguelike.Core.Stats.Classes
 
                     if (!target.HasEffect("Ignite"))
                     {
-                        int result = RNG.Next(0, 100);
+                        int result = Engine.RNG.Next(0, 100);
                         if (result <= 20)
                             target.ApplyEffect(new Effect_FireballDOT(target));
                     }

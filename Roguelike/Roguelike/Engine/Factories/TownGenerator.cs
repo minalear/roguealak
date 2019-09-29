@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Drawing;
+using System.Drawing.Imaging;
 using OpenTK.Graphics;
 using Roguelike.Core;
 using Roguelike.Core.Entities;
@@ -14,11 +16,27 @@ namespace Roguelike.Engine.Factories
 
         public static Level GenerateTown(string path)
         {
-            var townBlueprint = Program.Content.Load<Texture2D>(path);
-            Level town = new Level(townBlueprint.Width, townBlueprint.Height);
+            //var townBlueprint = Program.Content.Load<Texture2D>(path);
 
-            var colorMatrix = new Color4[town.Matrix.Width * town.Matrix.Height];
-            townBlueprint.GetData<Color4>(colorMatrix);
+            Level town;
+            Color4[] colorMatrix;
+            using (var townBlueprint = new Bitmap(path))
+            {
+                var data = townBlueprint.LockBits(new System.Drawing.Rectangle(0, 0, townBlueprint.Width, townBlueprint.Height),
+                    ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+                var ptr = data.Scan0;
+
+                //townBlueprint.GetData<Color4>(colorMatrix);
+                int bytes = Math.Abs(data.Stride) * townBlueprint.Height;
+                byte[] rgbValues = new byte[bytes];
+
+                System.Runtime.InteropServices.Marshal.Copy(ptr, rgbValues, 0, bytes);
+
+                // TODO: Fill out colormatrix with texture data https://docs.microsoft.com/en-us/dotnet/api/system.drawing.imaging.bitmapdata?view=netframework-4.8
+
+                town = new Level(townBlueprint.Width, townBlueprint.Height);
+                colorMatrix = new Color4[town.Matrix.Width * town.Matrix.Height];
+            }
 
             int index = 0;
             for (int y = 0; y < town.Matrix.Height; y++)
@@ -97,9 +115,9 @@ namespace Roguelike.Engine.Factories
                 }
             }
             Point destination = new Point();
-            int targetRoom = RNG.Next(0, target.Rooms.Count);
-            destination.X = RNG.Next(target.Rooms[targetRoom].Left, target.Rooms[targetRoom].Right);
-            destination.Y = RNG.Next(target.Rooms[targetRoom].Top, target.Rooms[targetRoom].Bottom);
+            int targetRoom = Engine.RNG.Next(0, target.Rooms.Count);
+            destination.X = Engine.RNG.Next(target.Rooms[targetRoom].Left, target.Rooms[targetRoom].Right);
+            destination.Y = Engine.RNG.Next(target.Rooms[targetRoom].Top, target.Rooms[targetRoom].Bottom);
 
             town.DownwardLadder = new Ladder(town, target, destination) { X = position.X, Y = position.Y, Token = TokenReference.LADDER_DOWN };
             target.UpwardLadder = new Ladder(target, town, position) { X = destination.X, Y = destination.Y, Token = TokenReference.LADDER_UP };
@@ -116,7 +134,7 @@ namespace Roguelike.Engine.Factories
 
         private static char getGroundCharacter()
         {
-            int result = RNG.Next(0, 100);
+            int result = Engine.RNG.Next(0, 100);
 
             if (result <= 70)
                 return groundTextureTokens[0];
@@ -128,7 +146,7 @@ namespace Roguelike.Engine.Factories
         }
         private static Color4 getGroundColor()
         {
-            return groundColors[RNG.Next(0, groundColors.Length)];
+            return groundColors[Engine.RNG.Next(0, groundColors.Length)];
         }
     }
 }

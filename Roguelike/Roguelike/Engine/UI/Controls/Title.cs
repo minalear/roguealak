@@ -1,5 +1,6 @@
 ﻿using System;
 using OpenTK.Graphics;
+using Roguelike.Engine.Console;
 
 namespace Roguelike.Engine.UI.Controls
 {
@@ -26,26 +27,26 @@ namespace Roguelike.Engine.UI.Controls
 
         public override void DrawStep()
         {
-            GraphicConsole.SetColors(textColor, fillColor);
+            GraphicConsole.Instance.SetColors(textColor, fillColor);
 
             if (textAlignMode == TextAlignModes.Center)
             {
                 int x = (int)(Position.X - text.Length / 2);
 
-                GraphicConsole.SetCursor(x, Position.Y);
-                GraphicConsole.Write(text);
+                GraphicConsole.Instance.SetCursor(x, Position.Y);
+                GraphicConsole.Instance.Write(text);
             }
             else if (textAlignMode == TextAlignModes.Left)
             {
-                GraphicConsole.SetCursor(Position.X, Position.Y);
-                GraphicConsole.Write(text);
+                GraphicConsole.Instance.SetCursor(Position.X, Position.Y);
+                GraphicConsole.Instance.Write(text);
             }
             else if (textAlignMode == TextAlignModes.Right)
             {
                 int x = (int)(Position.X - text.Length);
                 
-                GraphicConsole.SetCursor(x, Position.Y);
-                GraphicConsole.Write(text);
+                GraphicConsole.Instance.SetCursor(x, Position.Y);
+                GraphicConsole.Instance.Write(text);
             }
 
             base.DrawStep();

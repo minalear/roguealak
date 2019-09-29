@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Roguelike.Engine.Console;
 
 namespace Roguelike.Engine.UI.Controls
 {
@@ -37,7 +36,7 @@ namespace Roguelike.Engine.UI.Controls
 
         public virtual void DrawStep()
         {
-            GraphicConsole.ResetColor();
+            GraphicConsole.Instance.ClearColor();
 
             for (int i = 0; i < children.Count; i++)
             {
@@ -64,7 +63,7 @@ namespace Roguelike.Engine.UI.Controls
 
         protected virtual bool isMouseHover()
         {
-            Point mouse = GraphicConsole.GetTilePosition(InputManager.GetCurrentMousePosition());
+            Point mouse = GraphicConsole.Instance.GetTilePosition(InputManager.GetCurrentMousePosition());
 
             if (mouse.X >= Position.X && mouse.X < Position.X + Size.X &&
                 mouse.Y >= Position.Y && mouse.Y < Position.Y + Size.Y)
@@ -75,7 +74,7 @@ namespace Roguelike.Engine.UI.Controls
         }
         protected virtual bool wasHover()
         {
-            Point mouse = GraphicConsole.GetTilePosition(InputManager.GetPriorMousePosition());
+            Point mouse = GraphicConsole.Instance.GetTilePosition(InputManager.GetPriorMousePosition());
 
             if (mouse.X >= Position.X && mouse.X < Position.X + Size.X &&
                 mouse.Y >= Position.Y && mouse.Y < Position.Y + Size.Y)
@@ -86,7 +85,7 @@ namespace Roguelike.Engine.UI.Controls
         }
         protected virtual void clearArea()
         {
-            GraphicConsole.ResetColor();
+            GraphicConsole.Instance.ClearColor();
             DrawingUtilities.DrawRect(Position.X, Position.Y, Size.X, Size.Y, ' ', true);
         }
         protected Point getPosition()

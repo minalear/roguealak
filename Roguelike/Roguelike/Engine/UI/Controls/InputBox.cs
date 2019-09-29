@@ -1,5 +1,6 @@
 ﻿using System;
 using OpenTK.Graphics;
+using Roguelike.Engine.Console;
 
 namespace Roguelike.Engine.UI.Controls
 {
@@ -30,14 +31,14 @@ namespace Roguelike.Engine.UI.Controls
         {
             clearArea();
 
-            GraphicConsole.SetColors(Color4.Transparent, fillColor);
+            GraphicConsole.Instance.SetColors(Color4.Transparent, fillColor);
             DrawingUtilities.DrawRect(Position.X, Position.Y, Size.X, Size.Y, ' ', true);
 
             if (text != string.Empty)
             {
-                GraphicConsole.SetColors(textColor, fillColor);
-                GraphicConsole.SetCursor(Position);
-                GraphicConsole.Write(text);
+                GraphicConsole.Instance.SetColors(textColor, fillColor);
+                GraphicConsole.Instance.SetCursor(Position);
+                GraphicConsole.Instance.Write(text);
             }
 
             base.DrawStep();
@@ -53,15 +54,15 @@ namespace Roguelike.Engine.UI.Controls
                     cursorCounter = 0.0;
                 if (cursorCounter > cursorFlickerRate)
                 {
-                    GraphicConsole.SetColors(textColor, fillColor);
-                    GraphicConsole.SetCursor(Position.X + text.Length, Position.Y);
-                    GraphicConsole.Write(cursor);
+                    GraphicConsole.Instance.SetColors(textColor, fillColor);
+                    GraphicConsole.Instance.SetCursor(Position.X + text.Length, Position.Y);
+                    GraphicConsole.Instance.Write(cursor);
                 }
                 else
                 {
-                    GraphicConsole.SetColors(textColor, fillColor);
-                    GraphicConsole.SetCursor(Position.X + text.Length, Position.Y);
-                    GraphicConsole.Write(' ');
+                    GraphicConsole.Instance.SetColors(textColor, fillColor);
+                    GraphicConsole.Instance.SetCursor(Position.X + text.Length, Position.Y);
+                    GraphicConsole.Instance.Write(' ');
                 }
 
                 if (InputManager.InputStream.CanRead)

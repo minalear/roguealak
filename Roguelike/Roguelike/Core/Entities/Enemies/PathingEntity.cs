@@ -93,7 +93,7 @@ namespace Roguelike.Core.Entities
             }
 
             for (int i = 0; i < path.Count; i++)
-                parentLevel.StainTile(path[i].X, path[i].Y, new Color4(255, 0, 0));
+                parentLevel.StainTile(path[i].X, path[i].Y, new Color4(255, 0, 0, 255));
         }
     }
 }

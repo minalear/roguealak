@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using OpenTK.Graphics;
+using Roguelike.Engine.Console;
 
 namespace Roguelike.Engine.UI.Controls
 {
@@ -17,7 +18,7 @@ namespace Roguelike.Engine.UI.Controls
 
         public override void DrawStep()
         {
-            GraphicConsole.SetColors(Color4.Transparent, fillColor);
+            GraphicConsole.Instance.SetColors(Color4.Transparent, fillColor);
             DrawingUtilities.DrawRect(Position.X, Position.Y, Size.X, Size.Y, ' ', true);
 
             if (!scroll)
@@ -25,7 +26,7 @@ namespace Roguelike.Engine.UI.Controls
                 for (int i = 0; i < objectList.Count; i++)
                 {
                     setConsoleColors(i);
-                    GraphicConsole.SetCursor(Position.X, Position.Y + i);
+                    GraphicConsole.Instance.SetCursor(Position.X, Position.Y + i);
 
                     writeLine(objectList[i].ListText);
                 }
@@ -33,13 +34,13 @@ namespace Roguelike.Engine.UI.Controls
             else
             {
                 //Scroll Bar Rail
-                GraphicConsole.SetColors(scrollRailColor, fillColor);
+                GraphicConsole.Instance.SetColors(scrollRailColor, fillColor);
                 DrawingUtilities.DrawLine(Position.X + Size.X, Position.Y, Position.X + Size.X, Position.Y + Size.Y - 1, scrollRail);
 
                 //Scroll Barl
-                GraphicConsole.SetColors(scrollBarColor, fillColor);
-                GraphicConsole.SetCursor(Position.X + Size.X, (int)(scrollValue / 100f * Size.Y) + Position.Y);
-                GraphicConsole.Write(scrollBar);
+                GraphicConsole.Instance.SetColors(scrollBarColor, fillColor);
+                GraphicConsole.Instance.SetCursor(Position.X + Size.X, (int)(scrollValue / 100f * Size.Y) + Position.Y);
+                GraphicConsole.Instance.Write(scrollBar);
 
                 int line = (int)(scrollValue / 100f * (objectList.Count - Size.Y + 1));
                 if (line < 0)
@@ -50,7 +51,7 @@ namespace Roguelike.Engine.UI.Controls
                     if (line < objectList.Count)
                     {
                         setConsoleColors(line);
-                        GraphicConsole.SetCursor(Position.X, Position.Y + y);
+                        GraphicConsole.Instance.SetCursor(Position.X, Position.Y + y);
                         writeLine(objectList[line].ListText);
                     }
                     line++;
@@ -84,7 +85,7 @@ namespace Roguelike.Engine.UI.Controls
                 #region Selection/Hovering
                 if (InputManager.MouseButtonWasClicked(MouseButtons.Left))
                 {
-                    int index = getIndexOfClick(GraphicConsole.GetTilePosition(InputManager.GetCurrentMousePosition()));
+                    int index = getIndexOfClick(GraphicConsole.Instance.GetTilePosition(InputManager.GetCurrentMousePosition()));
                     if (index >= 0 && index < objectList.Count)
                     {
                         selectedIndex = index;
@@ -104,7 +105,7 @@ namespace Roguelike.Engine.UI.Controls
                 }
                 else //Get Hover
                 {
-                    int index = getIndexOfClick(GraphicConsole.GetTilePosition(InputManager.GetCurrentMousePosition()));
+                    int index = getIndexOfClick(GraphicConsole.Instance.GetTilePosition(InputManager.GetCurrentMousePosition()));
                     if (index >= 0 && index < objectList.Count)
                     {
                         hoverIndex = index;
@@ -244,24 +245,24 @@ namespace Roguelike.Engine.UI.Controls
                 //Ensure text doesn't go past the size of the list
                 int i = 0;
                 for (i = 0; i < line.Length && i < Size.X; i++)
-                    GraphicConsole.Write(line[i]);
+                    GraphicConsole.Instance.Write(line[i]);
                 for (; i < Size.X; i++)
-                    GraphicConsole.Write(' ');
+                    GraphicConsole.Instance.Write(' ');
             }
             else
             {
                 for (int i = 0; i < Size.X; i++)
-                    GraphicConsole.Write(' ');
+                    GraphicConsole.Instance.Write(' ');
             }
         }
         private void setConsoleColors(int index)
         {
             if (index == selectedIndex)
-                GraphicConsole.SetColors(selectedTextColor, selectedFillColor);
+                GraphicConsole.Instance.SetColors(selectedTextColor, selectedFillColor);
             else if (index == hoverIndex)
-                GraphicConsole.SetColors(hoverTextColor, hoverFillColor);
+                GraphicConsole.Instance.SetColors(hoverTextColor, hoverFillColor);
             else
-                GraphicConsole.SetColors(objectList[index].TextColor, fillColor);
+                GraphicConsole.Instance.SetColors(objectList[index].TextColor, fillColor);
         }
 
         private List<ListItem> objectList;

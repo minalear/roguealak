@@ -1,7 +1,8 @@
 ﻿using System;
-using Roguelike.Engine.UI;
+using OpenTK.Input;
+using OpenTK.Graphics;
 using Roguelike.Engine.UI.Controls;
-using Roguelike.Core;
+using Roguelike.Engine.Console;
 
 namespace Roguelike.Engine.UI.Interfaces
 {
@@ -19,17 +20,17 @@ namespace Roguelike.Engine.UI.Interfaces
         public MainMenuInterface()
             : base()
         {
-            mainTitle = new Title(this, "Roguealak", GraphicConsole.BufferWidth / 2, 2, Title.TextAlignModes.Center);
-            subTitle = new Title(this, generateSubTitle(), GraphicConsole.BufferWidth / 2, 3, Title.TextAlignModes.Center);
+            mainTitle = new Title(this, "Roguealak", GraphicConsole.Instance.BufferWidth / 2, 2, Title.TextAlignModes.Center);
+            subTitle = new Title(this, generateSubTitle(), GraphicConsole.Instance.BufferWidth / 2, 3, Title.TextAlignModes.Center);
 
             mainTitle.TextColor = Color4.Red;
             subTitle.TextColor = Color4.LightGray;
 
-            startNewGame = new Button(this, "New Game", GraphicConsole.BufferWidth / 2 - 15, 10, 30, 3) { KeyShortcut = Keys.N };
-            resumeGame = new Button(this, "Item Testing", GraphicConsole.BufferWidth / 2 - 15, 14, 30, 3) { KeyShortcut = Keys.L };
-            optionsButton = new Button(this, "Quick Start", GraphicConsole.BufferWidth / 2 - 15, 18, 30, 3) { KeyShortcut = Keys.O };
-            aboutButton = new Button(this, "About", GraphicConsole.BufferWidth / 2 - 15, 22, 30, 3) { KeyShortcut = Keys.A };
-            exitButton = new Button(this, "Abandon", GraphicConsole.BufferWidth / 2 - 15, 26, 30, 3) { KeyShortcut = Keys.Escape };
+            startNewGame = new Button(this, "New Game", GraphicConsole.Instance.BufferWidth / 2 - 15, 10, 30, 3) { KeyShortcut = Key.N };
+            resumeGame = new Button(this, "Item Testing", GraphicConsole.Instance.BufferWidth / 2 - 15, 14, 30, 3) { KeyShortcut = Key.L };
+            optionsButton = new Button(this, "Quick Start", GraphicConsole.Instance.BufferWidth / 2 - 15, 18, 30, 3) { KeyShortcut = Key.O };
+            aboutButton = new Button(this, "About", GraphicConsole.Instance.BufferWidth / 2 - 15, 22, 30, 3) { KeyShortcut = Key.A };
+            exitButton = new Button(this, "Abandon", GraphicConsole.Instance.BufferWidth / 2 - 15, 26, 30, 3) { KeyShortcut = Key.Escape };
 
             startNewGame.Click += startNewGame_Pressed;
             resumeGame.Click += resumeGame_Pressed;
@@ -157,7 +158,7 @@ namespace Roguelike.Engine.UI.Interfaces
                 "Battle Car Terror"
             };
 
-            return subtitles[RNG.Next(0, subtitles.Length)];
+            return subtitles[Engine.RNG.Next(0, subtitles.Length)];
         }
     }
 }

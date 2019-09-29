@@ -110,6 +110,9 @@
     <Compile Include="Core\Stats\Races\Human.cs" />
     <Compile Include="Core\Stats\Races\Race.cs" />
     <Compile Include="Core\Stats\StatsPackage.cs" />
+    <Compile Include="Engine\Console\Charset.cs" />
+    <Compile Include="Engine\Console\CharToken.cs" />
+    <Compile Include="Engine\ContentManager.cs" />
     <Compile Include="Engine\Factories\DungeonGenerator.cs" />
     <Compile Include="Engine\Factories\ItemGenerator.cs" />
     <Compile Include="Engine\Factories\LevelGenerator.cs" />
@@ -119,11 +122,13 @@
     <Compile Include="Engine\Game.cs" />
     <Compile Include="Engine\GameManager.cs" />
     <Compile Include="Engine\GameTime.cs" />
-    <Compile Include="Engine\GraphicConsole.cs" />
+    <Compile Include="Engine\Console\GraphicConsole.cs" />
     <Compile Include="Engine\InputManager.cs" />
     <Compile Include="Engine\Pathing\PathCalculator.cs" />
     <Compile Include="Engine\Point.cs" />
     <Compile Include="Engine\Rectangle.cs" />
+    <Compile Include="Engine\Shader.cs" />
+    <Compile Include="Engine\Texture2D.cs" />
     <Compile Include="Engine\UI\Controls\AnimBox.cs" />
     <Compile Include="Engine\UI\Controls\Button.cs" />
     <Compile Include="Engine\UI\Controls\ButtonGroup.cs" />
@@ -157,8 +162,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <EmbeddedResource Include="Content\vertexShader.glsl" />
+    <EmbeddedResource Include="Content\fragmentShader.glsl" />
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\charset.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,4 +1,5 @@
 ﻿using System;
+using Roguelike.Engine.Console;
 using Roguelike.Engine.UI.Controls;
 
 namespace Roguelike.Engine.UI
@@ -8,12 +9,12 @@ namespace Roguelike.Engine.UI
         public Interface()
         {
             position = new Point(0, 0);
-            size = new Point(GraphicConsole.BufferWidth, GraphicConsole.BufferHeight);
+            size = new Point(GraphicConsole.Instance.BufferWidth, GraphicConsole.Instance.BufferHeight);
         }
 
         public virtual void OnCall()
         {
-            GraphicConsole.Clear();
+            GraphicConsole.Instance.Clear();
 
             InterfaceManager.UpdateStep();
             InterfaceManager.DrawStep();

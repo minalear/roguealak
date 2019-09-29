@@ -26,7 +26,7 @@ namespace Roguelike.Core.Combat.Effects
             parent.ParentEntity.BlendColor(bleedColor);
 
             //Bleed on the ground
-            int result = RNG.Next(0, 100);
+            int result = Engine.RNG.Next(0, 100);
             if (result <= 45)
                 parent.ParentEntity.ParentLevel.StainTile(parent.ParentEntity.X, parent.ParentEntity.Y, bleedColor);
 

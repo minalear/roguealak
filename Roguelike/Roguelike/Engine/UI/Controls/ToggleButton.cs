@@ -1,5 +1,6 @@
 ﻿using System;
 using OpenTK.Graphics;
+using Roguelike.Engine.Console;
 
 namespace Roguelike.Engine.UI.Controls
 {
@@ -35,35 +36,35 @@ namespace Roguelike.Engine.UI.Controls
             if (mode == ButtonModes.Hover)
             {
                 //Fill Area
-                GraphicConsole.SetColors(Color4.Transparent, fillColorHover);
+                GraphicConsole.Instance.SetColors(Color4.Transparent, fillColorHover);
                 DrawingUtilities.DrawRect(Position.X, Position.Y, Size.X, Size.Y, ' ', true);
 
                 //Write Text
-                GraphicConsole.SetColors(textColorHover, fillColorHover);
-                GraphicConsole.SetCursor(textPosition);
-                GraphicConsole.Write(text);
+                GraphicConsole.Instance.SetColors(textColorHover, fillColorHover);
+                GraphicConsole.Instance.SetCursor(textPosition);
+                GraphicConsole.Instance.Write(text);
             }
             else if (!enabled)
             {
                 //Fill Area
-                GraphicConsole.SetColors(Color4.Transparent, fillColor);
+                GraphicConsole.Instance.SetColors(Color4.Transparent, fillColor);
                 DrawingUtilities.DrawRect(Position.X, Position.Y, Size.X, Size.Y, ' ', true);
 
                 //Write Text
-                GraphicConsole.SetColors(textColor, fillColor);
-                GraphicConsole.SetCursor(textPosition);
-                GraphicConsole.Write(text);
+                GraphicConsole.Instance.SetColors(textColor, fillColor);
+                GraphicConsole.Instance.SetCursor(textPosition);
+                GraphicConsole.Instance.Write(text);
             }
             else if (enabled)
             {
                 //Fill Area
-                GraphicConsole.SetColors(Color4.Transparent, fillColorPressed);
+                GraphicConsole.Instance.SetColors(Color4.Transparent, fillColorPressed);
                 DrawingUtilities.DrawRect(Position.X, Position.Y, Size.X, Size.Y, ' ', true);
 
                 //Write Text
-                GraphicConsole.SetColors(textColorPressed, fillColorPressed);
-                GraphicConsole.SetCursor(textPosition);
-                GraphicConsole.Write(text);
+                GraphicConsole.Instance.SetColors(textColorPressed, fillColorPressed);
+                GraphicConsole.Instance.SetCursor(textPosition);
+                GraphicConsole.Instance.Write(text);
             }
 
             base.DrawStep();

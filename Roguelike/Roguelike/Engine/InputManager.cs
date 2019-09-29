@@ -44,12 +44,15 @@ namespace Roguelike.Engine
             _priorKeyboardState = _currentKeyboardState = Keyboard.GetState();
             _priorMouseState = _currentMouseState = Mouse.GetState();
 
+            game.Window.KeyPress += Window_KeyPress;
+
             _inputStream = new KeyboardStream();
 
             AcceptInput = false;
 
             _gameWindow = game;
         }
+
         public static void ResetTimeHeld(Key key)
         {
             if (_keyHeldTimes.ContainsKey(key))
@@ -124,7 +127,7 @@ namespace Roguelike.Engine
                 _currentKeyboardState = Keyboard.GetState();
                 foreach (var key in Enum.GetValues(typeof(Key)))
                 {
-                    if (_currentKeyboardState[(Key)key] == KeyState.Down)
+                    if (_currentKeyboardState[(Key)key])
                         _keyHeldTimes[(Key)key] = _keyHeldTimes[(Key)key] + gameTime.ElapsedTime;
                     else
                         _keyHeldTimes[(Key)key] = TimeSpan.Zero;
@@ -140,7 +143,8 @@ namespace Roguelike.Engine
                         _mouseButtonHeldTimes[(MouseButtons)mouseButton] = TimeSpan.Zero;
                 }
 
-                if (_acceptInput)
+                /* Functionality moved to Window_KeyPress */
+                /* if (_acceptInput)
                 {
                     var pressedKeys = _currentKeyboardState.GetPressedKeys();
                     for (int i = 0; i < pressedKeys.Length; i++)
@@ -152,6 +156,16 @@ namespace Roguelike.Engine
                                 _inputStream.WriteByte((byte)ch);
                         }
                     }
+                }*/
+            }
+        }
+        private static void Window_KeyPress(object sender, OpenTK.KeyPressEventArgs e)
+        {
+            if (_acceptInput)
+            {
+                if (e.KeyChar != '\t')
+                {
+                    _inputStream.WriteByte((byte)e.KeyChar);
                 }
             }
         }
@@ -228,7 +242,7 @@ namespace Roguelike.Engine
                 case Key.Keypad9: return '9';
 
                 //Other keys
-                case Key.KeypadDecimal: return '*';
+                case Key.KeypadMultiply: return '*';
                 case Key.KeypadDivide: return '/';
                 case Key.KeypadAdd: return '+';
                 case Key.KeypadSubtract: return '-';

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Roguelike.Core.Entities;
 using Roguelike.Core.Combat;
+using Roguelike.Engine;
 
 namespace Roguelike.Core.Stats
 {
@@ -18,7 +19,7 @@ namespace Roguelike.Core.Stats
             abilityList = new List<Ability>();
 
             abilityList.Add(new Combat.Abilities.BasicAttack());
-            parent = parent;
+            this.parent = parent;
         }
 
         public bool IsDead()

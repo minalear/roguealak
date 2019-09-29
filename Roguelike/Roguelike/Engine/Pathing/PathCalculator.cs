@@ -7,7 +7,11 @@ namespace Roguelike.Engine.Pathing
 {
     public static class PathCalculator
     {
-        private static List<Point> optimizedPath;
+        public static List<Point> CalculatePath(Point start, Point dest, Level level) { return new List<Point>(); }
+        public static void UpdateStep() { }
+        public static void CacheLevel(Level level) { }
+
+        /*private static List<Point> optimizedPath;
         private static bool isGridInitialized = false;
 
         private static int width, height;
@@ -66,6 +70,6 @@ namespace Roguelike.Engine.Pathing
             {
                 optimizedPath.Add(new Point(path[i].X, path[i].Y));
             }
-        }
+        }*/
     }
 }

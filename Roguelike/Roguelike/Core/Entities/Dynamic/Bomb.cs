@@ -2,6 +2,7 @@
 using OpenTK;
 using OpenTK.Graphics;
 using Roguelike.Engine;
+using Roguelike.Engine.Console;
 
 namespace Roguelike.Core.Entities
 {
@@ -9,7 +10,7 @@ namespace Roguelike.Core.Entities
     {
         private int timer;
         private int radius = 10;
-        private int intensity = 1;
+        // private int intensity = 1;
         private bool drawExplosionRadius = false;
 
         private static char[] explosionTokens = new char[] { ' ', ' ', ' ', ' ', '☼', '≈', '!', '*', '¿', '‼' };
@@ -74,18 +75,18 @@ namespace Roguelike.Core.Entities
                     point.X = (int)(x + 0.5 + r * Math.Cos(angle));
                     point.Y = (int)(y + 0.5 + r * Math.Sin(angle));
 
-                    //GraphicConsole.Put(getExplosionToken(), point.X, point.Y);
+                    //GraphicConsole.Instance.Put(getExplosionToken(), point.X, point.Y);
                     putChar(getExplosionToken(), point.X, point.Y, viewport);
                 }
             }
         }
         private char getExplosionToken()
         {
-            return explosionTokens[RNG.Next(0, explosionTokens.Length)];
+            return explosionTokens[Engine.RNG.Next(0, explosionTokens.Length)];
         }
         private Color4 getExplosionColor()
         {
-            return explosionColors[RNG.Next(0, explosionColors.Length)];
+            return explosionColors[Engine.RNG.Next(0, explosionColors.Length)];
         }
         private void putChar(char ch, int x, int y, Rectangle viewport)
         {
@@ -96,8 +97,8 @@ namespace Roguelike.Core.Entities
             {
                 if (!parentLevel.IsOutOfBounds(x, y) && parentLevel.Matrix.TerrainMatrix[x, y].IsVisible)
                 {
-                    GraphicConsole.SetColors(getExplosionColor(), BackgroundColor);
-                    GraphicConsole.Put(ch, pointX, pointY);
+                    GraphicConsole.Instance.SetColors(getExplosionColor(), BackgroundColor);
+                    GraphicConsole.Instance.Put(ch, pointX, pointY);
                 }
             }
         }
