@@ -8,7 +8,10 @@ namespace Roguelike.Engine
     public class Game : IDisposable
     {
         public Game() : this(640, 360) { }
-        public Game(int width, int height) { }
+        public Game(int width, int height)
+        {
+
+        }
 
         public virtual void Run() { }
         public virtual void Run(double updateRate) { }

@@ -67,7 +67,7 @@ namespace Roguelike.Engine.Console
             GL.Enable(EnableCap.Blend);
 
             GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
-            GL.BindTexture(TextureTarget.Texture2D, charset.TextureID);
+            GL.BindTexture(TextureTarget.Texture2D, charset.Texture.ID);
         }
 
         public void Write(string text)
@@ -159,7 +159,7 @@ namespace Roguelike.Engine.Console
             consoleShader.Use();
 
             GL.ActiveTexture(TextureUnit.Texture0);
-            GL.BindTexture(TextureTarget.Texture2D, charset.TextureID);
+            GL.BindTexture(TextureTarget.Texture2D, charset.Texture.ID);
 
             GL.BindVertexArray(vao);
             GL.DrawArrays(PrimitiveType.Quads, 0, 4 * bufferWidth * bufferHeight);
@@ -195,8 +195,8 @@ namespace Roguelike.Engine.Console
         }
         private void initShader()
         {
-            var vertexSource = game.Content.StreamShaderSource("Dauntless.Resources.vertexShader.glsl");
-            var fragmentSource = game.Content.StreamShaderSource("Dauntless.Resources.fragmentShader.glsl");
+            var vertexSource = System.IO.File.ReadAllText("Content/vertexShader.glsl");
+            var fragmentSource = System.IO.File.ReadAllText("Content/fragmentShader.glsl");
 
             consoleShader = new Shader(vertexSource, fragmentSource);
             consoleShader.Use();
