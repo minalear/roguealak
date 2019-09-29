@@ -8,11 +8,11 @@ namespace Roguelike.Core.Combat.Abilities
         public CarpetBomb()
             : base()
         {
-            this.AbilityName = "Carpet Bomb";
-            this.AbilityNameShort = "Crpt Bmb";
+            AbilityName = "Carpet Bomb";
+            AbilityNameShort = "Crpt Bmb";
 
-            this.abilityCost = 25;
-            this.TargetingType = TargetingTypes.GroundTarget;
+            abilityCost = 25;
+            TargetingType = TargetingTypes.GroundTarget;
         }
 
         public override CombatResults CalculateResults(Stats.StatsPackage caster, Stats.StatsPackage target)
@@ -26,9 +26,9 @@ namespace Roguelike.Core.Combat.Abilities
         public override void CastAbilityGround(Stats.StatsPackage caster, int x0, int y0, int radius, Level level)
         {
             radius = 50;
-            if (this.CanCastAbility(caster, x0, y0))
+            if (CanCastAbility(caster, x0, y0))
             {
-                this.ApplyAbilityCost(caster);
+                ApplyAbilityCost(caster);
 
                 for (int angle = 0; angle < 360; angle += 1)
                 {

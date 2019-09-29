@@ -1,4 +1,5 @@
 ﻿using System;
+using OpenTK.Graphics;
 using Roguelike.Core.Entities;
 using Roguelike.Core.Stats;
 
@@ -6,35 +7,35 @@ namespace Roguelike.Core.Combat.Effects
 {
     public class BasicBleed : Effect
     {
-        private static Color bleedColor = Color.Red;
+        private static Color4 bleedColor = Color4.Red;
 
         public BasicBleed(StatsPackage package)
             : base(package, 8)
         {
-            this.EffectName = "Bleeding";
-            this.EffectDescription = "You are bleeding!";
-            this.EffectType = EffectTypes.Physical;
+            EffectName = "Bleeding";
+            EffectDescription = "You are bleeding!";
+            EffectType = EffectTypes.Physical;
 
-            this.IsHarmful = true;
-            this.IsImmuneToPurge = false;
+            IsHarmful = true;
+            IsImmuneToPurge = false;
         }
 
         public override void UpdateStep()
         {
             //Color bleeding entity
-            this.parent.ParentEntity.BlendColor(bleedColor);
+            parent.ParentEntity.BlendColor(bleedColor);
 
             //Bleed on the ground
             int result = RNG.Next(0, 100);
             if (result <= 45)
-                this.parent.ParentEntity.ParentLevel.StainTile(this.parent.ParentEntity.X, this.parent.ParentEntity.Y, bleedColor);
+                parent.ParentEntity.ParentLevel.StainTile(parent.ParentEntity.X, parent.ParentEntity.Y, bleedColor);
 
             //Deal 5% of current health
-            int damage = (int)(this.parent.Health * 0.05);
+            int damage = (int)(parent.Health * 0.05);
             if (damage <= 0)
                 damage = 1;
 
-            this.parent.DealDOTDamage(damage, this);
+            parent.DealDOTDamage(damage, this);
 
             base.UpdateStep();
         }

@@ -9,8 +9,8 @@ namespace Roguelike.Engine.UI
     {
         public Interface()
         {
-            this.position = new Point(0, 0);
-            this.size = new Point(GraphicConsole.BufferWidth, GraphicConsole.BufferHeight);
+            position = new Point(0, 0);
+            size = new Point(GraphicConsole.BufferWidth, GraphicConsole.BufferHeight);
         }
 
         public virtual void OnCall()
@@ -23,27 +23,27 @@ namespace Roguelike.Engine.UI
 
         public override void Update(GameTime gameTime)
         {
-            for (int i = 0; i < this.Children.Count; i++)
+            for (int i = 0; i < Children.Count; i++)
             {
-                if (this.Children[i].IsVisible)
-                    this.Children[i].Update(gameTime);
+                if (Children[i].IsVisible)
+                    Children[i].Update(gameTime);
             }
         }
 
         public override void DrawStep()
         {
-            for (int i = 0; i < this.Children.Count; i++)
+            for (int i = 0; i < Children.Count; i++)
             {
-                if (this.Children[i].IsVisible)
-                    this.Children[i].DrawStep();
+                if (Children[i].IsVisible)
+                    Children[i].DrawStep();
             }
         }
         public override void UpdateStep()
         {
-            for (int i = 0; i < this.Children.Count; i++)
+            for (int i = 0; i < Children.Count; i++)
             {
-                if (this.Children[i].IsVisible)
-                    this.Children[i].UpdateStep();
+                if (Children[i].IsVisible)
+                    Children[i].UpdateStep();
             }
         }
     }

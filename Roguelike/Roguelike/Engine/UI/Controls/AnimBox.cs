@@ -15,81 +15,81 @@ namespace Roguelike.Engine.UI.Controls
 
         private bool isPaused = false;
 
-        public int CurrentFrame { get { return this.currentFrame; } set { this.currentFrame = value; } }
-        public bool Paused { get { return this.isPaused; } set { this.isPaused = value; } }
+        public int CurrentFrame { get { return currentFrame; } set { currentFrame = value; } }
+        public bool Paused { get { return isPaused; } set { isPaused = value; } }
 
         public AnimBox(Control parent, int frameCount)
             : base(parent)
         {
-            this.frameCount = frameCount;
-            this.animationFrames = new string[this.frameCount];
+            frameCount = frameCount;
+            animationFrames = new string[frameCount];
 
-            this.currentFrame = 0;
-            this.elapsedTime = 0.0;
-            this.timePerFrame = 75.0;
+            currentFrame = 0;
+            elapsedTime = 0.0;
+            timePerFrame = 75.0;
         }
 
         public override void DrawStep()
         {
-            this.clearArea();
-            GraphicConsole.SetCursor(this.Position.X, this.Position.Y);
-            GraphicConsole.Write(this.animationFrames[this.currentFrame]);
+            clearArea();
+            GraphicConsole.SetCursor(Position.X, Position.Y);
+            GraphicConsole.Write(animationFrames[currentFrame]);
 
             base.DrawStep();
         }
 
         public override void Update(GameTime gameTime)
         {
-            if (!this.isPaused)
+            if (!isPaused)
             {
-                this.elapsedTime += gameTime.ElapsedGameTime.Milliseconds;
+                elapsedTime += gameTime.ElapsedGameTime.Milliseconds;
 
-                if (this.elapsedTime >= this.timePerFrame)
-                    this.UpdateStep();
+                if (elapsedTime >= timePerFrame)
+                    UpdateStep();
             }
         }
 
         public override void UpdateStep()
         {
-            this.DrawStep();
+            DrawStep();
 
-            this.elapsedTime = 0.0;
-            this.currentFrame++;
+            elapsedTime = 0.0;
+            currentFrame++;
 
-            if (this.currentFrame >= this.frameCount)
-                this.currentFrame = 0;
+            if (currentFrame >= frameCount)
+                currentFrame = 0;
         }
 
         public void Initialize(int x, int y, int width, int height, double frameDelay)
         {
-            this.Position = new Point(x, y);
-            this.Size = new Point(width, height);
+            Position = new Point(x, y);
+            Size = new Point(width, height);
 
-            this.timePerFrame = frameDelay;
+            timePerFrame = frameDelay;
         }
 
         void timer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            this.currentFrame++;
-            if (this.currentFrame >= this.frameCount)
-                this.currentFrame = 0;
+            currentFrame++;
+            if (currentFrame >= frameCount)
+                currentFrame = 0;
         }
 
         public void LoadFrame(int frame, string frameData)
         {
-            if (frame >= 0 && frame < this.frameCount)
+            if (frame >= 0 && frame < frameCount)
             {
                 frameData = frameData.Replace("\r", string.Empty);
-                this.animationFrames[frame] = frameData;
+                animationFrames[frame] = frameData;
             }
         }
 
         public void PlayPause()
         {
-            if (this.isPaused)
-                this.isPaused = false;
+            if (isPaused)
+                isPaused = false;
             else
-                this.isPaused = true;
+                isPaused = true;
         }
     }
 }

@@ -16,23 +16,23 @@ namespace Roguelike.Engine.UI.Interfaces
 
         public AboutInterface()
         {
-            this.backButton = new Button(this, "X", GraphicConsole.BufferWidth - 1, 0, 1, 1) { KeyShortcut = Keys.Escape };
-            this.backButton.Click += backButton_Click;
+            backButton = new Button(this, "X", GraphicConsole.BufferWidth - 1, 0, 1, 1) { KeyShortcut = Keys.Escape };
+            backButton.Click += backButton_Click;
 
-            this.mainTitle = new Title(this, "Roguealak", GraphicConsole.BufferWidth / 2, 2, Title.TextAlignModes.Center);
-            this.mainTitle.TextColor = Color.Red;
+            mainTitle = new Title(this, "Roguealak", GraphicConsole.BufferWidth / 2, 2, Title.TextAlignModes.Center);
+            mainTitle.TextColor = Color.Red;
 
-            this.title01 = new Title(this, "Programmer", GraphicConsole.BufferWidth / 2, 6, Title.TextAlignModes.Center);
-            this.title01.TextColor = Color.Gray;
-            this.name01 = new Title(this, "Trevor \"Minalear\" Fisher", GraphicConsole.BufferWidth / 2, 7, Title.TextAlignModes.Center);
+            title01 = new Title(this, "Programmer", GraphicConsole.BufferWidth / 2, 6, Title.TextAlignModes.Center);
+            title01.TextColor = Color.Gray;
+            name01 = new Title(this, "Trevor \"Minalear\" Fisher", GraphicConsole.BufferWidth / 2, 7, Title.TextAlignModes.Center);
 
-            this.title02 = new Title(this, "Art & Design", GraphicConsole.BufferWidth / 2, 9, Title.TextAlignModes.Center);
-            this.title02.TextColor = Color.Gray;
-            this.name02 = new Title(this, "Max \"Flinnan\" Forgothowtospell", GraphicConsole.BufferWidth / 2, 10, Title.TextAlignModes.Center);
+            title02 = new Title(this, "Art & Design", GraphicConsole.BufferWidth / 2, 9, Title.TextAlignModes.Center);
+            title02.TextColor = Color.Gray;
+            name02 = new Title(this, "Max \"Flinnan\" Forgothowtospell", GraphicConsole.BufferWidth / 2, 10, Title.TextAlignModes.Center);
 
-            this.title03 = new Title(this, "Loser", GraphicConsole.BufferWidth / 2, 12, Title.TextAlignModes.Center);
-            this.title03.TextColor = Color.Gray;
-            this.name03 = new Title(this, "Asahp", GraphicConsole.BufferWidth / 2, 13, Title.TextAlignModes.Center);
+            title03 = new Title(this, "Loser", GraphicConsole.BufferWidth / 2, 12, Title.TextAlignModes.Center);
+            title03.TextColor = Color.Gray;
+            name03 = new Title(this, "Asahp", GraphicConsole.BufferWidth / 2, 13, Title.TextAlignModes.Center);
         }
 
         void backButton_Click(object sender, MouseButtons button)

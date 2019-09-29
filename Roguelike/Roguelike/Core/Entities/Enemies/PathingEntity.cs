@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using OpenTK;
+using OpenTK.Graphics;
 using Roguelike.Core.Stats;
+using Roguelike.Engine;
 
 namespace Roguelike.Core.Entities
 {
@@ -14,14 +17,14 @@ namespace Roguelike.Core.Entities
         public PathingEntity(Level parent)
             : base(parent)
         {
-            this.ForegroundColor = Color.Black;
-            this.BackgroundColor = Color.Pink;
+            ForegroundColor = Color4.Black;
+            BackgroundColor = Color4.Pink;
 
-            this.token = '♥';
-            this.EntityType = EntityTypes.Enemy;
-            this.isSolid = true;
+            token = '♥';
+            EntityType = EntityTypes.Enemy;
+            isSolid = true;
 
-            this.statsPackage = new StatsPackage(this)
+            statsPackage = new StatsPackage(this)
             {
                 UnitName = "Demon Heart",
 
@@ -33,20 +36,20 @@ namespace Roguelike.Core.Entities
             };
         }
 
-        public override void DrawStep(Rectangle viewport)
+        public override void DrawStep(Box2 viewport)
         {
             base.DrawStep(viewport);
         }
 
         public override void UpdateStep()
         {
-            this.getPlayerPosition();
-            this.calculatePath();
-            //this.paintPath();
+            getPlayerPosition();
+            calculatePath();
+            //paintPath();
 
-            if (this.path.Count > 1)
+            if (path.Count > 1)
             {
-                this.MoveToTile(this.path[1].X, this.path[1].Y);
+                MoveToTile(path[1].X, path[1].Y);
             }
 
             base.UpdateStep();
@@ -59,11 +62,11 @@ namespace Roguelike.Core.Entities
 
         public override void MoveToTile(int x, int y)
         {
-            if (this.parentLevel.IsBlockedByEntity(x, y))
+            if (parentLevel.IsBlockedByEntity(x, y))
             {
-                Entity entity = this.parentLevel.GetEntity(x, y);
+                Entity entity = parentLevel.GetEntity(x, y);
                 if (entity.EntityType == EntityTypes.Player)
-                    entity.Attack(this, this.statsPackage.AbilityList[0]);
+                    entity.Attack(this, statsPackage.AbilityList[0]);
                 else
                     entity.OnInteract(this);
             }
@@ -73,24 +76,24 @@ namespace Roguelike.Core.Entities
 
         private void calculatePath()
         {
-            this.path = Pathing.PathCalculator.CalculatePath(new Point(this.X, this.Y), this.playerPosition, parentLevel);
+            //path = Pathing.PathCalculator.CalculatePath(new Point(X, Y), playerPosition, parentLevel);
         }
         private void getPlayerPosition()
         {
-            this.playerPosition = new Point(GameManager.TestPlayer.X, GameManager.TestPlayer.Y);
+            playerPosition = new Point(GameManager.TestPlayer.X, GameManager.TestPlayer.Y);
         }
         private void paintPath()
         {
-            for (int y = 0; y < this.parentLevel.Matrix.Height; y++)
+            for (int y = 0; y < parentLevel.Matrix.Height; y++)
             {
-                for (int x = 0; x < this.parentLevel.Matrix.Width; x++)
+                for (int x = 0; x < parentLevel.Matrix.Width; x++)
                 {
-                    this.parentLevel.StainTile(x, y, Color.White);
+                    parentLevel.StainTile(x, y, Color4.White);
                 }
             }
 
-            for (int i = 0; i < this.path.Count; i++)
-                this.parentLevel.StainTile(this.path[i].X, this.path[i].Y, new Color(255, 0, 0));
+            for (int i = 0; i < path.Count; i++)
+                parentLevel.StainTile(path[i].X, path[i].Y, new Color4(255, 0, 0));
         }
     }
 }

@@ -24,9 +24,9 @@ namespace Roguelike.Engine.UI.Interfaces
             infoBox = new TextBox(this, 72, 5, 40, 37);
             infoBox.FillColor = new Color(25, 25, 25);
 
-            this.itemGenList = new ScrollingList(this, 1, 2, 70, 40);
-            this.itemGenList.FillColor = new Color(25, 25, 25);
-            this.itemGenList.Selected += itemGenList_Selected;
+            itemGenList = new ScrollingList(this, 1, 2, 70, 40);
+            itemGenList.FillColor = new Color(25, 25, 25);
+            itemGenList.Selected += itemGenList_Selected;
         }
 
         void generateButton_Click(object sender, MouseButtons button)

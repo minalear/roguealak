@@ -8,12 +8,12 @@ namespace Roguelike.Core.Combat.Abilities
         public PlantBomb()
             : base()
         {
-            this.AbilityName = "Plant Bomb";
-            this.AbilityNameShort = "Plnt Bmb";
+            AbilityName = "Plant Bomb";
+            AbilityNameShort = "Plnt Bmb";
 
-            this.abilityCost = 10;
-            this.TargetingType = TargetingTypes.GroundTarget;
-            this.range = 10;
+            abilityCost = 10;
+            TargetingType = TargetingTypes.GroundTarget;
+            range = 10;
         }
 
         public override CombatResults CalculateResults(Stats.StatsPackage caster, Stats.StatsPackage target)
@@ -26,9 +26,9 @@ namespace Roguelike.Core.Combat.Abilities
 
         public override void CastAbilityGround(Stats.StatsPackage caster, int x, int y, int radius, Level level)
         {
-            if (this.CanCastAbility(caster, x, y))
+            if (CanCastAbility(caster, x, y))
             {
-                this.ApplyAbilityCost(caster);
+                ApplyAbilityCost(caster);
 
                 Bomb bomb = new Bomb(level, 5) { X = x, Y = y };
                 level.Entities.Add(bomb);

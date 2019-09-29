@@ -9,13 +9,13 @@ namespace Roguelike.Core.Combat.Effects
         public SimpleDot(StatsPackage package)
             : base(package, 100)
         {
-            this.EffectName = "Basic DoT";
-            this.IsHarmful = true;
+            EffectName = "Basic DoT";
+            IsHarmful = true;
         }
 
         public override void UpdateStep()
         {
-            this.parent.DrainHealth(10);
+            parent.DrainHealth(10);
             
             base.UpdateStep();
         }

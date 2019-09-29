@@ -1,6 +1,8 @@
 ﻿using System;
+using OpenTK;
 using Roguelike.Core.Entities;
 using Roguelike.Core.Stats;
+using Roguelike.Engine;
 using Roguelike.Engine.UI.Controls;
 
 namespace Roguelike.Core.Combat
@@ -13,29 +15,29 @@ namespace Roguelike.Core.Combat
         protected int cooldown = 0;
 
         protected AbilityTypes abilityType = AbilityTypes.Physical;
-        public AbilityTypes AbilityType { get { return this.abilityType; } set { this.abilityType = value; } }
+        public AbilityTypes AbilityType { get { return abilityType; } set { abilityType = value; } }
 
         public string AbilityName { get; set; }
-        public string AbilityNameShort { get { return this.getShortName(); } set { this.abilityNameShort = value; } }
+        public string AbilityNameShort { get { return getShortName(); } set { abilityNameShort = value; } }
         public TargetingTypes TargetingType { get; set; }
-        public int Range { get { return this.range; } set { this.range = value; } }
+        public int Range { get { return range; } set { range = value; } }
 
         public Ability() { }
         public Ability(int cost)
         {
-            this.abilityCost = cost;
-            this.TargetingType = TargetingTypes.EntityTarget;
+            abilityCost = cost;
+            TargetingType = TargetingTypes.EntityTarget;
         }
 
         protected CombatResults results;
         public abstract CombatResults CalculateResults(StatsPackage caster, StatsPackage target);
         public virtual CombatResults CastAbilityTarget(StatsPackage caster, StatsPackage target)
         {
-            if (this.CanCastAbility(caster, target))
+            if (CanCastAbility(caster, target))
             {
-                this.ApplyAbilityCost(caster);
-                this.currentCD = this.cooldown;
-                this.results = CalculateResults(caster, target);
+                ApplyAbilityCost(caster);
+                currentCD = cooldown;
+                results = CalculateResults(caster, target);
 
                 return results;
             }
@@ -43,16 +45,16 @@ namespace Roguelike.Core.Combat
         }
         public virtual void UpdateStep()
         {
-            this.currentCD--;
-            if (this.currentCD < 0)
-                this.currentCD = 0;
+            currentCD--;
+            if (currentCD < 0)
+                currentCD = 0;
         }
 
         public virtual string GetDescription()
         {
-            string description = this.AbilityName + " - " + this.abilityType.ToString() + "\n";
-            description += "MP: " + this.abilityCost + " - Range: " + this.range + "\n";
-            description += "Target: " + this.TargetingType.ToString();
+            string description = AbilityName + " - " + abilityType.ToString() + "\n";
+            description += "MP: " + abilityCost + " - Range: " + range + "\n";
+            description += "Target: " + TargetingType.ToString();
 
             return description;
         }
@@ -62,7 +64,7 @@ namespace Roguelike.Core.Combat
             CombatResults results = new CombatResults() { DidMiss = true, DidAvoid = false, Caster = caster, Target = target, UsedAbility = this };
 
             int result = RNG.Next(0, 100);
-            if (this.abilityType == AbilityTypes.Physical)
+            if (abilityType == AbilityTypes.Physical)
             {
                 if (result <= caster.PhysicalHitChance.EffectiveValue)
                 {
@@ -75,7 +77,7 @@ namespace Roguelike.Core.Combat
                         results.DidAvoid = false;
                 }
             }
-            else if (this.abilityType == AbilityTypes.Magical)
+            else if (abilityType == AbilityTypes.Magical)
             {
                 if (result <= caster.SpellHitChance.EffectiveValue)
                 {
@@ -94,12 +96,12 @@ namespace Roguelike.Core.Combat
         public bool DoesAttackCrit(StatsPackage caster)
         {
             int result = RNG.Next(0, 100);
-            if (this.abilityType == AbilityTypes.Physical)
+            if (abilityType == AbilityTypes.Physical)
             {
                 if (result <= caster.PhysicalCritChance.EffectiveValue)
                     return true;
             }
-            else if (this.abilityType == AbilityTypes.Magical)
+            else if (abilityType == AbilityTypes.Magical)
             {
                 if (result <= caster.SpellCritChance.EffectiveValue)
                     return true;
@@ -109,32 +111,32 @@ namespace Roguelike.Core.Combat
         }
         public int ApplyCriticalDamage(int damage, StatsPackage caster)
         {
-            if (this.abilityType == AbilityTypes.Physical)
+            if (abilityType == AbilityTypes.Physical)
                 return (int)(damage * caster.PhysicalCritPower.EffectiveValue);
 
             return (int)(damage * caster.SpellCritPower.EffectiveValue);
         }
         public int CalculateAbsorption(int damage, StatsPackage target)
         {
-            if (this.abilityType == AbilityTypes.Physical)
+            if (abilityType == AbilityTypes.Physical)
                 return (int)(target.PhysicalReduction.EffectiveValue / 100 * damage);
             return (int)(target.SpellReduction.EffectiveValue / 100 * damage);
         }
         public int CalculateReflectedDamage(int damage, StatsPackage target)
         {
-            if (this.abilityType == AbilityTypes.Physical)
+            if (abilityType == AbilityTypes.Physical)
                 return (int)(damage * (target.PhysicalReflection.EffectiveValue / 100));
             return (int)(damage * (target.SpellReflection.EffectiveValue / 100));
         }
         public int CalculateHealthLeech(int damage, StatsPackage caster)
         {
-            if (this.abilityType == AbilityTypes.Magical)
+            if (abilityType == AbilityTypes.Magical)
                 return (int)(damage * (caster.HPLeechSpell / 100));
             return (int)(damage * (caster.HPLeechPhysical / 100));
         }
         public int CalculateManaLeech(int damage, StatsPackage caster)
         {
-            if (this.abilityType == AbilityTypes.Magical)
+            if (abilityType == AbilityTypes.Magical)
                 return (int)(damage * (caster.MPLeechSpell / 100));
             return (int)(damage * (caster.MPLeechPhysical / 100));
         }
@@ -150,7 +152,7 @@ namespace Roguelike.Core.Combat
             {
                 //Check range
                 int distance = (int)Vector2.Distance(new Vector2(caster.ParentEntity.X, caster.ParentEntity.Y), new Vector2(target.ParentEntity.X, target.ParentEntity.Y));
-                if (distance > this.range)
+                if (distance > range)
                     return false;
             }
 
@@ -158,7 +160,7 @@ namespace Roguelike.Core.Combat
         }
         public virtual bool CanCastAbility(StatsPackage caster, int x1, int y1)
         {
-            if (caster.Mana < this.abilityCost || this.currentCD > 0)
+            if (caster.Mana < abilityCost || currentCD > 0)
                 return false;
             if (!caster.ParentEntity.ParentLevel.IsLineOfSight(new Point(caster.ParentEntity.X, caster.ParentEntity.Y), new Point(x1, y1)))
                 return false;
@@ -167,7 +169,7 @@ namespace Roguelike.Core.Combat
             {
                 //Check range
                 int distance = (int)Vector2.Distance(new Vector2(caster.ParentEntity.X, caster.ParentEntity.Y), new Vector2(x1, y1));
-                if (distance > this.range)
+                if (distance > range)
                     return false;
             }
 
@@ -175,10 +177,10 @@ namespace Roguelike.Core.Combat
         }
         public virtual void CastAbilityGround(StatsPackage caster, int x0, int y0, int radius, Level level)
         {
-            if (this.CanCastAbility(caster, x0, y0))
+            if (CanCastAbility(caster, x0, y0))
             {
-                this.ApplyAbilityCost(caster);
-                this.currentCD = this.cooldown;
+                ApplyAbilityCost(caster);
+                currentCD = cooldown;
 
                 if (radius > 0)
                 {
@@ -206,15 +208,15 @@ namespace Roguelike.Core.Combat
 
         public virtual bool CanAffordAbility(StatsPackage caster)
         {
-            return (caster.Mana > this.abilityCost);
+            return (caster.Mana > abilityCost);
         }
         public virtual void ApplyAbilityCost(StatsPackage caster)
         {
-            caster.DrainMana(this.abilityCost);
+            caster.DrainMana(abilityCost);
         }
         public virtual bool IsOffCooldown()
         {
-            return (this.currentCD == 0);
+            return (currentCD == 0);
         }
         public virtual bool IsLineOfSight(StatsPackage caster, Point target)
         {
@@ -225,7 +227,7 @@ namespace Roguelike.Core.Combat
         {
             get
             {
-                return this.AbilityName;
+                return AbilityName;
             }
             set
             {
@@ -236,10 +238,10 @@ namespace Roguelike.Core.Combat
         private string abilityNameShort;
         private string getShortName()
         {
-            if (this.currentCD == 0)
-                return this.abilityNameShort;
+            if (currentCD == 0)
+                return abilityNameShort;
             else
-                return "CD: " + this.currentCD;
+                return "CD: " + currentCD;
         }
     }
 

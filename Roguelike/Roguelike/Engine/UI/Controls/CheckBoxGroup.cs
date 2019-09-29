@@ -10,32 +10,32 @@ namespace Roguelike.Engine.UI.Controls
         private List<CheckBox> checkboxes;
         public CheckBoxGroup(Control parent)
         {
-            this.position = new Point(0, 0);
-            this.checkboxes = new List<CheckBox>();
+            position = new Point(0, 0);
+            checkboxes = new List<CheckBox>();
         }
         public CheckBoxGroup(Control parent, int x, int y)
             : base(parent)
         {
-            this.position = new Point(x, y);
-            this.checkboxes = new List<CheckBox>();
+            position = new Point(x, y);
+            checkboxes = new List<CheckBox>();
         }
 
         public void AddCheckbox(CheckBox checkBox)
         {
             checkBox.Toggled += checkBox_Toggled;
-            this.checkboxes.Add(checkBox);
+            checkboxes.Add(checkBox);
         }
 
         void checkBox_Toggled(object sender)
         {
             if (((CheckBox)sender).Enabled)
             {
-                for (int i = 0; i < this.checkboxes.Count; i++)
+                for (int i = 0; i < checkboxes.Count; i++)
                 {
-                    if (this.checkboxes[i] != sender)
+                    if (checkboxes[i] != sender)
                     {
-                        this.checkboxes[i].Enabled = false;
-                        this.checkboxes[i].DrawStep();
+                        checkboxes[i].Enabled = false;
+                        checkboxes[i].DrawStep();
                     }
                 }
             }

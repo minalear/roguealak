@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using OpenTK.Graphics;
 using Roguelike.Core.Combat;
 
 namespace Roguelike.Core.Stats.Races
@@ -9,8 +10,8 @@ namespace Roguelike.Core.Stats.Races
         public Human()
             : base("Human")
         {
-            this.Description = "The race of Man is one of the youngest and most versatile races to walk the physical realm.  What they lack in pure strength or intelligence, they make up in persistence and virility.";
-            this.SubCultures = new List<Culture>() { new Human_Eastern(), new Human_Western(), new Human_Nordic() };
+            Description = "The race of Man is one of the youngest and most versatile races to walk the physical realm.  What they lack in pure strength or intelligence, they make up in persistence and virility.";
+            SubCultures = new List<Culture>() { new Human_Eastern(), new Human_Western(), new Human_Nordic() };
         }
 
         public override PlayerStats AddRacialStats(PlayerStats package)
@@ -37,9 +38,9 @@ namespace Roguelike.Core.Stats.Races
         public Human_Eastern()
             : base("Eastern")
         {
-            this.Description = "If a Westerner was asked about his Eastern kindred, he would typically reply with 'Eccentric,' 'Bizarre,' or 'Completely  Insane.'  These warriors of faith and skill rely more on their allies, their weapons and their mind than sheer strength.  Eastern Humans typically make the better Tacticians or Rogues.";
-            this.Trait = new EasternTrait(this);
-            this.SkinColors = new List<Color>() { new Color(227, 196, 103), new Color(188, 151, 98), new Color(242, 226, 151) };
+            Description = "If a Westerner was asked about his Eastern kindred, he would typically reply with 'Eccentric,' 'Bizarre,' or 'Completely  Insane.'  These warriors of faith and skill rely more on their allies, their weapons and their mind than sheer strength.  Eastern Humans typically make the better Tacticians or Rogues.";
+            Trait = new EasternTrait(this);
+            SkinColors = new List<Color4>() { new Color4(227, 196, 103, 255), new Color4(188, 151, 98, 255), new Color4(242, 226, 151, 255) };
         }
 
         public class EasternTrait : Effect
@@ -57,7 +58,7 @@ namespace Roguelike.Core.Stats.Races
 
             public override void CalculateStats()
             {
-                this.parent.AttackPower.ModValue += 10;
+                parent.AttackPower.ModValue += 10;
             }
         }
     }
@@ -68,9 +69,9 @@ namespace Roguelike.Core.Stats.Races
         public Human_Western()
             : base("Western")
         {
-            this.Description = "The Western Kingdoms of Man are a bastion of the Arcane and Intellect.  Most Westerners lead a very eclectic lifestyle, prefering to either socialize with their peers or study in their magical towers of fortitude.  They typically leave all traditional norms outside and act on a whim.";
-            this.Trait = new WesternTrait(this);
-            this.SkinColors = new List<Color>() { new Color(142, 88, 62), new Color(224, 210, 147), new Color(199, 164, 100) };
+            Description = "The Western Kingdoms of Man are a bastion of the Arcane and Intellect.  Most Westerners lead a very eclectic lifestyle, prefering to either socialize with their peers or study in their magical towers of fortitude.  They typically leave all traditional norms outside and act on a whim.";
+            Trait = new WesternTrait(this);
+            SkinColors = new List<Color4>() { new Color4(142, 88, 62, 255), new Color4(224, 210, 147, 255), new Color4(199, 164, 100, 255) };
         }
 
         public class WesternTrait : Effect
@@ -88,7 +89,7 @@ namespace Roguelike.Core.Stats.Races
 
             public override void CalculateStats()
             {
-                this.parent.SpellPower.ModValue += 10;
+                parent.SpellPower.ModValue += 10;
             }
         }
     }
@@ -99,9 +100,9 @@ namespace Roguelike.Core.Stats.Races
         public Human_Nordic()
             : base("Nordic")
         {
-            this.Description = "The Humans of the Northern Wastes have all but conquered their surrounding land and are looking to expand to the southron lands in search of glory.  These people are Raiders, Beserkers and Bards, and are proud of their history and spit on their enemies' ancestors.";
-            this.Trait = new NordicTrait(this);
-            this.SkinColors = new List<Color>() { new Color(253, 251, 230), new Color(243, 234, 229), new Color(241, 231, 195) };
+            Description = "The Humans of the Northern Wastes have all but conquered their surrounding land and are looking to expand to the southron lands in search of glory.  These people are Raiders, Beserkers and Bards, and are proud of their history and spit on their enemies' ancestors.";
+            Trait = new NordicTrait(this);
+            SkinColors = new List<Color4>() { new Color4(253, 251, 230, 255), new Color4(243, 234, 229, 255), new Color4(241, 231, 195, 255) };
         }
 
         public class NordicTrait : Effect
@@ -119,7 +120,7 @@ namespace Roguelike.Core.Stats.Races
 
             public override void CalculateStats()
             {
-                this.parent.PhysicalReduction.ModValue += 10;
+                parent.PhysicalReduction.ModValue += 10;
             }
         }
     }

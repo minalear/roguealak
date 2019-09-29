@@ -11,20 +11,20 @@ namespace Roguelike.Engine.UI.Controls
         public ButtonGroup(Control parent)
             : base(parent)
         {
-            this.position = new Point(0, 0);
-            this.buttons = new List<Button>();
+            position = new Point(0, 0);
+            buttons = new List<Button>();
         }
         public ButtonGroup(Control parent, int x, int y)
             : base(parent)
         {
-            this.position = new Point(x, y);
-            this.buttons = new List<Button>();
+            position = new Point(x, y);
+            buttons = new List<Button>();
         }
 
         public void AddButton(Button button)
         {
             button.Click += button_Click;
-            this.buttons.Add(button);
+            buttons.Add(button);
         }
 
         void button_Click(object sender, MouseButtons button)

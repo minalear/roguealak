@@ -9,10 +9,10 @@ namespace Roguelike.Core.Stats.Classes
         public Rogue()
             : base("Rogue")
         {
-            this.Description = "For rogues, the only code is the contract, and their honor is purchased in gold. Free from the constraints of a conscience, these mercenaries rely on brutal and efficient tactics. Lethal assassins and masters of stealth, they will approach their marks from behind, piercing a vital organ and vanishing into the shadows before the victim hits the ground.";
-            this.BasicAttack = new Ability_PoisonStrike();
-            this.InheritAbilities = new List<Ability>() { new Ability_ApplyPoison(), new Ability_Evasion() };
-            this.InheritEffects = new List<Effect>() { new Effect_CounterStrike() };
+            Description = "For rogues, the only code is the contract, and their honor is purchased in gold. Free from the constraints of a conscience, these mercenaries rely on brutal and efficient tactics. Lethal assassins and masters of stealth, they will approach their marks from behind, piercing a vital organ and vanishing into the shadows before the victim hits the ground.";
+            BasicAttack = new Ability_PoisonStrike();
+            InheritAbilities = new List<Ability>() { new Ability_ApplyPoison(), new Ability_Evasion() };
+            InheritEffects = new List<Effect>() { new Effect_CounterStrike() };
         }
         public override PlayerStats CalculateStats(PlayerStats stats)
         {
@@ -36,32 +36,32 @@ namespace Roguelike.Core.Stats.Classes
             public Ability_PoisonStrike()
                 : base()
             {
-                this.AbilityName = "Poison Strike";
-                this.AbilityNameShort = "Psn Strk";
+                AbilityName = "Poison Strike";
+                AbilityNameShort = "Psn Strk";
 
-                this.abilityType = AbilityTypes.Physical;
-                this.TargetingType = TargetingTypes.EntityTarget;
-                this.abilityCost = 0;
-                this.Range = 15;
+                abilityType = AbilityTypes.Physical;
+                TargetingType = TargetingTypes.EntityTarget;
+                abilityCost = 0;
+                Range = 15;
             }
 
             public override CombatResults CalculateResults(StatsPackage caster, StatsPackage target)
             {
-                CombatResults results = this.DoesAttackHit(caster, target);
+                CombatResults results = DoesAttackHit(caster, target);
 
                 if (!results.DidMiss && !results.DidAvoid)
                 {
                     int damage = (int)(caster.AttackPower.EffectiveValue * 0.8);
-                    if (this.DoesAttackCrit(caster))
+                    if (DoesAttackCrit(caster))
                     {
-                        damage = this.ApplyCriticalDamage(damage, caster);
+                        damage = ApplyCriticalDamage(damage, caster);
                         results.DidCrit = true;
                     }
 
                     results.PureDamage = damage;
-                    results.AbsorbedDamage = this.CalculateAbsorption(results.PureDamage, target);
+                    results.AbsorbedDamage = CalculateAbsorption(results.PureDamage, target);
                     results.AppliedDamage = results.PureDamage - results.AbsorbedDamage;
-                    results.ReflectedDamage = this.CalculateReflectedDamage(results.AppliedDamage, target);
+                    results.ReflectedDamage = CalculateReflectedDamage(results.AppliedDamage, target);
 
                     int result = RNG.Next(0, 100);
                     if (result <= 15)
@@ -88,12 +88,12 @@ namespace Roguelike.Core.Stats.Classes
             public Ability_Evasion()
                 : base()
             {
-                this.AbilityName = "Evasion";
-                this.AbilityNameShort = "Evsion";
+                AbilityName = "Evasion";
+                AbilityNameShort = "Evsion";
 
-                this.abilityType = AbilityTypes.Physical;
-                this.TargetingType = TargetingTypes.Self;
-                this.abilityCost = 10;
+                abilityType = AbilityTypes.Physical;
+                TargetingType = TargetingTypes.Self;
+                abilityCost = 10;
             }
 
             public override CombatResults CalculateResults(StatsPackage caster, StatsPackage target)
@@ -107,25 +107,25 @@ namespace Roguelike.Core.Stats.Classes
             public Ability_CounterStrike()
                 : base()
             {
-                this.AbilityName = "Counter-Strike";
-                this.AbilityNameShort = "Ctr Strk";
+                AbilityName = "Counter-Strike";
+                AbilityNameShort = "Ctr Strk";
 
-                this.abilityType = AbilityTypes.Physical;
-                this.TargetingType = TargetingTypes.EntityTarget;
+                abilityType = AbilityTypes.Physical;
+                TargetingType = TargetingTypes.EntityTarget;
             }
 
             public override CombatResults CalculateResults(StatsPackage caster, StatsPackage target)
             {
-                CombatResults results = this.DoesAttackHit(caster, target);
+                CombatResults results = DoesAttackHit(caster, target);
 
                 if (!results.DidMiss && !results.DidAvoid)
                 {
                     int damage = (int)(caster.AttackPower.EffectiveValue * 0.4);
 
                     results.PureDamage = damage;
-                    results.AbsorbedDamage = this.CalculateAbsorption(results.PureDamage, target);
+                    results.AbsorbedDamage = CalculateAbsorption(results.PureDamage, target);
                     results.AppliedDamage = results.PureDamage - results.AbsorbedDamage;
-                    results.ReflectedDamage = this.CalculateReflectedDamage(results.AppliedDamage, target);
+                    results.ReflectedDamage = CalculateReflectedDamage(results.AppliedDamage, target);
                 }
 
                 return results;
@@ -136,13 +136,13 @@ namespace Roguelike.Core.Stats.Classes
             public Ability_ApplyPoison()
                 : base()
             {
-                this.AbilityName = "Apply Poison";
-                this.AbilityNameShort = "Aply Psn";
+                AbilityName = "Apply Poison";
+                AbilityNameShort = "Aply Psn";
 
-                this.TargetingType = TargetingTypes.EntityTarget;
-                this.AbilityType = AbilityTypes.Physical;
-                this.abilityCost = 10;
-                this.Range = 15;
+                TargetingType = TargetingTypes.EntityTarget;
+                AbilityType = AbilityTypes.Physical;
+                abilityCost = 10;
+                Range = 15;
             }
 
             public override CombatResults CalculateResults(Stats.StatsPackage caster, Stats.StatsPackage target)
@@ -171,18 +171,18 @@ namespace Roguelike.Core.Stats.Classes
             public Effect_Poison()
                 : base(8)
             {
-                this.EffectName = "Poison x 1";
-                this.IsHarmful = true;
+                EffectName = "Poison x 1";
+                IsHarmful = true;
 
-                this.EffectType = EffectTypes.Physical;
-                this.EffectDescription = "Poison is being built up in your body!  Don't let it get too high.";
+                EffectType = EffectTypes.Physical;
+                EffectDescription = "Poison is being built up in your body!  Don't let it get too high.";
             }
 
             public override void UpdateStep()
             {
-                this.EffectName = "Poison x " + this.stacks.ToString();
-                //this.parent.DrainHealth(this.baseDamage * this.stacks);
-                this.parent.DealDOTDamage(this.baseDamage * this.stacks, this);
+                EffectName = "Poison x " + stacks.ToString();
+                //parent.DrainHealth(baseDamage * stacks);
+                parent.DealDOTDamage(baseDamage * stacks, this);
 
                 base.UpdateStep();
             }
@@ -192,16 +192,16 @@ namespace Roguelike.Core.Stats.Classes
             public Effect_Evasion()
                 : base(4)
             {
-                this.EffectName = "Evasion";
-                this.IsHarmful = false;
+                EffectName = "Evasion";
+                IsHarmful = false;
 
-                this.EffectDescription = "Your natural agility is allowing you to dodge more incoming attacks.";
+                EffectDescription = "Your natural agility is allowing you to dodge more incoming attacks.";
             }
 
             public override void CalculateStats()
             {
-                this.parent.PhysicalAvoidance.ModValue += 50;
-                this.parent.SpellAvoidance.ModValue += 25;
+                parent.PhysicalAvoidance.ModValue += 50;
+                parent.SpellAvoidance.ModValue += 25;
 
                 base.CalculateStats();
             }
@@ -211,10 +211,10 @@ namespace Roguelike.Core.Stats.Classes
             public Effect_CounterStrike()
                 : base(0)
             {
-                this.EffectName = "Counter-Strike";
-                this.IsHarmful = false;
+                EffectName = "Counter-Strike";
+                IsHarmful = false;
 
-                this.EffectDescription = "You will counter-attack twice whenever an enemy critically strikes you.";
+                EffectDescription = "You will counter-attack twice whenever an enemy critically strikes you.";
             }
 
             public override void OnAttack(CombatResults results)

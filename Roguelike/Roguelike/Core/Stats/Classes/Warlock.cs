@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Roguelike.Core.Entities;
 using Roguelike.Core.Entities.Dynamic;
 using Roguelike.Core.Combat;
-using Roguelike.Engine.UI.Controls;
+using Roguelike.Engine;
 
 namespace Roguelike.Core.Stats.Classes
 {
@@ -12,8 +12,8 @@ namespace Roguelike.Core.Stats.Classes
         public Warlock()
             : base("Warlock")
         {
-            this.Description = "In the face of demonic power, most heroes see death. Warlocks see only opportunity. Dominance is their aim, and they have found a path to it in the dark arts. These voracious spellcasters summon demonic minions to fight beside them. At first, they command only the service of imps, but as a warlock’s knowledge grows, seductive succubi, loyal voidwalkers, and horrific felhunters join the dark sorcerer’s ranks to wreak havoc on anyone who stands in their master’s way.";
-            this.InheritAbilities = new List<Ability>() { new Ability_ChaosBolt(), new Ability_DemonBreath(), new Ability_Havoc(), new Ability_WeakenSoul() };
+            Description = "In the face of demonic power, most heroes see death. Warlocks see only opportunity. Dominance is their aim, and they have found a path to it in the dark arts. These voracious spellcasters summon demonic minions to fight beside them. At first, they command only the service of imps, but as a warlock’s knowledge grows, seductive succubi, loyal voidwalkers, and horrific felhunters join the dark sorcerer’s ranks to wreak havoc on anyone who stands in their master’s way.";
+            InheritAbilities = new List<Ability>() { new Ability_ChaosBolt(), new Ability_DemonBreath(), new Ability_Havoc(), new Ability_WeakenSoul() };
         }
         public override PlayerStats CalculateStats(PlayerStats stats)
         {
@@ -37,34 +37,34 @@ namespace Roguelike.Core.Stats.Classes
             public Ability_ChaosBolt()
                 : base()
             {
-                this.AbilityName = "Chaos Bolt";
-                this.AbilityNameShort = "Chs Blt";
+                AbilityName = "Chaos Bolt";
+                AbilityNameShort = "Chs Blt";
 
-                this.TargetingType = TargetingTypes.EntityTarget;
-                this.abilityType = AbilityTypes.Magical;
-                this.abilityCost = 35;
-                this.Range = 15;
+                TargetingType = TargetingTypes.EntityTarget;
+                abilityType = AbilityTypes.Magical;
+                abilityCost = 35;
+                Range = 15;
 
-                this.cooldown = 5;
+                cooldown = 5;
             }
 
             public override CombatResults CalculateResults(StatsPackage caster, StatsPackage target)
             {
-                CombatResults results = this.DoesAttackHit(caster, target);
+                CombatResults results = DoesAttackHit(caster, target);
 
                 if (!results.DidMiss && !results.DidAvoid)
                 {
                     int damage = (int)(caster.SpellPower.EffectiveValue * 0.9);
-                    if (this.DoesAttackCrit(caster))
+                    if (DoesAttackCrit(caster))
                     {
-                        damage = this.ApplyCriticalDamage(damage, caster);
+                        damage = ApplyCriticalDamage(damage, caster);
                         results.DidCrit = true;
                     }
 
                     results.PureDamage = damage;
-                    results.AbsorbedDamage = this.CalculateAbsorption(damage, target);
+                    results.AbsorbedDamage = CalculateAbsorption(damage, target);
                     results.AppliedDamage = results.PureDamage - results.AbsorbedDamage;
-                    results.ReflectedDamage = this.CalculateReflectedDamage(results.AppliedDamage, target);
+                    results.ReflectedDamage = CalculateReflectedDamage(results.AppliedDamage, target);
 
                     target.ApplyEffect(new Effect_ChaosDOT(target));
                 }
@@ -77,13 +77,13 @@ namespace Roguelike.Core.Stats.Classes
             public Ability_DemonBreath()
                 : base()
             {
-                this.AbilityName = "Demon's Breath";
-                this.AbilityNameShort = "Demn Brth";
+                AbilityName = "Demon's Breath";
+                AbilityNameShort = "Demn Brth";
 
-                this.TargetingType = TargetingTypes.GroundTarget;
-                this.abilityType = AbilityTypes.Magical;
-                this.abilityCost = 15;
-                this.range = 5;
+                TargetingType = TargetingTypes.GroundTarget;
+                abilityType = AbilityTypes.Magical;
+                abilityCost = 15;
+                range = 5;
             }
 
             public override CombatResults CalculateResults(StatsPackage caster, StatsPackage target)
@@ -94,7 +94,7 @@ namespace Roguelike.Core.Stats.Classes
 
             public override void CastAbilityGround(StatsPackage caster, int x0, int y0, int radius, Level level)
             {
-                if (this.CanCastAbility(caster, x0, y0))
+                if (CanCastAbility(caster, x0, y0))
                 {
                     Point delta = new Point(x0 - caster.ParentEntity.X, y0 - caster.ParentEntity.Y);
                     FlameBreath breath = new FlameBreath(level, new Point(caster.ParentEntity.X + delta.X, caster.ParentEntity.Y + delta.Y), delta);
@@ -114,13 +114,13 @@ namespace Roguelike.Core.Stats.Classes
             public Ability_Havoc()
                 : base()
             {
-                this.AbilityName = "Havoc";
-                this.AbilityNameShort = "Havoc";
+                AbilityName = "Havoc";
+                AbilityNameShort = "Havoc";
 
-                this.TargetingType = TargetingTypes.EntityTarget;
-                this.AbilityType = AbilityTypes.Magical;
-                this.abilityCost = 15;
-                this.Range = 15;
+                TargetingType = TargetingTypes.EntityTarget;
+                AbilityType = AbilityTypes.Magical;
+                abilityCost = 15;
+                Range = 15;
             }
 
             public override CombatResults CalculateResults(Stats.StatsPackage caster, Stats.StatsPackage target)
@@ -136,13 +136,13 @@ namespace Roguelike.Core.Stats.Classes
             public Ability_WeakenSoul()
                 : base()
             {
-                this.AbilityName = "Weaken Soul";
-                this.AbilityNameShort = "Wkn Soul";
+                AbilityName = "Weaken Soul";
+                AbilityNameShort = "Wkn Soul";
 
-                this.TargetingType = TargetingTypes.EntityTarget;
-                this.AbilityType = AbilityTypes.Magical;
-                this.abilityCost = 10;
-                this.Range = 15;
+                TargetingType = TargetingTypes.EntityTarget;
+                AbilityType = AbilityTypes.Magical;
+                abilityCost = 10;
+                Range = 15;
             }
 
             public override CombatResults CalculateResults(Stats.StatsPackage caster, Stats.StatsPackage target)
@@ -161,17 +161,17 @@ namespace Roguelike.Core.Stats.Classes
             public Effect_ChaosDOT(StatsPackage package)
                 : base(package, 10)
             {
-                this.EffectName = "Chaos Burning";
-                this.IsHarmful = true;
+                EffectName = "Chaos Burning";
+                IsHarmful = true;
 
-                this.EffectType = EffectTypes.Magical;
-                this.EffectDescription = "Chaos is warping your mind, causing you take periodical damage.";
+                EffectType = EffectTypes.Magical;
+                EffectDescription = "Chaos is warping your mind, causing you take periodical damage.";
             }
 
             public override void UpdateStep()
             {
-                //this.parent.DrainHealth(this.damage);
-                this.parent.DealDOTDamage(this.damage, this);
+                //parent.DrainHealth(damage);
+                parent.DealDOTDamage(damage, this);
 
                 base.UpdateStep();
             }
@@ -183,17 +183,17 @@ namespace Roguelike.Core.Stats.Classes
             public Effect_HavocDOT(StatsPackage package)
                 : base(package, 10)
             {
-                this.EffectName = "Havoc";
-                this.IsHarmful = true;
+                EffectName = "Havoc";
+                IsHarmful = true;
 
-                this.EffectType = EffectTypes.Magical;
-                this.EffectDescription = "The shadows assault you from all sides.";
+                EffectType = EffectTypes.Magical;
+                EffectDescription = "The shadows assault you from all sides.";
             }
 
             public override void UpdateStep()
             {
-                //this.parent.DrainHealth(this.damage);
-                this.parent.DealDOTDamage(this.damage, this);
+                //parent.DrainHealth(damage);
+                parent.DealDOTDamage(damage, this);
 
                 base.UpdateStep();
             }
@@ -203,18 +203,18 @@ namespace Roguelike.Core.Stats.Classes
             public Effect_Weaken(StatsPackage package)
                 : base(package, 0)
             {
-                this.EffectName = "Weakened Soul";
-                this.IsHarmful = true;
+                EffectName = "Weakened Soul";
+                IsHarmful = true;
 
-                this.EffectDescription = "Shadows have placed a grip upon your soul!  You feel much weaker.";
+                EffectDescription = "Shadows have placed a grip upon your soul!  You feel much weaker.";
             }
 
             public override void OnApplication(Entity entity)
             {
-                for (int i = 0; i < this.parent.AppliedEffects.Count; i++)
+                for (int i = 0; i < parent.AppliedEffects.Count; i++)
                 {
-                    if (!this.parent.AppliedEffects[i].IsHarmful)
-                        this.parent.AppliedEffects[i].OnRemoval();
+                    if (!parent.AppliedEffects[i].IsHarmful)
+                        parent.AppliedEffects[i].OnRemoval();
                 }
 
                 base.OnApplication(entity);
@@ -222,7 +222,7 @@ namespace Roguelike.Core.Stats.Classes
 
             public override void CalculateStats()
             {
-                this.parent.SpellReduction.ModValue -= this.parent.SpellPower.BaseValue * 0.25;
+                parent.SpellReduction.ModValue -= parent.SpellPower.BaseValue * 0.25;
 
                 base.CalculateStats();
             }

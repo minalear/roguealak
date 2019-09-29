@@ -10,59 +10,59 @@ namespace Roguelike.Engine.UI.Controls
         public InputBox(Control parent, int x, int y, int width, int height)
             : base(parent)
         {
-            this.text = string.Empty;
+            text = string.Empty;
 
-            this.Position = new Point(x, y);
-            this.Size = new Point(width, height);
+            Position = new Point(x, y);
+            Size = new Point(width, height);
 
             if (height > 1)
-                this.isMultiline = true;
+                isMultiline = true;
         }
         public InputBox(Control parent, int x, int y, int width)
             : base(parent)
         {
-            this.text = string.Empty;
+            text = string.Empty;
 
-            this.Position = new Point(x, y);
-            this.Size = new Point(width, 1);
-            this.isMultiline = false;
+            Position = new Point(x, y);
+            Size = new Point(width, 1);
+            isMultiline = false;
         }
 
         public override void DrawStep()
         {
-            this.clearArea();
+            clearArea();
 
-            GraphicConsole.SetColors(Color.Transparent, this.fillColor);
-            DrawingUtilities.DrawRect(this.Position.X, this.Position.Y, this.Size.X, this.Size.Y, ' ', true);
+            GraphicConsole.SetColors(Color.Transparent, fillColor);
+            DrawingUtilities.DrawRect(Position.X, Position.Y, Size.X, Size.Y, ' ', true);
 
-            if (this.text != string.Empty)
+            if (text != string.Empty)
             {
-                GraphicConsole.SetColors(this.textColor, this.fillColor);
-                GraphicConsole.SetCursor(this.Position);
-                GraphicConsole.Write(this.text);
+                GraphicConsole.SetColors(textColor, fillColor);
+                GraphicConsole.SetCursor(Position);
+                GraphicConsole.Write(text);
             }
 
             base.DrawStep();
         }
         public override void Update(GameTime gameTime)
         {
-            if (this.hasFocus)
+            if (hasFocus)
             {
                 #region HasFocus Branch
-                this.cursorCounter += gameTime.ElapsedGameTime.TotalMilliseconds;
+                cursorCounter += gameTime.ElapsedGameTime.TotalMilliseconds;
 
-                if (this.cursorCounter >= cursorFlickerRate * 2)
-                    this.cursorCounter = 0.0;
-                if (this.cursorCounter > cursorFlickerRate)
+                if (cursorCounter >= cursorFlickerRate * 2)
+                    cursorCounter = 0.0;
+                if (cursorCounter > cursorFlickerRate)
                 {
-                    GraphicConsole.SetColors(this.textColor, this.fillColor);
-                    GraphicConsole.SetCursor(this.Position.X + this.text.Length, this.Position.Y);
-                    GraphicConsole.Write(this.cursor);
+                    GraphicConsole.SetColors(textColor, fillColor);
+                    GraphicConsole.SetCursor(Position.X + text.Length, Position.Y);
+                    GraphicConsole.Write(cursor);
                 }
                 else
                 {
-                    GraphicConsole.SetColors(this.textColor, this.fillColor);
-                    GraphicConsole.SetCursor(this.Position.X + this.text.Length, this.Position.Y);
+                    GraphicConsole.SetColors(textColor, fillColor);
+                    GraphicConsole.SetCursor(Position.X + text.Length, Position.Y);
                     GraphicConsole.Write(' ');
                 }
 
@@ -73,29 +73,29 @@ namespace Roguelike.Engine.UI.Controls
 
                     if (ch == '\0') //NUL Terminator
                     {
-                        if (!string.IsNullOrEmpty(this.text))
+                        if (!string.IsNullOrEmpty(text))
                         {
-                            this.text = this.text.Remove(this.text.Length - 1);
-                            this.DrawStep();
+                            text = text.Remove(text.Length - 1);
+                            DrawStep();
                         }
                     }
                     else if (ch == '\n' || ch == '\r')
                     {
-                        this.onSubmit(null);
+                        onSubmit(null);
                         InputManager.InputStream.Flush();
                         InputManager.AcceptInput = false;
 
-                        this.hasFocus = false;
-                        this.DrawStep();
+                        hasFocus = false;
+                        DrawStep();
                     }
                     else if (ch == '\t')
                         return;
                     else
                     {
-                        if (this.CharacterLimit == 0 || this.text.Length < this.characterLimit)
+                        if (CharacterLimit == 0 || text.Length < characterLimit)
                         {
-                            this.text += ch;
-                            this.DrawStep();
+                            text += ch;
+                            DrawStep();
                         }
                     }
                     #endregion
@@ -105,21 +105,21 @@ namespace Roguelike.Engine.UI.Controls
 
             if (InputManager.MouseButtonWasClicked(MouseButtons.Left))
             {
-                if (this.isMouseHover())
+                if (isMouseHover())
                 {
-                    this.hasFocus = true;
-                    this.cursorCounter = 0.0;
+                    hasFocus = true;
+                    cursorCounter = 0.0;
 
-                    this.DrawStep();
+                    DrawStep();
                     InputManager.AcceptInput = true;
                     InputManager.InputStream.Flush();
                 }
                 else
                 {
-                    this.hasFocus = false;
-                    this.cursorCounter = 0.0;
+                    hasFocus = false;
+                    cursorCounter = 0.0;
 
-                    this.DrawStep();
+                    DrawStep();
                     InputManager.AcceptInput = false;
                     InputManager.InputStream.Flush();
                 }
@@ -127,11 +127,11 @@ namespace Roguelike.Engine.UI.Controls
         }
         public void ForceSubmit(object sender)
         {
-            this.onSubmit(sender);
+            onSubmit(sender);
         }
         public void Clear()
         {
-            this.text = "";
+            text = "";
         }
 
         protected void onSubmit(object sender)
@@ -144,10 +144,10 @@ namespace Roguelike.Engine.UI.Controls
         }
         private void wrapText()
         {
-            if (this.isMultiline)
+            if (isMultiline)
             {
-                this.text = TextUtilities.StripFormatting(text);
-                this.text = TextUtilities.WordWrap(text, this.size.X);
+                text = TextUtilities.StripFormatting(text);
+                text = TextUtilities.WordWrap(text, size.X);
             }
         }
 
@@ -169,13 +169,13 @@ namespace Roguelike.Engine.UI.Controls
         public delegate void InputBoxSubmit(object sender);
 
         #region Properties
-        public string Text { get { return this.text; } set { this.text = value; } }
-        public Color TextColor { get { return this.textColor; } set { this.textColor = value; } }
-        public Color FillColor { get { return this.fillColor; } set { this.fillColor = value; } }
-        public bool HasFocus { get { return this.hasFocus; } set { this.hasFocus = value; } }
-        //public bool IsMultiline { get { return this.isMultiline; } set { this.isMultiline = value; } }
-        public bool ShowCursor { get { return this.showCursor; } set { this.showCursor = value; } }
-        public int CharacterLimit { get { return this.characterLimit; } set { this.characterLimit = value; } }
+        public string Text { get { return text; } set { text = value; } }
+        public Color TextColor { get { return textColor; } set { textColor = value; } }
+        public Color FillColor { get { return fillColor; } set { fillColor = value; } }
+        public bool HasFocus { get { return hasFocus; } set { hasFocus = value; } }
+        //public bool IsMultiline { get { return isMultiline; } set { isMultiline = value; } }
+        public bool ShowCursor { get { return showCursor; } set { showCursor = value; } }
+        public int CharacterLimit { get { return characterLimit; } set { characterLimit = value; } }
         #endregion
     }
 }

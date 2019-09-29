@@ -10,96 +10,96 @@ namespace Roguelike.Engine.UI.Controls
         public ToggleButton(Control parent, string text, int x, int y)
             : base(parent)
         {
-            this.setDefaults();
+            setDefaults();
 
-            this.text = text;
-            this.position = new Point(x, y);
-            this.size = new Point(text.Length + 2, 3);
+            text = text;
+            position = new Point(x, y);
+            size = new Point(text.Length + 2, 3);
 
-            this.setTextPosition();
+            setTextPosition();
         }
         public ToggleButton(Control parent, string text, int x, int y, int width, int height)
             : base(parent)
         {
-            this.setDefaults();
+            setDefaults();
 
-            this.text = text;
-            this.position = new Point(x, y);
-            this.size = new Point(width, height);
+            text = text;
+            position = new Point(x, y);
+            size = new Point(width, height);
 
-            this.setTextPosition();
+            setTextPosition();
         }
         
         public override void DrawStep()
         {
-            this.clearArea();
+            clearArea();
 
-            if (this.mode == ButtonModes.Hover)
+            if (mode == ButtonModes.Hover)
             {
                 //Fill Area
-                GraphicConsole.SetColors(Color.Transparent, this.fillColorHover);
-                DrawingUtilities.DrawRect(this.Position.X, this.Position.Y, this.Size.X, this.Size.Y, ' ', true);
+                GraphicConsole.SetColors(Color.Transparent, fillColorHover);
+                DrawingUtilities.DrawRect(Position.X, Position.Y, Size.X, Size.Y, ' ', true);
 
                 //Write Text
-                GraphicConsole.SetColors(this.textColorHover, this.fillColorHover);
-                GraphicConsole.SetCursor(this.textPosition);
-                GraphicConsole.Write(this.text);
+                GraphicConsole.SetColors(textColorHover, fillColorHover);
+                GraphicConsole.SetCursor(textPosition);
+                GraphicConsole.Write(text);
             }
-            else if (!this.enabled)
+            else if (!enabled)
             {
                 //Fill Area
-                GraphicConsole.SetColors(Color.Transparent, this.fillColor);
-                DrawingUtilities.DrawRect(this.Position.X, this.Position.Y, this.Size.X, this.Size.Y, ' ', true);
+                GraphicConsole.SetColors(Color.Transparent, fillColor);
+                DrawingUtilities.DrawRect(Position.X, Position.Y, Size.X, Size.Y, ' ', true);
 
                 //Write Text
-                GraphicConsole.SetColors(this.textColor, this.fillColor);
-                GraphicConsole.SetCursor(this.textPosition);
-                GraphicConsole.Write(this.text);
+                GraphicConsole.SetColors(textColor, fillColor);
+                GraphicConsole.SetCursor(textPosition);
+                GraphicConsole.Write(text);
             }
-            else if (this.enabled)
+            else if (enabled)
             {
                 //Fill Area
-                GraphicConsole.SetColors(Color.Transparent, this.fillColorPressed);
-                DrawingUtilities.DrawRect(this.Position.X, this.Position.Y, this.Size.X, this.Size.Y, ' ', true);
+                GraphicConsole.SetColors(Color.Transparent, fillColorPressed);
+                DrawingUtilities.DrawRect(Position.X, Position.Y, Size.X, Size.Y, ' ', true);
 
                 //Write Text
-                GraphicConsole.SetColors(this.textColorPressed, this.fillColorPressed);
-                GraphicConsole.SetCursor(this.textPosition);
-                GraphicConsole.Write(this.text);
+                GraphicConsole.SetColors(textColorPressed, fillColorPressed);
+                GraphicConsole.SetCursor(textPosition);
+                GraphicConsole.Write(text);
             }
 
             base.DrawStep();
         }
         public override void Update(GameTime gameTime)
         {
-            if (this.isMouseHover())
+            if (isMouseHover())
             {
-                this.mode = ButtonModes.Hover;
+                mode = ButtonModes.Hover;
 
                 if (InputManager.MouseButtonWasClicked(MouseButtons.Left))
                 {
-                    this.onButtonPress(MouseButtons.Left);
+                    onButtonPress(MouseButtons.Left);
 
                     InterfaceManager.UpdateStep();
                     InterfaceManager.DrawStep();
                 }
                 else if (InputManager.MouseButtonIsDown(MouseButtons.Left))
                 {
-                    this.mode = ButtonModes.Pressed;
-                    this.DrawStep();
+                    mode = ButtonModes.Pressed;
+                    DrawStep();
                 }
-                else if (!this.wasHover())
+                else if (!wasHover())
                 {
-                    this.onButtonHover();
-                    this.DrawStep();
+                    onButtonHover();
+                    DrawStep();
                 }
             }
-            else if (this.wasHover())
+            else if (wasHover())
             {
-                if (this.enabled)
-                    this.mode = ButtonModes.Pressed;
+                if (enabled)
+                    mode = ButtonModes.Pressed;
                 else
-                    this.mode = ButtonModes.Normal;
+                    mode = ButtonModes.Normal;
 
                 InterfaceManager.DrawStep();
             }
@@ -108,37 +108,37 @@ namespace Roguelike.Engine.UI.Controls
         //Event Methods
         protected void onButtonPress(MouseButtons button)
         {
-            this.enabled = !this.enabled;
+            enabled = !enabled;
 
-            if (this.Click != null)
-                this.Click(this);
+            if (Click != null)
+                Click(this);
 
-            if (this.enabled)
-                this.mode = ButtonModes.Pressed;
+            if (enabled)
+                mode = ButtonModes.Pressed;
             else
-                this.mode = ButtonModes.Normal;
+                mode = ButtonModes.Normal;
         }
         protected void onButtonHover()
         {
-            if (this.Hover != null)
-                this.Hover(this);
+            if (Hover != null)
+                Hover(this);
         }
 
         private void setDefaults()
         {
-            this.textColor = DEFAULT_TEXT_COLOR;
-            this.fillColor = DEFAULT_FILL_COLOR;
+            textColor = DEFAULT_TEXT_COLOR;
+            fillColor = DEFAULT_FILL_COLOR;
 
-            this.textColorHover = DEFAULT_TEXT_HOVER_COLOR;
-            this.fillColorHover = DEFAULT_FILL_HOVER_COLOR;
+            textColorHover = DEFAULT_TEXT_HOVER_COLOR;
+            fillColorHover = DEFAULT_FILL_HOVER_COLOR;
 
-            this.textColorPressed = DEFAULT_TEXT_PRESSED_COLOR;
-            this.fillColorPressed = DEFAULT_FILL_PRESSED_COLOR;
+            textColorPressed = DEFAULT_TEXT_PRESSED_COLOR;
+            fillColorPressed = DEFAULT_FILL_PRESSED_COLOR;
         }
         private void setTextPosition()
         {
-            this.textPosition.X = this.Position.X + (this.Size.X / 2 - this.text.Length / 2);
-            this.textPosition.Y = (this.Size.Y / 2) + this.Position.Y;
+            textPosition.X = Position.X + (Size.X / 2 - text.Length / 2);
+            textPosition.Y = (Size.Y / 2) + Position.Y;
         }
 
         private string text;
@@ -152,14 +152,14 @@ namespace Roguelike.Engine.UI.Controls
         private enum ButtonModes { Normal, Hover, Pressed }
 
         #region Properties
-        public string Text { get { return this.text; } set { this.text = value; this.setTextPosition(); } }
-        public Color TextColor { get { return this.textColor; } set { this.textColor = value; } }
-        public Color FillColor { get { return this.fillColor; } set { this.fillColor = value; } }
-        public Color TextColorHover { get { return this.textColorHover; } set { this.textColorHover = value; } }
-        public Color FillColorHover { get { return this.fillColorHover; } set { this.fillColorHover = value; } }
-        public Color TextColorPressed { get { return this.textColorPressed; } set { this.textColorPressed = value; } }
-        public Color FillColorPressed { get { return this.fillColorPressed; } set { this.fillColorPressed = value; } }
-        public bool Enabled { get { return this.enabled; } set { this.enabled = value; } }
+        public string Text { get { return text; } set { text = value; setTextPosition(); } }
+        public Color TextColor { get { return textColor; } set { textColor = value; } }
+        public Color FillColor { get { return fillColor; } set { fillColor = value; } }
+        public Color TextColorHover { get { return textColorHover; } set { textColorHover = value; } }
+        public Color FillColorHover { get { return fillColorHover; } set { fillColorHover = value; } }
+        public Color TextColorPressed { get { return textColorPressed; } set { textColorPressed = value; } }
+        public Color FillColorPressed { get { return fillColorPressed; } set { fillColorPressed = value; } }
+        public bool Enabled { get { return enabled; } set { enabled = value; } }
         #endregion
         #region Constants
         private static Color DEFAULT_TEXT_COLOR = Color.White;

@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using OpenTK;
+using OpenTK.Graphics;
 using Roguelike.Core.Entities;
 using Roguelike.Core.Items;
+using Roguelike.Engine;
 
 namespace Roguelike.Core
 {
@@ -12,52 +15,52 @@ namespace Roguelike.Core
     {
         public Level(int width, int height)
         {
-            this.entities = new List<Entity>();
-            this.rooms = new List<Room>();
-            this.floorItems = new List<Item>();
+            entities = new List<Entity>();
+            rooms = new List<Room>();
+            floorItems = new List<Item>();
 
-            this.levelMatrix = new LevelMatrix(width, height);
+            levelMatrix = new LevelMatrix(width, height);
         }
 
-        public void DrawLevel(Rectangle viewport)
+        public void DrawLevel(Box2 viewport)
         {
-            this.levelMatrix.DrawStep(viewport);
+            levelMatrix.DrawStep(viewport);
 
-            for (int i = 0; i < this.floorItems.Count; i++)
-                this.floorItems[i].DrawStep(viewport);
+            for (int i = 0; i < floorItems.Count; i++)
+                floorItems[i].DrawStep(viewport);
 
-            for (int i = 0; i < this.entities.Count; i++)
-                this.entities[i].DrawStep(viewport);
+            for (int i = 0; i < entities.Count; i++)
+                entities[i].DrawStep(viewport);
         }
-        public void DrawLevel(Rectangle viewport, Point offset)
+        public void DrawLevel(Box2 viewport, Point offset)
         {
-            this.levelMatrix.DrawStep(viewport, offset);
+            levelMatrix.DrawStep(viewport, offset);
         }
         public void Update(GameTime gameTime)
         {
             levelMatrix.Update(gameTime);
-            for (int i = 0; i < this.entities.Count; i++)
-                this.entities[i].Update(gameTime);
+            for (int i = 0; i < entities.Count; i++)
+                entities[i].Update(gameTime);
         }
         public void UpdateStep()
         {
-            this.ClearLayer(MatrixLevels.Effect);
+            ClearLayer(MatrixLevels.Effect);
             GameManager.Player.UpdateStep();
 
-            for (int i = 0; i < this.entities.Count; i++)
+            for (int i = 0; i < entities.Count; i++)
             {
-                if (this.entities[i].EntityType != Entity.EntityTypes.Player)
+                if (entities[i].EntityType != Entity.EntityTypes.Player)
                 {
-                    this.entities[i].UpdateStep();
-                    if (this.entities[i].DoPurge)
+                    entities[i].UpdateStep();
+                    if (entities[i].DoPurge)
                     {
-                        this.entities.RemoveAt(i);
+                        entities.RemoveAt(i);
                         i--;
                     }
                     else
                     {
-                        if (this.entities[i].Tile.IsVisible)
-                            this.levelMatrix.EntityMatrix[this.entities[i].X, this.entities[i].Y].Token = this.entities[i].Token;
+                        if (entities[i].Tile.IsVisible)
+                            levelMatrix.EntityMatrix[entities[i].X, entities[i].Y].Token = entities[i].Token;
                     }
                 }
             }
@@ -67,10 +70,10 @@ namespace Roguelike.Core
 
         public void RevealTile(int x, int y)
         {
-            if (!this.IsOutOfBounds(x, y))
+            if (!IsOutOfBounds(x, y))
             {
-                this.levelMatrix.TerrainMatrix[x, y].IsVisible = true;
-                this.levelMatrix.TerrainMatrix[x, y].WasVisible = true;
+                levelMatrix.TerrainMatrix[x, y].IsVisible = true;
+                levelMatrix.TerrainMatrix[x, y].WasVisible = true;
             }
         }
         public void RevealTile(Circle area)
@@ -86,7 +89,7 @@ namespace Roguelike.Core
 
                     if (!revealedTiles.Contains(position))
                     {
-                        this.RevealTile(position.X, position.Y);
+                        RevealTile(position.X, position.Y);
                         revealedTiles.Add(position);
                     }
                 }
@@ -94,10 +97,10 @@ namespace Roguelike.Core
         }
         public void HideTile(int x, int y)
         {
-            if (!this.IsOutOfBounds(x, y))
+            if (!IsOutOfBounds(x, y))
             {
-                this.levelMatrix.TerrainMatrix[x, y].IsVisible = false;
-                this.levelMatrix.TerrainMatrix[x, y].WasVisible = false;
+                levelMatrix.TerrainMatrix[x, y].IsVisible = false;
+                levelMatrix.TerrainMatrix[x, y].WasVisible = false;
             }
         }
         public void HideTile(Circle area)
@@ -113,30 +116,30 @@ namespace Roguelike.Core
 
                     if (!hidTiles.Contains(position))
                     {
-                        this.HideTile(position.X, position.Y);
+                        HideTile(position.X, position.Y);
                         hidTiles.Add(position);
                     }
                 }
             }
         }
-        public void StainTile(int x, int y, Color color)
+        public void StainTile(int x, int y, Color4 color)
         {
-            if (!this.IsOutOfBounds(x, y))
+            if (!IsOutOfBounds(x, y))
             {
-                Color tileColor = this.levelMatrix.TerrainMatrix[x, y].ForegroundColor;
-                Color average = new Color()
+                var tileColor = levelMatrix.TerrainMatrix[x, y].ForegroundColor;
+                var average = new Color4()
                 {
                     R = (byte)((color.R + tileColor.R) / 2),
                     G = (byte)((color.G + tileColor.G) / 2),
                     B = (byte)((color.B + tileColor.B) / 2),
                     A = 255
                 };
-                this.levelMatrix.TerrainMatrix[x, y].ForegroundColor = average;
+                levelMatrix.TerrainMatrix[x, y].ForegroundColor = average;
             }
         }
-        public void StainTile(Circle area, Color color)
+        public void StainTile(Circle area, Color4 color)
         {
-            List<Point> stainedTiles = new List<Point>();
+            var stainedTiles = new List<Point>();
             for (int angle = 0; angle < 360; angle += 1)
             {
                 for (int r = 0; r < area.Radius; r++)
@@ -147,26 +150,26 @@ namespace Roguelike.Core
 
                     if (!stainedTiles.Contains(position))
                     {
-                        this.StainTile(position.X, position.Y, color);
+                        StainTile(position.X, position.Y, color);
                         stainedTiles.Add(position);
                     }
                 }
             }
         }
-        public void StainTile(Rectangle area, Color color)
+        public void StainTile(Box2 area, Color4 color)
         {
-            for (int y = area.Top; y < area.Bottom; y++)
+            for (int y = (int)area.Top; y < area.Bottom; y++)
             {
-                for (int x = area.Left; x < area.Right; x++)
+                for (int x = (int)area.Left; x < area.Right; x++)
                 {
-                    this.StainTile(x, y, color);
+                    StainTile(x, y, color);
                 }
             }
         }
         public void DamageTile(int x, int y)
         {
-            if (!this.IsOutOfBounds(x, y))
-                this.levelMatrix.TerrainMatrix[x, y].DamageTile();
+            if (!IsOutOfBounds(x, y))
+                levelMatrix.TerrainMatrix[x, y].DamageTile();
         }
         public void DamateTile(Circle area)
         {
@@ -181,7 +184,7 @@ namespace Roguelike.Core
 
                     if (!damagedTiles.Contains(position))
                     {
-                        this.DamageTile(position.X, position.Y);
+                        DamageTile(position.X, position.Y);
                         damagedTiles.Add(position);
                     }
                 }
@@ -189,19 +192,19 @@ namespace Roguelike.Core
         }
         private void breakTile(int x, int y)
         {
-            if (x >= 0 && x < this.levelMatrix.Width && y >= 0 && y < this.levelMatrix.Height)
+            if (x >= 0 && x < levelMatrix.Width && y >= 0 && y < levelMatrix.Height)
             {
-                if (this.levelMatrix.TerrainMatrix[x, y].IsSolid)
+                if (levelMatrix.TerrainMatrix[x, y].IsSolid)
                 {
                     if (RNG.Next(0, 5) == 0) //Generate Rubble
                     {
-                        this.levelMatrix.TerrainMatrix[x, y].Token = TokenReference.FLOOR_RUBBLE;
-                        this.levelMatrix.TerrainMatrix[x, y].IsSolid = false;
+                        levelMatrix.TerrainMatrix[x, y].Token = TokenReference.FLOOR_RUBBLE;
+                        levelMatrix.TerrainMatrix[x, y].IsSolid = false;
                     }
                     else                     //Leave empty space
                     {
-                        this.levelMatrix.TerrainMatrix[x, y].Token = TokenReference.FLOOR_EMPTY;
-                        this.levelMatrix.TerrainMatrix[x, y].IsSolid = false;
+                        levelMatrix.TerrainMatrix[x, y].Token = TokenReference.FLOOR_EMPTY;
+                        levelMatrix.TerrainMatrix[x, y].IsSolid = false;
                     }
                 }
             }
@@ -209,24 +212,24 @@ namespace Roguelike.Core
 
         public bool IsOutOfBounds(int x, int y)
         {
-            if (x < 0 || x >= this.levelMatrix.Width || y < 0 || y >= this.levelMatrix.Height)
+            if (x < 0 || x >= levelMatrix.Width || y < 0 || y >= levelMatrix.Height)
                 return true;
             return false;
         }
         public bool IsTileSolid(int x, int y)
         {
-            if (this.IsOutOfBounds(x, y))
+            if (IsOutOfBounds(x, y))
                 return true;
-            else if (this.levelMatrix.TerrainMatrix[x, y].IsSolid)
+            else if (levelMatrix.TerrainMatrix[x, y].IsSolid)
                 return true;
 
             return false;
         }
         public bool IsBlockedByEntity(int x, int y)
         {
-            for (int i = 0; i < this.entities.Count; i++)
+            for (int i = 0; i < entities.Count; i++)
             {
-                if (this.entities[i].X == x && this.entities[i].Y == y && this.entities[i].IsSolid)
+                if (entities[i].X == x && entities[i].Y == y && entities[i].IsSolid)
                     return true;
             }
 
@@ -234,9 +237,9 @@ namespace Roguelike.Core
         }
         public Entity GetEntity(int x, int y)
         {
-            for (int i = 0; i < this.entities.Count; i++)
+            for (int i = 0; i < entities.Count; i++)
             {
-                if (this.entities[i].X == x && this.entities[i].Y == y)
+                if (entities[i].X == x && entities[i].Y == y)
                     return entities[i];
             }
 
@@ -257,7 +260,7 @@ namespace Roguelike.Core
 
                     if (!scannedTiles.Contains(position))
                     {
-                        Entity entity = this.GetEntity(position.X, position.Y);
+                        Entity entity = GetEntity(position.X, position.Y);
                         if (entity != null)
                             entityList.Add(entity);
                     }
@@ -266,15 +269,15 @@ namespace Roguelike.Core
 
             return entityList;
         }
-        public List<Entity> GetEntities(Rectangle area)
+        public List<Entity> GetEntities(Box2 area)
         {
-            List<Entity> entityList = new List<Entity>();
+            var entityList = new List<Entity>();
 
-            for (int y = area.Top; y < area.Bottom; y++)
+            for (int y = (int)area.Top; y < area.Bottom; y++)
             {
-                for (int x = area.Left; x < area.Right; x++)
+                for (int x = (int)area.Left; x < area.Right; x++)
                 {
-                    Entity entity = this.GetEntity(x, y);
+                    Entity entity = GetEntity(x, y);
                     if (entity != null)
                         entityList.Add(entity);
                 }
@@ -303,12 +306,12 @@ namespace Roguelike.Core
                 /*if (!(steep ? plot(y, x) : plot(x, y))) return;*/
                 if (steep)
                 {
-                    if (this.IsTileSolid(y, x))
+                    if (IsTileSolid(y, x))
                         return false;
                 }
                 else
                 {
-                    if (this.IsTileSolid(x, y))
+                    if (IsTileSolid(x, y))
                         return false;
                 }
 
@@ -321,43 +324,43 @@ namespace Roguelike.Core
 
         public void SetToken(MatrixLevels level, int x, int y, char token)
         {
-            if (!this.IsOutOfBounds(x, y))
+            if (!IsOutOfBounds(x, y))
             {
                 if (level == MatrixLevels.Terrain)
                 {
-                    this.levelMatrix.TerrainMatrix[x, y].Token = token;
+                    levelMatrix.TerrainMatrix[x, y].Token = token;
                 }
                 else if (level == MatrixLevels.Effect)
                 {
-                    this.levelMatrix.EffectMatrix[x, y].Token = token;
+                    levelMatrix.EffectMatrix[x, y].Token = token;
                 }
                 else if (level == MatrixLevels.Entity)
                 {
-                    this.levelMatrix.EntityMatrix[x, y].Token = token;
+                    levelMatrix.EntityMatrix[x, y].Token = token;
                 }
             }
         }
-        public void SetToken(MatrixLevels level, int x, int y, char token, Color fore, Color back)
+        public void SetToken(MatrixLevels level, int x, int y, char token, Color4 fore, Color4 back)
         {
-            if (!this.IsOutOfBounds(x, y))
+            if (!IsOutOfBounds(x, y))
             {
                 if (level == MatrixLevels.Terrain)
                 {
-                    this.levelMatrix.TerrainMatrix[x, y].Token = token;
-                    this.levelMatrix.TerrainMatrix[x, y].ForegroundColor = fore;
-                    this.levelMatrix.TerrainMatrix[x, y].BackgroundColor = back;
+                    levelMatrix.TerrainMatrix[x, y].Token = token;
+                    levelMatrix.TerrainMatrix[x, y].ForegroundColor = fore;
+                    levelMatrix.TerrainMatrix[x, y].BackgroundColor = back;
                 }
                 else if (level == MatrixLevels.Effect)
                 {
-                    this.levelMatrix.EffectMatrix[x, y].Token = token;
-                    this.levelMatrix.EffectMatrix[x, y].ForegroundColor = fore;
-                    this.levelMatrix.EffectMatrix[x, y].BackgroundColor = back;
+                    levelMatrix.EffectMatrix[x, y].Token = token;
+                    levelMatrix.EffectMatrix[x, y].ForegroundColor = fore;
+                    levelMatrix.EffectMatrix[x, y].BackgroundColor = back;
                 }
                 else if (level == MatrixLevels.Entity)
                 {
-                    this.levelMatrix.EntityMatrix[x, y].Token = token;
-                    this.levelMatrix.EntityMatrix[x, y].ForegroundColor = fore;
-                    this.levelMatrix.EntityMatrix[x, y].BackgroundColor = back;
+                    levelMatrix.EntityMatrix[x, y].Token = token;
+                    levelMatrix.EntityMatrix[x, y].ForegroundColor = fore;
+                    levelMatrix.EntityMatrix[x, y].BackgroundColor = back;
                 }
             }
         }
@@ -365,30 +368,30 @@ namespace Roguelike.Core
         {
             if (level == MatrixLevels.Effect)
             {
-                for (int y = 0; y < this.levelMatrix.Height; y++)
+                for (int y = 0; y < levelMatrix.Height; y++)
                 {
-                    for (int x = 0; x < this.levelMatrix.Width; x++)
+                    for (int x = 0; x < levelMatrix.Width; x++)
                     {
-                        this.levelMatrix.EffectMatrix[x, y].ForegroundColor = Color.White;
-                        this.levelMatrix.EffectMatrix[x, y].BackgroundColor = Color.Black;
-                        this.levelMatrix.EffectMatrix[x, y].Token = ' ';
+                        levelMatrix.EffectMatrix[x, y].ForegroundColor = Color4.White;
+                        levelMatrix.EffectMatrix[x, y].BackgroundColor = Color4.Black;
+                        levelMatrix.EffectMatrix[x, y].Token = ' ';
                     }
                 }
             }
             else if (level == MatrixLevels.Entity)
             {
-                for (int y = 0; y < this.levelMatrix.Height; y++)
+                for (int y = 0; y < levelMatrix.Height; y++)
                 {
-                    for (int x = 0; x < this.levelMatrix.Width; x++)
+                    for (int x = 0; x < levelMatrix.Width; x++)
                     {
-                        this.levelMatrix.EntityMatrix[x, y].ForegroundColor = Color.White;
-                        this.levelMatrix.EntityMatrix[x, y].BackgroundColor = Color.Black;
-                        this.levelMatrix.EntityMatrix[x, y].Token = ' ';
+                        levelMatrix.EntityMatrix[x, y].ForegroundColor = Color4.White;
+                        levelMatrix.EntityMatrix[x, y].BackgroundColor = Color4.Black;
+                        levelMatrix.EntityMatrix[x, y].Token = ' ';
                     }
                 }
             }
         }
-        public void DrawCircle(MatrixLevels level, Circle area, char token, Color fore, Color back, bool solid)
+        public void DrawCircle(MatrixLevels level, Circle area, char token, Color4 fore, Color4 back, bool solid)
         {
             if (!solid)
             {
@@ -398,16 +401,16 @@ namespace Roguelike.Core
 
                 while (x >= y)
                 {
-                    this.SetToken(level, x + area.X, y + area.Y, token, fore, back);
-                    this.SetToken(level, y + area.X, x + area.Y, token, fore, back);
-                    this.SetToken(level, -x + area.X, y + area.Y, token, fore, back);
-                    this.SetToken(level, -y + area.X, x + area.Y, token, fore, back);
-                    this.SetToken(level, -x + area.X, -y + area.Y, token, fore, back);
-                    this.SetToken(level, -y + area.X, -x + area.Y, token, fore, back);
-                    this.SetToken(level, x + area.X, -y + area.Y, token, fore, back);
-                    this.SetToken(level, y + area.X, -x + area.Y, token, fore, back);
+                    SetToken(level, x + area.X, y + area.Y, token, fore, back);
+                    SetToken(level, y + area.X, x + area.Y, token, fore, back);
+                    SetToken(level, -x + area.X, y + area.Y, token, fore, back);
+                    SetToken(level, -y + area.X, x + area.Y, token, fore, back);
+                    SetToken(level, -x + area.X, -y + area.Y, token, fore, back);
+                    SetToken(level, -y + area.X, -x + area.Y, token, fore, back);
+                    SetToken(level, x + area.X, -y + area.Y, token, fore, back);
+                    SetToken(level, y + area.X, -x + area.Y, token, fore, back);
 
-                    this.SetToken(level, x + area.X, y + area.Y, token);
+                    SetToken(level, x + area.X, y + area.Y, token);
 
                     y++;
                     if (radiusError < 0)
@@ -436,7 +439,7 @@ namespace Roguelike.Core
 
                         if (!stainedTiles.Contains(position))
                         {
-                            this.SetToken(level, position.X, position.Y, token, fore, back);
+                            SetToken(level, position.X, position.Y, token, fore, back);
                             stainedTiles.Add(position);
                         }
                     }
@@ -464,54 +467,54 @@ namespace Roguelike.Core
             }
         }
         private static void Swap<T>(ref T lhs, ref T rhs) { T temp; temp = lhs; lhs = rhs; rhs = temp; }
-        public void DrawRectangle(MatrixLevels level, Rectangle rectangle, char token, bool solid)
+        public void DrawRectangle(MatrixLevels level, Box2 rectangle, char token, bool solid)
         {
             if (!solid)
             {
-                for (int y = rectangle.Top; y < rectangle.Bottom; y++)
+                for (int y = (int)rectangle.Top; y < rectangle.Bottom; y++)
                 {
-                    this.SetToken(level, rectangle.Left, y, token);
-                    this.SetToken(level, rectangle.Right - 1, y, token);
+                    SetToken(level, (int)rectangle.Left, y, token);
+                    SetToken(level, (int)rectangle.Right - 1, y, token);
                 }
-                for (int x = rectangle.Left; x < rectangle.Right; x++)
+                for (int x = (int)rectangle.Left; x < rectangle.Right; x++)
                 {
-                    this.SetToken(level, x, rectangle.Top, token);
-                    this.SetToken(level, x, rectangle.Bottom - 1, token);
+                    SetToken(level, x, (int)rectangle.Top, token);
+                    SetToken(level, x, (int)rectangle.Bottom - 1, token);
                 }
             }
             else
             {
-                for (int y = rectangle.Top; y < rectangle.Bottom; y++)
+                for (int y = (int)rectangle.Top; y < rectangle.Bottom; y++)
                 {
-                    for (int x = rectangle.Left; x < rectangle.Right; x++)
+                    for (int x = (int)rectangle.Left; x < rectangle.Right; x++)
                     {
-                        this.SetToken(level, x, y, token);
+                        SetToken(level, x, y, token);
                     }
                 }
             }
         }
-        public void DrawRectangle(MatrixLevels level, Rectangle rectangle, char token, bool solid, Color fore, Color back)
+        public void DrawRectangle(MatrixLevels level, Box2 rectangle, char token, bool solid, Color4 fore, Color4 back)
         {
             if (!solid)
             {
-                for (int y = rectangle.Top; y < rectangle.Bottom; y++)
+                for (int y = (int)rectangle.Top; y < rectangle.Bottom; y++)
                 {
-                    this.SetToken(level, rectangle.Left, y, token, fore, back);
-                    this.SetToken(level, rectangle.Right - 1, y, token, fore, back);
+                    SetToken(level, (int)rectangle.Left, y, token, fore, back);
+                    SetToken(level, (int)rectangle.Right - 1, y, token, fore, back);
                 }
-                for (int x = rectangle.Left; x < rectangle.Right; x++)
+                for (int x = (int)rectangle.Left; x < rectangle.Right; x++)
                 {
-                    this.SetToken(level, x, rectangle.Top, token, fore, back);
-                    this.SetToken(level, x, rectangle.Bottom - 1, token, fore, back);
+                    SetToken(level, x, (int)rectangle.Top, token, fore, back);
+                    SetToken(level, x, (int)rectangle.Bottom - 1, token, fore, back);
                 }
             }
             else
             {
-                for (int y = rectangle.Top; y < rectangle.Bottom; y++)
+                for (int y = (int)rectangle.Top; y < rectangle.Bottom; y++)
                 {
-                    for (int x = rectangle.Left; x < rectangle.Right; x++)
+                    for (int x = (int)rectangle.Left; x < rectangle.Right; x++)
                     {
-                        this.SetToken(level, x, y, token, fore, back);
+                        SetToken(level, x, y, token, fore, back);
                     }
                 }
             }
@@ -519,14 +522,14 @@ namespace Roguelike.Core
 
         public void PickupItem(Item item)
         {
-            this.floorItems.Remove(item);
+            floorItems.Remove(item);
         }
         public void DropItem(Item item, int x, int y)
         {
             item.ParentLevel = this;
             item.Position = new Point(x, y);
 
-            this.floorItems.Add(item);
+            floorItems.Add(item);
         }
 
         private string name = "[Level]";
@@ -535,11 +538,11 @@ namespace Roguelike.Core
         private List<Room> rooms;
         private List<Item> floorItems;
 
-        public string Name { get { return this.name; } set { this.name = value; } }
-        public LevelMatrix Matrix { get { return this.levelMatrix; } set { this.levelMatrix = value; } }
-        public List<Entity> Entities { get { return this.entities; } set { this.entities = value; } }
-        public List<Room> Rooms { get { return this.rooms; } set { this.rooms = value; } }
-        public List<Item> FloorItems { get { return this.floorItems; } set { this.floorItems = value; } }
+        public string Name { get { return name; } set { name = value; } }
+        public LevelMatrix Matrix { get { return levelMatrix; } set { levelMatrix = value; } }
+        public List<Entity> Entities { get { return entities; } set { entities = value; } }
+        public List<Room> Rooms { get { return rooms; } set { rooms = value; } }
+        public List<Item> FloorItems { get { return floorItems; } set { floorItems = value; } }
 
         public Ladder UpwardLadder, DownwardLadder;
     }
@@ -554,58 +557,58 @@ namespace Roguelike.Core
             this.x = x;
             this.y = y;
 
-            this.isSolid = false;
-            this.isVisible = false;
-            this.wasVisible = false;
+            isSolid = false;
+            isVisible = false;
+            wasVisible = false;
 
-            this.token = ' ';
-            this.tileHealth = 10;
+            token = ' ';
+            tileHealth = 10;
 
-            this.foregroundColor = Color.White;
-            this.backgroundColor = Color.Black;
+            foregroundColor = Color4.White;
+            backgroundColor = Color4.Black;
 
-            this.tileLoc = TileLocation.Wall;
+            tileLoc = TileLocation.Wall;
         }
 
         public void Draw(int coordX, int coordY)
         {
-            if (this.isVisible)
+            if (isVisible)
             {
-                GraphicConsole.SetColors(this.foregroundColor, this.backgroundColor);
-                GraphicConsole.Put(this.token, coordX, coordY);
+                GraphicConsole.SetColors(foregroundColor, backgroundColor);
+                GraphicConsole.Put(token, coordX, coordY);
             }
-            else if (this.wasVisible)
+            else if (wasVisible)
             {
-                Color halfColor = this.foregroundColor;
+                var halfColor = foregroundColor;
                 halfColor.A = 125;
 
-                GraphicConsole.SetColors(halfColor, this.backgroundColor);
-                GraphicConsole.Put(this.token, coordX, coordY);
+                GraphicConsole.SetColors(halfColor, backgroundColor);
+                GraphicConsole.Put(token, coordX, coordY);
             }
         }
         public void DamageTile()
         {
-            if (this.TileLoc == TileLocation.Wall)
+            if (TileLoc == TileLocation.Wall)
             {
-                this.tileHealth--;
-                if (this.tileHealth < 0)
+                tileHealth--;
+                if (tileHealth < 0)
                 {
-                    this.tileHealth = 0;
+                    tileHealth = 0;
                     return;
                 }
 
-                if (this.tileHealth >= 4)
-                    this.token = TokenReference.WALL_4;
-                else if (this.tileHealth == 3)
-                    this.token = TokenReference.WALL_3;
-                else if (this.tileHealth == 2)
-                    this.token = TokenReference.WALL_2;
-                else if (this.tileHealth == 1)
-                    this.token = TokenReference.WALL_1;
-                else if (this.tileHealth == 0)
+                if (tileHealth >= 4)
+                    token = TokenReference.WALL_4;
+                else if (tileHealth == 3)
+                    token = TokenReference.WALL_3;
+                else if (tileHealth == 2)
+                    token = TokenReference.WALL_2;
+                else if (tileHealth == 1)
+                    token = TokenReference.WALL_1;
+                else if (tileHealth == 0)
                 {
-                    this.token = TokenReference.FLOOR_EMPTY;
-                    this.isSolid = false;
+                    token = TokenReference.FLOOR_EMPTY;
+                    isSolid = false;
                 }
             }
         }
@@ -618,25 +621,25 @@ namespace Roguelike.Core
         private char token;
         private int tileHealth;
 
-        private Color foregroundColor;
-        private Color backgroundColor;
+        private Color4 foregroundColor;
+        private Color4 backgroundColor;
 
         private TileLocation tileLoc;
 
         #region Properties
-        public int X { get { return this.x; } set { this.x = value; } }
-        public int Y { get { return this.y; } set { this.y = value; } }
+        public int X { get { return x; } set { x = value; } }
+        public int Y { get { return y; } set { y = value; } }
 
-        public bool IsSolid { get { return this.isSolid; } set { this.isSolid = value; } }
-        public bool IsVisible { get { return this.isVisible; } set { this.isVisible = value; } }
-        public bool WasVisible { get { return this.wasVisible; } set { this.wasVisible = value; } }
+        public bool IsSolid { get { return isSolid; } set { isSolid = value; } }
+        public bool IsVisible { get { return isVisible; } set { isVisible = value; } }
+        public bool WasVisible { get { return wasVisible; } set { wasVisible = value; } }
 
-        public char Token { get { return this.token; } set { this.token = value; } }
+        public char Token { get { return token; } set { token = value; } }
         
-        public Color ForegroundColor { get { return this.foregroundColor; } set { this.foregroundColor = value; } }
-        public Color BackgroundColor { get { return this.backgroundColor; } set { this.backgroundColor = value; } }
+        public Color4 ForegroundColor { get { return foregroundColor; } set { foregroundColor = value; } }
+        public Color4 BackgroundColor { get { return backgroundColor; } set { backgroundColor = value; } }
         
-        public TileLocation TileLoc { get { return this.tileLoc; } set { this.tileLoc = value; } }
+        public TileLocation TileLoc { get { return tileLoc; } set { tileLoc = value; } }
         #endregion
 
         public enum TileLocation { Wall, Solid, Corridor, Room, Door, Ladder }
@@ -645,24 +648,24 @@ namespace Roguelike.Core
     {
         public int X, Y;
         public char Token;
-        public Color ForegroundColor, BackgroundColor;
+        public Color4 ForegroundColor, BackgroundColor;
 
         public TokenTile(int x, int y)
         {
-            this.X = x;
-            this.Y = y;
+            X = x;
+            Y = y;
 
-            this.Token = ' ';
-            this.ForegroundColor = Color.White;
-            this.BackgroundColor = Color.Black;
+            Token = ' ';
+            ForegroundColor = Color4.White;
+            BackgroundColor = Color4.Black;
         }
 
         public void Draw(int coordX, int coordY)
         {
-            if (this.Token != ' ')
+            if (Token != ' ')
             {
-                GraphicConsole.SetColors(this.ForegroundColor, this.BackgroundColor);
-                GraphicConsole.Put(this.Token, coordX, coordY);
+                GraphicConsole.SetColors(ForegroundColor, BackgroundColor);
+                GraphicConsole.Put(Token, coordX, coordY);
             }
         }
     }
@@ -674,15 +677,15 @@ namespace Roguelike.Core
 
         public bool Contains(int x, int y)
         {
-            if (x >= this.Left && x < this.Right && y >= this.Top && y < this.Bottom)
+            if (x >= Left && x < Right && y >= Top && y < Bottom)
                 return true;
             return false;
         }
 
-        public int Left { get { return this.X; } }
-        public int Right { get { return this.X + this.Width; } }
-        public int Top { get { return this.Y; } }
-        public int Bottom { get { return this.Y + this.Height; } }
+        public int Left { get { return X; } }
+        public int Right { get { return X + Width; } }
+        public int Top { get { return Y; } }
+        public int Bottom { get { return Y + Height; } }
     }
 
     public struct Circle
@@ -709,23 +712,23 @@ namespace Roguelike.Core
             this.width = width;
             this.height = height;
 
-            this.terrainMatrix = new Tile[width, height];
-            this.effectMatrix = new TokenTile[width, height];
-            this.entityMatrix = new TokenTile[width, height];
+            terrainMatrix = new Tile[width, height];
+            effectMatrix = new TokenTile[width, height];
+            entityMatrix = new TokenTile[width, height];
 
-            this.initializeMatrix();
+            initializeMatrix();
         }
 
-        public void DrawStep(Rectangle viewport)
+        public void DrawStep(Box2 viewport)
         {
-            for (int y = viewport.Top; y < viewport.Bottom; y++)
+            for (int y = (int)viewport.Top; y < viewport.Bottom; y++)
             {
-                for (int x = viewport.Left; x < viewport.Right; x++)
+                for (int x = (int)viewport.Left; x < viewport.Right; x++)
                 {
-                    int coordX = GameManager.CameraOffset.X + x - viewport.X;
-                    int coordY = GameManager.CameraOffset.Y + y - viewport.Y;
+                    int coordX = GameManager.CameraOffset.X + x - (int)viewport.Left;
+                    int coordY = GameManager.CameraOffset.Y + y - (int)viewport.Top;
 
-                    if (coordX >= 0 && coordX < this.width && coordY >= 0 && coordY < this.height)
+                    if (coordX >= 0 && coordX < width && coordY >= 0 && coordY < height)
                     {
                         terrainMatrix[coordX, coordY].Draw(x, y);
 
@@ -737,16 +740,16 @@ namespace Roguelike.Core
                 }
             }
         }
-        public void DrawStep(Rectangle viewport, Point offset)
+        public void DrawStep(Box2 viewport, Point offset)
         {
-            for (int y = viewport.Top; y < viewport.Bottom; y++)
+            for (int y = (int)viewport.Top; y < viewport.Bottom; y++)
             {
-                for (int x = viewport.Left; x < viewport.Right; x++)
+                for (int x = (int)viewport.Left; x < viewport.Right; x++)
                 {
-                    int coordX = offset.X + x - viewport.X;
-                    int coordY = offset.Y + y - viewport.Y;
+                    int coordX = offset.X + x - (int)viewport.Left;
+                    int coordY = offset.Y + y - (int)viewport.Top;
 
-                    if (coordX >= 0 && coordX < this.width && coordY >= 0 && coordY < this.height)
+                    if (coordX >= 0 && coordX < width && coordY >= 0 && coordY < height)
                     {
                         terrainMatrix[coordX, coordY].Draw(x, y);
                     }
@@ -760,34 +763,34 @@ namespace Roguelike.Core
         }
         public void Update(GameTime gameTime)
         {
-            timer += gameTime.ElapsedGameTime.Milliseconds;
+            timer += gameTime.ElapsedTime.Milliseconds;
             if (timer >= 740.0)
             {
                 displayEffects = !displayEffects;
                 timer = 0.0;
 
-                UI.InterfaceManager.DrawStep();
+                Engine.UI.InterfaceManager.DrawStep();
             }
         }
 
         private void initializeMatrix()
         {
-            for (int y = 0; y < this.height; y++)
+            for (int y = 0; y < height; y++)
             {
-                for (int x = 0; x < this.width; x++)
+                for (int x = 0; x < width; x++)
                 {
                     terrainMatrix[x, y] = new Tile(x, y);
                     effectMatrix[x, y] = new TokenTile(x, y);
-                    entityMatrix[x, y] = new TokenTile(x, y) { ForegroundColor = new Color(255, 255, 255, 125) };
+                    entityMatrix[x, y] = new TokenTile(x, y) { ForegroundColor = new Color4(255, 255, 255, 125) };
                 }
             }
         }
 
-        public int Width { get { return this.width; } set { this.width = value; } }
-        public int Height { get { return this.height; } set { this.height = value; } }
-        public Tile[,] TerrainMatrix { get { return this.terrainMatrix; } }
-        public TokenTile[,] EffectMatrix { get { return this.effectMatrix; } }
-        public TokenTile[,] EntityMatrix { get { return this.entityMatrix; } }
+        public int Width { get { return width; } set { width = value; } }
+        public int Height { get { return height; } set { height = value; } }
+        public Tile[,] TerrainMatrix { get { return terrainMatrix; } }
+        public TokenTile[,] EffectMatrix { get { return effectMatrix; } }
+        public TokenTile[,] EntityMatrix { get { return entityMatrix; } }
     }
     public enum MatrixLevels { Terrain, Effect, Entity }
 }

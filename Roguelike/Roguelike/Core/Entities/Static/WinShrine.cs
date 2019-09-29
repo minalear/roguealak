@@ -1,4 +1,6 @@
 ﻿using System;
+using OpenTK.Graphics;
+using Roguelike.Engine;
 
 namespace Roguelike.Core.Entities.Static
 {
@@ -7,12 +9,12 @@ namespace Roguelike.Core.Entities.Static
         public WinShrine(Level parent)
             : base(parent)
         {
-            this.EntityType = EntityTypes.Other;
-            this.token = 'Φ';
+            EntityType = EntityTypes.Other;
+            token = 'Φ';
 
-            this.ForegroundColor = Color.WhiteSmoke;
-            this.isSolid = true;
-            this.statsPackage = new Stats.StatsPackage(this) { IsImmune = true };
+            ForegroundColor = Color4.WhiteSmoke;
+            isSolid = true;
+            statsPackage = new Stats.StatsPackage(this) { IsImmune = true };
         }
 
         public override void OnInteract(Entity entity)

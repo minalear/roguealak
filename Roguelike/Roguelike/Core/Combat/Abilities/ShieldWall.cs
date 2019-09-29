@@ -8,11 +8,11 @@ namespace Roguelike.Core.Combat.Abilities
         public ShieldWall()
             : base()
         {
-            this.AbilityName = "Shield Wall";
-            this.AbilityNameShort = "Shld Wll";
+            AbilityName = "Shield Wall";
+            AbilityNameShort = "Shld Wll";
 
-            this.abilityCost = 50;
-            this.TargetingType = TargetingTypes.Self;
+            abilityCost = 50;
+            TargetingType = TargetingTypes.Self;
         }
 
         public override CombatResults CalculateResults(Stats.StatsPackage caster, Stats.StatsPackage target)

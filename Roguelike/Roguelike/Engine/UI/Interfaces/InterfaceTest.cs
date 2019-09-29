@@ -36,7 +36,7 @@ namespace Roguelike.Engine.UI.Interfaces
             leftUnit.SetInitialStats();
             rightUnit.SetInitialStats();
 
-            this.setupInterface();
+            setupInterface();
 
             //Unit One
             hpBarOne = new BarTitle(this, 22, 5, "HP", 15);
@@ -89,105 +89,105 @@ namespace Roguelike.Engine.UI.Interfaces
 
         private void setupInterface()
         {
-            this.interfaceTitle = new Title(this, "Combat Testing", GraphicConsole.BufferWidth / 2, 0, Title.TextAlignModes.Center);
-            this.backButton = new Button(this, "X", GraphicConsole.BufferWidth - 1, 0, 1, 1);
-            this.backButton.Click += backButton_Pressed;
+            interfaceTitle = new Title(this, "Combat Testing", GraphicConsole.BufferWidth / 2, 0, Title.TextAlignModes.Center);
+            backButton = new Button(this, "X", GraphicConsole.BufferWidth - 1, 0, 1, 1);
+            backButton.Click += backButton_Pressed;
 
             combatLog = new TextBox(this, 23, 45, GraphicConsole.BufferWidth - 46, 5);
 
             //Left Player
-            this.strOne = new Title(this, "STR: ##", 2, 10, Title.TextAlignModes.Left);
-            this.agiOne = new Title(this, "AGI: ##", 2, 11, Title.TextAlignModes.Left);
-            this.dexOne = new Title(this, "DEX: ##", 2, 12, Title.TextAlignModes.Left);
+            strOne = new Title(this, "STR: ##", 2, 10, Title.TextAlignModes.Left);
+            agiOne = new Title(this, "AGI: ##", 2, 11, Title.TextAlignModes.Left);
+            dexOne = new Title(this, "DEX: ##", 2, 12, Title.TextAlignModes.Left);
 
-            this.intOne = new Title(this, "INT: ##", 2, 14, Title.TextAlignModes.Left);
-            this.wilOne = new Title(this, "WIL: ##", 2, 15, Title.TextAlignModes.Left);
-            this.wisOne = new Title(this, "WIS: ##", 2, 16, Title.TextAlignModes.Left);
+            intOne = new Title(this, "INT: ##", 2, 14, Title.TextAlignModes.Left);
+            wilOne = new Title(this, "WIL: ##", 2, 15, Title.TextAlignModes.Left);
+            wisOne = new Title(this, "WIS: ##", 2, 16, Title.TextAlignModes.Left);
 
-            this.conOne = new Title(this, "CON: ##", 2, 18, Title.TextAlignModes.Left);
-            this.endOne = new Title(this, "END: ##", 2, 19, Title.TextAlignModes.Left);
-            this.frtOne = new Title(this, "FRT: ##", 2, 20, Title.TextAlignModes.Left);
+            conOne = new Title(this, "CON: ##", 2, 18, Title.TextAlignModes.Left);
+            endOne = new Title(this, "END: ##", 2, 19, Title.TextAlignModes.Left);
+            frtOne = new Title(this, "FRT: ##", 2, 20, Title.TextAlignModes.Left);
 
-            this.leftUnitInfo = new TextBox(this, 2, 22, 20, 25);
+            leftUnitInfo = new TextBox(this, 2, 22, 20, 25);
 
             for (int i = 0; i < leftSpells.Length; i++)
-                this.leftSpells[i] = new Button(this, "[ ABIL " + (i + 1) + " ]", 30, 13 + (i * 4), 10, 3);
+                leftSpells[i] = new Button(this, "[ ABIL " + (i + 1) + " ]", 30, 13 + (i * 4), 10, 3);
 
-            this.leftSpells[0].Click += LeftSpell_00;
-            this.leftSpells[1].Click += LeftSpell_01;
-            this.leftSpells[2].Click += LeftSpell_02;
-            this.leftSpells[3].Click += LeftSpell_03;
+            leftSpells[0].Click += LeftSpell_00;
+            leftSpells[1].Click += LeftSpell_01;
+            leftSpells[2].Click += LeftSpell_02;
+            leftSpells[3].Click += LeftSpell_03;
 
-            this.leftButtonSet = new LeftAdjustmentButtons(this, leftUnit);
+            leftButtonSet = new LeftAdjustmentButtons(this, leftUnit);
 
             //Right Player
-            this.strTwo = new Title(this, "STR: ##", GraphicConsole.BufferWidth - 2, 10, Title.TextAlignModes.Right);
-            this.agiTwo = new Title(this, "AGI: ##", GraphicConsole.BufferWidth - 2, 11, Title.TextAlignModes.Right);
-            this.dexTwo = new Title(this, "DEX: ##", GraphicConsole.BufferWidth - 2, 12, Title.TextAlignModes.Right);
+            strTwo = new Title(this, "STR: ##", GraphicConsole.BufferWidth - 2, 10, Title.TextAlignModes.Right);
+            agiTwo = new Title(this, "AGI: ##", GraphicConsole.BufferWidth - 2, 11, Title.TextAlignModes.Right);
+            dexTwo = new Title(this, "DEX: ##", GraphicConsole.BufferWidth - 2, 12, Title.TextAlignModes.Right);
 
-            this.intTwo = new Title(this, "INT: ##", GraphicConsole.BufferWidth - 2, 14, Title.TextAlignModes.Right);
-            this.wilTwo = new Title(this, "WIL: ##", GraphicConsole.BufferWidth - 2, 15, Title.TextAlignModes.Right);
-            this.wisTwo = new Title(this, "WIS: ##", GraphicConsole.BufferWidth - 2, 16, Title.TextAlignModes.Right);
+            intTwo = new Title(this, "INT: ##", GraphicConsole.BufferWidth - 2, 14, Title.TextAlignModes.Right);
+            wilTwo = new Title(this, "WIL: ##", GraphicConsole.BufferWidth - 2, 15, Title.TextAlignModes.Right);
+            wisTwo = new Title(this, "WIS: ##", GraphicConsole.BufferWidth - 2, 16, Title.TextAlignModes.Right);
 
-            this.conTwo = new Title(this, "CON: ##", GraphicConsole.BufferWidth - 2, 18, Title.TextAlignModes.Right);
-            this.endTwo = new Title(this, "END: ##", GraphicConsole.BufferWidth - 2, 19, Title.TextAlignModes.Right);
-            this.frtTwo = new Title(this, "FRT: ##", GraphicConsole.BufferWidth - 2, 20, Title.TextAlignModes.Right);
+            conTwo = new Title(this, "CON: ##", GraphicConsole.BufferWidth - 2, 18, Title.TextAlignModes.Right);
+            endTwo = new Title(this, "END: ##", GraphicConsole.BufferWidth - 2, 19, Title.TextAlignModes.Right);
+            frtTwo = new Title(this, "FRT: ##", GraphicConsole.BufferWidth - 2, 20, Title.TextAlignModes.Right);
 
-            this.rightUnitInfo = new TextBox(this, GraphicConsole.BufferWidth - 20, 22, 20, 25);
+            rightUnitInfo = new TextBox(this, GraphicConsole.BufferWidth - 20, 22, 20, 25);
 
             for (int i = 0; i < leftSpells.Length; i++)
-                this.rightSpells[i] = new Button(this, "[ ABIL " + (i + 1) + " ]", 83, 13 + (i * 4), 10, 3);
+                rightSpells[i] = new Button(this, "[ ABIL " + (i + 1) + " ]", 83, 13 + (i * 4), 10, 3);
 
-            this.rightSpells[0].Click += RightSpell_00;
-            this.rightSpells[1].Click += RightSpell_01;
-            this.rightSpells[2].Click += RightSpell_02;
-            this.rightSpells[3].Click += RightSpell_03;
+            rightSpells[0].Click += RightSpell_00;
+            rightSpells[1].Click += RightSpell_01;
+            rightSpells[2].Click += RightSpell_02;
+            rightSpells[3].Click += RightSpell_03;
 
-            this.rightButtonSet = new RightAdjustmentButtons(this, rightUnit);
+            rightButtonSet = new RightAdjustmentButtons(this, rightUnit);
 
-            this.reset = new Button(this, "Reset", 2, 6, 7, 3);
-            this.reset.Click += reset_Pressed;
+            reset = new Button(this, "Reset", 2, 6, 7, 3);
+            reset.Click += reset_Pressed;
 
-            this.heal = new Button(this, "Heal", 10, 6, 7, 3);
+            heal = new Button(this, "Heal", 10, 6, 7, 3);
             heal.Click += heal_Pressed;
 
-            this.turn = new Button(this, "Turn", 18, 6, 7, 3);
+            turn = new Button(this, "Turn", 18, 6, 7, 3);
             turn.Click += turn_Pressed;
 
-            this.setAbilitiesToBars();
+            setAbilitiesToBars();
         }
         
         private void setStatTitles()
         {
             //Left Player
-            this.strOne.Text = "STR: " + leftUnit.Strength.ToString();
-            this.agiOne.Text = "AGI: " + leftUnit.Agility.ToString();
-            this.dexOne.Text = "DEX: " + leftUnit.Dexterity.ToString();
+            strOne.Text = "STR: " + leftUnit.Strength.ToString();
+            agiOne.Text = "AGI: " + leftUnit.Agility.ToString();
+            dexOne.Text = "DEX: " + leftUnit.Dexterity.ToString();
 
-            this.intOne.Text = "INT: " + leftUnit.Intelligence.ToString();
-            this.wilOne.Text = "WIL: " + leftUnit.Willpower.ToString();
-            this.wisOne.Text = "WIS: " + leftUnit.Wisdom.ToString();
+            intOne.Text = "INT: " + leftUnit.Intelligence.ToString();
+            wilOne.Text = "WIL: " + leftUnit.Willpower.ToString();
+            wisOne.Text = "WIS: " + leftUnit.Wisdom.ToString();
 
-            this.conOne.Text = "CON: " + leftUnit.Constitution.ToString();
-            this.endOne.Text = "END: " + leftUnit.Endurance.ToString();
-            this.frtOne.Text = "FRT: " + leftUnit.Fortitude.ToString();
+            conOne.Text = "CON: " + leftUnit.Constitution.ToString();
+            endOne.Text = "END: " + leftUnit.Endurance.ToString();
+            frtOne.Text = "FRT: " + leftUnit.Fortitude.ToString();
 
             //Right Player
-            this.strTwo.Text = "STR: " + rightUnit.Strength.ToString();
-            this.agiTwo.Text = "AGI: " + rightUnit.Agility.ToString();
-            this.dexTwo.Text = "DEX: " + rightUnit.Dexterity.ToString();
+            strTwo.Text = "STR: " + rightUnit.Strength.ToString();
+            agiTwo.Text = "AGI: " + rightUnit.Agility.ToString();
+            dexTwo.Text = "DEX: " + rightUnit.Dexterity.ToString();
 
-            this.intTwo.Text = "INT: " + rightUnit.Intelligence.ToString();
-            this.wilTwo.Text = "WIL: " + rightUnit.Willpower.ToString();
-            this.wisTwo.Text = "WIS: " + rightUnit.Wisdom.ToString();
+            intTwo.Text = "INT: " + rightUnit.Intelligence.ToString();
+            wilTwo.Text = "WIL: " + rightUnit.Willpower.ToString();
+            wisTwo.Text = "WIS: " + rightUnit.Wisdom.ToString();
 
-            this.conTwo.Text = "CON: " + rightUnit.Constitution.ToString();
-            this.endTwo.Text = "END: " + rightUnit.Endurance.ToString();
-            this.frtTwo.Text = "FRT: " + rightUnit.Fortitude.ToString();
+            conTwo.Text = "CON: " + rightUnit.Constitution.ToString();
+            endTwo.Text = "END: " + rightUnit.Endurance.ToString();
+            frtTwo.Text = "FRT: " + rightUnit.Fortitude.ToString();
         }
         private void setInformationBars()
         {
-            this.leftUnitInfo.Text =
+            leftUnitInfo.Text =
                 "Atk Pwr: " + leftUnit.AttackPower + "<br>" +
                 "Phy Hst: " + leftUnit.PhysicalHaste + "<br>" +
                 "Phy Hit: " + leftUnit.PhysicalHitChance + "<br>" +
@@ -210,7 +210,7 @@ namespace Roguelike.Engine.UI.Interfaces
             foreach (Game.Combat.Effect effect in leftUnit.AppliedEffects)
                 leftUnitInfo.Text += effect.EffectName + "<br>";
 
-            this.rightUnitInfo.Text =
+            rightUnitInfo.Text =
                 "Atk Pwr: " + rightUnit.AttackPower + "<br>" +
                 "Phy Hst: " + rightUnit.PhysicalHaste + "<br>" +
                 "Phy Hit: " + rightUnit.PhysicalHitChance + "<br>" +
@@ -236,15 +236,15 @@ namespace Roguelike.Engine.UI.Interfaces
         private void setAbilitiesToBars()
         {
             int i;
-            for (i = 0 ; i < leftUnit.AbilityList.Count && i < this.leftSpells.Length; i++)
-                this.leftSpells[i].Text = "[" + this.leftUnit.AbilityList[i].AbilityNameShort + "]";
-            for (; i < this.leftSpells.Length; i++)
-                this.leftSpells[i].Text = "[ ABIL " + (i + 1) + " ]";
+            for (i = 0 ; i < leftUnit.AbilityList.Count && i < leftSpells.Length; i++)
+                leftSpells[i].Text = "[" + leftUnit.AbilityList[i].AbilityNameShort + "]";
+            for (; i < leftSpells.Length; i++)
+                leftSpells[i].Text = "[ ABIL " + (i + 1) + " ]";
 
-            for (i = 0; i < rightUnit.AbilityList.Count && i < this.leftSpells.Length; i++)
-                this.rightSpells[i].Text = "[" + this.rightUnit.AbilityList[i].AbilityNameShort + "]";
-            for (; i < this.rightSpells.Length; i++)
-                this.rightSpells[i].Text = "[ ABIL " + (i + 1) + " ]";
+            for (i = 0; i < rightUnit.AbilityList.Count && i < leftSpells.Length; i++)
+                rightSpells[i].Text = "[" + rightUnit.AbilityList[i].AbilityNameShort + "]";
+            for (; i < rightSpells.Length; i++)
+                rightSpells[i].Text = "[ ABIL " + (i + 1) + " ]";
         }
 
         void reset_Pressed(object sender, MouseButtons button)
@@ -264,7 +264,7 @@ namespace Roguelike.Engine.UI.Interfaces
             leftButtonSet.stats = leftUnit;
             rightButtonSet.stats = rightUnit;
 
-            this.setAbilitiesToBars();
+            setAbilitiesToBars();
         }
         void backButton_Pressed(object sender, MouseButtons button)
         {
@@ -297,7 +297,7 @@ namespace Roguelike.Engine.UI.Interfaces
         }
         void turn_Pressed(object sender, MouseButtons button)
         {
-            this.combatTurn();
+            combatTurn();
         }
 
         void LeftSpell_00(object sender, MouseButtons button)
@@ -402,154 +402,154 @@ namespace Roguelike.Engine.UI.Interfaces
         public LeftAdjustmentButtons(Interface parent, PlayerStats stats)
             : base(parent)
         {
-            this.stats = stats;
+            stats = stats;
 
-            this.strAdd = new Button(this, "+", 11, 10, 1, 1);
-            this.agiAdd = new Button(this, "+", 11, 11, 1, 1);
-            this.dexAdd = new Button(this, "+", 11, 12, 1, 1);
+            strAdd = new Button(this, "+", 11, 10, 1, 1);
+            agiAdd = new Button(this, "+", 11, 11, 1, 1);
+            dexAdd = new Button(this, "+", 11, 12, 1, 1);
 
-            this.intAdd = new Button(this, "+", 11, 14, 1, 1);
-            this.wilAdd = new Button(this, "+", 11, 15, 1, 1);
-            this.wisAdd = new Button(this, "+", 11, 16, 1, 1);
+            intAdd = new Button(this, "+", 11, 14, 1, 1);
+            wilAdd = new Button(this, "+", 11, 15, 1, 1);
+            wisAdd = new Button(this, "+", 11, 16, 1, 1);
 
-            this.conAdd = new Button(this, "+", 11, 18, 1, 1);
-            this.endAdd = new Button(this, "+", 11, 19, 1, 1);
-            this.frtAdd = new Button(this, "+", 11, 20, 1, 1);
+            conAdd = new Button(this, "+", 11, 18, 1, 1);
+            endAdd = new Button(this, "+", 11, 19, 1, 1);
+            frtAdd = new Button(this, "+", 11, 20, 1, 1);
 
 
 
-            this.strRem = new Button(this, "-", 13, 10, 1, 1);
-            this.agiRem = new Button(this, "-", 13, 11, 1, 1);
-            this.dexRem = new Button(this, "-", 13, 12, 1, 1);
+            strRem = new Button(this, "-", 13, 10, 1, 1);
+            agiRem = new Button(this, "-", 13, 11, 1, 1);
+            dexRem = new Button(this, "-", 13, 12, 1, 1);
 
-            this.intRem = new Button(this, "-", 13, 14, 1, 1);
-            this.wilRem = new Button(this, "-", 13, 15, 1, 1);
-            this.wisRem = new Button(this, "-", 13, 16, 1, 1);
+            intRem = new Button(this, "-", 13, 14, 1, 1);
+            wilRem = new Button(this, "-", 13, 15, 1, 1);
+            wisRem = new Button(this, "-", 13, 16, 1, 1);
 
-            this.conRem = new Button(this, "-", 13, 18, 1, 1);
-            this.endRem = new Button(this, "-", 13, 19, 1, 1);
-            this.frtRem = new Button(this, "-", 13, 20, 1, 1);
+            conRem = new Button(this, "-", 13, 18, 1, 1);
+            endRem = new Button(this, "-", 13, 19, 1, 1);
+            frtRem = new Button(this, "-", 13, 20, 1, 1);
 
             #region Events
-            this.strAdd.Click += strAdd_Pressed;
-            this.strRem.Click += strRem_Pressed;
-            this.agiAdd.Click += agiAdd_Pressed;
-            this.agiRem.Click += agiRem_Pressed;
-            this.dexAdd.Click += dexAdd_Pressed;
-            this.dexRem.Click += dexRem_Pressed;
-            this.intAdd.Click += intAdd_Pressed;
-            this.intRem.Click += intRem_Pressed;
-            this.wilAdd.Click += wilAdd_Pressed;
-            this.wilRem.Click += wilRem_Pressed;
-            this.wisAdd.Click += wisAdd_Pressed;
-            this.wisRem.Click += wisRem_Pressed;
-            this.conAdd.Click += conAdd_Pressed;
-            this.conRem.Click += conRem_Pressed;
-            this.endAdd.Click += endAdd_Pressed;
-            this.endRem.Click += endRem_Pressed;
-            this.frtAdd.Click += frtAdd_Pressed;
-            this.frtRem.Click += frtRem_Pressed;
+            strAdd.Click += strAdd_Pressed;
+            strRem.Click += strRem_Pressed;
+            agiAdd.Click += agiAdd_Pressed;
+            agiRem.Click += agiRem_Pressed;
+            dexAdd.Click += dexAdd_Pressed;
+            dexRem.Click += dexRem_Pressed;
+            intAdd.Click += intAdd_Pressed;
+            intRem.Click += intRem_Pressed;
+            wilAdd.Click += wilAdd_Pressed;
+            wilRem.Click += wilRem_Pressed;
+            wisAdd.Click += wisAdd_Pressed;
+            wisRem.Click += wisRem_Pressed;
+            conAdd.Click += conAdd_Pressed;
+            conRem.Click += conRem_Pressed;
+            endAdd.Click += endAdd_Pressed;
+            endRem.Click += endRem_Pressed;
+            frtAdd.Click += frtAdd_Pressed;
+            frtRem.Click += frtRem_Pressed;
             #endregion
         }
 
         #region Event Methods
         void strAdd_Pressed(object sender, MouseButtons button)
         {
-            this.stats.Strength++;
-            this.stats.CalculateStats();
+            stats.Strength++;
+            stats.CalculateStats();
         }
         void strRem_Pressed(object sender, MouseButtons button)
         {
-            this.stats.Strength--;
-            this.stats.CalculateStats();
+            stats.Strength--;
+            stats.CalculateStats();
         }
 
         void agiAdd_Pressed(object sender, MouseButtons button)
         {
-            this.stats.Agility++;
-            this.stats.CalculateStats();
+            stats.Agility++;
+            stats.CalculateStats();
         }
         void agiRem_Pressed(object sender, MouseButtons button)
         {
-            this.stats.Agility--;
-            this.stats.CalculateStats();
+            stats.Agility--;
+            stats.CalculateStats();
         }
 
         void dexAdd_Pressed(object sender, MouseButtons button)
         {
-            this.stats.Dexterity++;
-            this.stats.CalculateStats();
+            stats.Dexterity++;
+            stats.CalculateStats();
         }
         void dexRem_Pressed(object sender, MouseButtons button)
         {
-            this.stats.Dexterity--;
-            this.stats.CalculateStats();
+            stats.Dexterity--;
+            stats.CalculateStats();
         }
 
         void intAdd_Pressed(object sender, MouseButtons button)
         {
-            this.stats.Intelligence++;
-            this.stats.CalculateStats();
+            stats.Intelligence++;
+            stats.CalculateStats();
         }
         void intRem_Pressed(object sender, MouseButtons button)
         {
-            this.stats.Intelligence--;
-            this.stats.CalculateStats();
+            stats.Intelligence--;
+            stats.CalculateStats();
         }
 
         void wilAdd_Pressed(object sender, MouseButtons button)
         {
-            this.stats.Willpower++;
-            this.stats.CalculateStats();
+            stats.Willpower++;
+            stats.CalculateStats();
         }
         void wilRem_Pressed(object sender, MouseButtons button)
         {
-            this.stats.Willpower--;
-            this.stats.CalculateStats();
+            stats.Willpower--;
+            stats.CalculateStats();
         }
 
         void wisAdd_Pressed(object sender, MouseButtons button)
         {
-            this.stats.Wisdom++;
-            this.stats.CalculateStats();
+            stats.Wisdom++;
+            stats.CalculateStats();
         }
         void wisRem_Pressed(object sender, MouseButtons button)
         {
-            this.stats.Wisdom--;
-            this.stats.CalculateStats();
+            stats.Wisdom--;
+            stats.CalculateStats();
         }
 
         void conAdd_Pressed(object sender, MouseButtons button)
         {
-            this.stats.Constitution++;
-            this.stats.CalculateStats();
+            stats.Constitution++;
+            stats.CalculateStats();
         }
         void conRem_Pressed(object sender, MouseButtons button)
         {
-            this.stats.Constitution--;
-            this.stats.CalculateStats();
+            stats.Constitution--;
+            stats.CalculateStats();
         }
 
         void endAdd_Pressed(object sender, MouseButtons button)
         {
-            this.stats.Endurance++;
-            this.stats.CalculateStats();
+            stats.Endurance++;
+            stats.CalculateStats();
         }
         void endRem_Pressed(object sender, MouseButtons button)
         {
-            this.stats.Endurance--;
-            this.stats.CalculateStats();
+            stats.Endurance--;
+            stats.CalculateStats();
         }
 
         void frtAdd_Pressed(object sender, MouseButtons button)
         {
-            this.stats.Fortitude++;
-            this.stats.CalculateStats();
+            stats.Fortitude++;
+            stats.CalculateStats();
         }
         void frtRem_Pressed(object sender, MouseButtons button)
         {
-            this.stats.Fortitude--;
-            this.stats.CalculateStats();
+            stats.Fortitude--;
+            stats.CalculateStats();
         }
         #endregion
     }
@@ -574,136 +574,136 @@ namespace Roguelike.Engine.UI.Interfaces
         public RightAdjustmentButtons(Interface parent, PlayerStats stats)
             : base(parent)
         {
-            this.stats = stats;
+            stats = stats;
 
-            this.strAdd = new Button(this, "+", 111, 10, 1, 1);
-            this.agiAdd = new Button(this, "+", 111, 11, 1, 1);
-            this.dexAdd = new Button(this, "+", 111, 12, 1, 1);
+            strAdd = new Button(this, "+", 111, 10, 1, 1);
+            agiAdd = new Button(this, "+", 111, 11, 1, 1);
+            dexAdd = new Button(this, "+", 111, 12, 1, 1);
 
-            this.intAdd = new Button(this, "+", 111, 14, 1, 1);
-            this.wilAdd = new Button(this, "+", 111, 15, 1, 1);
-            this.wisAdd = new Button(this, "+", 111, 16, 1, 1);
+            intAdd = new Button(this, "+", 111, 14, 1, 1);
+            wilAdd = new Button(this, "+", 111, 15, 1, 1);
+            wisAdd = new Button(this, "+", 111, 16, 1, 1);
 
-            this.conAdd = new Button(this, "+", 111, 18, 1, 1);
-            this.endAdd = new Button(this, "+", 111, 19, 1, 1);
-            this.frtAdd = new Button(this, "+", 111, 20, 1, 1);
+            conAdd = new Button(this, "+", 111, 18, 1, 1);
+            endAdd = new Button(this, "+", 111, 19, 1, 1);
+            frtAdd = new Button(this, "+", 111, 20, 1, 1);
 
 
 
-            this.strRem = new Button(this, "-", 113, 10, 1, 1);
-            this.agiRem = new Button(this, "-", 113, 11, 1, 1);
-            this.dexRem = new Button(this, "-", 113, 12, 1, 1);
+            strRem = new Button(this, "-", 113, 10, 1, 1);
+            agiRem = new Button(this, "-", 113, 11, 1, 1);
+            dexRem = new Button(this, "-", 113, 12, 1, 1);
 
-            this.intRem = new Button(this, "-", 113, 14, 1, 1);
-            this.wilRem = new Button(this, "-", 113, 15, 1, 1);
-            this.wisRem = new Button(this, "-", 113, 16, 1, 1);
+            intRem = new Button(this, "-", 113, 14, 1, 1);
+            wilRem = new Button(this, "-", 113, 15, 1, 1);
+            wisRem = new Button(this, "-", 113, 16, 1, 1);
 
-            this.conRem = new Button(this, "-", 113, 18, 1, 1);
-            this.endRem = new Button(this, "-", 113, 19, 1, 1);
-            this.frtRem = new Button(this, "-", 113, 20, 1, 1);
+            conRem = new Button(this, "-", 113, 18, 1, 1);
+            endRem = new Button(this, "-", 113, 19, 1, 1);
+            frtRem = new Button(this, "-", 113, 20, 1, 1);
 
             #region Events
-            this.strAdd.Click += strAdd_Pressed;
-            this.strRem.Click += strRem_Pressed;
-            this.agiAdd.Click += agiAdd_Pressed;
-            this.agiRem.Click += agiRem_Pressed;
-            this.dexAdd.Click += dexAdd_Pressed;
-            this.dexRem.Click += dexRem_Pressed;
-            this.intAdd.Click += intAdd_Pressed;
-            this.intRem.Click += intRem_Pressed;
-            this.wilAdd.Click += wilAdd_Pressed;
-            this.wilRem.Click += wilRem_Pressed;
-            this.wisAdd.Click += wisAdd_Pressed;
-            this.wisRem.Click += wisRem_Pressed;
-            this.conAdd.Click += conAdd_Pressed;
-            this.conRem.Click += conRem_Pressed;
-            this.endAdd.Click += endAdd_Pressed;
-            this.endRem.Click += endRem_Pressed;
-            this.frtAdd.Click += frtAdd_Pressed;
-            this.frtRem.Click += frtRem_Pressed;
+            strAdd.Click += strAdd_Pressed;
+            strRem.Click += strRem_Pressed;
+            agiAdd.Click += agiAdd_Pressed;
+            agiRem.Click += agiRem_Pressed;
+            dexAdd.Click += dexAdd_Pressed;
+            dexRem.Click += dexRem_Pressed;
+            intAdd.Click += intAdd_Pressed;
+            intRem.Click += intRem_Pressed;
+            wilAdd.Click += wilAdd_Pressed;
+            wilRem.Click += wilRem_Pressed;
+            wisAdd.Click += wisAdd_Pressed;
+            wisRem.Click += wisRem_Pressed;
+            conAdd.Click += conAdd_Pressed;
+            conRem.Click += conRem_Pressed;
+            endAdd.Click += endAdd_Pressed;
+            endRem.Click += endRem_Pressed;
+            frtAdd.Click += frtAdd_Pressed;
+            frtRem.Click += frtRem_Pressed;
             #endregion
         }
 
         #region Event Methods
         void strAdd_Pressed(object sender, MouseButtons button)
         {
-            this.stats.Strength++;
+            stats.Strength++;
         }
         void strRem_Pressed(object sender, MouseButtons button)
         {
-            this.stats.Strength--;
+            stats.Strength--;
         }
 
         void agiAdd_Pressed(object sender, MouseButtons button)
         {
-            this.stats.Agility++;
+            stats.Agility++;
         }
         void agiRem_Pressed(object sender, MouseButtons button)
         {
-            this.stats.Agility--;
+            stats.Agility--;
         }
 
         void dexAdd_Pressed(object sender, MouseButtons button)
         {
-            this.stats.Dexterity++;
+            stats.Dexterity++;
         }
         void dexRem_Pressed(object sender, MouseButtons button)
         {
-            this.stats.Dexterity--;
+            stats.Dexterity--;
         }
 
         void intAdd_Pressed(object sender, MouseButtons button)
         {
-            this.stats.Intelligence++;
+            stats.Intelligence++;
         }
         void intRem_Pressed(object sender, MouseButtons button)
         {
-            this.stats.Intelligence--;
+            stats.Intelligence--;
         }
 
         void wilAdd_Pressed(object sender, MouseButtons button)
         {
-            this.stats.Willpower++;
+            stats.Willpower++;
         }
         void wilRem_Pressed(object sender, MouseButtons button)
         {
-            this.stats.Willpower--;
+            stats.Willpower--;
         }
 
         void wisAdd_Pressed(object sender, MouseButtons button)
         {
-            this.stats.Wisdom++;
+            stats.Wisdom++;
         }
         void wisRem_Pressed(object sender, MouseButtons button)
         {
-            this.stats.Wisdom--;
+            stats.Wisdom--;
         }
 
         void conAdd_Pressed(object sender, MouseButtons button)
         {
-            this.stats.Constitution++;
+            stats.Constitution++;
         }
         void conRem_Pressed(object sender, MouseButtons button)
         {
-            this.stats.Constitution--;
+            stats.Constitution--;
         }
 
         void endAdd_Pressed(object sender, MouseButtons button)
         {
-            this.stats.Endurance++;
+            stats.Endurance++;
         }
         void endRem_Pressed(object sender, MouseButtons button)
         {
-            this.stats.Endurance--;
+            stats.Endurance--;
         }
 
         void frtAdd_Pressed(object sender, MouseButtons button)
         {
-            this.stats.Fortitude++;
+            stats.Fortitude++;
         }
         void frtRem_Pressed(object sender, MouseButtons button)
         {
-            this.stats.Fortitude--;
+            stats.Fortitude--;
         }
         #endregion
     }

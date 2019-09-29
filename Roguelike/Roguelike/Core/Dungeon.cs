@@ -12,8 +12,8 @@ namespace Roguelike.Core
 
         public Dungeon(int numberOfLevels)
         {
-            this.NumberOfLevels = numberOfLevels;
-            this.DungeonLevels = new Level[this.NumberOfLevels];
+            NumberOfLevels = numberOfLevels;
+            DungeonLevels = new Level[NumberOfLevels];
         }
     }
 }

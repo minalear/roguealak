@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using OpenTK.Graphics;
 using Roguelike.Core.Combat;
+using Roguelike.Engine;
 
 namespace Roguelike.Core.Stats.Classes
 {
@@ -9,8 +11,8 @@ namespace Roguelike.Core.Stats.Classes
         public Skullomancer()
             : base("Skullomancer")
         {
-            this.Description = "The Skullomancer is a punk kid with a bucket of paint that decided to vandalize the neighborhood.";
-            this.InheritAbilities = new List<Ability>() { new Ability_PaintSquare(), new Ability_PaintCircle(), new Ability_PaintSkull(), new Ability_PaintDot() };
+            Description = "The Skullomancer is a punk kid with a bucket of paint that decided to vandalize the neighborhood.";
+            InheritAbilities = new List<Ability>() { new Ability_PaintSquare(), new Ability_PaintCircle(), new Ability_PaintSkull(), new Ability_PaintDot() };
         }
         public override PlayerStats CalculateStats(PlayerStats stats)
         {
@@ -34,13 +36,13 @@ namespace Roguelike.Core.Stats.Classes
             public Ability_PaintSquare()
                 : base()
             {
-                this.AbilityName = "Paint Square";
-                this.AbilityNameShort = "Pnt Sqre";
+                AbilityName = "Paint Square";
+                AbilityNameShort = "Pnt Sqre";
 
-                this.TargetingType = TargetingTypes.GroundTarget;
-                this.AbilityType = AbilityTypes.Magical;
-                this.abilityCost = 0;
-                this.Range = -1;
+                TargetingType = TargetingTypes.GroundTarget;
+                AbilityType = AbilityTypes.Magical;
+                abilityCost = 0;
+                Range = -1;
             }
 
             public override CombatResults CalculateResults(StatsPackage caster, StatsPackage target)
@@ -59,13 +61,13 @@ namespace Roguelike.Core.Stats.Classes
             public Ability_PaintCircle()
                 : base()
             {
-                this.AbilityName = "Paint Circle";
-                this.AbilityNameShort = "Pnt Crcl";
+                AbilityName = "Paint Circle";
+                AbilityNameShort = "Pnt Crcl";
 
-                this.TargetingType = TargetingTypes.GroundTarget;
-                this.AbilityType = AbilityTypes.Magical;
-                this.abilityCost = 0;
-                this.Range = 15;
+                TargetingType = TargetingTypes.GroundTarget;
+                AbilityType = AbilityTypes.Magical;
+                abilityCost = 0;
+                Range = 15;
             }
 
             public override CombatResults CalculateResults(StatsPackage caster, StatsPackage target)
@@ -76,7 +78,7 @@ namespace Roguelike.Core.Stats.Classes
             public override void CastAbilityGround(StatsPackage caster, int x0, int y0, int radius, Level level)
             {
                 Circle circle = new Circle() { X = x0, Y = y0, Radius = 5 };
-                level.StainTile(circle, Color.Orange);
+                level.StainTile(circle, Color4.Orange);
             }
         }
         public class Ability_PaintSkull : Ability
@@ -84,13 +86,13 @@ namespace Roguelike.Core.Stats.Classes
             public Ability_PaintSkull()
                 : base()
             {
-                this.AbilityName = "Paint Skull";
-                this.AbilityNameShort = "Pnt Skll";
+                AbilityName = "Paint Skull";
+                AbilityNameShort = "Pnt Skll";
 
-                this.TargetingType = TargetingTypes.GroundTarget;
-                this.AbilityType = AbilityTypes.Magical;
-                this.abilityCost = 0;
-                this.Range = 10;
+                TargetingType = TargetingTypes.GroundTarget;
+                AbilityType = AbilityTypes.Magical;
+                abilityCost = 0;
+                Range = 10;
             }
 
             public override CombatResults CalculateResults(StatsPackage caster, StatsPackage target)
@@ -100,7 +102,7 @@ namespace Roguelike.Core.Stats.Classes
 
             public override void CastAbilityGround(StatsPackage caster, int x0, int y0, int radius, Level level)
             {
-                Color color = getColor();
+                Color4 color = getColor();
 
                 GameManager.CurrentLevel.StainTile(x0 - 2, y0 - 3, color);
                 GameManager.CurrentLevel.StainTile(x0 - 1, y0 - 3, color);
@@ -146,9 +148,9 @@ namespace Roguelike.Core.Stats.Classes
                 GameManager.CurrentLevel.StainTile(x0 + 2, y0 + 3, color);
             }
 
-            private Color getColor()
+            private Color4 getColor()
             {
-                return Color.Red;
+                return Color4.Red;
             }
         }
         public class Ability_PaintDot : Ability
@@ -156,13 +158,13 @@ namespace Roguelike.Core.Stats.Classes
             public Ability_PaintDot()
                 : base()
             {
-                this.AbilityName = "Cut Thyself";
-                this.AbilityNameShort = "Cut Self";
+                AbilityName = "Cut Thyself";
+                AbilityNameShort = "Cut Self";
 
-                this.TargetingType = TargetingTypes.Self;
-                this.AbilityType = AbilityTypes.Physical;
-                this.abilityCost = 0;
-                this.Range = 1;
+                TargetingType = TargetingTypes.Self;
+                AbilityType = AbilityTypes.Physical;
+                abilityCost = 0;
+                Range = 1;
             }
 
             public override CombatResults CalculateResults(StatsPackage caster, StatsPackage target)

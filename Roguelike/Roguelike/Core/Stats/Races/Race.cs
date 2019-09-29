@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using OpenTK.Graphics;
 using Roguelike.Core.Combat;
 using Roguelike.Engine.UI.Controls;
 
@@ -9,7 +10,7 @@ namespace Roguelike.Core.Stats.Races
     {
         public Race(string name)
         {
-            this.raceName = name;
+            raceName = name;
         }
 
         public virtual PlayerStats AddRacialStats(PlayerStats package)
@@ -21,15 +22,15 @@ namespace Roguelike.Core.Stats.Races
         private string raceDescription;
         private List<Culture> raceCultures;
 
-        public string Name { get { return this.raceName; } set { this.raceName = value; } }
-        public string Description { get { return this.raceDescription; } set { this.raceDescription = value; } }
-        public List<Culture> SubCultures { get { return this.raceCultures; } set { this.raceCultures = value; } }
+        public string Name { get { return raceName; } set { raceName = value; } }
+        public string Description { get { return raceDescription; } set { raceDescription = value; } }
+        public List<Culture> SubCultures { get { return raceCultures; } set { raceCultures = value; } }
 
         public override string ListText
         {
             get
             {
-                return this.raceName;
+                return raceName;
             }
             set
             {
@@ -43,23 +44,23 @@ namespace Roguelike.Core.Stats.Races
         private string cultureName;
         private string cultureDescription;
         private Effect cultureTrait;
-        private List<Color> skinColors;
+        private List<Color4> skinColors;
 
         public Culture(string name)
         {
-            this.cultureName = name;
+            cultureName = name;
         }
 
-        public string Name { get { return this.cultureName; } set { this.cultureName = value; } }
-        public string Description { get { return this.cultureDescription; } set { this.cultureDescription = value; } }
-        public Effect Trait { get { return this.cultureTrait; } set { this.cultureTrait = value; } }
-        public List<Color> SkinColors { get { return this.skinColors; } set { this.skinColors = value; } }
+        public string Name { get { return cultureName; } set { cultureName = value; } }
+        public string Description { get { return cultureDescription; } set { cultureDescription = value; } }
+        public Effect Trait { get { return cultureTrait; } set { cultureTrait = value; } }
+        public List<Color4> SkinColors { get { return skinColors; } set { skinColors = value; } }
 
         public override string ListText
         {
             get
             {
-                return this.cultureName;
+                return cultureName;
             }
             set
             {

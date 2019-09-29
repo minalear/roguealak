@@ -1,6 +1,9 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using Roguelike.Core.Stats;
 using Roguelike.Core.Combat;
+using Roguelike.Engine;
+using OpenTK;
+using OpenTK.Graphics;
 
 namespace Roguelike.Core.Items
 {

@@ -8,34 +8,34 @@ namespace Roguelike.Core.Combat
     {
         public void ProcessResults()
         {
-            Target.DrainHealth(this.AppliedDamage);
-            Caster.DrainHealth(this.ReflectedDamage);
+            Target.DrainHealth(AppliedDamage);
+            Caster.DrainHealth(ReflectedDamage);
 
-            HPLeech = UsedAbility.CalculateHealthLeech(this.AppliedDamage, Caster);
-            MPLeech = UsedAbility.CalculateManaLeech(this.AppliedDamage, Caster);
+            HPLeech = UsedAbility.CalculateHealthLeech(AppliedDamage, Caster);
+            MPLeech = UsedAbility.CalculateManaLeech(AppliedDamage, Caster);
 
-            this.outputCombatLogInfo();
+            outputCombatLogInfo();
         }
 
         private void outputCombatLogInfo()
         {
-            MessageCenter.Message message = new MessageCenter.Message("", this.Caster.ParentEntity);
+            MessageCenter.Message message = new MessageCenter.Message("", Caster.ParentEntity);
             
-            if (this.UsedAbility.AbilityType == AbilityTypes.Physical || this.UsedAbility.AbilityType == AbilityTypes.Magical)
+            if (UsedAbility.AbilityType == AbilityTypes.Physical || UsedAbility.AbilityType == AbilityTypes.Magical)
             {
-                if (this.DidMiss)
+                if (DidMiss)
                 {
                     message.ShortMessage = String.Format("{0} missed their attack!", Caster.UnitName);
                     message.DetailedMessage = String.Format("{0} missed their attack against {1}.", Caster.UnitName, Target.UnitName);
                     message.DetailedMessage += "  Used the ability " + UsedAbility.AbilityName + ".";
                 }
-                else if (this.DidAvoid)
+                else if (DidAvoid)
                 {
                     message.ShortMessage = String.Format("{0} avoided the attack!", Caster.UnitName);
                     message.DetailedMessage = String.Format("{0} avoided {1}'s attack.", Caster.UnitName, Target.UnitName);
                     message.DetailedMessage += "  Used the ability " + UsedAbility.AbilityName + ".";
                 }
-                else if (this.DidCrit)
+                else if (DidCrit)
                 {
                     message.ShortMessage = String.Format("{0} scored a critical strike! ({1} damage)", Caster.UnitName, AppliedDamage);
                     message.DetailedMessage = String.Format("{0} dealt critical damage against {1} worth {2}.  {3} damage absorbed and {4} damage reflected.", Caster.UnitName, Target.UnitName, AppliedDamage, AbsorbedDamage, ReflectedDamage);

@@ -43,31 +43,31 @@ namespace Roguelike.Engine.UI.Interfaces
             combatLogButton = new Button(this, "<. .>", GraphicConsole.BufferWidth / 2 - 2, GraphicConsole.BufferHeight - 2, 5, 1);
             combatLogButton.Click += combatLogButton_Pressed;
 
-            this.hotbar = new Hotbar(this);
-            this.leftTab = new LeftTab(this);
-            this.rightTab = new RightTab(this, hotbar);
-            this.bottomTab = new BottomTab(this, this.leftTab, this.rightTab);
+            hotbar = new Hotbar(this);
+            leftTab = new LeftTab(this);
+            rightTab = new RightTab(this, hotbar);
+            bottomTab = new BottomTab(this, leftTab, rightTab);
 
-            this.menuButton = new Button(this, "Menu", 3, GraphicConsole.BufferHeight - 2, 6, 1);
-            this.mapButton = new Button(this, "Map*", 10, GraphicConsole.BufferHeight - 2, 6, 1) { KeyShortcut = Keys.M };
+            menuButton = new Button(this, "Menu", 3, GraphicConsole.BufferHeight - 2, 6, 1);
+            mapButton = new Button(this, "Map*", 10, GraphicConsole.BufferHeight - 2, 6, 1) { KeyShortcut = Keys.M };
 
-            this.menuButton.Click += menuButton_Pressed;
-            this.mapButton.Click += mapButton_Pressed;
+            menuButton.Click += menuButton_Pressed;
+            mapButton.Click += mapButton_Pressed;
         }
 
         #region Button Events
         void leftPanelButton_Pressed(object sender, MouseButtons button)
         {
-            this.leftTab.IsVisible = !this.leftTab.IsVisible;
+            leftTab.IsVisible = !leftTab.IsVisible;
         }
         void rightPanelButton_Pressed(object sender, MouseButtons button)
         {
-            rightTab.IsVisible = !this.rightTab.IsVisible;
+            rightTab.IsVisible = !rightTab.IsVisible;
         }
         void combatLogButton_Pressed(object sender, MouseButtons button)
         {
             if (button == MouseButtons.Left)
-                this.bottomTab.IsVisible = !this.bottomTab.IsVisible;
+                bottomTab.IsVisible = !bottomTab.IsVisible;
             else if (button == MouseButtons.Right)
                 MessageCenter.MessageLog.Clear();
         }
@@ -85,7 +85,7 @@ namespace Roguelike.Engine.UI.Interfaces
         {
             GameManager.DrawGameWorld();
 
-            this.drawInterfaceBars();
+            drawInterfaceBars();
 
             base.DrawStep();
         }
@@ -100,21 +100,21 @@ namespace Roguelike.Engine.UI.Interfaces
                 rightTab.IsVisible = true;
                 rightTab.OpenMenu("Inventory");
 
-                this.DrawStep();
+                DrawStep();
             }
             else if (InputManager.KeyWasReleased(Keys.E))
             {
                 rightTab.IsVisible = true;
                 rightTab.OpenMenu("Equipment");
 
-                this.DrawStep();
+                DrawStep();
             }
             else if (InputManager.KeyWasReleased(Keys.B))
             {
                 rightTab.IsVisible = true;
                 rightTab.OpenMenu("Spellbook");
 
-                this.DrawStep();
+                DrawStep();
             }
 
             //Left Tab
@@ -123,21 +123,21 @@ namespace Roguelike.Engine.UI.Interfaces
                 leftTab.IsVisible = true;
                 leftTab.OpenMenu("Character");
 
-                this.DrawStep();
+                DrawStep();
             }
             else if (InputManager.KeyWasReleased(Keys.K))
             {
                 leftTab.IsVisible = true;
                 leftTab.OpenMenu("Effects");
 
-                this.DrawStep();
+                DrawStep();
             }
 
             //Bottom Tab
             if (InputManager.KeyWasReleased(Keys.Tab))
             {
                 bottomTab.IsVisible = !bottomTab.IsVisible;
-                this.DrawStep();
+                DrawStep();
             }
 
             //Escape
@@ -220,30 +220,30 @@ namespace Roguelike.Engine.UI.Interfaces
         public BarTitle(Control parent, int x, int y, string textRoot, int width)
             : base(parent)
         {
-            this.text = textRoot;
-            this.formattedText = this.text + ": ##/##";
+            text = textRoot;
+            formattedText = text + ": ##/##";
 
-            this.position = new Point(x, y);
-            this.size = new Point(width, 1);
+            position = new Point(x, y);
+            size = new Point(width, 1);
         }
 
         public override void DrawStep()
         {
-            GraphicConsole.SetColors(Color.Transparent, this.fillColor);
-            DrawingUtilities.DrawLine(this.Position.X, this.Position.Y, this.Position.X + this.Size.X, this.Position.Y, ' ');
+            GraphicConsole.SetColors(Color.Transparent, fillColor);
+            DrawingUtilities.DrawLine(Position.X, Position.Y, Position.X + Size.X, Position.Y, ' ');
 
             if (percent != 0)
             {
-                int barLength = (int)(percent * this.Size.X);
-                GraphicConsole.SetColors(Color.Transparent, this.barColor);
-                DrawingUtilities.DrawLine(this.Position.X, this.Position.Y, this.Position.X + barLength, this.Position.Y, ' ');
+                int barLength = (int)(percent * Size.X);
+                GraphicConsole.SetColors(Color.Transparent, barColor);
+                DrawingUtilities.DrawLine(Position.X, Position.Y, Position.X + barLength, Position.Y, ' ');
             }
 
-            GraphicConsole.SetCursor(this.Position.X + (this.Size.X / 2 - this.formattedText.Length / 2), this.Position.Y);
+            GraphicConsole.SetCursor(Position.X + (Size.X / 2 - formattedText.Length / 2), Position.Y);
             for (int i = 0; i < formattedText.Length; i++)
             {
-                GraphicConsole.SetColors(this.textColor, GraphicConsole.GetColorsAtTile(GraphicConsole.CursorLeft, GraphicConsole.CursorTop)[1]);
-                GraphicConsole.Write(this.formattedText[i]);
+                GraphicConsole.SetColors(textColor, GraphicConsole.GetColorsAtTile(GraphicConsole.CursorLeft, GraphicConsole.CursorTop)[1]);
+                GraphicConsole.Write(formattedText[i]);
             }
 
             base.DrawStep();
@@ -252,7 +252,7 @@ namespace Roguelike.Engine.UI.Interfaces
         public override void UpdateStep()
         {
             percent = CurrentValue / MaxValue;
-            formattedText = this.text + ": " + this.currentValue + @"/" + this.maxValue;
+            formattedText = text + ": " + currentValue + @"/" + maxValue;
 
             base.UpdateStep();
         }
@@ -268,13 +268,13 @@ namespace Roguelike.Engine.UI.Interfaces
         private Color fillColor = Color.DarkRed;
         private Color textColor = Color.Black;
 
-        public double CurrentValue { get { return this.currentValue; } set { this.currentValue = value; } }
-        public double MaxValue { get { return this.maxValue; } set { this.maxValue = value; } }
-        public string Text { get { return this.text; } set { this.text = value; this.UpdateStep(); this.DrawStep(); } }
-        public double Percent { get { return this.percent; } }
-        public Color BarColor { get { return this.barColor; } set { this.barColor = value; } }
-        public Color FillColor { get { return this.fillColor; } set { this.fillColor = value; } }
-        public Color TextColor { get { return this.textColor; } set { this.textColor = value; } }
+        public double CurrentValue { get { return currentValue; } set { currentValue = value; } }
+        public double MaxValue { get { return maxValue; } set { maxValue = value; } }
+        public string Text { get { return text; } set { text = value; UpdateStep(); DrawStep(); } }
+        public double Percent { get { return percent; } }
+        public Color BarColor { get { return barColor; } set { barColor = value; } }
+        public Color FillColor { get { return fillColor; } set { fillColor = value; } }
+        public Color TextColor { get { return textColor; } set { textColor = value; } }
     }
 
     public class LeftTab : Control
@@ -288,42 +288,42 @@ namespace Roguelike.Engine.UI.Interfaces
         public LeftTab(Interface parent)
             : base(parent)
         {
-            this.Position = new Point(1, 3);
-            this.Size = new Point(28, 44);
+            Position = new Point(1, 3);
+            Size = new Point(28, 44);
 
-            this.characterControl = new CharacterControl(this, 0, 0, this.Size.X, this.Size.Y);
-            this.effectsControl = new EffectsControl(this, 0, 0, this.Size.X, this.Size.Y) { IsVisible = false };
+            characterControl = new CharacterControl(this, 0, 0, Size.X, Size.Y);
+            effectsControl = new EffectsControl(this, 0, 0, Size.X, Size.Y) { IsVisible = false };
 
-            this.buttonGroup = new ToggleButtonGroup(this);
-            this.characterButton = new ToggleButton(this, "⌂", this.Size.X + 1, this.Position.Y - 3, 1, 1);
-            this.currentEffects = new ToggleButton(this, "§", this.Size.X + 1, this.Position.Y - 2, 1, 1);
-            //this.currentEffects = new ToggleButton(this, "○", this.Size.X + 1, this.Position.Y - 1, 1, 1);
-            this.characterButton.Enabled = true;
+            buttonGroup = new ToggleButtonGroup(this);
+            characterButton = new ToggleButton(this, "⌂", Size.X + 1, Position.Y - 3, 1, 1);
+            currentEffects = new ToggleButton(this, "§", Size.X + 1, Position.Y - 2, 1, 1);
+            //currentEffects = new ToggleButton(this, "○", Size.X + 1, Position.Y - 1, 1, 1);
+            characterButton.Enabled = true;
 
-            this.buttonGroup.AddButton(this.characterButton);
-            this.buttonGroup.AddButton(this.currentEffects);
+            buttonGroup.AddButton(characterButton);
+            buttonGroup.AddButton(currentEffects);
 
-            this.characterButton.Click += characterButton_Pressed;
-            this.currentEffects.Click += currentEffects_Pressed;
+            characterButton.Click += characterButton_Pressed;
+            currentEffects.Click += currentEffects_Pressed;
 
-            this.IsVisible = false;
+            IsVisible = false;
         }
 
         public override void DrawStep()
         {
-            this.clearArea();
+            clearArea();
 
             //Border
-            DrawingUtilities.DrawLine(this.Size.X + 1, this.Position.Y, this.Size.X + 1, this.Size.Y + 2, '│');
-            GraphicConsole.Put('╤', this.Size.X + 1, this.Position.Y - 1);
-            GraphicConsole.Put('┴', this.Size.X + 1, this.Size.Y + 3);
+            DrawingUtilities.DrawLine(Size.X + 1, Position.Y, Size.X + 1, Size.Y + 2, '│');
+            GraphicConsole.Put('╤', Size.X + 1, Position.Y - 1);
+            GraphicConsole.Put('┴', Size.X + 1, Size.Y + 3);
 
             //Border Around Toggle Switches
-            DrawingUtilities.DrawLine(this.Position.X + this.Size.X + 2, this.Position.Y, this.Position.X + this.Size.X + 2, this.Position.Y + 4, '│');
-            GraphicConsole.Put('╤', this.Position.X + this.Size.X + 2, this.Position.Y - 1);
-            GraphicConsole.Put('┘', this.Position.X + this.Size.X + 2, this.Position.Y + 4);
-            GraphicConsole.Put('─', this.Position.X + this.Size.X + 1, this.Position.Y + 4);
-            GraphicConsole.Put('├', this.Position.X + this.Size.X, this.Position.Y + 4);
+            DrawingUtilities.DrawLine(Position.X + Size.X + 2, Position.Y, Position.X + Size.X + 2, Position.Y + 4, '│');
+            GraphicConsole.Put('╤', Position.X + Size.X + 2, Position.Y - 1);
+            GraphicConsole.Put('┘', Position.X + Size.X + 2, Position.Y + 4);
+            GraphicConsole.Put('─', Position.X + Size.X + 1, Position.Y + 4);
+            GraphicConsole.Put('├', Position.X + Size.X, Position.Y + 4);
 
             base.DrawStep();
         }
@@ -344,19 +344,19 @@ namespace Roguelike.Engine.UI.Interfaces
                 currentEffects_Pressed(this);
             }
 
-            this.parent.UpdateStep();
-            this.parent.DrawStep();
+            parent.UpdateStep();
+            parent.DrawStep();
         }
 
         void characterButton_Pressed(object sender)
         {
-            this.characterControl.IsVisible = true;
-            this.effectsControl.IsVisible = false;
+            characterControl.IsVisible = true;
+            effectsControl.IsVisible = false;
         }
         void currentEffects_Pressed(object sender)
         {
-            this.characterControl.IsVisible = false;
-            this.effectsControl.IsVisible = true;
+            characterControl.IsVisible = false;
+            effectsControl.IsVisible = true;
         }
     }
     public class RightTab : Control
@@ -371,43 +371,43 @@ namespace Roguelike.Engine.UI.Interfaces
         public RightTab(Interface parent, Hotbar hotbar)
             : base(parent)
         {
-            this.Size = new Point(28, GraphicConsole.BufferHeight - 6);
-            this.Position = new Point(GraphicConsole.BufferWidth - this.Size.X - 1, 3);
+            Size = new Point(28, GraphicConsole.BufferHeight - 6);
+            Position = new Point(GraphicConsole.BufferWidth - Size.X - 1, 3);
 
-            this.inventoryButton = new ToggleButton(this, "⌂", -2, 0, 1, 1) { Enabled = true };
-            this.equipmentButton = new ToggleButton(this, "♦", -2, 1, 1, 1) { Enabled = false };
-            this.spellbookButton = new ToggleButton(this, "♠", -2, 2, 1, 1) { Enabled = false };
+            inventoryButton = new ToggleButton(this, "⌂", -2, 0, 1, 1) { Enabled = true };
+            equipmentButton = new ToggleButton(this, "♦", -2, 1, 1, 1) { Enabled = false };
+            spellbookButton = new ToggleButton(this, "♠", -2, 2, 1, 1) { Enabled = false };
 
-            this.buttonGroup = new ToggleButtonGroup(this);
-            this.buttonGroup.AddButton(this.inventoryButton);
-            this.buttonGroup.AddButton(this.equipmentButton);
-            this.buttonGroup.AddButton(this.spellbookButton);
+            buttonGroup = new ToggleButtonGroup(this);
+            buttonGroup.AddButton(inventoryButton);
+            buttonGroup.AddButton(equipmentButton);
+            buttonGroup.AddButton(spellbookButton);
 
-            this.inventoryButton.Click += inventoryButton_Click;
-            this.equipmentButton.Click += equipmentButton_Click;
-            this.spellbookButton.Click += spellbookButton_Click;
+            inventoryButton.Click += inventoryButton_Click;
+            equipmentButton.Click += equipmentButton_Click;
+            spellbookButton.Click += spellbookButton_Click;
 
-            this.inventoryControl = new InventoryControl(this, 0, 0, 28, 44, hotbar) { IsVisible = true };
-            this.equipmentControl = new EquipmentControl(this, 0, 0, 28, 44) { IsVisible = false };
-            this.spellbookControl = new SpellbookControl(this, 0, 0, 28, 44, hotbar) { IsVisible = false };
+            inventoryControl = new InventoryControl(this, 0, 0, 28, 44, hotbar) { IsVisible = true };
+            equipmentControl = new EquipmentControl(this, 0, 0, 28, 44) { IsVisible = false };
+            spellbookControl = new SpellbookControl(this, 0, 0, 28, 44, hotbar) { IsVisible = false };
 
-            this.IsVisible = false;
+            IsVisible = false;
         }
         public override void DrawStep()
         {
-            this.clearArea();
+            clearArea();
 
             //Left Border
-            DrawingUtilities.DrawLine(this.Position.X - 1, this.Position.Y, this.Position.X - 1, this.Size.Y + 2, '│');
-            GraphicConsole.Put('╤', this.Position.X - 1, this.Position.Y - 1);
-            GraphicConsole.Put('┴', this.Position.X - 1, this.Size.Y + 3);
+            DrawingUtilities.DrawLine(Position.X - 1, Position.Y, Position.X - 1, Size.Y + 2, '│');
+            GraphicConsole.Put('╤', Position.X - 1, Position.Y - 1);
+            GraphicConsole.Put('┴', Position.X - 1, Size.Y + 3);
 
             //Border Around Toggle Switches
-            DrawingUtilities.DrawLine(this.Position.X - 3, this.Position.Y, this.Position.X - 3, this.Position.Y + 4, '│');
-            GraphicConsole.Put('╤', this.Position.X - 3, this.Position.Y - 1);
-            GraphicConsole.Put('└', this.Position.X - 3, this.Position.Y + 4);
-            GraphicConsole.Put('─', this.Position.X - 2, this.Position.Y + 4);
-            GraphicConsole.Put('┤', this.Position.X - 1, this.Position.Y + 4);
+            DrawingUtilities.DrawLine(Position.X - 3, Position.Y, Position.X - 3, Position.Y + 4, '│');
+            GraphicConsole.Put('╤', Position.X - 3, Position.Y - 1);
+            GraphicConsole.Put('└', Position.X - 3, Position.Y + 4);
+            GraphicConsole.Put('─', Position.X - 2, Position.Y + 4);
+            GraphicConsole.Put('┤', Position.X - 1, Position.Y + 4);
 
             base.DrawStep();
         }
@@ -439,27 +439,27 @@ namespace Roguelike.Engine.UI.Interfaces
                 spellbookButton_Click(this);
             }
 
-            this.parent.UpdateStep();
-            this.parent.DrawStep();
+            parent.UpdateStep();
+            parent.DrawStep();
         }
 
         void inventoryButton_Click(object sender)
         {
-            this.inventoryControl.IsVisible = true;
-            this.equipmentControl.IsVisible = false;
-            this.spellbookControl.IsVisible = false;
+            inventoryControl.IsVisible = true;
+            equipmentControl.IsVisible = false;
+            spellbookControl.IsVisible = false;
         }
         void equipmentButton_Click(object sender)
         {
-            this.inventoryControl.IsVisible = false;
-            this.equipmentControl.IsVisible = true;
-            this.spellbookControl.IsVisible = false;
+            inventoryControl.IsVisible = false;
+            equipmentControl.IsVisible = true;
+            spellbookControl.IsVisible = false;
         }
         void spellbookButton_Click(object sender)
         {
-            this.inventoryControl.IsVisible = false;
-            this.equipmentControl.IsVisible = false;
-            this.spellbookControl.IsVisible = true;
+            inventoryControl.IsVisible = false;
+            equipmentControl.IsVisible = false;
+            spellbookControl.IsVisible = true;
         }
     }
     public class BottomTab : Control
@@ -475,28 +475,28 @@ namespace Roguelike.Engine.UI.Interfaces
         public BottomTab(Control parent, LeftTab leftTab, RightTab rightTab)
             : base(parent)
         {
-            this.Position = new Point(30, 40);
+            Position = new Point(30, 40);
 
-            this.messageList = new ScrollingList(this, 1, 0, 63, 7);
-            this.messageInformation = new TextBox(this, 1, 0, 64, 7) { IsVisible = false };
-            this.contextButton = new Button(this, "►", 0, 0, 1, 1);
-            this.contextButton.Click += contextButton_Click;
+            messageList = new ScrollingList(this, 1, 0, 63, 7);
+            messageInformation = new TextBox(this, 1, 0, 64, 7) { IsVisible = false };
+            contextButton = new Button(this, "►", 0, 0, 1, 1);
+            contextButton.Click += contextButton_Click;
 
-            this.leftTab = leftTab;
-            this.rightTab = rightTab;
+            leftTab = leftTab;
+            rightTab = rightTab;
 
-            this.IsVisible = false;
+            IsVisible = false;
         }
 
         public override void DrawStep()
         {
-            this.drawBorders();
+            drawBorders();
 
             base.DrawStep();
         }
         public override void UpdateStep()
         {
-            this.messageList.SetList<MessageCenter.Message>(MessageCenter.MessageLog);
+            messageList.SetList<MessageCenter.Message>(MessageCenter.MessageLog);
 
             base.UpdateStep();
         }
@@ -507,19 +507,19 @@ namespace Roguelike.Engine.UI.Interfaces
 
             if (detailedMode)
             {
-                this.messageInformation.IsVisible = true;
-                this.messageList.IsVisible = false;
+                messageInformation.IsVisible = true;
+                messageList.IsVisible = false;
 
-                if (this.messageList.HasSelection)
-                    this.messageInformation.Text = ((MessageCenter.Message)this.messageList.GetSelection()).DetailedMessage;
-                this.contextButton.Text = "◄";
+                if (messageList.HasSelection)
+                    messageInformation.Text = ((MessageCenter.Message)messageList.GetSelection()).DetailedMessage;
+                contextButton.Text = "◄";
             }
             else
             {
-                this.messageInformation.IsVisible = false;
-                this.messageList.IsVisible = true;
+                messageInformation.IsVisible = false;
+                messageList.IsVisible = true;
 
-                this.contextButton.Text = "►";
+                contextButton.Text = "►";
             }
         }
         private void drawBorders()
@@ -535,7 +535,7 @@ namespace Roguelike.Engine.UI.Interfaces
             DrawingUtilities.DrawLine(30, y - 1, 94, y - 1, '─');
             DrawingUtilities.DrawRect(x, y, panelWidth - x + 1, panelHeight, ' ', true);
 
-            if (this.leftTab.IsVisible)
+            if (leftTab.IsVisible)
                 GraphicConsole.Put('├', x - 1, y - 1);
             else
             {
@@ -544,7 +544,7 @@ namespace Roguelike.Engine.UI.Interfaces
                 GraphicConsole.Put('┴', x - 1, GraphicConsole.BufferHeight - 3);
             }
 
-            if (this.rightTab.IsVisible)
+            if (rightTab.IsVisible)
                 GraphicConsole.Put('┤', panelWidth + 1, y - 1);
             else
             {
@@ -568,33 +568,33 @@ namespace Roguelike.Engine.UI.Interfaces
         public Hotbar(Interface parent)
             : base(parent)
         {
-            this.button1 = new Button(this, "[ ABIL 1 ]", 70, 48, 10, 1) { KeyShortcut = Keys.D1 };
-            this.button2 = new Button(this, "[ ABIL 2 ]", 83, 48, 10, 1) { KeyShortcut = Keys.D2 };
-            this.button3 = new Button(this, "[ ABIL 3 ]", 96, 48, 10, 1) { KeyShortcut = Keys.D3 };
-            this.button4 = new Button(this, "[ ABIL 4 ]", 109, 48, 10, 1) { KeyShortcut = Keys.D4 };
+            button1 = new Button(this, "[ ABIL 1 ]", 70, 48, 10, 1) { KeyShortcut = Keys.D1 };
+            button2 = new Button(this, "[ ABIL 2 ]", 83, 48, 10, 1) { KeyShortcut = Keys.D2 };
+            button3 = new Button(this, "[ ABIL 3 ]", 96, 48, 10, 1) { KeyShortcut = Keys.D3 };
+            button4 = new Button(this, "[ ABIL 4 ]", 109, 48, 10, 1) { KeyShortcut = Keys.D4 };
 
-            this.buttonS1 = new Button(this, "[ ABIL 5 ]", 70, 48, 10, 1) { IsVisible = false, KeyShortcut = Keys.D1 };
-            this.buttonS2 = new Button(this, "[ ABIL 6 ]", 83, 48, 10, 1) { IsVisible = false, KeyShortcut = Keys.D2 };
-            this.buttonS3 = new Button(this, "[ ABIL 7 ]", 96, 48, 10, 1) { IsVisible = false, KeyShortcut = Keys.D3 };
-            this.buttonS4 = new Button(this, "[ ABIL 8 ]", 109, 48, 10, 1) { IsVisible = false, KeyShortcut = Keys.D4 };
+            buttonS1 = new Button(this, "[ ABIL 5 ]", 70, 48, 10, 1) { IsVisible = false, KeyShortcut = Keys.D1 };
+            buttonS2 = new Button(this, "[ ABIL 6 ]", 83, 48, 10, 1) { IsVisible = false, KeyShortcut = Keys.D2 };
+            buttonS3 = new Button(this, "[ ABIL 7 ]", 96, 48, 10, 1) { IsVisible = false, KeyShortcut = Keys.D3 };
+            buttonS4 = new Button(this, "[ ABIL 8 ]", 109, 48, 10, 1) { IsVisible = false, KeyShortcut = Keys.D4 };
 
-            this.button1.Click += button1_Pressed;
-            this.button2.Click += button2_Pressed;
-            this.button3.Click += button3_Pressed;
-            this.button4.Click += button4_Pressed;
+            button1.Click += button1_Pressed;
+            button2.Click += button2_Pressed;
+            button3.Click += button3_Pressed;
+            button4.Click += button4_Pressed;
 
-            this.buttonS1.Click += buttonS1_Pressed;
-            this.buttonS2.Click += buttonS2_Pressed;
-            this.buttonS3.Click += buttonS3_Pressed;
-            this.buttonS4.Click += buttonS4_Pressed;
+            buttonS1.Click += buttonS1_Pressed;
+            buttonS2.Click += buttonS2_Pressed;
+            buttonS3.Click += buttonS3_Pressed;
+            buttonS4.Click += buttonS4_Pressed;
 
-            this.GameCursor = new GameCursor(parent, GameManager.Viewport);
-            this.GameCursor.AimingMode = GameCursor.AimingModes.Off;
-            this.GameCursor.Selected += gameCursor_Selected;
+            GameCursor = new GameCursor(parent, GameManager.Viewport);
+            GameCursor.AimingMode = GameCursor.AimingModes.Off;
+            GameCursor.Selected += gameCursor_Selected;
 
-            this.popupControl = new Popup(this);
+            popupControl = new Popup(this);
 
-            this.setupButtonNames();
+            setupButtonNames();
         }
 
         #region Row One
@@ -644,14 +644,14 @@ namespace Roguelike.Engine.UI.Interfaces
 
         public override void UpdateStep()
         {
-            this.setupButtonNames();
+            setupButtonNames();
 
             base.UpdateStep();
         }
         public override void Update(GameTime gameTime)
         {
             if (InputManager.KeyWasPressed(Keys.LeftShift))
-                this.swapHotBar();
+                swapHotBar();
 
             base.Update(gameTime);
         }
@@ -701,22 +701,22 @@ namespace Roguelike.Engine.UI.Interfaces
         }
         public void CastAbility(Ability ability)
         {
-            this.castedAbility = ability;
+            castedAbility = ability;
 
             if (ability.Range != 0)
                 GameCursor.Range = ability.Range;
             else
                 GameCursor.Range = 100;
 
-            if (this.castedAbility.TargetingType == TargetingTypes.EntityTarget)
+            if (castedAbility.TargetingType == TargetingTypes.EntityTarget)
             {
                 GameCursor.Enable(GameCursor.AimingModes.Point, castedAbility.Range);
             }
-            else if (this.castedAbility.TargetingType == TargetingTypes.GroundTarget)
+            else if (castedAbility.TargetingType == TargetingTypes.GroundTarget)
             {
                 GameCursor.Enable(GameCursor.AimingModes.Point, castedAbility.Range);
             }
-            else if (this.castedAbility.TargetingType == TargetingTypes.Self)
+            else if (castedAbility.TargetingType == TargetingTypes.Self)
             {
                 CombatManager.PerformAbility(GameManager.Player.StatsPackage, GameManager.Player.StatsPackage, castedAbility);
                 GameManager.Step();
@@ -724,15 +724,15 @@ namespace Roguelike.Engine.UI.Interfaces
         }
         private void swapHotBar()
         {
-            this.button1.IsVisible = !this.button1.IsVisible;
-            this.button2.IsVisible = !this.button2.IsVisible;
-            this.button3.IsVisible = !this.button3.IsVisible;
-            this.button4.IsVisible = !this.button4.IsVisible;
+            button1.IsVisible = !button1.IsVisible;
+            button2.IsVisible = !button2.IsVisible;
+            button3.IsVisible = !button3.IsVisible;
+            button4.IsVisible = !button4.IsVisible;
 
-            this.buttonS1.IsVisible = !this.buttonS1.IsVisible;
-            this.buttonS2.IsVisible = !this.buttonS2.IsVisible;
-            this.buttonS3.IsVisible = !this.buttonS3.IsVisible;
-            this.buttonS4.IsVisible = !this.buttonS4.IsVisible;
+            buttonS1.IsVisible = !buttonS1.IsVisible;
+            buttonS2.IsVisible = !buttonS2.IsVisible;
+            buttonS3.IsVisible = !buttonS3.IsVisible;
+            buttonS4.IsVisible = !buttonS4.IsVisible;
 
             InterfaceManager.UpdateStep();
             InterfaceManager.DrawStep();
@@ -800,27 +800,27 @@ namespace Roguelike.Engine.UI.Interfaces
         public GameCursor(Control parent, Rectangle viewport)
             : base(parent)
         {
-            this.viewport = new Rectangle(
+            viewport = new Rectangle(
                 viewport.X * GraphicConsole.CHAR_WIDTH,
                 viewport.Y * GraphicConsole.CHAR_HEIGHT,
                 viewport.Width * GraphicConsole.CHAR_WIDTH,
                 viewport.Height * GraphicConsole.CHAR_HEIGHT);
 
-            this.viewportCoords = viewport;
+            viewportCoords = viewport;
         }
 
         public override void DrawStep()
         {
-            if (this.aimingMode != AimingModes.Off)
+            if (aimingMode != AimingModes.Off)
             {
-                if (this.range != -1)
+                if (range != -1)
                 {
                     GameManager.CurrentLevel.DrawCircle(MatrixLevels.Effect, new Circle() { X = GameManager.Player.X, Y = GameManager.Player.Y, Radius = range }, FILL_CURSOR, foregroundColorFill, backgroundColorFill, true);
                 }
 
                 if (aimingMode == AimingModes.Point)
                 {
-                    if (this.isInRange)
+                    if (isInRange)
                     {
                         GraphicConsole.SetColors(foregroundColorCursor, backgroundColorCursor);
                         GraphicConsole.Put(CURSOR, point0.X, point0.Y);
@@ -873,7 +873,7 @@ namespace Roguelike.Engine.UI.Interfaces
                 {
                     Point mouse = InputManager.GetCurrentMousePosition();
 
-                    if (this.viewport.Contains(mouse))
+                    if (viewport.Contains(mouse))
                     {
                         mouse.X = mouse.X / GraphicConsole.CHAR_WIDTH;
                         mouse.Y = mouse.Y / GraphicConsole.CHAR_HEIGHT;
@@ -887,10 +887,10 @@ namespace Roguelike.Engine.UI.Interfaces
                                 Point cursor = DrawingUtilities.GetWorldPositionFromScreen(mouse);
 
                                 float distance = Vector2.Distance(new Vector2(playerPosition.X, playerPosition.Y), new Vector2(cursor.X, cursor.Y));
-                                if (distance <= this.range)
-                                    this.isInRange = true;
+                                if (distance <= range)
+                                    isInRange = true;
                                 else
-                                    this.isInRange = false;
+                                    isInRange = false;
 
                                 point0 = mouse;
                                 InterfaceManager.DrawStep();
@@ -898,7 +898,7 @@ namespace Roguelike.Engine.UI.Interfaces
 
                             if (InputManager.MouseButtonWasClicked(MouseButtons.Left))
                             {
-                                this.OnSelect(null);
+                                OnSelect(null);
                             }
                             #endregion
                         }
@@ -908,7 +908,7 @@ namespace Roguelike.Engine.UI.Interfaces
                             if (mouse != point0)
                             {
                                 Point1 = new Point(GameManager.Player.X, GameManager.Player.Y);
-                                if (Vector2.Distance(new Vector2(point1.X, point1.Y), new Vector2(mouse.X, mouse.Y)) <= this.range)
+                                if (Vector2.Distance(new Vector2(point1.X, point1.Y), new Vector2(mouse.X, mouse.Y)) <= range)
                                 {
                                     point0 = mouse;
                                 }
@@ -917,7 +917,7 @@ namespace Roguelike.Engine.UI.Interfaces
 
                             if (InputManager.MouseButtonWasClicked(MouseButtons.Left))
                             {
-                                this.OnSelect(null);
+                                OnSelect(null);
                             }
                             #endregion
                         }
@@ -944,14 +944,14 @@ namespace Roguelike.Engine.UI.Interfaces
                                 }
 
                                 if (InputManager.MouseButtonWasClicked(MouseButtons.Left))
-                                    this.OnSelect(null);
+                                    OnSelect(null);
                             }
                             #endregion
                         }
 
                         if (InputManager.MouseButtonWasClicked(MouseButtons.Right))
                         {
-                            this.aimingMode = AimingModes.Off;
+                            aimingMode = AimingModes.Off;
                             GameManager.CurrentLevel.ClearLayer(MatrixLevels.Effect);
 
                             InterfaceManager.DrawStep();
@@ -971,8 +971,8 @@ namespace Roguelike.Engine.UI.Interfaces
 
         public void OnSelect(EventArgs args)
         {
-            if (this.Selected != null)
-                this.Selected(AimingMode, null);
+            if (Selected != null)
+                Selected(AimingMode, null);
 
             AimingMode = AimingModes.Off;
             GameManager.CurrentLevel.ClearLayer(MatrixLevels.Effect);
@@ -982,29 +982,29 @@ namespace Roguelike.Engine.UI.Interfaces
         public void Enable(AimingModes mode, int range)
         {
             point0 = Point.Zero;
-            this.range = range;
+            range = range;
 
             if (mode == AimingModes.DrawLine)
             {
                 point1 = new Point(-1, -1);
             }
 
-            this.aimingMode = mode;
+            aimingMode = mode;
             delay = 0.0;
         }
 
-        public AimingModes AimingMode { get { return this.aimingMode; } set { this.aimingMode = value; } }
+        public AimingModes AimingMode { get { return aimingMode; } set { aimingMode = value; } }
         public Point Point0 
         {
             get { return DrawingUtilities.GetWorldPositionFromScreen(point0); }
-            set { this.point0 = DrawingUtilities.GetScreenPositionFromWorld(point0); }
+            set { point0 = DrawingUtilities.GetScreenPositionFromWorld(point0); }
         }
         public Point Point1 
         {
             get { return new        Point(point1.X + GameManager.CameraOffset.X - viewport.X, point1.Y + GameManager.CameraOffset.Y - viewport.Y); }
-            set { this.point1 = new Point( (value.X - GameManager.CameraOffset.X) + viewport.X,  (value.Y - GameManager.CameraOffset.Y) + viewport.Y); }
+            set { point1 = new Point( (value.X - GameManager.CameraOffset.X) + viewport.X,  (value.Y - GameManager.CameraOffset.Y) + viewport.Y); }
         }
-        public int Range { get { return this.range; } set { this.range = value; } }
+        public int Range { get { return range; } set { range = value; } }
 
         public enum AimingModes { Off, Point, Line, DrawLine, Path }
     }
@@ -1037,57 +1037,57 @@ namespace Roguelike.Engine.UI.Interfaces
         public CharacterControl(Control parent, int x, int y, int width, int height)
             : base(parent)
         {
-            this.position = new Point(x, y);
-            this.size = new Point(width, height);
+            position = new Point(x, y);
+            size = new Point(width, height);
 
             //Character Info
-            this.characterName = new Title(this, "Billy Bob Thorton", 0, 0, Title.TextAlignModes.Left);
-            this.characterClass = new Title(this, "Singer/Movie Star", 0, 1, Title.TextAlignModes.Left);
-            this.characterLevel = new Title(this, "Level: -7", 0, 2, Title.TextAlignModes.Left);
+            characterName = new Title(this, "Billy Bob Thorton", 0, 0, Title.TextAlignModes.Left);
+            characterClass = new Title(this, "Singer/Movie Star", 0, 1, Title.TextAlignModes.Left);
+            characterLevel = new Title(this, "Level: -7", 0, 2, Title.TextAlignModes.Left);
 
-            this.expBar = new BarTitle(this, 0, 4, "EXP", this.size.X - 1);
-            this.expBar.FillColor = new Color(150, 140, 60);
-            this.expBar.BarColor = new Color(255, 240, 100);
+            expBar = new BarTitle(this, 0, 4, "EXP", size.X - 1);
+            expBar.FillColor = new Color(150, 140, 60);
+            expBar.BarColor = new Color(255, 240, 100);
 
             //Primary Stats
-            this.strTitle = new Title(this, "STR: ##", 1, 6);
-            this.agiTitle = new Title(this, "AGI: ##", 1, 7);
-            this.dexTitle = new Title(this, "DEX: ##", 1, 8);
+            strTitle = new Title(this, "STR: ##", 1, 6);
+            agiTitle = new Title(this, "AGI: ##", 1, 7);
+            dexTitle = new Title(this, "DEX: ##", 1, 8);
 
-            this.intTitle = new Title(this, "INT: ##", 1, 10);
-            this.wilTitle = new Title(this, "WIL: ##", 1, 11);
-            this.wisTitle = new Title(this, "WIS: ##", 1, 12);
+            intTitle = new Title(this, "INT: ##", 1, 10);
+            wilTitle = new Title(this, "WIL: ##", 1, 11);
+            wisTitle = new Title(this, "WIS: ##", 1, 12);
 
-            this.conTitle = new Title(this, "CON: ##", 1, 14);
-            this.endTitle = new Title(this, "END: ##", 1, 15);
-            this.frtTitle = new Title(this, "FRT: ##", 1, 16);
+            conTitle = new Title(this, "CON: ##", 1, 14);
+            endTitle = new Title(this, "END: ##", 1, 15);
+            frtTitle = new Title(this, "FRT: ##", 1, 16);
 
             //Effective Stats
-            this.effectiveStats = new TextBox(this, 0, 19, this.Size.X, this.Size.Y - 19);
+            effectiveStats = new TextBox(this, 0, 19, Size.X, Size.Y - 19);
         }
 
         public override void UpdateStep()
         {
             //Character Info
-            this.characterName.Text = GameManager.Player.PlayerStats.Name;
-            this.characterClass.Text = GameManager.Player.PlayerStats.Culture + " " + GameManager.Player.PlayerStats.Race + " - " + GameManager.Player.PlayerStats.Class;
-            this.characterLevel.Text = "Level: 1";
+            characterName.Text = GameManager.Player.PlayerStats.Name;
+            characterClass.Text = GameManager.Player.PlayerStats.Culture + " " + GameManager.Player.PlayerStats.Race + " - " + GameManager.Player.PlayerStats.Class;
+            characterLevel.Text = "Level: 1";
 
             //Primary Stats
-            this.strTitle.Text = "STR: " + GameManager.Player.PlayerStats.Strength;
-            this.agiTitle.Text = "AGI: " + GameManager.Player.PlayerStats.Agility;
-            this.dexTitle.Text = "DEX: " + GameManager.Player.PlayerStats.Dexterity;
+            strTitle.Text = "STR: " + GameManager.Player.PlayerStats.Strength;
+            agiTitle.Text = "AGI: " + GameManager.Player.PlayerStats.Agility;
+            dexTitle.Text = "DEX: " + GameManager.Player.PlayerStats.Dexterity;
 
-            this.intTitle.Text = "INT: " + GameManager.Player.PlayerStats.Intelligence;
-            this.wilTitle.Text = "WIL: " + GameManager.Player.PlayerStats.Willpower;
-            this.wisTitle.Text = "WIS: " + GameManager.Player.PlayerStats.Wisdom;
+            intTitle.Text = "INT: " + GameManager.Player.PlayerStats.Intelligence;
+            wilTitle.Text = "WIL: " + GameManager.Player.PlayerStats.Willpower;
+            wisTitle.Text = "WIS: " + GameManager.Player.PlayerStats.Wisdom;
 
-            this.conTitle.Text = "CON: " + GameManager.Player.PlayerStats.Constitution;
-            this.endTitle.Text = "END: " + GameManager.Player.PlayerStats.Endurance;
-            this.frtTitle.Text = "FRT: " + GameManager.Player.PlayerStats.Fortitude;
+            conTitle.Text = "CON: " + GameManager.Player.PlayerStats.Constitution;
+            endTitle.Text = "END: " + GameManager.Player.PlayerStats.Endurance;
+            frtTitle.Text = "FRT: " + GameManager.Player.PlayerStats.Fortitude;
 
             //Effective Stats
-            this.effectiveStats.Text = GameManager.Player.StatsPackage.GetInformation();
+            effectiveStats.Text = GameManager.Player.StatsPackage.GetInformation();
 
             base.UpdateStep();
         }
@@ -1101,31 +1101,31 @@ namespace Roguelike.Engine.UI.Interfaces
         public EffectsControl(Control parent, int x, int y, int width, int height)
             : base(parent)
         {
-            this.position = new Point(x, y);
-            this.size = new Point(width, height);
+            position = new Point(x, y);
+            size = new Point(width, height);
 
-            this.effectsTitle = new Title(this, "-=Current Effects=-", this.size.X / 2, 0, Title.TextAlignModes.Center);
-            this.effectsList = new ScrollingList(this, 0, 2, this.size.X, 24) { FillColor = new Color(20, 20, 20) };
-            this.effectDescription = new TextBox(this, 0, 27, this.size.X, 17) { FillColor = new Color(20, 20, 20) };
+            effectsTitle = new Title(this, "-=Current Effects=-", size.X / 2, 0, Title.TextAlignModes.Center);
+            effectsList = new ScrollingList(this, 0, 2, size.X, 24) { FillColor = new Color(20, 20, 20) };
+            effectDescription = new TextBox(this, 0, 27, size.X, 17) { FillColor = new Color(20, 20, 20) };
 
-            this.effectsList.Selected += effectsList_Selected;
-            this.effectsList.Deselected += effectsList_Deselected;
+            effectsList.Selected += effectsList_Selected;
+            effectsList.Deselected += effectsList_Deselected;
         }
 
         public override void UpdateStep()
         {
-            this.effectsList.SetList<Game.Combat.Effect>(GameManager.Player.PlayerStats.AppliedEffects);
+            effectsList.SetList<Game.Combat.Effect>(GameManager.Player.PlayerStats.AppliedEffects);
 
             base.UpdateStep();
         }
 
         void effectsList_Selected(object sender, int index)
         {
-            this.effectDescription.Text = ((Game.Combat.Effect)(this.effectsList.Items[index])).EffectDescription;
+            effectDescription.Text = ((Game.Combat.Effect)(effectsList.Items[index])).EffectDescription;
         }
         void effectsList_Deselected(object sender)
         {
-            this.effectDescription.Text = " ";
+            effectDescription.Text = " ";
         }
     }
 
@@ -1148,43 +1148,43 @@ namespace Roguelike.Engine.UI.Interfaces
         public InventoryControl(Control parent, int x, int y, int width, int height, Hotbar hotbar)
             : base(parent)
         {
-            this.position = new Point(x, y);
-            this.size = new Point(width, height);
-            this.hotbar = hotbar;
+            position = new Point(x, y);
+            size = new Point(width, height);
+            hotbar = hotbar;
 
-            this.inventoryTitle = new Title(this, "-=Inventory=-", width / 2, 0, Title.TextAlignModes.Center);
-            this.groundTitle = new Title(this, "-=Ground Items=-", width / 2, 19, Title.TextAlignModes.Center);
-            this.goldTracker = new Title(this, "Gold: ###", 0, 1, Title.TextAlignModes.Left) { TextColor = Color.Goldenrod, FillColor = new Color(20, 20, 20) };
+            inventoryTitle = new Title(this, "-=Inventory=-", width / 2, 0, Title.TextAlignModes.Center);
+            groundTitle = new Title(this, "-=Ground Items=-", width / 2, 19, Title.TextAlignModes.Center);
+            goldTracker = new Title(this, "Gold: ###", 0, 1, Title.TextAlignModes.Left) { TextColor = Color.Goldenrod, FillColor = new Color(20, 20, 20) };
 
-            this.inventoryList = new ScrollingList(this, 0, 2, this.Size.X, 14) { FillColor = new Color(20, 20, 20) };
-            this.groundList = new ScrollingList(this, 0, 20, this.Size.X, 8) { FillColor = new Color(20, 20, 20) };
+            inventoryList = new ScrollingList(this, 0, 2, Size.X, 14) { FillColor = new Color(20, 20, 20) };
+            groundList = new ScrollingList(this, 0, 20, Size.X, 8) { FillColor = new Color(20, 20, 20) };
 
-            this.useButton = new Button(this, "Use", 0, 16, 14, 3);
-            this.dropButton = new Button(this, "Drop", 14, 16, 14, 3);
-            this.pickupButton = new Button(this, "Pickup", 0, 28, 28, 3);
+            useButton = new Button(this, "Use", 0, 16, 14, 3);
+            dropButton = new Button(this, "Drop", 14, 16, 14, 3);
+            pickupButton = new Button(this, "Pickup", 0, 28, 28, 3);
 
-            this.descriptionBox = new TextBox(this, 0, 31, this.Size.X, 13) { FillColor = new Color(20, 20, 20) };
+            descriptionBox = new TextBox(this, 0, 31, Size.X, 13) { FillColor = new Color(20, 20, 20) };
 
-            this.inventoryList.Selected += inventoryList_Selected;
-            this.groundList.Selected += groundList_Selected;
+            inventoryList.Selected += inventoryList_Selected;
+            groundList.Selected += groundList_Selected;
 
-            this.useButton.Click += useButton_Click;
-            this.dropButton.Click += dropButton_Click;
-            this.pickupButton.Click += pickupButton_Click;
+            useButton.Click += useButton_Click;
+            dropButton.Click += dropButton_Click;
+            pickupButton.Click += pickupButton_Click;
         }
         public override void UpdateStep()
         {
-            this.populateInventoryList();
-            this.populateGroundList();
+            populateInventoryList();
+            populateGroundList();
 
-            this.goldTracker.Text = "Gold: " + Inventory.Gold.ToString();
+            goldTracker.Text = "Gold: " + Inventory.Gold.ToString();
 
             base.UpdateStep();
         }
         public override void DrawStep()
         {
             GraphicConsole.SetColors(Color.White, new Color(20, 20, 20));
-            DrawingUtilities.DrawLine(this.Position.X, this.Position.Y + 1, this.Position.X + this.Size.X - 1, this.Position.Y + 1, ' ');
+            DrawingUtilities.DrawLine(Position.X, Position.Y + 1, Position.X + Size.X - 1, Position.Y + 1, ' ');
             GraphicConsole.ResetColor();
 
             base.DrawStep();
@@ -1192,11 +1192,11 @@ namespace Roguelike.Engine.UI.Interfaces
 
         private void populateInventoryList()
         {
-            int index = this.inventoryList.SelectedIndex;
-            this.inventoryList.SetList(Inventory.PlayerInventory);
+            int index = inventoryList.SelectedIndex;
+            inventoryList.SetList(Inventory.PlayerInventory);
 
-            if (this.inventoryList.Items.Count > index)
-                this.inventoryList.SetSelection(index);
+            if (inventoryList.Items.Count > index)
+                inventoryList.SetSelection(index);
         }
         private void populateGroundList()
         {
@@ -1208,31 +1208,31 @@ namespace Roguelike.Engine.UI.Interfaces
                     groundItems.Add(GameManager.CurrentLevel.FloorItems[i]);
                 }
             }
-            this.groundList.SetList<Item>(groundItems);
+            groundList.SetList<Item>(groundItems);
         }
 
         private void inventoryList_Selected(object sender, int index)
         {
-            if (this.inventoryList.HasSelection)
+            if (inventoryList.HasSelection)
             {
-                this.descriptionBox.Text = ((Item)this.inventoryList.GetSelection()).GetDescription();
+                descriptionBox.Text = ((Item)inventoryList.GetSelection()).GetDescription();
             }
         }
         private void groundList_Selected(object sender, int index)
         {
-            if (this.groundList.HasSelection)
-                this.descriptionBox.Text = ((Item)this.groundList.GetSelection()).GetDescription();
+            if (groundList.HasSelection)
+                descriptionBox.Text = ((Item)groundList.GetSelection()).GetDescription();
         }
 
         private void useButton_Click(object sender, MouseButtons button)
         {
             if (inventoryList.HasSelection)
             {
-                Item item = (Item)this.inventoryList.GetSelection();
+                Item item = (Item)inventoryList.GetSelection();
 
                 if (item.ItemType == ItemTypes.Scroll)
                 {
-                    this.hotbar.CastAbility(((Scroll)item).ScrollAbility);
+                    hotbar.CastAbility(((Scroll)item).ScrollAbility);
                     item.OnUse(GameManager.Player);
                     Inventory.PurgeItem(item);
                 }
@@ -1247,7 +1247,7 @@ namespace Roguelike.Engine.UI.Interfaces
                     GameManager.Step();
                 }
             }
-            this.descriptionBox.Text = string.Empty;
+            descriptionBox.Text = string.Empty;
         }
         private void dropButton_Click(object sender, MouseButtons button)
         {
@@ -1260,7 +1260,7 @@ namespace Roguelike.Engine.UI.Interfaces
 
                 GameManager.Step();
             }
-            this.descriptionBox.Text = string.Empty;
+            descriptionBox.Text = string.Empty;
         }
         private void pickupButton_Click(object sender, MouseButtons button)
         {
@@ -1275,7 +1275,7 @@ namespace Roguelike.Engine.UI.Interfaces
 
                 GameManager.Step();
             }
-            this.descriptionBox.Text = string.Empty;
+            descriptionBox.Text = string.Empty;
         }
     }
     public class EquipmentControl : Control
@@ -1291,53 +1291,53 @@ namespace Roguelike.Engine.UI.Interfaces
         public EquipmentControl(Control parent, int x, int y, int width, int height)
             : base(parent)
         {
-            this.position = new Point(x, y);
-            this.size = new Point(width, height);
+            position = new Point(x, y);
+            size = new Point(width, height);
 
-            this.equipmentTitle = new Title(this, "-=Equipment=-", width / 2, 0, Title.TextAlignModes.Center);
-            this.inventoryTitle = new Title(this, "-=Inventory=-", width / 2, 16, Title.TextAlignModes.Center);
+            equipmentTitle = new Title(this, "-=Equipment=-", width / 2, 0, Title.TextAlignModes.Center);
+            inventoryTitle = new Title(this, "-=Inventory=-", width / 2, 16, Title.TextAlignModes.Center);
 
-            this.equipmentList = new ScrollingList(this, 0, 1, width, 12) { FillColor = new Color(20, 20, 20) };
-            this.filteredList = new ScrollingList(this, 0, 17, width, 12) { FillColor = new Color(20, 20, 20) };
-            this.descriptionBox = new TextBox(this, 0, 29, width, 15) { FillColor = new Color(20, 20, 20) };
+            equipmentList = new ScrollingList(this, 0, 1, width, 12) { FillColor = new Color(20, 20, 20) };
+            filteredList = new ScrollingList(this, 0, 17, width, 12) { FillColor = new Color(20, 20, 20) };
+            descriptionBox = new TextBox(this, 0, 29, width, 15) { FillColor = new Color(20, 20, 20) };
 
-            this.equipButton = new Button(this, "Equip", 0, 13, 14, 3);
-            this.unequipButton = new Button(this, "Unequip", 14, 13, 14, 3);
+            equipButton = new Button(this, "Equip", 0, 13, 14, 3);
+            unequipButton = new Button(this, "Unequip", 14, 13, 14, 3);
 
-            this.equipmentList.Selected += equipmentList_Selected;
-            this.filteredList.Selected += filteredList_Selected;
+            equipmentList.Selected += equipmentList_Selected;
+            filteredList.Selected += filteredList_Selected;
 
-            this.equipButton.Click += equipButton_Click;
-            this.unequipButton.Click += unequipButton_Click;
+            equipButton.Click += equipButton_Click;
+            unequipButton.Click += unequipButton_Click;
         }
 
         public override void UpdateStep()
         {
-            this.generateLists();
+            generateLists();
 
             base.UpdateStep();
         }
 
         private void filteredList_Selected(object sender, int index)
         {
-            this.descriptionBox.Text = ((Item)this.filteredList.Items[index]).GetDescription();
+            descriptionBox.Text = ((Item)filteredList.Items[index]).GetDescription();
         }
         private void equipmentList_Selected(object sender, int index)
         {
-            EquipmentSlots slot = (EquipmentSlots)this.equipmentSlots.GetValue(index);
+            EquipmentSlots slot = (EquipmentSlots)equipmentSlots.GetValue(index);
 
             if (Inventory.ItemEquipped(slot))
-                this.descriptionBox.Text = Inventory.GetEquipment(slot).GetDescription();
+                descriptionBox.Text = Inventory.GetEquipment(slot).GetDescription();
             else if (slot == EquipmentSlots.MainHand && Inventory.ItemEquipped(EquipmentSlots.TwoHand))
-                this.descriptionBox.Text = Inventory.TwoHand.GetDescription();
+                descriptionBox.Text = Inventory.TwoHand.GetDescription();
             else
-                this.descriptionBox.Text = " ";
+                descriptionBox.Text = " ";
         }
         private void equipButton_Click(object sender, MouseButtons button)
         {
-            if (this.filteredList.HasSelection)
+            if (filteredList.HasSelection)
             {
-                Equipment item = (Equipment)this.filteredList.GetSelection();
+                Equipment item = (Equipment)filteredList.GetSelection();
 
                 if (equipmentList.HasSelection)
                     Inventory.EquipItem(item, getSlotIndex(equipmentList.SelectedIndex));
@@ -1347,20 +1347,20 @@ namespace Roguelike.Engine.UI.Interfaces
                 filteredList.ClearSelection();
                 equipmentList.ClearSelection();
 
-                this.descriptionBox.Text = " ";
+                descriptionBox.Text = " ";
 
                 GameManager.Player.StatsPackage.CalculateStats();
                 GameManager.Player.StatsPackage = Inventory.CalculateStats(GameManager.Player.StatsPackage);
 
                 GameManager.Step();
             }
-            this.descriptionBox.Text = string.Empty;
+            descriptionBox.Text = string.Empty;
         }
         private void unequipButton_Click(object sender, MouseButtons button)
         {
             if (equipmentList.HasSelection)
             {
-                this.descriptionBox.Text = " ";
+                descriptionBox.Text = " ";
 
                 string equipmentTag = "";
                 equipmentTag += equipmentList.GetSelection().ListText[0];
@@ -1368,7 +1368,7 @@ namespace Roguelike.Engine.UI.Interfaces
                 equipmentTag += equipmentList.GetSelection().ListText[2];
                 equipmentTag += equipmentList.GetSelection().ListText[3];
 
-                this.unequipItem(equipmentTag.Trim());
+                unequipItem(equipmentTag.Trim());
 
                 filteredList.ClearSelection();
                 equipmentList.ClearSelection();
@@ -1378,7 +1378,7 @@ namespace Roguelike.Engine.UI.Interfaces
 
                 GameManager.Step();
             }
-            this.descriptionBox.Text = string.Empty;
+            descriptionBox.Text = string.Empty;
         }
 
         private void unequipItem(string tag)
@@ -1447,12 +1447,12 @@ namespace Roguelike.Engine.UI.Interfaces
         private void generateLists()
         {
             //Equipment Slots
-            this.equipmentList.Items.Clear();
-            for (int i = 0; i < this.equipmentSlots.Length - 2; i++) //The last two values are OneHand and TwoHand
+            equipmentList.Items.Clear();
+            for (int i = 0; i < equipmentSlots.Length - 2; i++) //The last two values are OneHand and TwoHand
             {
-                EquipmentSlots slot = (EquipmentSlots)this.equipmentSlots.GetValue(i);
+                EquipmentSlots slot = (EquipmentSlots)equipmentSlots.GetValue(i);
                 ListItem item = new ListItem();
-                item.ListText = this.getSlotName(slot);
+                item.ListText = getSlotName(slot);
 
                 if (Inventory.ItemEquipped(slot))
                 {
@@ -1467,7 +1467,7 @@ namespace Roguelike.Engine.UI.Interfaces
                     item.TextColor = Color.White;
                 }
 
-                this.equipmentList.Items.Add(item);
+                equipmentList.Items.Add(item);
             }
 
             //Specific Two Hand weapon check
@@ -1481,13 +1481,13 @@ namespace Roguelike.Engine.UI.Interfaces
             }
 
             //Filtered Inventory List
-            this.filteredList.Items.Clear();
+            filteredList.Items.Clear();
             for (int i = 0; i < Inventory.PlayerInventory.Count; i++)
             {
                 if (Inventory.PlayerInventory[i].ItemType == ItemTypes.Equipment ||
                     Inventory.PlayerInventory[i].ItemType == ItemTypes.Equipment)
                 {
-                    this.filteredList.Items.Add(Inventory.PlayerInventory[i]);
+                    filteredList.Items.Add(Inventory.PlayerInventory[i]);
                 }
             }
         }
@@ -1506,44 +1506,44 @@ namespace Roguelike.Engine.UI.Interfaces
         public SpellbookControl(Control parent, int x, int y, int width, int height, Hotbar hotbar)
             : base(parent)
         {
-            this.position = new Point(x, y);
-            this.size = new Point(width, height);
+            position = new Point(x, y);
+            size = new Point(width, height);
 
-            this.hotbar = hotbar;
+            hotbar = hotbar;
 
-            this.spellbookTitle = new Title(this, "-=Spell Boox=-", width / 2, 0);
+            spellbookTitle = new Title(this, "-=Spell Boox=-", width / 2, 0);
 
-            this.spellList = new ScrollingList(this, 0, 1, this.Size.X, 15) { FillColor = new Color(20, 20, 20) };
-            this.castSpellButton = new Button(this, "Cast", 0, 16, this.Size.X, 3);
-            this.spellDescription = new TextBox(this, 0, 19, this.Size.X, this.Size.Y - 19) { FillColor = new Color(20, 20, 20) };
+            spellList = new ScrollingList(this, 0, 1, Size.X, 15) { FillColor = new Color(20, 20, 20) };
+            castSpellButton = new Button(this, "Cast", 0, 16, Size.X, 3);
+            spellDescription = new TextBox(this, 0, 19, Size.X, Size.Y - 19) { FillColor = new Color(20, 20, 20) };
 
-            this.spellList.Selected += spellList_Selected;
-            this.castSpellButton.Click += castSpellButton_Click;
+            spellList.Selected += spellList_Selected;
+            castSpellButton.Click += castSpellButton_Click;
         }
 
         public override void UpdateStep()
         {
-            this.populateSpellbook();
+            populateSpellbook();
 
             base.UpdateStep();
         }
 
         private void populateSpellbook()
         {
-            this.spellList.SetList<Ability>(GameManager.Player.StatsPackage.AbilityList);
+            spellList.SetList<Ability>(GameManager.Player.StatsPackage.AbilityList);
         }
         private void castSpellButton_Click(object sender, MouseButtons button)
         {
-            if (this.spellList.HasSelection)
+            if (spellList.HasSelection)
             {
-                hotbar.CastAbility((Ability)this.spellList.GetSelection());
+                hotbar.CastAbility((Ability)spellList.GetSelection());
             }
         }
         private void spellList_Selected(object sender, int index)
         {
-            if (this.spellList.HasSelection)
+            if (spellList.HasSelection)
             {
-                this.spellDescription.Text = ((Ability)this.spellList.GetSelection()).GetDescription();
+                spellDescription.Text = ((Ability)spellList.GetSelection()).GetDescription();
             }
         }
     }

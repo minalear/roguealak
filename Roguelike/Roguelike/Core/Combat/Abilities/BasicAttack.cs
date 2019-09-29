@@ -8,31 +8,31 @@ namespace Roguelike.Core.Combat.Abilities
         public BasicAttack()
             : base()
         {
-            this.AbilityName = "Basic Attack";
-            this.AbilityNameShort = "Bsc Attk";
+            AbilityName = "Basic Attack";
+            AbilityNameShort = "Bsc Attk";
 
-            this.abilityType = AbilityTypes.Physical;
-            this.TargetingType = TargetingTypes.EntityTarget;
-            this.Range = 1;
+            abilityType = AbilityTypes.Physical;
+            TargetingType = TargetingTypes.EntityTarget;
+            Range = 1;
         }
 
         public override CombatResults CalculateResults(Stats.StatsPackage caster, Stats.StatsPackage target)
         {
-            CombatResults results = this.DoesAttackHit(caster, target);
+            CombatResults results = DoesAttackHit(caster, target);
 
             if (!results.DidMiss && !results.DidAvoid)
             {
                 int damage = (int)caster.AttackPower.EffectiveValue;
-                if (this.DoesAttackCrit(caster))
+                if (DoesAttackCrit(caster))
                 {
-                    damage = this.ApplyCriticalDamage(damage, caster);
+                    damage = ApplyCriticalDamage(damage, caster);
                     results.DidCrit = true;
                 }
 
                 results.PureDamage = damage;
-                results.AbsorbedDamage = this.CalculateAbsorption(results.PureDamage, target);
+                results.AbsorbedDamage = CalculateAbsorption(results.PureDamage, target);
                 results.AppliedDamage = results.PureDamage - results.AbsorbedDamage;
-                results.ReflectedDamage = this.CalculateReflectedDamage(results.AppliedDamage, target);
+                results.ReflectedDamage = CalculateReflectedDamage(results.AppliedDamage, target);
             }
 
             return results;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using OpenTK.Graphics;
 using Roguelike.Core.Combat;
 
 namespace Roguelike.Core.Stats.Races
@@ -9,8 +10,8 @@ namespace Roguelike.Core.Stats.Races
         public Dwarf()
             : base("Dwarf")
         {
-            this.Description = "A short, sturdy creature fond of drink and industry.";
-            this.SubCultures = new List<Culture>() { new Dwarf_Iron(), new Dwarf_Island(), new Dwarf_Pale() };
+            Description = "A short, sturdy creature fond of drink and industry.";
+            SubCultures = new List<Culture>() { new Dwarf_Iron(), new Dwarf_Island(), new Dwarf_Pale() };
         }
 
         public override PlayerStats AddRacialStats(PlayerStats package)
@@ -36,9 +37,9 @@ namespace Roguelike.Core.Stats.Races
         public Dwarf_Island()
             : base("Island")
         {
-            this.Description = "A thousand years ago, a sect of dwarves decided to leave their mountain homes and sail the sea.  They crash landed on an island chain not too long after.  In the following years, they enslaved the island pygmies and established a trading civilization that spans the globe.";
-            this.Trait = new IslandTrait(this);
-            this.SkinColors = new List<Color>() { new Color(236, 213, 143), new Color(201, 161, 134), new Color(249, 245, 182) };
+            Description = "A thousand years ago, a sect of dwarves decided to leave their mountain homes and sail the sea.  They crash landed on an island chain not too long after.  In the following years, they enslaved the island pygmies and established a trading civilization that spans the globe.";
+            Trait = new IslandTrait(this);
+            SkinColors = new List<Color4>() { new Color4(236, 213, 143, 255), new Color4(201, 161, 134, 255), new Color4(249, 245, 182, 255) };
         }
 
         public class IslandTrait : Effect
@@ -61,9 +62,9 @@ namespace Roguelike.Core.Stats.Races
         public Dwarf_Iron()
             : base("Iron")
         {
-            this.Description = "The Iron Dwarves are your stereotypical mountain dwarves that tend to dig too deep and cherish hordes of treasures.  They are the chief supplier of raw materials to the world and construct fantastical underground civilizations that can span miles.";
-            this.Trait = new IronTrait(this);
-            this.SkinColors = new List<Color>() { new Color(181, 169, 153), new Color(181, 153, 153), new Color(178, 181, 153) };
+            Description = "The Iron Dwarves are your stereotypical mountain dwarves that tend to dig too deep and cherish hordes of treasures.  They are the chief supplier of raw materials to the world and construct fantastical underground civilizations that can span miles.";
+            Trait = new IronTrait(this);
+            SkinColors = new List<Color4>() { new Color4(181, 169, 153, 255), new Color4(181, 153, 153, 255), new Color4(178, 181, 153, 255) };
         }
 
         public class IronTrait : Effect
@@ -86,9 +87,9 @@ namespace Roguelike.Core.Stats.Races
         public Dwarf_Pale()
             : base("Pale")
         {
-            this.Description = "The Pale Dwarves, like the Island Dwarves, used to be a part of the Iron Dwarf clans, but a freak mine shaft collapsed caused their entire district to fall into the earthen depths.  Not having any dwarves of the miner caste, they were forced to survive in the pitch black for centuries before being discovered again.  Over that period of time, these dwarves became more pale, bug eyed and hostile and attacked their unlucky saviors.";
-            this.Trait = new PaleTrait(this);
-            this.SkinColors = new List<Color>() { new Color(222, 219, 197), new Color(255, 249, 207), new Color(234, 215, 195) };
+            Description = "The Pale Dwarves, like the Island Dwarves, used to be a part of the Iron Dwarf clans, but a freak mine shaft collapsed caused their entire district to fall into the earthen depths.  Not having any dwarves of the miner caste, they were forced to survive in the pitch black for centuries before being discovered again.  Over that period of time, these dwarves became more pale, bug eyed and hostile and attacked their unlucky saviors.";
+            Trait = new PaleTrait(this);
+            SkinColors = new List<Color4>() { new Color4(222, 219, 197, 255), new Color4(255, 249, 207, 255), new Color4(234, 215, 195, 255) };
         }
 
         public class PaleTrait : Effect

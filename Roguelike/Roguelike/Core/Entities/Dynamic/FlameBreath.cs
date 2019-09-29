@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Roguelike.Core.Stats;
+using OpenTK;
+using OpenTK.Graphics;
+using Roguelike.Engine;
 
 namespace Roguelike.Core.Entities.Dynamic
 {
@@ -14,16 +16,16 @@ namespace Roguelike.Core.Entities.Dynamic
         public FlameBreath(Level parent, Point position, Point direction)
             : base(parent)
         {
-            this.X = position.X;
-            this.Y = position.Y;
+            X = position.X;
+            Y = position.Y;
 
             this.direction = direction;
 
-            this.token = ' ';
-            this.isSolid = false;
+            token = ' ';
+            isSolid = false;
         }
 
-        public override void DrawStep(Rectangle viewport)
+        public override void DrawStep(Box2 viewport)
         {
             double angle = Math.Atan2(direction.Y, direction.X);
 
@@ -35,16 +37,16 @@ namespace Roguelike.Core.Entities.Dynamic
                 for (int r = 0; r < distance; r++)
                 {
                     Point position = new Point();
-                    position.X = (int)(this.X + 0.5 + r * Math.Cos(a));
-                    position.Y = (int)(this.Y + 0.5 + r * Math.Sin(a));
+                    position.X = (int)(X + 0.5 + r * Math.Cos(a));
+                    position.Y = (int)(Y + 0.5 + r * Math.Sin(a));
 
                     if (!affectedTiles.Contains(position))
                     {
-                        this.parentLevel.SetToken(MatrixLevels.Effect, position.X, position.Y, getFlameToken(), getFlameColor(), Color.Black);
+                        parentLevel.SetToken(MatrixLevels.Effect, position.X, position.Y, getFlameToken(), getFlameColor(), Color.Black);
                         affectedTiles.Add(position);
                     }
 
-                    if (this.parentLevel.IsTileSolid(position.X, position.Y))
+                    if (parentLevel.IsTileSolid(position.X, position.Y))
                         break;
                 }
             }
@@ -55,7 +57,7 @@ namespace Roguelike.Core.Entities.Dynamic
         {
             duration--;
             if (duration <= 0)
-                this.DoPurge = true;
+                DoPurge = true;
             distance += 3;
 
             for (int i = 0; i < affectedTiles.Count; i++)
@@ -80,16 +82,14 @@ namespace Roguelike.Core.Entities.Dynamic
 
             return token[RNG.Next(0, token.Length)];
         }
-        private Color getFlameColor()
+        private Color4 getFlameColor()
         {
-            Color[] explosionColors = new Color[] { Color.Red, Color.DarkGoldenrod, Color.Orange, Color.DarkOrange, Color.Maroon };
-
+            var explosionColors = new Color4[] { Color4.Red, Color4.DarkGoldenrod, Color4.Orange, Color4.DarkOrange, Color4.Maroon };
             return explosionColors[RNG.Next(0, explosionColors.Length)];
         }
-        private Color getScorchColor()
+        private Color4 getScorchColor()
         {
-            Color[] explosionColors = new Color[] { new Color(25, 25, 25), new Color(35, 35, 35), new Color(5, 5, 5) };
-
+            var explosionColors = new Color4[] { new Color4(25, 25, 25, 255), new Color4(35, 35, 35, 255), new Color4(5, 5, 5, 255) };
             return explosionColors[RNG.Next(0, explosionColors.Length)];
         }
     }

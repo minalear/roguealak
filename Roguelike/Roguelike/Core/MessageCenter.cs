@@ -34,30 +34,30 @@ namespace Roguelike.Core
 
             public Message(string text, Entity sender)
             {
-                this.shortMessage = text;
-                this.sender = sender;
+                shortMessage = text;
+                sender = sender;
 
-                if (this.sender.EntityType == Entity.EntityTypes.Enemy)
-                    this.TextColor = Color.Red;
-                else if (this.sender.EntityType == Entity.EntityTypes.Player)
-                    this.TextColor = Color.LimeGreen;
+                if (sender.EntityType == Entity.EntityTypes.Enemy)
+                    TextColor = Color.Red;
+                else if (sender.EntityType == Entity.EntityTypes.Player)
+                    TextColor = Color.LimeGreen;
                 else
-                    this.TextColor = Color.White;
+                    TextColor = Color.White;
 
-                this.detailedMessage = text;
+                detailedMessage = text;
             }
             public Message(string text)
             {
-                this.shortMessage = text;
-                this.TextColor = Color.White;
+                shortMessage = text;
+                TextColor = Color.White;
 
-                this.detailedMessage = text;
+                detailedMessage = text;
             }
 
             public override string ListText { get { return shortMessage; } set { shortMessage = value; } }
             public string ShortMessage { get { return shortMessage; } set { shortMessage = value; } }
-            public string DetailedMessage { get { return this.detailedMessage; } set { this.detailedMessage = value; } }
-            public Entity Sender { get { return this.sender; } set { this.sender = value; } }
+            public string DetailedMessage { get { return detailedMessage; } set { detailedMessage = value; } }
+            public Entity Sender { get { return sender; } set { sender = value; } }
         }
     }
 }

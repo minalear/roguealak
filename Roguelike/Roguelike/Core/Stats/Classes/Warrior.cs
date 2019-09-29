@@ -10,9 +10,9 @@ namespace Roguelike.Core.Stats.Classes
         public Warrior()
             : base("Warrior")
         {
-            this.Description = "For as long as war has raged, heroes from every race have aimed to master the art of battle. Warriors combine strength, leadership, and a vast knowledge of arms and armor to wreak havoc in glorious combat. Some protect from the front lines with shields, locking down enemies while allies support the warrior from behind with spell and bow. Others forgo the shield and unleash their rage at the closest threat with a variety of deadly weapons.";
-            this.InheritAbilities = new List<Ability>() { new Ability_ShieldWall(), new Ability_MightyBash() };
-            this.InheritEffects = new List<Effect>() { new Effect_Spirit() };
+            Description = "For as long as war has raged, heroes from every race have aimed to master the art of battle. Warriors combine strength, leadership, and a vast knowledge of arms and armor to wreak havoc in glorious combat. Some protect from the front lines with shields, locking down enemies while allies support the warrior from behind with spell and bow. Others forgo the shield and unleash their rage at the closest threat with a variety of deadly weapons.";
+            InheritAbilities = new List<Ability>() { new Ability_ShieldWall(), new Ability_MightyBash() };
+            InheritEffects = new List<Effect>() { new Effect_Spirit() };
         }
         public override PlayerStats CalculateStats(PlayerStats stats)
         {
@@ -37,12 +37,12 @@ namespace Roguelike.Core.Stats.Classes
         public Ability_ShieldWall()
             : base()
         {
-            this.AbilityName = "Shield Wall";
-            this.AbilityNameShort = "Shld Wll";
+            AbilityName = "Shield Wall";
+            AbilityNameShort = "Shld Wll";
 
-            this.abilityType = AbilityTypes.Physical;
-            this.TargetingType = TargetingTypes.Self;
-            this.abilityCost = 10;
+            abilityType = AbilityTypes.Physical;
+            TargetingType = TargetingTypes.Self;
+            abilityCost = 10;
         }
 
         public override CombatResults CalculateResults(StatsPackage caster, StatsPackage target)
@@ -56,27 +56,27 @@ namespace Roguelike.Core.Stats.Classes
         public Ability_MightyBash()
             : base()
         {
-            this.AbilityName = "Mighty Bash";
-            this.AbilityNameShort = "Mty Bsh";
+            AbilityName = "Mighty Bash";
+            AbilityNameShort = "Mty Bsh";
 
-            this.TargetingType = TargetingTypes.EntityTarget;
-            this.AbilityType = AbilityTypes.Physical;
-            this.abilityCost = 15;
-            this.Range = 15;
+            TargetingType = TargetingTypes.EntityTarget;
+            AbilityType = AbilityTypes.Physical;
+            abilityCost = 15;
+            Range = 15;
         }
 
         public override CombatResults CalculateResults(StatsPackage caster, StatsPackage target)
         {
-            CombatResults results = this.DoesAttackHit(caster, target);
+            CombatResults results = DoesAttackHit(caster, target);
 
             if (!results.DidMiss && !results.DidAvoid)
             {
                 int damage = (int)(caster.AttackPower.EffectiveValue * 2.5);
 
                 results.PureDamage = damage;
-                results.AbsorbedDamage = this.CalculateAbsorption(damage, target);
+                results.AbsorbedDamage = CalculateAbsorption(damage, target);
                 results.AppliedDamage = results.PureDamage - results.AbsorbedDamage;
-                results.ReflectedDamage = this.CalculateReflectedDamage(results.AppliedDamage, target);
+                results.ReflectedDamage = CalculateReflectedDamage(results.AppliedDamage, target);
             }
 
             return results;
@@ -88,16 +88,16 @@ namespace Roguelike.Core.Stats.Classes
         public Effect_ShieldWall()
             : base(5)
         {
-            this.EffectName = "Shield Wall";
-            this.IsHarmful = false;
+            EffectName = "Shield Wall";
+            IsHarmful = false;
 
-            this.EffectDescription = "The Warrior's steel resolve is increased for a short time.";
+            EffectDescription = "The Warrior's steel resolve is increased for a short time.";
         }
 
         public override void CalculateStats()
         {
-            this.parent.PhysicalReduction.ModValue += 80;
-            this.parent.SpellReduction.ModValue += 40;
+            parent.PhysicalReduction.ModValue += 80;
+            parent.SpellReduction.ModValue += 40;
 
             base.CalculateStats();
         }
@@ -107,16 +107,16 @@ namespace Roguelike.Core.Stats.Classes
         public Effect_Spirit()
             : base(0)
         {
-            this.EffectName = "Warrior's Spirit";
-            this.IsHarmful = false;
-            this.IsImmuneToPurge = true;
+            EffectName = "Warrior's Spirit";
+            IsHarmful = false;
+            IsImmuneToPurge = true;
 
-            this.EffectDescription = "Due to the Warrior's natural prowess in combat, their Attack Power is increased.";
+            EffectDescription = "Due to the Warrior's natural prowess in combat, their Attack Power is increased.";
         }
 
         public override void CalculateStats()
         {
-            this.parent.AttackPower.ModValue += this.parent.AttackPower.BaseValue * 0.15;
+            parent.AttackPower.ModValue += parent.AttackPower.BaseValue * 0.15;
 
             base.CalculateStats();
         }

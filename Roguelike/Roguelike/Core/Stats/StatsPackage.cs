@@ -9,25 +9,25 @@ namespace Roguelike.Core.Stats
     {
         public StatsPackage()
         {
-            this.appliedEffects = new List<Effect>();
-            this.abilityList = new List<Ability>();
+            appliedEffects = new List<Effect>();
+            abilityList = new List<Ability>();
         }
         public StatsPackage(Entity parent)
         {
-            this.appliedEffects = new List<Effect>();
-            this.abilityList = new List<Ability>();
+            appliedEffects = new List<Effect>();
+            abilityList = new List<Ability>();
 
-            this.abilityList.Add(new Combat.Abilities.BasicAttack());
-            this.parent = parent;
+            abilityList.Add(new Combat.Abilities.BasicAttack());
+            parent = parent;
         }
 
         public bool IsDead()
         {
-            return (this.health <= 0);
+            return (health <= 0);
         }
         public virtual string GetFormattedName()
         {
-            return this.UnitName;
+            return UnitName;
         }
         public virtual string GetInformation()
         {
@@ -56,145 +56,145 @@ namespace Roguelike.Core.Stats
 
         public virtual void UpdateStep()
         {
-            for (int i = 0; i < this.appliedEffects.Count; i++)
+            for (int i = 0; i < appliedEffects.Count; i++)
             {
-                this.appliedEffects[i].UpdateStep();
+                appliedEffects[i].UpdateStep();
 
-                if (this.appliedEffects[i].DoPurge)
+                if (appliedEffects[i].DoPurge)
                 {
-                    this.appliedEffects.RemoveAt(i);
+                    appliedEffects.RemoveAt(i);
                     i--;
                 }
             }
 
-            for (int i = 0; i < this.abilityList.Count; i++)
+            for (int i = 0; i < abilityList.Count; i++)
             {
-                this.abilityList[i].UpdateStep();
+                abilityList[i].UpdateStep();
             }
 
-            this.AddHealth(this.hpPerTurn);
-            this.AddMana(this.mpPerTurn);
+            AddHealth(hpPerTurn);
+            AddMana(mpPerTurn);
 
-            if (this.IsDead())
+            if (IsDead())
             {
-                this.OnDeath();
+                OnDeath();
             }
 
-            this.CalculateStats();
+            CalculateStats();
         }
         public virtual void ApplyEffect(Effect effect)
         {
             effect.Parent = this;
 
-            this.appliedEffects.Add(effect);
-            effect.OnApplication(this.ParentEntity);
+            appliedEffects.Add(effect);
+            effect.OnApplication(ParentEntity);
         }
 
         public virtual void OnAttack(CombatResults results)
         {
-            for (int i = 0; i < this.appliedEffects.Count; i++)
-                this.appliedEffects[i].OnAttack(results);
+            for (int i = 0; i < appliedEffects.Count; i++)
+                appliedEffects[i].OnAttack(results);
         }
         public virtual void OnDefend(CombatResults results)
         {
-            for (int i = 0; i < this.appliedEffects.Count; i++)
-                this.appliedEffects[i].OnDefend(results);
+            for (int i = 0; i < appliedEffects.Count; i++)
+                appliedEffects[i].OnDefend(results);
         }
 
         public virtual void OnDeath()
         {
-            for (int i = 0; i < this.appliedEffects.Count; i++)
-                this.appliedEffects[i].OnDeath();
-            this.ParentEntity.OnDeath();
+            for (int i = 0; i < appliedEffects.Count; i++)
+                appliedEffects[i].OnDeath();
+            ParentEntity.OnDeath();
         }
         public virtual void OnSpawn()
         {
-            for (int i = 0; i < this.appliedEffects.Count; i++)
-                this.appliedEffects[i].OnSpawn();
+            for (int i = 0; i < appliedEffects.Count; i++)
+                appliedEffects[i].OnSpawn();
         }
         public virtual void OnMove()
         {
-            for (int i = 0; i < this.appliedEffects.Count; i++)
-                this.appliedEffects[i].OnMove();
+            for (int i = 0; i < appliedEffects.Count; i++)
+                appliedEffects[i].OnMove();
         }
 
         public virtual void AddHealth(int amount)
         {
-            if (amount != 0 && !this.IsDead())
+            if (amount != 0 && !IsDead())
             {
-                for (int i = 0; i < this.appliedEffects.Count; i++)
-                    amount = this.appliedEffects[i].OnHealthGain(amount);
-                this.health += amount;
+                for (int i = 0; i < appliedEffects.Count; i++)
+                    amount = appliedEffects[i].OnHealthGain(amount);
+                health += amount;
 
-                if (this.health > this.maxHealth)
-                    this.health = (int)maxHealth.EffectiveValue;
+                if (health > maxHealth)
+                    health = (int)maxHealth.EffectiveValue;
             }
         }
         public virtual void DrainHealth(int amount)
         {
-            if (amount != 0 && !this.isImmune && !this.IsDead())
+            if (amount != 0 && !isImmune && !IsDead())
             {
-                for (int i = 0; i < this.appliedEffects.Count; i++)
-                    amount = this.appliedEffects[i].OnHealthLoss(amount);
-                this.health -= amount;
+                for (int i = 0; i < appliedEffects.Count; i++)
+                    amount = appliedEffects[i].OnHealthLoss(amount);
+                health -= amount;
 
-                if (this.health < 0)
-                    this.health = 0;
+                if (health < 0)
+                    health = 0;
             }
         }
         public virtual void DealDOTDamage(int amount, Effect effect)
         {
-            if (!this.isImmune && !this.IsDead())
+            if (!isImmune && !IsDead())
             {
                 int absorption = 0;
                 if (effect.EffectType == EffectTypes.Magical)
                 {
-                    absorption = (int)(this.spellReduction.EffectiveValue / 100 * amount);
+                    absorption = (int)(spellReduction.EffectiveValue / 100 * amount);
                 }
                 else if (effect.EffectType == EffectTypes.Physical)
                 {
-                    absorption = (int)(this.physicalReduction.EffectiveValue / 100 * amount);
+                    absorption = (int)(physicalReduction.EffectiveValue / 100 * amount);
                 }
                 else if (effect.EffectType == EffectTypes.Hybrid)
                 {
-                    double absorbPercent = ((this.spellReduction / 2) + (this.physicalReduction / 2)) / 100;
+                    double absorbPercent = ((spellReduction / 2) + (physicalReduction / 2)) / 100;
                     absorption = (int)(absorbPercent * amount);
                 }
 
-                this.DrainHealth(amount - absorption);
+                DrainHealth(amount - absorption);
             }
         }
 
         public virtual void AddMana(int amount)
         {
-            if (amount != 0 && !this.IsDead())
+            if (amount != 0 && !IsDead())
             {
-                for (int i = 0; i < this.appliedEffects.Count; i++)
-                    amount = this.appliedEffects[i].OnManaGain(amount);
-                this.mana += amount;
+                for (int i = 0; i < appliedEffects.Count; i++)
+                    amount = appliedEffects[i].OnManaGain(amount);
+                mana += amount;
 
-                if (this.mana > this.maxMana)
-                    this.mana = (int)maxMana.EffectiveValue;
+                if (mana > maxMana)
+                    mana = (int)maxMana.EffectiveValue;
             }
         }
         public virtual void DrainMana(int amount)
         {
-            if (amount != 0 && !this.IsDead())
+            if (amount != 0 && !IsDead())
             {
-                for (int i = 0; i < this.appliedEffects.Count; i++)
-                    amount = this.appliedEffects[i].OnManaLoss(amount);
-                this.mana -= amount;
+                for (int i = 0; i < appliedEffects.Count; i++)
+                    amount = appliedEffects[i].OnManaLoss(amount);
+                mana -= amount;
 
-                if (this.mana < 0)
-                    this.mana = 0;
+                if (mana < 0)
+                    mana = 0;
             }
         }
 
         public bool HasEffect(string effect)
         {
-            for (int i = 0; i < this.appliedEffects.Count; i++)
+            for (int i = 0; i < appliedEffects.Count; i++)
             {
-                if (this.appliedEffects[i].EffectName == effect)
+                if (appliedEffects[i].EffectName == effect)
                     return true;
             }
 
@@ -202,9 +202,9 @@ namespace Roguelike.Core.Stats
         }
         public bool HasEffect(Type type)
         {
-            for (int i = 0; i < this.appliedEffects.Count; i++)
+            for (int i = 0; i < appliedEffects.Count; i++)
             {
-                if (this.appliedEffects[i].GetType() == type)
+                if (appliedEffects[i].GetType() == type)
                     return true;
             }
 
@@ -212,64 +212,64 @@ namespace Roguelike.Core.Stats
         }
         public Effect GetEffect(string effect)
         {
-            for (int i = 0; i < this.appliedEffects.Count; i++)
+            for (int i = 0; i < appliedEffects.Count; i++)
             {
-                if (this.appliedEffects[i].EffectName == effect)
-                    return this.appliedEffects[i];
+                if (appliedEffects[i].EffectName == effect)
+                    return appliedEffects[i];
             }
 
             return null;
         }
         public Effect GetEffect(Type type)
         {
-            for (int i = 0; i < this.appliedEffects.Count; i++)
+            for (int i = 0; i < appliedEffects.Count; i++)
             {
-                if (this.appliedEffects[i].GetType() == type)
-                    return this.appliedEffects[i];
+                if (appliedEffects[i].GetType() == type)
+                    return appliedEffects[i];
             }
 
             return null;
         }
         public void RemoveEffect(string effectName)
         {
-            for (int i = 0; i < this.appliedEffects.Count; i++)
+            for (int i = 0; i < appliedEffects.Count; i++)
             {
-                if (this.appliedEffects[i].EffectName == effectName)
+                if (appliedEffects[i].EffectName == effectName)
                 {
-                    this.appliedEffects.RemoveAt(i);
+                    appliedEffects.RemoveAt(i);
                     break;
                 }
             }
         }
         public void RemoveEffect(Type type)
         {
-            for (int i = 0; i < this.appliedEffects.Count; i++)
+            for (int i = 0; i < appliedEffects.Count; i++)
             {
-                if (this.appliedEffects[i].GetType() == type)
+                if (appliedEffects[i].GetType() == type)
                 {
-                    this.appliedEffects.RemoveAt(i);
+                    appliedEffects.RemoveAt(i);
                     break;
                 }
             }
         }
         public void PurgeEffect(string effectName)
         {
-            for (int i = 0; i < this.appliedEffects.Count; i++)
+            for (int i = 0; i < appliedEffects.Count; i++)
             {
-                if (this.appliedEffects[i].EffectName == effectName)
+                if (appliedEffects[i].EffectName == effectName)
                 {
-                    this.appliedEffects[i].OnRemoval();
+                    appliedEffects[i].OnRemoval();
                     break;
                 }
             }
         }
         public void PurgeEffect(Type type)
         {
-            for (int i = 0; i < this.appliedEffects.Count; i++)
+            for (int i = 0; i < appliedEffects.Count; i++)
             {
-                if (this.appliedEffects[i].GetType() == type)
+                if (appliedEffects[i].GetType() == type)
                 {
-                    this.appliedEffects[i].OnRemoval();
+                    appliedEffects[i].OnRemoval();
                     break;
                 }
             }
@@ -277,37 +277,37 @@ namespace Roguelike.Core.Stats
 
         public virtual void CalculateStats()
         {
-            this.resetStats();
+            resetStats();
 
-            for (int i = 0; i < this.appliedEffects.Count; i++)
-                this.appliedEffects[i].CalculateStats();
+            for (int i = 0; i < appliedEffects.Count; i++)
+                appliedEffects[i].CalculateStats();
         }
         protected virtual void resetStats()
         {
             //Default Stats
-            this.attackPower.ModValue = 0.0;
-            this.physicalHaste.ModValue = 0.0;
-            this.physicalHitChance.ModValue = 0.0;
-            this.physicalCritChance.ModValue = 0.0;
-            this.physicalCritPower.ModValue = 0.0;
-            this.physicalReduction.ModValue = 0.0;
-            this.physicalReflection.ModValue = 0.0;
-            this.physicalAvoidance.ModValue = 0.0;
+            attackPower.ModValue = 0.0;
+            physicalHaste.ModValue = 0.0;
+            physicalHitChance.ModValue = 0.0;
+            physicalCritChance.ModValue = 0.0;
+            physicalCritPower.ModValue = 0.0;
+            physicalReduction.ModValue = 0.0;
+            physicalReflection.ModValue = 0.0;
+            physicalAvoidance.ModValue = 0.0;
 
-            this.spellPower.ModValue = 0.0;
-            this.spellHaste.ModValue = 0.0;
-            this.spellHitChance.ModValue = 0.0;
-            this.spellCritChance.ModValue = 0.0;
-            this.spellCritPower.ModValue = 0.0;
-            this.spellReduction.ModValue = 0.0;
-            this.spellReflection.ModValue = 0.0;
-            this.spellAvoidance.ModValue = 0.0;
+            spellPower.ModValue = 0.0;
+            spellHaste.ModValue = 0.0;
+            spellHitChance.ModValue = 0.0;
+            spellCritChance.ModValue = 0.0;
+            spellCritPower.ModValue = 0.0;
+            spellReduction.ModValue = 0.0;
+            spellReflection.ModValue = 0.0;
+            spellAvoidance.ModValue = 0.0;
 
-            this.MaxHealth.ModValue = 10.0;
-            this.MaxMana.ModValue = 10.0;
+            MaxHealth.ModValue = 10.0;
+            MaxMana.ModValue = 10.0;
 
-            this.sightRadius.ModValue = 8;
-            this.movementSpeed.ModValue = 1;
+            sightRadius.ModValue = 8;
+            movementSpeed.ModValue = 1;
         }
 
         public virtual string UnitName { get; set; }
@@ -439,23 +439,23 @@ namespace Roguelike.Core.Stats
 
         public Stat HPLeechPhysical
         {
-            get { return this.hpLeechPhysical; }
-            set { this.hpLeechPhysical = value; }
+            get { return hpLeechPhysical; }
+            set { hpLeechPhysical = value; }
         }
         public Stat HPLeechSpell
         {
-            get { return this.hpLeechSpell; }
-            set { this.hpLeechSpell = value; }
+            get { return hpLeechSpell; }
+            set { hpLeechSpell = value; }
         }
         public Stat MPLeechPhysical
         {
-            get { return this.mpLeechPhysical; }
-            set { this.mpLeechPhysical = value; }
+            get { return mpLeechPhysical; }
+            set { mpLeechPhysical = value; }
         }
         public Stat MPLeechSpell
         {
-            get { return this.mpLeechSpell; }
-            set { this.mpLeechSpell = value; }
+            get { return mpLeechSpell; }
+            set { mpLeechSpell = value; }
         }
 
         public Stat SightRadius
@@ -490,14 +490,14 @@ namespace Roguelike.Core.Stats
             set { maxMana = value; }
         }
 
-        public int MPRegen { get { return this.mpPerTurn; } set { this.mpPerTurn = value; } }
-        public int HPRegen { get { return this.hpPerTurn; } set { this.hpPerTurn = value; } }
+        public int MPRegen { get { return mpPerTurn; } set { mpPerTurn = value; } }
+        public int HPRegen { get { return hpPerTurn; } set { hpPerTurn = value; } }
 
-        public List<Effect> AppliedEffects { get { return this.appliedEffects; } set { this.appliedEffects = value; } }
-        public List<Ability> AbilityList { get { return this.abilityList; } set { this.abilityList = value; } }
-        public Entity ParentEntity { get { return this.parent; } set { this.parent = value; } }
+        public List<Effect> AppliedEffects { get { return appliedEffects; } set { appliedEffects = value; } }
+        public List<Ability> AbilityList { get { return abilityList; } set { abilityList = value; } }
+        public Entity ParentEntity { get { return parent; } set { parent = value; } }
 
-        public bool IsImmune { get { return this.isImmune; } set { this.isImmune = value; } }
+        public bool IsImmune { get { return isImmune; } set { isImmune = value; } }
         #endregion
 
         //TODO:  May eventually combine haste/crit for simplicity sake.  Depends on how well the game plays
@@ -508,13 +508,13 @@ namespace Roguelike.Core.Stats
         private double baseValue;
         private double modValue;
 
-        public double BaseValue { get { return this.baseValue; } set { this.baseValue = value; } }
-        public double ModValue { get { return this.modValue; } set { this.modValue = value; } }
-        public double EffectiveValue { get { return this.baseValue + modValue; } }
+        public double BaseValue { get { return baseValue; } set { baseValue = value; } }
+        public double ModValue { get { return modValue; } set { modValue = value; } }
+        public double EffectiveValue { get { return baseValue + modValue; } }
 
         public override string ToString()
         {
-            return (this.EffectiveValue).ToString();
+            return (EffectiveValue).ToString();
         }
 
         public static implicit operator double(Stat stat)

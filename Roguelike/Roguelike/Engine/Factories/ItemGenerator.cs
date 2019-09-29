@@ -852,23 +852,23 @@ namespace Roguelike.Engine.Factories.Consumables
         public BasicFoodHeal(int healAmount, bool scale)
             : base(0)
         {
-            this.EffectName = "Yum!";
-            this.EffectDescription = "You have recently eaten and are feeling the benefits.";
+            EffectName = "Yum!";
+            EffectDescription = "You have recently eaten and are feeling the benefits.";
 
-            this.healAmount = healAmount;
+            healAmount = healAmount;
             if (scale) //Scale to user level
-                this.healAmount *= 1; //TODO: Scale healing to user level
+                healAmount *= 1; //TODO: Scale healing to user level
         }
 
         public override void UpdateStep()
         {
-            if (this.healAmount > 0)
+            if (healAmount > 0)
             {
-                this.parent.AddHealth(2);
-                this.healAmount -= 2;
+                parent.AddHealth(2);
+                healAmount -= 2;
             }
             else
-                this.DoPurge = true;
+                DoPurge = true;
         }
     }
 
@@ -877,8 +877,8 @@ namespace Roguelike.Engine.Factories.Consumables
         public BasicHealthPotion()
             : base(1)
         {
-            this.EffectName = "HP Potion";
-            this.EffectDescription = "Restores health upon quaffing the potion.";
+            EffectName = "HP Potion";
+            EffectDescription = "Restores health upon quaffing the potion.";
         }
 
         public override void OnApplication(Game.Entities.Entity entity)
@@ -896,8 +896,8 @@ namespace Roguelike.Engine.Factories.Consumables
         public BasicManaPotion()
             : base(1)
         {
-            this.EffectName = "MP Potion";
-            this.EffectDescription = "Restores mana upon quaffing the potion.";
+            EffectName = "MP Potion";
+            EffectDescription = "Restores mana upon quaffing the potion.";
         }
 
         public override void OnApplication(Game.Entities.Entity entity)
@@ -915,8 +915,8 @@ namespace Roguelike.Engine.Factories.Consumables
         public BasicPoisonPotion()
             : base(1)
         {
-            this.EffectName = "Poison Potion";
-            this.EffectDescription = "Poison!  Don't drink.";
+            EffectName = "Poison Potion";
+            EffectDescription = "Poison!  Don't drink.";
         }
 
         public override void OnApplication(Game.Entities.Entity entity)
@@ -939,8 +939,8 @@ namespace Roguelike.Engine.Factories.Consumables
         public BasicDeathPotion()
             : base(1)
         {
-            this.EffectName = "Death Potion";
-            this.EffectDescription = "Kills you.  Like seriously, don't drink this.";
+            EffectName = "Death Potion";
+            EffectDescription = "Kills you.  Like seriously, don't drink ";
         }
 
         public override void OnApplication(Game.Entities.Entity entity)
@@ -956,14 +956,14 @@ namespace Roguelike.Engine.Factories.Consumables
         public ScrollAbilityBlink()
             : base(0)
         {
-            this.AbilityName = "Blink";
-            this.AbilityNameShort = "Blink";
+            AbilityName = "Blink";
+            AbilityNameShort = "Blink";
 
-            this.TargetingType = TargetingTypes.GroundTarget;
-            this.abilityType = AbilityTypes.Magical;
-            this.abilityCost = 10;
-            this.cooldown = 10;
-            this.range = 5;
+            TargetingType = TargetingTypes.GroundTarget;
+            abilityType = AbilityTypes.Magical;
+            abilityCost = 10;
+            cooldown = 10;
+            range = 5;
         }
 
         public override CombatResults CalculateResults(StatsPackage caster, StatsPackage target)
@@ -984,17 +984,17 @@ namespace Roguelike.Engine.Factories.Consumables
         public ScrollAbilityFireball()
             : base(0)
         {
-            this.AbilityName = "Fireball";
-            this.AbilityNameShort = "Fireball";
+            AbilityName = "Fireball";
+            AbilityNameShort = "Fireball";
 
-            this.TargetingType = TargetingTypes.EntityTarget;
-            this.AbilityType = AbilityTypes.Magical;
-            this.Range = 8;
+            TargetingType = TargetingTypes.EntityTarget;
+            AbilityType = AbilityTypes.Magical;
+            Range = 8;
         }
 
         public override CombatResults CalculateResults(StatsPackage caster, StatsPackage target)
         {
-            CombatResults results = this.DoesAttackHit(caster, target);
+            CombatResults results = DoesAttackHit(caster, target);
 
             if (!results.DidMiss && !results.DidAvoid)
             {
@@ -1006,9 +1006,9 @@ namespace Roguelike.Engine.Factories.Consumables
                 }
 
                 results.PureDamage = damage;
-                results.AbsorbedDamage = this.CalculateAbsorption(damage, target);
+                results.AbsorbedDamage = CalculateAbsorption(damage, target);
                 results.AppliedDamage = results.PureDamage - results.AbsorbedDamage;
-                results.ReflectedDamage = this.CalculateReflectedDamage(results.AppliedDamage, target);
+                results.ReflectedDamage = CalculateReflectedDamage(results.AppliedDamage, target);
 
                 if (!target.HasEffect("Ignite"))
                 {
@@ -1026,12 +1026,12 @@ namespace Roguelike.Engine.Factories.Consumables
         public ScrollAbilityManaBurst()
             : base(0)
         {
-            this.AbilityName = "Mana Burst";
-            this.AbilityNameShort = "Mana Burst";
+            AbilityName = "Mana Burst";
+            AbilityNameShort = "Mana Burst";
 
-            this.TargetingType = TargetingTypes.EntityTarget;
-            this.AbilityType = AbilityTypes.Magical;
-            this.Range = 8;
+            TargetingType = TargetingTypes.EntityTarget;
+            AbilityType = AbilityTypes.Magical;
+            Range = 8;
         }
 
         public override CombatResults CalculateResults(StatsPackage caster, StatsPackage target)
@@ -1057,8 +1057,8 @@ namespace Roguelike.Engine.Factories.Misc
             public GoldPiece()
                 : base(ItemTypes.Gold)
             {
-                this.Name = "Gold Piece";
-                this.Description = "A small golden coin with the face of a local noble emblazoned on the front.";
+                Name = "Gold Piece";
+                Description = "A small golden coin with the face of a local noble emblazoned on the front.";
             }
 
             public override void OnPickup()
@@ -1072,8 +1072,8 @@ namespace Roguelike.Engine.Factories.Misc
             public GoldPouch()
                 : base(ItemTypes.Gold)
             {
-                this.Name = "Gold Pouch";
-                this.Description = "A small pouch that makes metallica sounds as you move it about.";
+                Name = "Gold Pouch";
+                Description = "A small pouch that makes metallica sounds as you move it about.";
             }
 
             public override void OnPickup()

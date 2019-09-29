@@ -1,63 +1,65 @@
 ﻿using System;
-using System.Collections.Generic;
+using OpenTK;
+using OpenTK.Input;
 using Roguelike.Core.Stats;
+using Roguelike.Engine;
 
 namespace Roguelike.Core.Entities
 {
     public class Player : Entity
     {
         private PlayerStats playerStats;
-        public PlayerStats PlayerStats { get { return this.playerStats; } set { this.playerStats = value; } }
-        public override StatsPackage StatsPackage { get { return this.playerStats; } set { this.playerStats = (PlayerStats)value; } }
+        public PlayerStats PlayerStats { get { return playerStats; } set { playerStats = value; } }
+        public override StatsPackage StatsPackage { get { return playerStats; } set { playerStats = (PlayerStats)value; } }
 
         public Player(Level parent)
             : base(parent)
         {
-            this.EntityType = EntityTypes.Player;
-            this.isSolid = true;
+            EntityType = EntityTypes.Player;
+            isSolid = true;
         }
 
-        public override void DrawStep(Rectangle viewport)
+        public override void DrawStep(Box2 viewport)
         {
             base.DrawStep(viewport);
         }
         public override void UpdateStep()
         {
-            //this.addOccupationTags();
-            this.clearMapVisibility();
-            this.revealSightRadius();
-            this.clearEntitiesInSight();
+            //addOccupationTags();
+            clearMapVisibility();
+            revealSightRadius();
+            clearEntitiesInSight();
 
             base.UpdateStep();
             GameManager.Player.StatsPackage = Items.Inventory.CalculateStats(GameManager.Player.StatsPackage);
         }
         public override void Update(GameTime gameTime)
         {
-            this.checkPlayerInput(gameTime);
+            checkPlayerInput(gameTime);
 
             base.Update(gameTime);
         }
         public override void MoveToTile(int x, int y)
         {
-            this.X = x;
-            this.y = y;
+            X = x;
+            y = y;
 
-            this.PlayerStats.OnMove();
+            PlayerStats.OnMove();
             Items.Inventory.OnMove();
 
             GameManager.Step();
         }
         public void TeleportPlayer(Level level, Point destination)
         {
-            this.parentLevel.Entities.Remove(this);
+            parentLevel.Entities.Remove(this);
 
-            this.parentLevel = level;
-            this.MoveToTile(destination.X, destination.Y);
+            parentLevel = level;
+            MoveToTile(destination.X, destination.Y);
 
-            GameManager.CurrentLevel = this.parentLevel;
+            GameManager.CurrentLevel = parentLevel;
             GameManager.SetCameraOffset();
 
-            this.parentLevel.Entities.Add(this);
+            parentLevel.Entities.Add(this);
         }
         public override void OnDeath()
         {
@@ -67,7 +69,7 @@ namespace Roguelike.Core.Entities
 
         private Point getDestination()
         {
-            Point destination = new Point(this.X, this.Y);
+            Point destination = new Point(X, Y);
 
             #region Normal Keys
             if (InputManager.KeyWasPressedFor(UP_KEY, MOVEMENT_DELAY) || InputManager.KeyWasPressed(UP_KEY))
@@ -117,7 +119,7 @@ namespace Roguelike.Core.Entities
             }
             #endregion
             #region Numpad Diagonal
-            if (destination == new Point(this.X, this.Y))
+            if (destination == new Point(X, Y))
             {
                 if (InputManager.KeyWasPressedFor(UP_RIGHT_KEY_ALT, MOVEMENT_DELAY) || InputManager.KeyWasPressed(UP_RIGHT_KEY_ALT))
                 {
@@ -151,34 +153,34 @@ namespace Roguelike.Core.Entities
         }
         private void clearMapVisibility()
         {
-            for (int y = 0; y < this.parentLevel.Matrix.Height; y++)
+            for (int y = 0; y < parentLevel.Matrix.Height; y++)
             {
-                for (int x = 0; x < this.parentLevel.Matrix.Width; x++)
+                for (int x = 0; x < parentLevel.Matrix.Width; x++)
                 {
-                    this.parentLevel.Matrix.TerrainMatrix[x, y].IsVisible = false;
+                    parentLevel.Matrix.TerrainMatrix[x, y].IsVisible = false;
                 }
             }
         }
         private void clearEntitiesInSight()
         {
-            for (int y = 0; y < this.ParentLevel.Matrix.Height; y++)
+            for (int y = 0; y < ParentLevel.Matrix.Height; y++)
             {
-                for (int x = 0; x < this.ParentLevel.Matrix.Width; x++)
+                for (int x = 0; x < ParentLevel.Matrix.Width; x++)
                 {
-                    if (this.ParentLevel.Matrix.TerrainMatrix[x, y].IsVisible)
+                    if (ParentLevel.Matrix.TerrainMatrix[x, y].IsVisible)
                     {
-                        this.parentLevel.SetToken(MatrixLevels.Entity, x, y, ' ');
+                        parentLevel.SetToken(MatrixLevels.Entity, x, y, ' ');
                     }
                 }
             }
         }
         private void addOccupationTags()
         {
-            for (int i = 0; i < this.parentLevel.Entities.Count; i++)
+            for (int i = 0; i < parentLevel.Entities.Count; i++)
             {
-                if (this.parentLevel.Matrix.TerrainMatrix[this.parentLevel.Entities[i].X, this.parentLevel.Entities[i].Y].IsVisible)
+                if (parentLevel.Matrix.TerrainMatrix[parentLevel.Entities[i].X, parentLevel.Entities[i].Y].IsVisible)
                 {
-                    this.parentLevel.SetToken(MatrixLevels.Entity, this.parentLevel.Entities[i].X, this.parentLevel.Entities[i].Y, this.parentLevel.Entities[i].Token);
+                    parentLevel.SetToken(MatrixLevels.Entity, parentLevel.Entities[i].X, parentLevel.Entities[i].Y, parentLevel.Entities[i].Token);
                 }
             }
         }
@@ -193,10 +195,10 @@ namespace Roguelike.Core.Entities
                     int x = (int)(this.x + 0.5 + r * Math.Cos(angle));
                     int y = (int)(this.y + 0.5 + r * Math.Sin(angle));
 
-                    this.parentLevel.RevealTile(x, y);
-                    if (this.parentLevel.IsTileSolid(x, y) || this.parentLevel.IsBlockedByEntity(x, y))
+                    parentLevel.RevealTile(x, y);
+                    if (parentLevel.IsTileSolid(x, y) || parentLevel.IsBlockedByEntity(x, y))
                     {
-                        if (x == this.x && y == this.y)
+                        if (this.x == x && this.y == y)
                             continue;
                         else
                             break;
@@ -206,18 +208,18 @@ namespace Roguelike.Core.Entities
         }
         private void checkPlayerInput(GameTime gameTime)
         {
-            Point destination = this.getDestination();
-            if (destination.X != this.X || destination.Y != this.Y)
+            Point destination = getDestination();
+            if (destination.X != X || destination.Y != Y)
             {
-                if (this.parentLevel.CanMoveTo(destination.X, destination.Y))
+                if (parentLevel.CanMoveTo(destination.X, destination.Y))
                 {
-                    int xDif = destination.X - this.X;
-                    int yDif = destination.Y - this.Y;
+                    int xDif = destination.X - X;
+                    int yDif = destination.Y - Y;
 
                     GameManager.CameraOffset.X += xDif;
                     GameManager.CameraOffset.Y += yDif;
 
-                    this.MoveToTile(destination.X, destination.Y);
+                    MoveToTile(destination.X, destination.Y);
                 }
 
                 //Check for entities for interaction
@@ -246,22 +248,22 @@ namespace Roguelike.Core.Entities
             }
         }
 
-        private const Keys UP_KEY = Keys.W;
-        private const Keys DOWN_KEY = Keys.S;
-        private const Keys LEFT_KEY = Keys.A;
-        private const Keys RIGHT_KEY = Keys.D;
+        private const Key UP_KEY = Key.W;
+        private const Key DOWN_KEY = Key.S;
+        private const Key LEFT_KEY = Key.A;
+        private const Key RIGHT_KEY = Key.D;
 
-        private const Keys UP_KEY_ALT = Keys.NumPad8;
-        private const Keys DOWN_KEY_ALT = Keys.NumPad2;
-        private const Keys LEFT_KEY_ALT = Keys.NumPad4;
-        private const Keys RIGHT_KEY_ALT = Keys.NumPad6;
+        private const Key UP_KEY_ALT = Key.Number8;
+        private const Key DOWN_KEY_ALT = Key.Number2;
+        private const Key LEFT_KEY_ALT = Key.Number4;
+        private const Key RIGHT_KEY_ALT = Key.Number6;
 
-        private const Keys UP_RIGHT_KEY_ALT = Keys.NumPad9;
-        private const Keys UP_LEFT_KEY_ALT = Keys.NumPad7;
-        private const Keys DOWN_RIGHT_KEY_ALT = Keys.NumPad3;
-        private const Keys DOWN_LEFT_KEY_ALT = Keys.NumPad1;
+        private const Key UP_RIGHT_KEY_ALT = Key.Number9;
+        private const Key UP_LEFT_KEY_ALT = Key.Number7;
+        private const Key DOWN_RIGHT_KEY_ALT = Key.Number3;
+        private const Key DOWN_LEFT_KEY_ALT = Key.Number1;
 
-        private const Keys WAIT_KEY = Keys.NumPad5;
+        private const Key WAIT_KEY = Key.Number5;
 
         private static TimeSpan MOVEMENT_DELAY = new TimeSpan(0, 0, 0, 0, 150);
     }

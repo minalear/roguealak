@@ -8,12 +8,12 @@ namespace Roguelike.Core.Entities
         public PracticeDummy(Level parent)
             : base(parent)
         {
-            this.EntityType = EntityTypes.Enemy;
-            this.ForegroundColor = Color.Tan;
-            this.Token = '±';
-            this.IsSolid = true;
+            EntityType = EntityTypes.Enemy;
+            ForegroundColor = Color.Tan;
+            Token = '±';
+            IsSolid = true;
 
-            this.statsPackage = new StatsPackage(this)
+            statsPackage = new StatsPackage(this)
                 {
                     UnitName = "Training Dummy",
 

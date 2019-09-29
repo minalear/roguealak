@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using OpenTK.Graphics;
 using Roguelike.Core.Combat;
 
 namespace Roguelike.Core.Stats.Races
@@ -9,8 +10,8 @@ namespace Roguelike.Core.Stats.Races
         public Elf()
             : base("Elf")
         {
-            this.Description = "The pointed ear humanoids known as the Elves are one of the most ancient races to walk the mortal realm.  Casted out of heaven eons ago, the Elves formed clans and castes and crafted the world as they saw fit.  Once when the mortal races began popping up, the Elves bestowed their knowledge onto them, only to be betrayed centuries later by Humans.  Now with dwindling numbers, Elves have become much more distant and do not contact the outside world often.";
-            this.SubCultures = new List<Culture>() { new Elf_Forest(), new Elf_Mountain(), new Elf_Savage() };
+            Description = "The pointed ear humanoids known as the Elves are one of the most ancient races to walk the mortal realm.  Casted out of heaven eons ago, the Elves formed clans and castes and crafted the world as they saw fit.  Once when the mortal races began popping up, the Elves bestowed their knowledge onto them, only to be betrayed centuries later by Humans.  Now with dwindling numbers, Elves have become much more distant and do not contact the outside world often.";
+            SubCultures = new List<Culture>() { new Elf_Forest(), new Elf_Mountain(), new Elf_Savage() };
         }
 
         public override PlayerStats AddRacialStats(PlayerStats package)
@@ -36,9 +37,9 @@ namespace Roguelike.Core.Stats.Races
         public Elf_Forest()
             : base("Forest")
         {
-            this.Description = "The Forest Elves are seen to be the most wise and powerful of the Elvish clans.  They are primarily lorekeepers and guardians of their homelands.  They tend to keep to themselves, but often share knowledge with whoever seeks them out.";
-            this.Trait = new ForestTrait(this);
-            this.SkinColors = new List<Color>() { new Color(231, 191, 191), new Color(217, 188, 146), new Color(243, 220, 190) };
+            Description = "The Forest Elves are seen to be the most wise and powerful of the Elvish clans.  They are primarily lorekeepers and guardians of their homelands.  They tend to keep to themselves, but often share knowledge with whoever seeks them out.";
+            Trait = new ForestTrait(this);
+            SkinColors = new List<Color4>() { new Color4(231, 191, 191, 255), new Color4(217, 188, 146, 255), new Color4(243, 220, 190, 255) };
         }
 
         public class ForestTrait : Effect
@@ -61,9 +62,9 @@ namespace Roguelike.Core.Stats.Races
         public Elf_Mountain()
             : base("Mountain")
         {
-            this.Description = "When casted out, a small group of Elves decided to craft mountains to call home.  These mountain ranges are some of the world's largest and most remote geological structures.  No Mortal creature has walked the halls of the mountain homes and the Mountain Elves would like to keep it that way.";
-            this.Trait = new MountainTrait(this);
-            this.SkinColors = new List<Color>() { new Color(175, 241, 239), new Color(157, 180, 194), new Color(167, 157, 194) };
+            Description = "When casted out, a small group of Elves decided to craft mountains to call home.  These mountain ranges are some of the world's largest and most remote geological structures.  No Mortal creature has walked the halls of the mountain homes and the Mountain Elves would like to keep it that way.";
+            Trait = new MountainTrait(this);
+            SkinColors = new List<Color4>() { new Color4(175, 241, 239, 255), new Color4(157, 180, 194, 255), new Color4(167, 157, 194, 255) };
         }
 
         public class MountainTrait : Effect
@@ -86,9 +87,9 @@ namespace Roguelike.Core.Stats.Races
         public Elf_Savage()
             : base("Savage")
         {
-            this.Description = "The Savage Elves are a group of Elf-folk who took their exile from Heaven very badly.  Driven mad from their lost home, these Elves formed horns and roved the barren wastes attacking (and consuming) any that would stray too close.  Eventually, once when the Orcish people arrived to the moral realm, they allied together and form one of the strongest, most brutal alliances known to the mortal races.  If it wasn't for constant in-fighting, this horde would have conquered the world easily.";
-            this.Trait = new SavageTrait(this);
-            this.SkinColors = new List<Color>() { new Color(187, 215, 168), new Color(215, 215, 204), new Color(135, 137, 76) };
+            Description = "The Savage Elves are a group of Elf-folk who took their exile from Heaven very badly.  Driven mad from their lost home, these Elves formed horns and roved the barren wastes attacking (and consuming) any that would stray too close.  Eventually, once when the Orcish people arrived to the moral realm, they allied together and form one of the strongest, most brutal alliances known to the mortal races.  If it wasn't for constant in-fighting, this horde would have conquered the world easily.";
+            Trait = new SavageTrait(this);
+            SkinColors = new List<Color4>() { new Color4(187, 215, 168, 255), new Color4(215, 215, 204, 255), new Color4(135, 137, 76, 255) };
         }
 
         public class SavageTrait : Effect

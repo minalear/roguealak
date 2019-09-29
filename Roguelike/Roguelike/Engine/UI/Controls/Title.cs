@@ -10,44 +10,44 @@ namespace Roguelike.Engine.UI.Controls
         public Title(Control parent, string text, int x, int y)
             : base(parent)
         {
-            this.text = text;
-            this.Position = new Point(x, y);
-            this.Size = new Point(text.Length, 1);
+            text = text;
+            Position = new Point(x, y);
+            Size = new Point(text.Length, 1);
 
-            this.textAlignMode = TextAlignModes.Left;
+            textAlignMode = TextAlignModes.Left;
         }
         public Title(Control parent, string text, int x, int y, TextAlignModes alignMode)
             : base(parent)
         {
-            this.text = text;
-            this.Position = new Point(x, y);
-            this.Size = new Point(text.Length, 1);
+            text = text;
+            Position = new Point(x, y);
+            Size = new Point(text.Length, 1);
 
-            this.textAlignMode = alignMode;
+            textAlignMode = alignMode;
         }
 
         public override void DrawStep()
         {
-            GraphicConsole.SetColors(this.textColor, this.fillColor);
+            GraphicConsole.SetColors(textColor, fillColor);
 
-            if (this.textAlignMode == TextAlignModes.Center)
+            if (textAlignMode == TextAlignModes.Center)
             {
-                int x = (int)(this.Position.X - this.text.Length / 2);
+                int x = (int)(Position.X - text.Length / 2);
 
-                GraphicConsole.SetCursor(x, this.Position.Y);
-                GraphicConsole.Write(this.text);
+                GraphicConsole.SetCursor(x, Position.Y);
+                GraphicConsole.Write(text);
             }
-            else if (this.textAlignMode == TextAlignModes.Left)
+            else if (textAlignMode == TextAlignModes.Left)
             {
-                GraphicConsole.SetCursor(this.Position.X, this.Position.Y);
-                GraphicConsole.Write(this.text);
+                GraphicConsole.SetCursor(Position.X, Position.Y);
+                GraphicConsole.Write(text);
             }
-            else if (this.textAlignMode == TextAlignModes.Right)
+            else if (textAlignMode == TextAlignModes.Right)
             {
-                int x = (int)(this.Position.X - this.text.Length);
+                int x = (int)(Position.X - text.Length);
                 
-                GraphicConsole.SetCursor(x, this.Position.Y);
-                GraphicConsole.Write(this.text);
+                GraphicConsole.SetCursor(x, Position.Y);
+                GraphicConsole.Write(text);
             }
 
             base.DrawStep();
@@ -59,10 +59,10 @@ namespace Roguelike.Engine.UI.Controls
         private Color fillColor = Color.Black;
 
         #region Properties
-        public string Text { get { return this.text; } set { this.text = value; } }
-        public TextAlignModes AlignMode { get { return this.textAlignMode; } set { this.textAlignMode = value; } }
-        public Color TextColor { get { return this.textColor; } set { this.textColor = value; } }
-        public Color FillColor { get { return this.fillColor; } set { this.fillColor = value; } } 
+        public string Text { get { return text; } set { text = value; } }
+        public TextAlignModes AlignMode { get { return textAlignMode; } set { textAlignMode = value; } }
+        public Color TextColor { get { return textColor; } set { textColor = value; } }
+        public Color FillColor { get { return fillColor; } set { fillColor = value; } } 
         #endregion
 
         public enum TextAlignModes { Center, Left, Right }

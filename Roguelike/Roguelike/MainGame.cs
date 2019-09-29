@@ -15,7 +15,7 @@ namespace Roguelike
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
-            GraphicConsole.Initialize(this.graphics, this.Window);
+            GraphicConsole.Initialize(graphics, Window);
 
             GraphicConsole.BufferWidth = 125;
             GraphicConsole.BufferHeight = 50;
@@ -40,7 +40,7 @@ namespace Roguelike
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            GraphicConsole.LoadSpriteBatch(this.spriteBatch, this.Content);
+            GraphicConsole.LoadSpriteBatch(spriteBatch, Content);
             GameManager.Initialize();
 
             GameManager.UpdateStep();

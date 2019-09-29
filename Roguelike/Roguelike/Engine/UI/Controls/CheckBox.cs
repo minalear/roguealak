@@ -10,70 +10,70 @@ namespace Roguelike.Engine.UI.Controls
         public CheckBox(Control parent, int x, int y) 
             : base(parent)
         {
-            this.ForegroundColor = Color.White;
-            this.BackgroundColor = Color.Black;
+            ForegroundColor = Color.White;
+            BackgroundColor = Color.Black;
 
-            this.Size = new Point(1, 1);
-            this.Position = new Point(x, y);
+            Size = new Point(1, 1);
+            Position = new Point(x, y);
         }
 
         public override void DrawStep()
         {
-            GraphicConsole.SetCursor(this.Position.X, this.Position.Y);
+            GraphicConsole.SetCursor(Position.X, Position.Y);
 
-            if (this.isHover) //Mouse is hovering
-                GraphicConsole.SetColors(this.foregroundColorHover, this.backgroundColorHover);
-            else if (this.enabled) //Check box is checked
-                GraphicConsole.SetColors(this.foregroundColorEnabled, this.backgroundColorEnabled);
+            if (isHover) //Mouse is hovering
+                GraphicConsole.SetColors(foregroundColorHover, backgroundColorHover);
+            else if (enabled) //Check box is checked
+                GraphicConsole.SetColors(foregroundColorEnabled, backgroundColorEnabled);
             else //Check box isn't checked
-                GraphicConsole.SetColors(this.foregroundColorDisabled, this.backgroundColorDisabled);
+                GraphicConsole.SetColors(foregroundColorDisabled, backgroundColorDisabled);
 
 
-            if (this.enabled)
-                GraphicConsole.Write(this.enabledToken);
+            if (enabled)
+                GraphicConsole.Write(enabledToken);
             else
-                GraphicConsole.Write(this.disabledToken);
+                GraphicConsole.Write(disabledToken);
 
             base.DrawStep();
         }
         public override void Update(GameTime gameTime)
         {
-            if (this.isMouseHover())
+            if (isMouseHover())
             {
-                this.isHover = true;
+                isHover = true;
 
                 if (InputManager.MouseButtonWasClicked(MouseButtons.Left))
                 {
-                    this.onToggle();
+                    onToggle();
 
                     InterfaceManager.UpdateStep();
                     InterfaceManager.DrawStep();
 
-                    this.isHover = false;
+                    isHover = false;
                 }
                 else if (InputManager.MouseButtonIsDown(MouseButtons.Left))
                 {
-                    this.isHover = false;
-                    this.DrawStep();
+                    isHover = false;
+                    DrawStep();
                 }
-                else if (!this.wasHover())
+                else if (!wasHover())
                 {
-                    this.DrawStep();
+                    DrawStep();
                 }
             }
-            else if (this.wasHover())
+            else if (wasHover())
             {
-                this.isHover = false;
-                this.DrawStep();
+                isHover = false;
+                DrawStep();
             }
         }
 
         protected void onToggle()
         {
-            this.enabled = !this.enabled;
+            enabled = !enabled;
 
-            if (this.Toggled != null)
-                this.Toggled(this);
+            if (Toggled != null)
+                Toggled(this);
         }
 
         private char enabledToken = '⌂';
@@ -93,9 +93,9 @@ namespace Roguelike.Engine.UI.Controls
         #region Properties
         public Color ForegroundColor { get; set; }
         public Color BackgroundColor { get; set; }
-        public char EnabledToken { get { return this.enabledToken; } set { this.enabledToken = value; } }
-        public char DisabledToken { get { return this.disabledToken; } set { this.disabledToken = value; } }
-        public bool Enabled { get { return this.enabled; } set { this.enabled = value; } }
+        public char EnabledToken { get { return enabledToken; } set { enabledToken = value; } }
+        public char DisabledToken { get { return disabledToken; } set { disabledToken = value; } }
+        public bool Enabled { get { return enabled; } set { enabled = value; } }
         #endregion
 
         public event CheckBoxPressed Toggled;

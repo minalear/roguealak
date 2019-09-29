@@ -344,7 +344,7 @@ namespace Roguelike.Engine
         public override void Write(byte[] buffer, int offset, int count)
         {
             foreach (byte b in buffer)
-                this.WriteByte(b);
+                WriteByte(b);
         }
         public override void WriteByte(byte value)
         {

@@ -9,9 +9,9 @@ namespace Roguelike.Core.Stats.Classes
         public Berserker()
             : base("Berserker")
         {
-            this.Description = "Berserkers were Norse warriors who are primarily reported in the Old Norse literature to have fought in a nearly uncontrollable, trance-like fury, a characteristic which later gave rise to the English word berserk. Berserkers are attested to in numerous Old Norse sources. Most historians believe that berserkers worked themselves into a rage before battle, while the idea that they consumed drugged foods has also been suggested.";
-            this.InheritEffects = new List<Effect>() { new Effect_WildStrikes(), new Effect_UnendingRage() };
-            this.InheritAbilities = new List<Ability>() { new Ability_DoubleDamage() };
+            Description = "Berserkers were Norse warriors who are primarily reported in the Old Norse literature to have fought in a nearly uncontrollable, trance-like fury, a characteristic which later gave rise to the English word berserk. Berserkers are attested to in numerous Old Norse sources. Most historians believe that berserkers worked themselves into a rage before battle, while the idea that they consumed drugged foods has also been suggested.";
+            InheritEffects = new List<Effect>() { new Effect_WildStrikes(), new Effect_UnendingRage() };
+            InheritAbilities = new List<Ability>() { new Ability_DoubleDamage() };
         }
 
         public override PlayerStats CalculateStats(PlayerStats stats)
@@ -36,12 +36,12 @@ namespace Roguelike.Core.Stats.Classes
             public Ability_DoubleDamage()
                 : base(25)
             {
-                this.AbilityName = "Inject Steroids";
-                this.AbilityNameShort = "Injct Strds";
+                AbilityName = "Inject Steroids";
+                AbilityNameShort = "Injct Strds";
 
-                this.abilityType = AbilityTypes.Physical;
-                this.TargetingType = TargetingTypes.Self;
-                this.abilityCost = 25;
+                abilityType = AbilityTypes.Physical;
+                TargetingType = TargetingTypes.Self;
+                abilityCost = 25;
             }
 
             public override CombatResults CalculateResults(StatsPackage caster, StatsPackage target)
@@ -56,12 +56,12 @@ namespace Roguelike.Core.Stats.Classes
             public Effect_DoubleDamage()
                 : base(1)
             {
-                this.EffectName = "Steroid";
-                this.EffectDescription = "YOU DO MORE DAMAGE RAWWRR";
+                EffectName = "Steroid";
+                EffectDescription = "YOU DO MORE DAMAGE RAWWRR";
 
-                this.IsHarmful = false;
-                this.IsImmuneToPurge = false;
-                this.EffectType = EffectTypes.Physical;
+                IsHarmful = false;
+                IsImmuneToPurge = false;
+                EffectType = EffectTypes.Physical;
             }
 
             public override void OnAttack(CombatResults results)
@@ -74,17 +74,17 @@ namespace Roguelike.Core.Stats.Classes
             public Effect_WildStrikes()
                 : base(0)
             {
-                this.EffectName = "Wild Strikes";
-                this.EffectDescription = "Due to the Berserker's unruly nature, his ability to hit targets is reduced by 15%.";
+                EffectName = "Wild Strikes";
+                EffectDescription = "Due to the Berserker's unruly nature, his ability to hit targets is reduced by 15%.";
 
-                this.IsHarmful = false;
-                this.IsImmuneToPurge = true;
-                this.EffectType = EffectTypes.Physical;
+                IsHarmful = false;
+                IsImmuneToPurge = true;
+                EffectType = EffectTypes.Physical;
             }
 
             public override void CalculateStats()
             {
-                this.parent.PhysicalHitChance.ModValue -= 15;
+                parent.PhysicalHitChance.ModValue -= 15;
             }
         }
         public class Effect_UnendingRage : Effect
@@ -95,24 +95,24 @@ namespace Roguelike.Core.Stats.Classes
             public Effect_UnendingRage()
                 : base(0)
             {
-                this.EffectName = "Unending Rage";
-                this.EffectDescription = "The Berserker's blinding rage allows him to build up critical strike rating everytime he misses his attack or is critically struck.";
+                EffectName = "Unending Rage";
+                EffectDescription = "The Berserker's blinding rage allows him to build up critical strike rating everytime he misses his attack or is critically struck.";
 
-                this.IsHarmful = false;
-                this.IsImmuneToPurge = true;
-                this.EffectType = EffectTypes.Physical;
+                IsHarmful = false;
+                IsImmuneToPurge = true;
+                EffectType = EffectTypes.Physical;
             }
 
             public override void OnAttack(CombatResults results)
             {
                 if (results.DidMiss || results.DidAvoid)
                 {
-                    this.addCritBonus(5);
+                    addCritBonus(5);
                 }
                 else if (results.DidCrit)
                 {
-                    this.bonusCrit = 0.0;
-                    this.bonusHit = 0.0;
+                    bonusCrit = 0.0;
+                    bonusHit = 0.0;
                 }
 
                 base.OnAttack(results);
@@ -122,7 +122,7 @@ namespace Roguelike.Core.Stats.Classes
             {
                 if (results.DidCrit)
                 {
-                    this.addCritBonus(5);
+                    addCritBonus(5);
                 }
 
                 base.OnDefend(results);

@@ -12,53 +12,53 @@ namespace Roguelike.Engine.UI.Controls
         protected bool isAbsolute;
         protected List<Control> children;
 
-        public Control Parent { get { return this.parent; } }
-        public Point Position { get { return this.getPosition(); } set { this.setPosition(value); } }
-        public Point Size { get { return this.size; } set { this.size = value; } }
-        public List<Control> Children { get { return this.children; } set { this.children = value; } }
+        public Control Parent { get { return parent; } }
+        public Point Position { get { return getPosition(); } set { setPosition(value); } }
+        public Point Size { get { return size; } set { size = value; } }
+        public List<Control> Children { get { return children; } set { children = value; } }
         public bool IsVisible { get; set; }
 
         public Control()
         {
-            this.isAbsolute = true;
-            this.IsVisible = true;
+            isAbsolute = true;
+            IsVisible = true;
 
-            this.children = new List<Control>();
+            children = new List<Control>();
         }
         public Control(Control parent)
         {
-            this.isAbsolute = false;
-            this.IsVisible = true;
+            isAbsolute = false;
+            IsVisible = true;
 
-            this.parent = parent;
-            this.parent.Children.Add(this);
-            this.children = new List<Control>();
+            parent = parent;
+            parent.Children.Add(this);
+            children = new List<Control>();
         }
 
         public virtual void DrawStep()
         {
             GraphicConsole.ResetColor();
 
-            for (int i = 0; i < this.children.Count; i++)
+            for (int i = 0; i < children.Count; i++)
             {
-                if (this.children[i].IsVisible)
-                    this.children[i].DrawStep();
+                if (children[i].IsVisible)
+                    children[i].DrawStep();
             }
         }
         public virtual void Update(GameTime gameTime)
         {
-            for (int i = 0; i < this.children.Count; i++)
+            for (int i = 0; i < children.Count; i++)
             {
-                if (this.children[i].IsVisible)
-                    this.children[i].Update(gameTime);
+                if (children[i].IsVisible)
+                    children[i].Update(gameTime);
             }
         }
         public virtual void UpdateStep()
         {
-            for (int i = 0; i < this.children.Count; i++)
+            for (int i = 0; i < children.Count; i++)
             {
-                if (this.children[i].IsVisible)
-                    this.children[i].UpdateStep();
+                if (children[i].IsVisible)
+                    children[i].UpdateStep();
             }
         }
 
@@ -66,8 +66,8 @@ namespace Roguelike.Engine.UI.Controls
         {
             Point mouse = GraphicConsole.GetTilePosition(InputManager.GetCurrentMousePosition());
 
-            if (mouse.X >= this.Position.X && mouse.X < this.Position.X + this.Size.X &&
-                mouse.Y >= this.Position.Y && mouse.Y < this.Position.Y + this.Size.Y)
+            if (mouse.X >= Position.X && mouse.X < Position.X + Size.X &&
+                mouse.Y >= Position.Y && mouse.Y < Position.Y + Size.Y)
             {
                 return true;
             }
@@ -77,8 +77,8 @@ namespace Roguelike.Engine.UI.Controls
         {
             Point mouse = GraphicConsole.GetTilePosition(InputManager.GetPriorMousePosition());
 
-            if (mouse.X >= this.Position.X && mouse.X < this.Position.X + this.Size.X &&
-                mouse.Y >= this.Position.Y && mouse.Y < this.Position.Y + this.Size.Y)
+            if (mouse.X >= Position.X && mouse.X < Position.X + Size.X &&
+                mouse.Y >= Position.Y && mouse.Y < Position.Y + Size.Y)
             {
                 return true;
             }
@@ -87,28 +87,28 @@ namespace Roguelike.Engine.UI.Controls
         protected virtual void clearArea()
         {
             GraphicConsole.ResetColor();
-            DrawingUtilities.DrawRect(this.Position.X, this.Position.Y, this.Size.X, this.Size.Y, ' ', true);
+            DrawingUtilities.DrawRect(Position.X, Position.Y, Size.X, Size.Y, ' ', true);
         }
         protected Point getPosition()
         {
-            if (this.isAbsolute)
-                return this.position;
+            if (isAbsolute)
+                return position;
             else
             {
-                Point parentPos = this.Parent.Position;
-                return new Point(this.position.X + parentPos.X, this.position.Y + parentPos.Y);
+                Point parentPos = Parent.Position;
+                return new Point(position.X + parentPos.X, position.Y + parentPos.Y);
             }
         }
         protected void setPosition(Point point)
         {
-            if (!this.isAbsolute)
-                this.position = point;
+            if (!isAbsolute)
+                position = point;
             else
             {
-                Point parentPos = this.Parent.Position;
+                Point parentPos = Parent.Position;
 
-                this.position.X = point.X - parentPos.X;
-                this.position.Y = point.Y - parentPos.Y;
+                position.X = point.X - parentPos.X;
+                position.Y = point.Y - parentPos.Y;
             }
         }
     }

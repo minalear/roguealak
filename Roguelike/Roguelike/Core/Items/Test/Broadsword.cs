@@ -1,24 +1,25 @@
 ﻿using System;
+using Roguelike.Engine.Factories;
 
 namespace Roguelike.Core.Items
 {
     public class Broadsword : Weapon
     {
         public Broadsword()
-            : base(Factories.WeaponTypes.Sword, EquipmentSlots.OneHand)
+            : base(WeaponTypes.Sword, EquipmentSlots.OneHand)
         {
-            this.Name = "Test Sword of the Brave";
-            this.WeaponSubType = "Broadsword";
-            this.ModPackage = new Stats.ModPackage()
+            Name = "Test Sword of the Brave";
+            WeaponSubType = "Broadsword";
+            ModPackage = new Stats.ModPackage()
                 {
                     AttackPower = 25,
                     PhysicalCritChance = 3,
                     PhysicalCritPower = 0.2
                 };
-            this.Weight = 40;
-            this.WeaponLevel = 1;
-            this.ItemRarity = Rarities.Uncommon;
-            this.BaseDamage = 25;
+            Weight = 40;
+            WeaponLevel = 1;
+            ItemRarity = Rarities.Uncommon;
+            BaseDamage = 25;
         }
     }
 }

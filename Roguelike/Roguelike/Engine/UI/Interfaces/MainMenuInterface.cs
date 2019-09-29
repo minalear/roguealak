@@ -19,23 +19,23 @@ namespace Roguelike.Engine.UI.Interfaces
         public MainMenuInterface()
             : base()
         {
-            this.mainTitle = new Title(this, "Roguealak", GraphicConsole.BufferWidth / 2, 2, Title.TextAlignModes.Center);
-            this.subTitle = new Title(this, generateSubTitle(), GraphicConsole.BufferWidth / 2, 3, Title.TextAlignModes.Center);
+            mainTitle = new Title(this, "Roguealak", GraphicConsole.BufferWidth / 2, 2, Title.TextAlignModes.Center);
+            subTitle = new Title(this, generateSubTitle(), GraphicConsole.BufferWidth / 2, 3, Title.TextAlignModes.Center);
 
-            this.mainTitle.TextColor = Color.Red;
-            this.subTitle.TextColor = Color.LightGray;
+            mainTitle.TextColor = Color.Red;
+            subTitle.TextColor = Color.LightGray;
 
-            this.startNewGame = new Button(this, "New Game", GraphicConsole.BufferWidth / 2 - 15, 10, 30, 3) { KeyShortcut = Keys.N };
-            this.resumeGame = new Button(this, "Item Testing", GraphicConsole.BufferWidth / 2 - 15, 14, 30, 3) { KeyShortcut = Keys.L };
-            this.optionsButton = new Button(this, "Quick Start", GraphicConsole.BufferWidth / 2 - 15, 18, 30, 3) { KeyShortcut = Keys.O };
-            this.aboutButton = new Button(this, "About", GraphicConsole.BufferWidth / 2 - 15, 22, 30, 3) { KeyShortcut = Keys.A };
-            this.exitButton = new Button(this, "Abandon", GraphicConsole.BufferWidth / 2 - 15, 26, 30, 3) { KeyShortcut = Keys.Escape };
+            startNewGame = new Button(this, "New Game", GraphicConsole.BufferWidth / 2 - 15, 10, 30, 3) { KeyShortcut = Keys.N };
+            resumeGame = new Button(this, "Item Testing", GraphicConsole.BufferWidth / 2 - 15, 14, 30, 3) { KeyShortcut = Keys.L };
+            optionsButton = new Button(this, "Quick Start", GraphicConsole.BufferWidth / 2 - 15, 18, 30, 3) { KeyShortcut = Keys.O };
+            aboutButton = new Button(this, "About", GraphicConsole.BufferWidth / 2 - 15, 22, 30, 3) { KeyShortcut = Keys.A };
+            exitButton = new Button(this, "Abandon", GraphicConsole.BufferWidth / 2 - 15, 26, 30, 3) { KeyShortcut = Keys.Escape };
 
-            this.startNewGame.Click += startNewGame_Pressed;
-            this.resumeGame.Click += resumeGame_Pressed;
-            this.optionsButton.Click += optionsButton_Pressed;
-            this.aboutButton.Click += aboutButton_Pressed;
-            this.exitButton.Click += exitButton_Pressed;
+            startNewGame.Click += startNewGame_Pressed;
+            resumeGame.Click += resumeGame_Pressed;
+            optionsButton.Click += optionsButton_Pressed;
+            aboutButton.Click += aboutButton_Pressed;
+            exitButton.Click += exitButton_Pressed;
         }
 
         #region Button Events

@@ -9,22 +9,22 @@ namespace Roguelike.Core.Items
         public Potion(Effect onUseEffect)
             : base(ItemTypes.Potion)
         {
-            this.RemoveOnUse = true;
+            RemoveOnUse = true;
             this.onUseEffect = onUseEffect;
         }
 
         public override void OnUse(Entities.Entity entity)
         {
-            if (this.onUseEffect != null)
-                entity.StatsPackage.ApplyEffect(this.onUseEffect);
+            if (onUseEffect != null)
+                entity.StatsPackage.ApplyEffect(onUseEffect);
         }
 
         public override string GetDescription()
         {
-            return this.Name + " - " + this.ItemType.ToString() + "\n" + "Gold: " + this.Value + "\n" + this.Description;
+            return Name + " - " + ItemType.ToString() + "\n" + "Gold: " + Value + "\n" + Description;
         }
 
         private Effect onUseEffect;
-        public Effect OnUseEffect { get { return this.onUseEffect; } set { this.onUseEffect = value; } }
+        public Effect OnUseEffect { get { return onUseEffect; } set { onUseEffect = value; } }
     }
 }

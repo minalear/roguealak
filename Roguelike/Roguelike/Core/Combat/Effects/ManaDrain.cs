@@ -9,15 +9,15 @@ namespace Roguelike.Core.Combat.Effects
         public ManaDrain(StatsPackage package)
             : base(package, 0)
         {
-            this.EffectName = "Mana Shield";
-            this.IsHarmful = false;
+            EffectName = "Mana Shield";
+            IsHarmful = false;
         }
 
         public override int OnHealthLoss(int amount)
         {
-            if (this.parent.Mana > 0)
+            if (parent.Mana > 0)
             {
-                this.parent.DrainMana(amount);
+                parent.DrainMana(amount);
                 amount = 0;
             }
 

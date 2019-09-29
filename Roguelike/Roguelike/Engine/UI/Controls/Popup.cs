@@ -11,34 +11,34 @@ namespace Roguelike.Engine.UI.Controls
         public Popup(Control parent)
             : base(parent)
         {
-            this.visible = false;
-            this.elapsedTime = 0.0;
+            visible = false;
+            elapsedTime = 0.0;
         }
 
         public override void DrawStep()
         {
-            if (this.visible)
+            if (visible)
             {
-                GraphicConsole.SetColors(Color.Transparent, this.fillColor);
-                DrawingUtilities.DrawRect(this.position.X, this.position.Y, this.size.X, this.size.Y, ' ', true);
+                GraphicConsole.SetColors(Color.Transparent, fillColor);
+                DrawingUtilities.DrawRect(position.X, position.Y, size.X, size.Y, ' ', true);
 
-                GraphicConsole.SetColors(this.borderColor, this.fillColor);
-                DrawingUtilities.DrawRect(this.position.X, this.position.Y, this.size.X, this.size.Y, this.borderToken, false);
+                GraphicConsole.SetColors(borderColor, fillColor);
+                DrawingUtilities.DrawRect(position.X, position.Y, size.X, size.Y, borderToken, false);
 
-                if (this.isMultilined)
+                if (isMultilined)
                 {
-                    for (int i = 0; i < this.lines.Length; i++)
+                    for (int i = 0; i < lines.Length; i++)
                     {
-                        GraphicConsole.SetColors(this.textColor, this.fillColor);
-                        GraphicConsole.SetCursor((GraphicConsole.BufferWidth / 2) - (this.size.X - 4) / 2, this.position.Y + 2 + i);
-                        GraphicConsole.Write(this.lines[i]);
+                        GraphicConsole.SetColors(textColor, fillColor);
+                        GraphicConsole.SetCursor((GraphicConsole.BufferWidth / 2) - (size.X - 4) / 2, position.Y + 2 + i);
+                        GraphicConsole.Write(lines[i]);
                     }
                 }
                 else
                 {
-                    GraphicConsole.SetColors(this.textColor, this.fillColor);
-                    GraphicConsole.SetCursor((GraphicConsole.BufferWidth / 2) - (this.size.X - 4) / 2, GraphicConsole.BufferHeight / 2);
-                    GraphicConsole.Write(this.message);
+                    GraphicConsole.SetColors(textColor, fillColor);
+                    GraphicConsole.SetCursor((GraphicConsole.BufferWidth / 2) - (size.X - 4) / 2, GraphicConsole.BufferHeight / 2);
+                    GraphicConsole.Write(message);
                 }
             }
 
@@ -46,83 +46,83 @@ namespace Roguelike.Engine.UI.Controls
         }
         public override void Update(GameTime gameTime)
         {
-            if (this.visible)
+            if (visible)
             {
-                this.elapsedTime += gameTime.ElapsedGameTime.Milliseconds;
+                elapsedTime += gameTime.ElapsedGameTime.Milliseconds;
 
-                if (this.elapsedTime >= duration)
+                if (elapsedTime >= duration)
                 {
-                    this.duration = 0.0;
-                    this.visible = false;
+                    duration = 0.0;
+                    visible = false;
 
                     InterfaceManager.DrawStep();
                 }
 
                 if (InputManager.MouseButtonIsDown(MouseButtons.Left))
-                    this.elapsedTime = this.duration;
+                    elapsedTime = duration;
             }
         }
 
         public void DisplayMessage(string message, double duration)
         {
-            this.visible = true;
+            visible = true;
 
-            this.message = message;
-            this.duration = duration;
+            message = message;
+            duration = duration;
 
-            this.elapsedTime = 0.0;
+            elapsedTime = 0.0;
 
-            this.setSize();
+            setSize();
             InterfaceManager.DrawStep();
         }
         public void DisplayMessage(string message)
         {
-            this.visible = true;
+            visible = true;
 
-            this.message = message;
-            this.duration = message.Length * timePerCharacter;
+            message = message;
+            duration = message.Length * timePerCharacter;
 
-            this.elapsedTime = 0.0;
+            elapsedTime = 0.0;
 
-            this.setSize();
+            setSize();
             InterfaceManager.DrawStep();
         }
 
         private void setSize()
         {
-            if (this.message.Contains('\n'))
+            if (message.Contains('\n'))
             {
                 int longestWidth = 0;
 
-                this.lines = this.message.Split('\n');
+                lines = message.Split('\n');
                 for (int i = 0; i < lines.Length; i++)
                 {
                     if (lines[i].Length > longestWidth)
                         longestWidth = lines[i].Length;
                 }
 
-                this.position.X = (GraphicConsole.BufferWidth / 2) - longestWidth / 2 - 2;
-                this.position.Y = (GraphicConsole.BufferHeight / 2) - 2;
+                position.X = (GraphicConsole.BufferWidth / 2) - longestWidth / 2 - 2;
+                position.Y = (GraphicConsole.BufferHeight / 2) - 2;
 
-                this.size.X = longestWidth + 4;
-                this.size.Y = lines.Length + 4; //Line Count + spacing + border
+                size.X = longestWidth + 4;
+                size.Y = lines.Length + 4; //Line Count + spacing + border
 
                 for (int i = 0; i < lines.Length; i++)
                 {
-                    this.lines[i] = TextUtilities.CenterTextPadding(this.lines[i], longestWidth, ' ');
+                    lines[i] = TextUtilities.CenterTextPadding(lines[i], longestWidth, ' ');
                 }
 
-                this.isMultilined = true;
+                isMultilined = true;
             }
             else
             {
-                this.position.X = (GraphicConsole.BufferWidth / 2) - this.message.Length / 2 - 2;
-                this.position.Y = (GraphicConsole.BufferHeight / 2) - 2;
+                position.X = (GraphicConsole.BufferWidth / 2) - message.Length / 2 - 2;
+                position.Y = (GraphicConsole.BufferHeight / 2) - 2;
 
-                this.size.X = this.message.Length + 4;
-                this.size.Y = 5;
+                size.X = message.Length + 4;
+                size.Y = 5;
 
-                this.isMultilined = false;
+                isMultilined = false;
             }
         }
 
@@ -142,9 +142,9 @@ namespace Roguelike.Engine.UI.Controls
 
         private double timePerCharacter = 100.0;
 
-        public Color TextColor { get { return this.textColor; } set { this.textColor = value; } }
-        public Color FillColor { get { return this.fillColor; } set { this.fillColor = value; } }
-        public Color BorderColor { get { return this.borderColor; } set { this.borderColor = value; } }
-        public char BorderToken { get { return this.borderToken; } set { this.borderToken = value; } }
+        public Color TextColor { get { return textColor; } set { textColor = value; } }
+        public Color FillColor { get { return fillColor; } set { fillColor = value; } }
+        public Color BorderColor { get { return borderColor; } set { borderColor = value; } }
+        public char BorderToken { get { return borderToken; } set { borderToken = value; } }
     }
 }

@@ -9,9 +9,9 @@ namespace Roguelike.Core.Stats.Classes
         public Shaman()
             : base("Shaman")
         {
-            this.Description = "Shaman are spiritual guides and practitioners, not of the divine, but of the very elements. Unlike some other mystics, shaman commune with forces that are not strictly benevolent. The elements are chaotic, and left to their own devices, they rage against one another in unending primal fury. It is the call of the shaman to bring balance to this chaos. Acting as moderators among earth, fire, water, and air, shaman summon totems that focus the elements to support the shaman’s allies or punish those who threaten them.";
-            this.InheritAbilities = new List<Ability>() { new Ability_WindShear(), new Ability_FireLash() };
-            this.InheritEffects = new List<Effect>() { new Effect_SpiritUprising() };
+            Description = "Shaman are spiritual guides and practitioners, not of the divine, but of the very elements. Unlike some other mystics, shaman commune with forces that are not strictly benevolent. The elements are chaotic, and left to their own devices, they rage against one another in unending primal fury. It is the call of the shaman to bring balance to this chaos. Acting as moderators among earth, fire, water, and air, shaman summon totems that focus the elements to support the shaman’s allies or punish those who threaten them.";
+            InheritAbilities = new List<Ability>() { new Ability_WindShear(), new Ability_FireLash() };
+            InheritEffects = new List<Effect>() { new Effect_SpiritUprising() };
         }
         public override PlayerStats CalculateStats(PlayerStats stats)
         {
@@ -35,13 +35,13 @@ namespace Roguelike.Core.Stats.Classes
             public Ability_WindShear()
                 : base()
             {
-                this.AbilityName = "Wind Shear";
-                this.AbilityNameShort = "Wnd Shr";
+                AbilityName = "Wind Shear";
+                AbilityNameShort = "Wnd Shr";
 
-                this.TargetingType = TargetingTypes.EntityTarget;
-                this.AbilityType = AbilityTypes.Magical;
-                this.abilityCost = 15;
-                this.Range = 15;
+                TargetingType = TargetingTypes.EntityTarget;
+                AbilityType = AbilityTypes.Magical;
+                abilityCost = 15;
+                Range = 15;
             }
 
             public override CombatResults CalculateResults(StatsPackage caster, StatsPackage target)
@@ -57,32 +57,32 @@ namespace Roguelike.Core.Stats.Classes
             public Ability_FireLash()
                 : base()
             {
-                this.AbilityName = "Fire Lash";
-                this.AbilityNameShort = "Fre Lsh";
+                AbilityName = "Fire Lash";
+                AbilityNameShort = "Fre Lsh";
 
-                this.TargetingType = TargetingTypes.EntityTarget;
-                this.AbilityType = AbilityTypes.Physical;
-                this.abilityCost = 15;
-                this.Range = 15;
+                TargetingType = TargetingTypes.EntityTarget;
+                AbilityType = AbilityTypes.Physical;
+                abilityCost = 15;
+                Range = 15;
             }
 
             public override CombatResults CalculateResults(StatsPackage caster, StatsPackage target)
             {
-                CombatResults results = this.DoesAttackHit(caster, target);
+                CombatResults results = DoesAttackHit(caster, target);
 
                 if (!results.DidMiss && !results.DidAvoid)
                 {
                     int damage = (int)((caster.SpellPower.EffectiveValue * 0.5) + (caster.AttackPower.EffectiveValue * 0.5));
-                    if (this.DoesAttackCrit(caster))
+                    if (DoesAttackCrit(caster))
                     {
-                        damage = this.ApplyCriticalDamage(damage, caster);
+                        damage = ApplyCriticalDamage(damage, caster);
                         results.DidCrit = true;
                     }
 
                     results.PureDamage = damage;
-                    results.AbsorbedDamage = this.CalculateAbsorption(damage, target);
+                    results.AbsorbedDamage = CalculateAbsorption(damage, target);
                     results.AppliedDamage = results.PureDamage - results.AbsorbedDamage;
-                    results.ReflectedDamage = this.CalculateReflectedDamage(results.AppliedDamage, target);
+                    results.ReflectedDamage = CalculateReflectedDamage(results.AppliedDamage, target);
 
                     if (!target.HasEffect(typeof(Effect_FireLashDOT)))
                     {
@@ -101,17 +101,17 @@ namespace Roguelike.Core.Stats.Classes
             public Effect_FireLashDOT()
                 : base(10)
             {
-                this.EffectName = "Fire Lash";
-                this.IsHarmful = true;
+                EffectName = "Fire Lash";
+                IsHarmful = true;
 
-                this.EffectType = EffectTypes.Hybrid;
-                this.EffectDescription = "The Fire elemental's spirit is lashing at you from the elemental plane.";
+                EffectType = EffectTypes.Hybrid;
+                EffectDescription = "The Fire elemental's spirit is lashing at you from the elemental plane.";
             }
 
             public override void UpdateStep()
             {
-                //this.parent.DrainHealth(this.damage);
-                this.parent.DealDOTDamage(this.damage, this);
+                //parent.DrainHealth(damage);
+                parent.DealDOTDamage(damage, this);
 
                 base.UpdateStep();
             }
@@ -121,17 +121,17 @@ namespace Roguelike.Core.Stats.Classes
             public Effect_SpiritUprising()
                 : base(0)
             {
-                this.EffectName = "Spiritual Uprising";
-                this.IsHarmful = false;
-                this.IsImmuneToPurge = true;
+                EffectName = "Spiritual Uprising";
+                IsHarmful = false;
+                IsImmuneToPurge = true;
 
-                this.EffectDescription = "The Shaman's natural communion with the spirits helps during combat.";
+                EffectDescription = "The Shaman's natural communion with the spirits helps during combat.";
             }
 
             public override void CalculateStats()
             {
-                this.parent.SpellPower.ModValue += this.parent.SpellPower.BaseValue * 0.15;
-                this.parent.AttackPower.ModValue += this.parent.AttackPower.BaseValue * 0.15;
+                parent.SpellPower.ModValue += parent.SpellPower.BaseValue * 0.15;
+                parent.AttackPower.ModValue += parent.AttackPower.BaseValue * 0.15;
 
                 base.CalculateStats();
             }
@@ -141,15 +141,15 @@ namespace Roguelike.Core.Stats.Classes
             public Effect_WindShear()
                 : base(0)
             {
-                this.EffectName = "Wind Shear";
-                this.IsHarmful = true;
+                EffectName = "Wind Shear";
+                IsHarmful = true;
 
-                this.EffectDescription = "Your flesh is torn from intense winds and you feel weakened as a result.";
+                EffectDescription = "Your flesh is torn from intense winds and you feel weakened as a result.";
             }
 
             public override void CalculateStats()
             {
-                this.parent.SpellPower.ModValue -= this.parent.SpellPower.EffectiveValue * 0.5;
+                parent.SpellPower.ModValue -= parent.SpellPower.EffectiveValue * 0.5;
 
                 base.CalculateStats();
             }

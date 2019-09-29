@@ -12,8 +12,8 @@ namespace Roguelike.Core.Combat.Effects
         public ShieldWall(StatsPackage package)
             : base(package, 3)
         {
-            this.EffectName = "Shield Wall";
-            this.IsHarmful = false;
+            EffectName = "Shield Wall";
+            IsHarmful = false;
         }
 
         public override void OnAttack(CombatResults results)
@@ -28,8 +28,8 @@ namespace Roguelike.Core.Combat.Effects
 
         public override void CalculateStats()
         {
-            this.parent.PhysicalReduction += this.physicalReduction;
-            this.parent.SpellReduction += this.magicalReduction;
+            parent.PhysicalReduction += physicalReduction;
+            parent.SpellReduction += magicalReduction;
         }
     }
 }

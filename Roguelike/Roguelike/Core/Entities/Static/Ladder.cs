@@ -1,4 +1,6 @@
 ﻿using System;
+using OpenTK.Graphics;
+using Roguelike.Engine;
 
 namespace Roguelike.Core.Entities
 {
@@ -13,20 +15,20 @@ namespace Roguelike.Core.Entities
             this.targetLevel = targetLevel;
             this.targetDestination = targetDestination;
 
-            this.token = TokenReference.LADDER_UP;
-            this.ForegroundColor = Color.Tan;
-            this.isSolid = true;
+            token = TokenReference.LADDER_UP;
+            ForegroundColor = Color4.Tan;
+            isSolid = true;
 
-            this.EntityType = EntityTypes.Ladder;
-            this.statsPackage = new Stats.StatsPackage(this) { IsImmune = true };
+            EntityType = EntityTypes.Ladder;
+            statsPackage = new Stats.StatsPackage(this) { IsImmune = true };
         }
 
         public override void OnInteract(Entity entity)
         {
             if (entity.EntityType == EntityTypes.Player)
             {
-                Pathing.PathCalculator.CacheLevel(this.targetLevel);
-                GameManager.Player.TeleportPlayer(this.targetLevel, this.targetDestination);
+                //Pathing.PathCalculator.CacheLevel(targetLevel);
+                GameManager.Player.TeleportPlayer(targetLevel, targetDestination);
             }
         }
     }

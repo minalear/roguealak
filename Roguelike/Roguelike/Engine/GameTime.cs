@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace IronCore.Engine
+namespace Roguelike.Engine
 {
     public class GameTime
     {

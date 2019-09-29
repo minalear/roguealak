@@ -13,114 +13,114 @@ namespace Roguelike.Engine.UI.Interfaces
     {
         public CharacterCreation()
         {
-            this.mainTitle = new Title(this, "Character Creation", GraphicConsole.BufferWidth / 2, 1, Title.TextAlignModes.Center);
-            this.backButton = new Button(this, "X", GraphicConsole.BufferWidth - 1, 0, 1, 1) { KeyShortcut = Keys.Escape };
-            this.backButton.Click += backButton_Click;          
+            mainTitle = new Title(this, "Character Creation", GraphicConsole.BufferWidth / 2, 1, Title.TextAlignModes.Center);
+            backButton = new Button(this, "X", GraphicConsole.BufferWidth - 1, 0, 1, 1) { KeyShortcut = Keys.Escape };
+            backButton.Click += backButton_Click;          
 
-            this.itemLists = new ScrollingList(this, 35, 4, 25, 34);
-            this.itemLists.Selected += itemLists_Selected;
-            this.informationBox = new TextBox(this, 88, 4, 35, 34);
-            this.detailedStatBox = new TextBox(this, 63, 4, 22, 34);
+            itemLists = new ScrollingList(this, 35, 4, 25, 34);
+            itemLists.Selected += itemLists_Selected;
+            informationBox = new TextBox(this, 88, 4, 35, 34);
+            detailedStatBox = new TextBox(this, 63, 4, 22, 34);
 
-            this.nextButton = new Button(this, "Next", GraphicConsole.BufferWidth - 6, GraphicConsole.BufferHeight - 4, 6, 3);
-            this.nextButton.Click += nextButton_Click;
-            this.resetButton = new Button(this, "Reset", this.nextButton.Position.X - 8, GraphicConsole.BufferHeight - 4, 7, 3);
-            this.resetButton.Click += resetButton_Click;
+            nextButton = new Button(this, "Next", GraphicConsole.BufferWidth - 6, GraphicConsole.BufferHeight - 4, 6, 3);
+            nextButton.Click += nextButton_Click;
+            resetButton = new Button(this, "Reset", nextButton.Position.X - 8, GraphicConsole.BufferHeight - 4, 7, 3);
+            resetButton.Click += resetButton_Click;
 
             #region General Box
-            this.nameTitle = new Title(this, "Name: ", 3, 4, Title.TextAlignModes.Left);
-            this.raceTitle = new Title(this, "Race: ", 3, 5, Title.TextAlignModes.Left);
-            this.cultureTitle = new Title(this, "Culture: ", 3, 6, Title.TextAlignModes.Left);
-            this.classTitle = new Title(this, "Class: ", 3, 7, Title.TextAlignModes.Left);
-            this.traitTitle = new Title(this, "Trait: ", 3, 8, Title.TextAlignModes.Left);
+            nameTitle = new Title(this, "Name: ", 3, 4, Title.TextAlignModes.Left);
+            raceTitle = new Title(this, "Race: ", 3, 5, Title.TextAlignModes.Left);
+            cultureTitle = new Title(this, "Culture: ", 3, 6, Title.TextAlignModes.Left);
+            classTitle = new Title(this, "Class: ", 3, 7, Title.TextAlignModes.Left);
+            traitTitle = new Title(this, "Trait: ", 3, 8, Title.TextAlignModes.Left);
 
-            this.nameInput = new InputBox(this, 13, 4, 19, 1) { CharacterLimit = 18 };
-            this.raceSelect = new Button(this, "[Choose Race]", 13, 5, 19, 1);
-            this.cultureSelect = new Button(this, "[Choose Culture]", 13, 6, 19, 1);
-            this.classSelect = new Button(this, "[Choose Class]", 13, 7, 19, 1);
-            this.traitSelect = new Button(this, "[Choose Trait]", 13, 8, 19, 1);
+            nameInput = new InputBox(this, 13, 4, 19, 1) { CharacterLimit = 18 };
+            raceSelect = new Button(this, "[Choose Race]", 13, 5, 19, 1);
+            cultureSelect = new Button(this, "[Choose Culture]", 13, 6, 19, 1);
+            classSelect = new Button(this, "[Choose Class]", 13, 7, 19, 1);
+            traitSelect = new Button(this, "[Choose Trait]", 13, 8, 19, 1);
 
-            this.randomName = new Button(this, "φ", 11, 4, 1, 1);
-            this.randomName.Click += randomName_Click;
+            randomName = new Button(this, "φ", 11, 4, 1, 1);
+            randomName.Click += randomName_Click;
 
-            this.raceSelect.Click += raceSelect_Click;
-            this.cultureSelect.Click += cultureSelect_Click;
-            this.classSelect.Click += classSelect_Click;
-            this.traitSelect.Click += traitSelect_Click;
+            raceSelect.Click += raceSelect_Click;
+            cultureSelect.Click += cultureSelect_Click;
+            classSelect.Click += classSelect_Click;
+            traitSelect.Click += traitSelect_Click;
             #endregion
             #region Stats Box
-            this.physicalTitle = new Title(this, "Physical Stats", 16, 13, Title.TextAlignModes.Center) { TextColor = Color.LightGray };
-            this.spellTitle = new Title(this, "Spell Stats", 16, 21, Title.TextAlignModes.Center) { TextColor = Color.LightGray };
-            this.defenseTitle = new Title(this, "Defensive Stats", 16, 29, Title.TextAlignModes.Center) { TextColor = Color.LightGray };
-            this.freePointsTitle = new Title(this, "Free Points: ##", 3, 37, Title.TextAlignModes.Left);
-            this.statsResetButton = new Button(this, "Reset Points", 20, 37, 12, 1);
-            this.statsResetButton.Click += statsResetButton_Click;
+            physicalTitle = new Title(this, "Physical Stats", 16, 13, Title.TextAlignModes.Center) { TextColor = Color.LightGray };
+            spellTitle = new Title(this, "Spell Stats", 16, 21, Title.TextAlignModes.Center) { TextColor = Color.LightGray };
+            defenseTitle = new Title(this, "Defensive Stats", 16, 29, Title.TextAlignModes.Center) { TextColor = Color.LightGray };
+            freePointsTitle = new Title(this, "Free Points: ##", 3, 37, Title.TextAlignModes.Left);
+            statsResetButton = new Button(this, "Reset Points", 20, 37, 12, 1);
+            statsResetButton.Click += statsResetButton_Click;
 
-            this.strButton = new Button(this, "-STR-", 3, 14, 5, 1); this.strButton.Click += strButton_Click;
-            this.agiButton = new Button(this, "-AGI-", 3, 16, 5, 1); this.agiButton.Click += agiButton_Click;
-            this.dexButton = new Button(this, "-DEX-", 3, 18, 5, 1); this.dexButton.Click += dexButton_Click;
+            strButton = new Button(this, "-STR-", 3, 14, 5, 1); strButton.Click += strButton_Click;
+            agiButton = new Button(this, "-AGI-", 3, 16, 5, 1); agiButton.Click += agiButton_Click;
+            dexButton = new Button(this, "-DEX-", 3, 18, 5, 1); dexButton.Click += dexButton_Click;
 
-            this.intButton = new Button(this, "-INT-", 3, 22, 5, 1); this.intButton.Click += intButton_Click;
-            this.wilButton = new Button(this, "-WIL-", 3, 24, 5, 1); this.wilButton.Click += wilButton_Click;
-            this.wisButton = new Button(this, "-WIS-", 3, 26, 5, 1); this.wisButton.Click += wisButton_Click;
+            intButton = new Button(this, "-INT-", 3, 22, 5, 1); intButton.Click += intButton_Click;
+            wilButton = new Button(this, "-WIL-", 3, 24, 5, 1); wilButton.Click += wilButton_Click;
+            wisButton = new Button(this, "-WIS-", 3, 26, 5, 1); wisButton.Click += wisButton_Click;
 
-            this.conButton = new Button(this, "-CON-", 3, 30, 5, 1); this.conButton.Click += conButton_Click;
-            this.endButton = new Button(this, "-END-", 3, 32, 5, 1); this.endButton.Click += endButton_Click;
-            this.frtButton = new Button(this, "-FRT-", 3, 34, 5, 1); this.frtButton.Click += frtButton_Click;
+            conButton = new Button(this, "-CON-", 3, 30, 5, 1); conButton.Click += conButton_Click;
+            endButton = new Button(this, "-END-", 3, 32, 5, 1); endButton.Click += endButton_Click;
+            frtButton = new Button(this, "-FRT-", 3, 34, 5, 1); frtButton.Click += frtButton_Click;
 
-            this.strAdd = new Button(this, "+", 25, 14, 3, 1); this.strAdd.Click += strAdd_Click;
-            this.strRem = new Button(this, "-", 28, 14, 3, 1); this.strRem.Click += strRem_Click;
+            strAdd = new Button(this, "+", 25, 14, 3, 1); strAdd.Click += strAdd_Click;
+            strRem = new Button(this, "-", 28, 14, 3, 1); strRem.Click += strRem_Click;
 
-            this.agiAdd = new Button(this, "+", 25, 16, 3, 1); this.agiAdd.Click += agiAdd_Click;
-            this.agiRem = new Button(this, "-", 28, 16, 3, 1); this.agiRem.Click += agiRem_Click;
+            agiAdd = new Button(this, "+", 25, 16, 3, 1); agiAdd.Click += agiAdd_Click;
+            agiRem = new Button(this, "-", 28, 16, 3, 1); agiRem.Click += agiRem_Click;
 
-            this.dexAdd = new Button(this, "+", 25, 18, 3, 1); this.dexAdd.Click += dexAdd_Click;
-            this.dexRem = new Button(this, "-", 28, 18, 3, 1); this.dexRem.Click += dexRem_Click;
-
-
-            this.intAdd = new Button(this, "+", 25, 22, 3, 1); this.intAdd.Click += intAdd_Click;
-            this.intRem = new Button(this, "-", 28, 22, 3, 1); this.intRem.Click += intRem_Click;
-
-            this.wilAdd = new Button(this, "+", 25, 24, 3, 1); this.wilAdd.Click += wilAdd_Click;
-            this.wilRem = new Button(this, "-", 28, 24, 3, 1); this.wilRem.Click += wilRem_Click;
-
-            this.wisAdd = new Button(this, "+", 25, 26, 3, 1); this.wisAdd.Click += wisAdd_Click;
-            this.wisRem = new Button(this, "-", 28, 26, 3, 1); this.wisRem.Click += wisRem_Click;
+            dexAdd = new Button(this, "+", 25, 18, 3, 1); dexAdd.Click += dexAdd_Click;
+            dexRem = new Button(this, "-", 28, 18, 3, 1); dexRem.Click += dexRem_Click;
 
 
-            this.conAdd = new Button(this, "+", 25, 30, 3, 1); this.conAdd.Click += conAdd_Click;
-            this.conRem = new Button(this, "-", 28, 30, 3, 1); this.conRem.Click += conRem_Click;
+            intAdd = new Button(this, "+", 25, 22, 3, 1); intAdd.Click += intAdd_Click;
+            intRem = new Button(this, "-", 28, 22, 3, 1); intRem.Click += intRem_Click;
 
-            this.endAdd = new Button(this, "+", 25, 32, 3, 1); this.endAdd.Click += endAdd_Click;
-            this.endRem = new Button(this, "-", 28, 32, 3, 1); this.endRem.Click += endRem_Click;
+            wilAdd = new Button(this, "+", 25, 24, 3, 1); wilAdd.Click += wilAdd_Click;
+            wilRem = new Button(this, "-", 28, 24, 3, 1); wilRem.Click += wilRem_Click;
 
-            this.frtAdd = new Button(this, "+", 25, 34, 3, 1); this.frtAdd.Click += frtAdd_Click;
-            this.frtRem = new Button(this, "-", 28, 34, 3, 1); this.frtRem.Click += frtRem_Click;
+            wisAdd = new Button(this, "+", 25, 26, 3, 1); wisAdd.Click += wisAdd_Click;
+            wisRem = new Button(this, "-", 28, 26, 3, 1); wisRem.Click += wisRem_Click;
+
+
+            conAdd = new Button(this, "+", 25, 30, 3, 1); conAdd.Click += conAdd_Click;
+            conRem = new Button(this, "-", 28, 30, 3, 1); conRem.Click += conRem_Click;
+
+            endAdd = new Button(this, "+", 25, 32, 3, 1); endAdd.Click += endAdd_Click;
+            endRem = new Button(this, "-", 28, 32, 3, 1); endRem.Click += endRem_Click;
+
+            frtAdd = new Button(this, "+", 25, 34, 3, 1); frtAdd.Click += frtAdd_Click;
+            frtRem = new Button(this, "-", 28, 34, 3, 1); frtRem.Click += frtRem_Click;
             #endregion
 
-            this.popupControl = new Popup(this);
+            popupControl = new Popup(this);
 
-            this.character = new TokenTile() { Token = '@', ForegroundColor = Color.Black, BackgroundColor = Color.Black };
-            this.colorLeftButton = new Button(this, "«", 8, 40, 2, 3);
-            this.colorRightButton = new Button(this, "» ", 15, 40, 2, 3);
+            character = new TokenTile() { Token = '@', ForegroundColor = Color.Black, BackgroundColor = Color.Black };
+            colorLeftButton = new Button(this, "«", 8, 40, 2, 3);
+            colorRightButton = new Button(this, "» ", 15, 40, 2, 3);
 
-            this.colorLeftButton.Click += colorLeftButton_Click;
-            this.colorRightButton.Click += colorRightButton_Click;
+            colorLeftButton.Click += colorLeftButton_Click;
+            colorRightButton.Click += colorRightButton_Click;
 
-            this.calculateStats();
+            calculateStats();
         }
 
         public override void DrawStep()
         {
-            this.drawUIBorders();
-            this.writeStatInfo();
+            drawUIBorders();
+            writeStatInfo();
 
             base.DrawStep();
         }
         public override void UpdateStep()
         {
-            this.freePointsTitle.Text = "Free Points: " + this.availablePoints;
-            this.calculateStats();
+            freePointsTitle.Text = "Free Points: " + availablePoints;
+            calculateStats();
 
             base.UpdateStep();
         }
@@ -128,29 +128,29 @@ namespace Roguelike.Engine.UI.Interfaces
         private void drawUIBorders()
         {
             //General Box
-            this.drawBox(1, 3, 12, 9);
-            this.drawBox(12, 3, 32, 9);
+            drawBox(1, 3, 12, 9);
+            drawBox(12, 3, 32, 9);
             GraphicConsole.Put('╦', 12, 3);
             GraphicConsole.Put('╩', 12, 9);
 
             //Stats Box
-            this.drawBox(1, 11, 32, 36);
-            this.drawBox(1, 36, 32, 38);
+            drawBox(1, 11, 32, 36);
+            drawBox(1, 36, 32, 38);
             GraphicConsole.Put('╠',  1, 36);
             GraphicConsole.Put('╣', 32, 36);
 
             //List Box
-            this.drawBox(34, 3, 60, 38);
+            drawBox(34, 3, 60, 38);
 
             //Detailed Stats Box
-            this.drawBox(62, 3, 85, 38);
+            drawBox(62, 3, 85, 38);
 
             //Information Panel
-            this.drawBox(87, 3, 123, 38);
+            drawBox(87, 3, 123, 38);
 
             //Extra Panel
-            this.drawBox(1, 39, 7, 43);
-            this.drawBox(7, 39, 17, 43);
+            drawBox(1, 39, 7, 43);
+            drawBox(7, 39, 17, 43);
 
             GraphicConsole.SetCursor(10, 40);
             GraphicConsole.Write("Color");
@@ -159,7 +159,7 @@ namespace Roguelike.Engine.UI.Interfaces
             GraphicConsole.Put('╩', 7, 43);
 
             GraphicConsole.SetColors(character.ForegroundColor, character.BackgroundColor);
-            GraphicConsole.Put(this.character.Token, 4, 41);
+            GraphicConsole.Put(character.Token, 4, 41);
             GraphicConsole.ResetColor();
         }
         private void writeStatInfo()
@@ -370,33 +370,33 @@ namespace Roguelike.Engine.UI.Interfaces
         }
         private void calculateStats()
         {
-            this.stats = new PlayerStats();
+            stats = new PlayerStats();
             
-            this.stats.Strength = strRaceMod + strClassMod + strFreeMod;
-            this.stats.Agility = agiRaceMod + agiClassMod + agiFreeMod;
-            this.stats.Dexterity = dexRaceMod + dexClassMod + dexFreeMod;
+            stats.Strength = strRaceMod + strClassMod + strFreeMod;
+            stats.Agility = agiRaceMod + agiClassMod + agiFreeMod;
+            stats.Dexterity = dexRaceMod + dexClassMod + dexFreeMod;
 
-            this.stats.Intelligence = intRaceMod + intClassMod + intFreeMod;
-            this.stats.Willpower = wilRaceMod + wilClassMod + wilFreeMod;
-            this.stats.Wisdom = wisRaceMod + wisClassMod + wisFreeMod;
+            stats.Intelligence = intRaceMod + intClassMod + intFreeMod;
+            stats.Willpower = wilRaceMod + wilClassMod + wilFreeMod;
+            stats.Wisdom = wisRaceMod + wisClassMod + wisFreeMod;
 
-            this.stats.Constitution = conRaceMod + conClassMod + conFreeMod;
-            this.stats.Endurance = endRaceMod + endClassMod + endFreeMod;
-            this.stats.Fortitude = frtRaceMod + frtClassMod + frtFreeMod;
+            stats.Constitution = conRaceMod + conClassMod + conFreeMod;
+            stats.Endurance = endRaceMod + endClassMod + endFreeMod;
+            stats.Fortitude = frtRaceMod + frtClassMod + frtFreeMod;
 
-            if (this.chosenCulture != null)
-                this.stats.ApplyEffect(this.chosenCulture.Trait);
-            if (this.chosenClass != null)
+            if (chosenCulture != null)
+                stats.ApplyEffect(chosenCulture.Trait);
+            if (chosenClass != null)
             {
-                for (int i = 0; i < this.chosenClass.InheritEffects.Count; i++)
-                    this.stats.ApplyEffect(this.chosenClass.InheritEffects[i]);
+                for (int i = 0; i < chosenClass.InheritEffects.Count; i++)
+                    stats.ApplyEffect(chosenClass.InheritEffects[i]);
             }
-            if (this.chosenTrait != null)
-                this.stats.ApplyEffect(this.chosenTrait);
+            if (chosenTrait != null)
+                stats.ApplyEffect(chosenTrait);
 
-            this.stats.CalculateStats();
+            stats.CalculateStats();
 
-            this.detailedStatBox.Text =
+            detailedStatBox.Text =
                 "---Physical Stats---<br>" +
                 "Attack Power  : " + stats.AttackPower.EffectiveValue + "<br>" +
                 "Hit Chance    : " + stats.PhysicalHitChance.EffectiveValue + "<br>" +
@@ -431,7 +431,7 @@ namespace Roguelike.Engine.UI.Interfaces
         }
         void randomName_Click(object sender, MouseButtons button)
         {
-            this.nameInput.Text = Factories.NameGenerator.GenerateFirstName() + " " + Factories.NameGenerator.GenerateLastName();
+            nameInput.Text = Factories.NameGenerator.GenerateFirstName() + " " + Factories.NameGenerator.GenerateLastName();
         }
 
         void nextButton_Click(object sender, MouseButtons button)
@@ -449,12 +449,12 @@ namespace Roguelike.Engine.UI.Interfaces
             else
             {
                 PlayerStats player = new PlayerStats();
-                player = this.chosenRace.AddRacialStats(player);
-                player = this.chosenClass.CalculateStats(player);
-                player.ApplyEffect(this.chosenCulture.Trait);
+                player = chosenRace.AddRacialStats(player);
+                player = chosenClass.CalculateStats(player);
+                player.ApplyEffect(chosenCulture.Trait);
                 
-                if (this.chosenTrait != null)
-                    player.ApplyEffect(this.chosenTrait);
+                if (chosenTrait != null)
+                    player.ApplyEffect(chosenTrait);
 
                 player.Name = nameInput.Text.Trim();
                 player.Race = chosenRace.Name;
@@ -474,250 +474,250 @@ namespace Roguelike.Engine.UI.Interfaces
                 player.Fortitude = frtRaceMod + frtClassMod + frtFreeMod;
 
                 //Prevents the text from persisting through to the next interface
-                this.nameInput.Text = string.Empty;
+                nameInput.Text = string.Empty;
 
                 GameManager.SetupGame(player);
                 GameManager.ChangeGameState(GameStates.Game);
 
-                GameManager.Player.ForegroundColor = this.character.ForegroundColor;
-                GameManager.Player.Token = this.character.Token;
+                GameManager.Player.ForegroundColor = character.ForegroundColor;
+                GameManager.Player.Token = character.Token;
 
                 GameManager.Step();
             }
         }
         void resetButton_Click(object sender, MouseButtons button)
         {
-            this.nameInput.Text = string.Empty;
+            nameInput.Text = string.Empty;
 
-            this.chosenRace = null;
-            this.chosenCulture = null;
-            this.chosenClass = null;
-            this.chosenTrait = null;
+            chosenRace = null;
+            chosenCulture = null;
+            chosenClass = null;
+            chosenTrait = null;
 
-            this.colorIndex = 0;
+            colorIndex = 0;
             character.ForegroundColor = Color.Black;
 
-            this.itemLists.ClearSelection();
+            itemLists.ClearSelection();
 
-            this.raceSelect.Text = "[Choose Race]";
-            this.cultureSelect.Text = "[Choose Culture]";
-            this.classSelect.Text = "[Choose Class]";
-            this.traitSelect.Text = "[Choose Trait]";
+            raceSelect.Text = "[Choose Race]";
+            cultureSelect.Text = "[Choose Culture]";
+            classSelect.Text = "[Choose Class]";
+            traitSelect.Text = "[Choose Trait]";
 
-            this.availablePoints = MAX_FREE_POINTS;
+            availablePoints = MAX_FREE_POINTS;
 
-            this.strRaceMod = 0;
-            this.strClassMod = 0;
-            this.strFreeMod = 0;
+            strRaceMod = 0;
+            strClassMod = 0;
+            strFreeMod = 0;
 
-            this.agiRaceMod = 0;
-            this.agiClassMod = 0;
-            this.agiFreeMod = 0;
+            agiRaceMod = 0;
+            agiClassMod = 0;
+            agiFreeMod = 0;
 
-            this.dexRaceMod = 0;
-            this.dexClassMod = 0;
-            this.dexFreeMod = 0;
-
-
-            this.intRaceMod = 0;
-            this.intClassMod = 0;
-            this.intFreeMod = 0;
-
-            this.wilRaceMod = 0;
-            this.wilClassMod = 0;
-            this.wilFreeMod = 0;
-
-            this.wisRaceMod = 0;
-            this.wisClassMod = 0;
-            this.wisFreeMod = 0;
+            dexRaceMod = 0;
+            dexClassMod = 0;
+            dexFreeMod = 0;
 
 
-            this.conRaceMod = 0;
-            this.conClassMod = 0;
-            this.conFreeMod = 0;
+            intRaceMod = 0;
+            intClassMod = 0;
+            intFreeMod = 0;
 
-            this.endRaceMod = 0;
-            this.endClassMod = 0;
-            this.endFreeMod = 0;
+            wilRaceMod = 0;
+            wilClassMod = 0;
+            wilFreeMod = 0;
 
-            this.frtRaceMod = 0;
-            this.frtClassMod = 0;
-            this.frtFreeMod = 0;
+            wisRaceMod = 0;
+            wisClassMod = 0;
+            wisFreeMod = 0;
+
+
+            conRaceMod = 0;
+            conClassMod = 0;
+            conFreeMod = 0;
+
+            endRaceMod = 0;
+            endClassMod = 0;
+            endFreeMod = 0;
+
+            frtRaceMod = 0;
+            frtClassMod = 0;
+            frtFreeMod = 0;
         }
         void colorLeftButton_Click(object sender, MouseButtons button)
         {
-            if (this.chosenCulture != null)
+            if (chosenCulture != null)
             {
                 colorIndex--;
                 if (colorIndex < 0)
-                    colorIndex = this.chosenCulture.SkinColors.Count - 1;
-                character.ForegroundColor = this.chosenCulture.SkinColors[colorIndex];
+                    colorIndex = chosenCulture.SkinColors.Count - 1;
+                character.ForegroundColor = chosenCulture.SkinColors[colorIndex];
             }
         }
         void colorRightButton_Click(object sender, MouseButtons button)
         {
-            if (this.chosenCulture != null)
+            if (chosenCulture != null)
             {
                 colorIndex++;
-                if (colorIndex >= this.chosenCulture.SkinColors.Count)
+                if (colorIndex >= chosenCulture.SkinColors.Count)
                     colorIndex = 0;
-                character.ForegroundColor = this.chosenCulture.SkinColors[colorIndex];
+                character.ForegroundColor = chosenCulture.SkinColors[colorIndex];
             }
         }
 
         void raceSelect_Click(object sender, MouseButtons button)
         {
-            this.chosenCulture = null;
-            this.chosenRace = null;
+            chosenCulture = null;
+            chosenRace = null;
 
-            this.itemLists.SetList<Race>(this.races);
-            this.selectionMode = SelectionModes.Race;
-            this.itemLists.ClearSelection();
+            itemLists.SetList<Race>(races);
+            selectionMode = SelectionModes.Race;
+            itemLists.ClearSelection();
 
-            this.colorIndex = 0;
+            colorIndex = 0;
             character.ForegroundColor = Color.Black;
         }
         void cultureSelect_Click(object sender, MouseButtons button)
         {
-            if (this.chosenRace != null)
+            if (chosenRace != null)
             {
-                this.chosenCulture = null;
-                this.cultureSelect.Text = "[Choose Culture]";
+                chosenCulture = null;
+                cultureSelect.Text = "[Choose Culture]";
 
-                this.selectionMode = SelectionModes.Culture;
-                this.itemLists.SetList<Culture>(this.chosenRace.SubCultures);
-                this.itemLists.ClearSelection();
+                selectionMode = SelectionModes.Culture;
+                itemLists.SetList<Culture>(chosenRace.SubCultures);
+                itemLists.ClearSelection();
 
-                this.colorIndex = 0;
+                colorIndex = 0;
                 character.ForegroundColor = Color.Black;
             }
             else
-                this.popupControl.DisplayMessage("You must choose a Race first.");
+                popupControl.DisplayMessage("You must choose a Race first.");
         }
         void classSelect_Click(object sender, MouseButtons button)
         {
-            if (this.chosenCulture != null)
+            if (chosenCulture != null)
             {
-                this.chosenClass = null;
-                this.classSelect.Text = "[Choose Class]";
+                chosenClass = null;
+                classSelect.Text = "[Choose Class]";
 
-                this.selectionMode = SelectionModes.Class;
-                this.itemLists.SetList<Class>(this.classes);
-                this.itemLists.ClearSelection();
+                selectionMode = SelectionModes.Class;
+                itemLists.SetList<Class>(classes);
+                itemLists.ClearSelection();
             }
             else
-                this.popupControl.DisplayMessage("You must choose a race and culture first.");
+                popupControl.DisplayMessage("You must choose a race and culture first.");
         }
         void traitSelect_Click(object sender, MouseButtons button)
         {
-            if (this.chosenClass == null)
+            if (chosenClass == null)
                 popupControl.DisplayMessage("Pick a class first!");
-            else if (this.chosenClass.ClassTraits.Count <= 1)
+            else if (chosenClass.ClassTraits.Count <= 1)
                 popupControl.DisplayMessage("There are no more traits to pick from.");
             else
             {
-                this.chosenTrait = null;
-                this.traitSelect.Text = "[Choose Trait]";
+                chosenTrait = null;
+                traitSelect.Text = "[Choose Trait]";
 
-                this.itemLists.SetList<Effect>(this.chosenClass.ClassTraits);
-                this.selectionMode = SelectionModes.Trait;
-                this.itemLists.ClearSelection();
+                itemLists.SetList<Effect>(chosenClass.ClassTraits);
+                selectionMode = SelectionModes.Trait;
+                itemLists.ClearSelection();
             }
         }
 
         void itemLists_Selected(object sender, int index)
         {
-            if (this.selectionMode == SelectionModes.Race)
+            if (selectionMode == SelectionModes.Race)
             {
-                this.chosenRace = (Race)this.itemLists.GetSelection();
-                this.informationBox.Text = this.chosenRace.Name + "<br><br><tb>" + this.chosenRace.Description;
+                chosenRace = (Race)itemLists.GetSelection();
+                informationBox.Text = chosenRace.Name + "<br><br><tb>" + chosenRace.Description;
 
-                this.raceSelect.Text = this.chosenRace.Name;
+                raceSelect.Text = chosenRace.Name;
 
-                this.chosenCulture = null;
-                this.cultureSelect.Text = "[Choose Culture]";
-                this.chosenClass = null;
-                this.classSelect.Text = "[Choose Class]";
-                this.chosenTrait = null;
-                this.traitSelect.Text = "[Choose Trait]";
+                chosenCulture = null;
+                cultureSelect.Text = "[Choose Culture]";
+                chosenClass = null;
+                classSelect.Text = "[Choose Class]";
+                chosenTrait = null;
+                traitSelect.Text = "[Choose Trait]";
 
                 PlayerStats tempStats = new PlayerStats();
-                tempStats = this.chosenRace.AddRacialStats(tempStats);
+                tempStats = chosenRace.AddRacialStats(tempStats);
 
-                this.strRaceMod = tempStats.Strength;
-                this.agiRaceMod = tempStats.Agility;
-                this.dexRaceMod = tempStats.Dexterity;
+                strRaceMod = tempStats.Strength;
+                agiRaceMod = tempStats.Agility;
+                dexRaceMod = tempStats.Dexterity;
 
-                this.intRaceMod = tempStats.Intelligence;
-                this.wilRaceMod = tempStats.Willpower;
-                this.wisRaceMod = tempStats.Wisdom;
+                intRaceMod = tempStats.Intelligence;
+                wilRaceMod = tempStats.Willpower;
+                wisRaceMod = tempStats.Wisdom;
 
-                this.conRaceMod = tempStats.Constitution;
-                this.endRaceMod = tempStats.Strength;
-                this.frtRaceMod = tempStats.Strength;
+                conRaceMod = tempStats.Constitution;
+                endRaceMod = tempStats.Strength;
+                frtRaceMod = tempStats.Strength;
 
-                this.colorIndex = 0;
+                colorIndex = 0;
                 character.ForegroundColor = Color.Black;
             }
-            else if (this.selectionMode == SelectionModes.Culture)
+            else if (selectionMode == SelectionModes.Culture)
             {
-                this.chosenCulture = (Culture)this.itemLists.GetSelection();
-                this.informationBox.Text = this.chosenCulture.Name + "<br><br><tb>" + this.chosenCulture.Description;
+                chosenCulture = (Culture)itemLists.GetSelection();
+                informationBox.Text = chosenCulture.Name + "<br><br><tb>" + chosenCulture.Description;
 
-                this.cultureSelect.Text = this.chosenCulture.Name;
+                cultureSelect.Text = chosenCulture.Name;
 
-                this.chosenClass = null;
-                this.classSelect.Text = "[Choose Class]";
-                this.chosenTrait = null;
-                this.traitSelect.Text = "[Choose Trait]";
+                chosenClass = null;
+                classSelect.Text = "[Choose Class]";
+                chosenTrait = null;
+                traitSelect.Text = "[Choose Trait]";
 
-                this.colorIndex = 0;
-                character.ForegroundColor = this.chosenCulture.SkinColors[colorIndex];
+                colorIndex = 0;
+                character.ForegroundColor = chosenCulture.SkinColors[colorIndex];
             }
-            else if (this.selectionMode == SelectionModes.Class)
+            else if (selectionMode == SelectionModes.Class)
             {
-                this.chosenClass = (Class)this.itemLists.GetSelection();
-                this.informationBox.Text = this.chosenClass.Name + "<br><br><tb>" + this.chosenClass.Description;
+                chosenClass = (Class)itemLists.GetSelection();
+                informationBox.Text = chosenClass.Name + "<br><br><tb>" + chosenClass.Description;
 
-                this.classSelect.Text = this.chosenClass.Name;
+                classSelect.Text = chosenClass.Name;
 
-                this.chosenTrait = null;
-                this.traitSelect.Text = "[Choose Trait]";
+                chosenTrait = null;
+                traitSelect.Text = "[Choose Trait]";
 
                 PlayerStats tempStats = new PlayerStats();
-                tempStats = this.chosenClass.CalculateStats(tempStats);
+                tempStats = chosenClass.CalculateStats(tempStats);
 
-                this.strClassMod = tempStats.Strength;
-                this.agiClassMod = tempStats.Agility;
-                this.dexClassMod = tempStats.Dexterity;
+                strClassMod = tempStats.Strength;
+                agiClassMod = tempStats.Agility;
+                dexClassMod = tempStats.Dexterity;
 
-                this.intClassMod = tempStats.Intelligence;
-                this.wilClassMod = tempStats.Willpower;
-                this.wisClassMod = tempStats.Wisdom;
+                intClassMod = tempStats.Intelligence;
+                wilClassMod = tempStats.Willpower;
+                wisClassMod = tempStats.Wisdom;
 
-                this.conClassMod = tempStats.Constitution;
-                this.endClassMod = tempStats.Endurance;
-                this.frtClassMod = tempStats.Fortitude;
+                conClassMod = tempStats.Constitution;
+                endClassMod = tempStats.Endurance;
+                frtClassMod = tempStats.Fortitude;
 
-                if (this.chosenClass.ClassTraits.Count == 0)
-                    this.traitSelect.Text = "[None Available]";
-                else if (this.chosenClass.ClassTraits.Count == 1)
+                if (chosenClass.ClassTraits.Count == 0)
+                    traitSelect.Text = "[None Available]";
+                else if (chosenClass.ClassTraits.Count == 1)
                 {
-                    this.chosenTrait = this.chosenClass.ClassTraits[0];
-                    this.traitSelect.Text = this.chosenTrait.EffectName;
+                    chosenTrait = chosenClass.ClassTraits[0];
+                    traitSelect.Text = chosenTrait.EffectName;
                 }
                 else
-                    this.traitSelect.Text = "[Choose Trait]";
+                    traitSelect.Text = "[Choose Trait]";
             }
-            else if (this.selectionMode == SelectionModes.Trait)
+            else if (selectionMode == SelectionModes.Trait)
             {
-                this.chosenTrait = (Effect)this.itemLists.GetSelection();
-                this.informationBox.Text = this.chosenTrait.EffectName + "<br><br><tb>" + this.chosenTrait.EffectDescription;
+                chosenTrait = (Effect)itemLists.GetSelection();
+                informationBox.Text = chosenTrait.EffectName + "<br><br><tb>" + chosenTrait.EffectDescription;
 
-                this.traitSelect.Text = this.chosenTrait.EffectName;
+                traitSelect.Text = chosenTrait.EffectName;
             }
 
-            this.calculateStats();
+            calculateStats();
         }
 
         void statsResetButton_Click(object sender, MouseButtons button)
@@ -852,77 +852,77 @@ namespace Roguelike.Engine.UI.Interfaces
         #region Add/Remove Stat Buttons
         void strAdd_Click(object sender, MouseButtons button)
         {
-            this.addToStat("STR");
+            addToStat("STR");
         }
         void strRem_Click(object sender, MouseButtons button)
         {
-            this.remFromStat("STR");
+            remFromStat("STR");
         }
         void agiAdd_Click(object sender, MouseButtons button)
         {
-            this.addToStat("AGI");
+            addToStat("AGI");
         }
         void agiRem_Click(object sender, MouseButtons button)
         {
-            this.remFromStat("AGI");
+            remFromStat("AGI");
         }
         void dexAdd_Click(object sender, MouseButtons button)
         {
-            this.addToStat("DEX");
+            addToStat("DEX");
         }
         void dexRem_Click(object sender, MouseButtons button)
         {
-            this.remFromStat("DEX");
+            remFromStat("DEX");
         }
 
         void intAdd_Click(object sender, MouseButtons button)
         {
-            this.addToStat("INT");
+            addToStat("INT");
         }
         void intRem_Click(object sender, MouseButtons button)
         {
-            this.remFromStat("INT");
+            remFromStat("INT");
         }
         void wilAdd_Click(object sender, MouseButtons button)
         {
-            this.addToStat("WIL");
+            addToStat("WIL");
         }
         void wilRem_Click(object sender, MouseButtons button)
         {
-            this.remFromStat("WIL");
+            remFromStat("WIL");
         }
         void wisAdd_Click(object sender, MouseButtons button)
         {
-            this.addToStat("WIS");
+            addToStat("WIS");
         }
         void wisRem_Click(object sender, MouseButtons button)
         {
-            this.remFromStat("WIS");
+            remFromStat("WIS");
         }
 
         void conAdd_Click(object sender, MouseButtons button)
         {
-            this.addToStat("CON");
+            addToStat("CON");
         }
         void conRem_Click(object sender, MouseButtons button)
         {
-            this.remFromStat("CON");
+            remFromStat("CON");
         }
         void endAdd_Click(object sender, MouseButtons button)
         {
-            this.addToStat("END");
+            addToStat("END");
         }
         void endRem_Click(object sender, MouseButtons button)
         {
-            this.remFromStat("END");
+            remFromStat("END");
         }
         void frtAdd_Click(object sender, MouseButtons button)
         {
-            this.addToStat("FRT");
+            addToStat("FRT");
         }
         void frtRem_Click(object sender, MouseButtons button)
         {
-            this.remFromStat("FRT");
+            remFromStat("FRT");
         }
         #endregion
 

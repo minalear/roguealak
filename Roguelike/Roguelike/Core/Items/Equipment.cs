@@ -1,4 +1,5 @@
 ﻿using System;
+using OpenTK.Graphics;
 using Roguelike.Core.Combat;
 using Roguelike.Core.Stats;
 
@@ -9,12 +10,12 @@ namespace Roguelike.Core.Items
         public Equipment(EquipmentSlots slot)
             : base(ItemTypes.Equipment)
         {
-            this.itemSlot = slot;
+            itemSlot = slot;
         }
 
         public override string GetDescription()
         {
-            return this.Description + "\n\n" + this.ModPackage.GetStatInfo();
+            return Description + "\n\n" + ModPackage.GetStatInfo();
         }
 
         public virtual void OnAttack(CombatResults results) { }
@@ -29,11 +30,11 @@ namespace Roguelike.Core.Items
         private EquipmentSlots itemSlot;
         private EquipmentSlots equippedSlot;
 
-        public override Color TextColor
+        public override Color4 TextColor
         {
             get
             {
-                switch (this.itemRarity)
+                switch (itemRarity)
                 {
                     case Rarities.Common:
                         return COMMON_ITEM_COLOR;
@@ -57,24 +58,24 @@ namespace Roguelike.Core.Items
         {
             get
             {
-                return this.Name;
+                return Name;
             }
             set
             {
                 base.ListText = value;
             }
         }
-        public Rarities ItemRarity { get { return this.itemRarity; } set { this.itemRarity = value; } }
-        public ModPackage ModPackage { get { return this.itemModPackage; } set { this.itemModPackage = value; } }
-        public EquipmentSlots EquipSlot { get { return this.itemSlot; } set { this.itemSlot = value; } }
-        public EquipmentSlots EquippedSlot { get { return this.equippedSlot; } set { this.equippedSlot = value; } }
+        public Rarities ItemRarity { get { return itemRarity; } set { itemRarity = value; } }
+        public ModPackage ModPackage { get { return itemModPackage; } set { itemModPackage = value; } }
+        public EquipmentSlots EquipSlot { get { return itemSlot; } set { itemSlot = value; } }
+        public EquipmentSlots EquippedSlot { get { return equippedSlot; } set { equippedSlot = value; } }
 
-        private static Color COMMON_ITEM_COLOR = Color.GhostWhite;
-        private static Color UNCOMMON_ITEM_COLOR = Color.LimeGreen;
-        private static Color RARE_ITEM_COLOR = Color.SteelBlue;
-        private static Color EPIC_ITEM_COLOR = new Color(204, 102, 204);
-        private static Color LEGENDARY_ITEM_COLOR = Color.OrangeRed;
-        private static Color UNIQUE_ITEM_COLOR = Color.Red;
+        private static Color4 COMMON_ITEM_COLOR = Color4.GhostWhite;
+        private static Color4 UNCOMMON_ITEM_COLOR = Color4.LimeGreen;
+        private static Color4 RARE_ITEM_COLOR = Color4.SteelBlue;
+        private static Color4 EPIC_ITEM_COLOR = new Color4(204, 102, 204, 255);
+        private static Color4 LEGENDARY_ITEM_COLOR = Color4.OrangeRed;
+        private static Color4 UNIQUE_ITEM_COLOR = Color4.Red;
     }
 
     public enum EquipmentSlots { Head, Neck, Shoulder, Chest, Legs, Boots, Gloves, Ring, Relic, MainHand, OffHand, OneHand, TwoHand }

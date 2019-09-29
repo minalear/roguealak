@@ -1,4 +1,6 @@
 ﻿using System;
+using OpenTK.Graphics;
+using Roguelike.Engine;
 
 namespace Roguelike.Core.Entities
 {
@@ -7,21 +9,21 @@ namespace Roguelike.Core.Entities
         public Door(Level parent) 
             : base(parent)
         {
-            this.EntityType = EntityTypes.Door;
-            this.token = TokenReference.DOOR_CLOSED;
+            EntityType = EntityTypes.Door;
+            token = TokenReference.DOOR_CLOSED;
 
-            this.ForegroundColor = Color.BurlyWood;
-            this.isSolid = true;
+            ForegroundColor = Color4.BurlyWood;
+            isSolid = true;
         }
 
         public override void OnInteract(Entity entity)
         {
-            if (/*(entity.EntityType == EntityTypes.Player || entity.EntityType == EntityTypes.NPC) && */this.isClosed)
+            if (/*(entity.EntityType == EntityTypes.Player || entity.EntityType == EntityTypes.NPC) && */isClosed)
             {
-                this.isClosed = false;
-                this.isSolid = false;
+                isClosed = false;
+                isSolid = false;
 
-                this.token = TokenReference.DOOR_OPEN;
+                token = TokenReference.DOOR_OPEN;
             }
             
             base.OnInteract(entity);

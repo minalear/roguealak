@@ -1,6 +1,9 @@
 ﻿using System;
+using OpenTK;
+using OpenTK.Graphics;
 using Roguelike.Core.Stats;
 using Roguelike.Core.Combat;
+using Roguelike.Engine;
 
 namespace Roguelike.Core.Entities
 {
@@ -9,29 +12,29 @@ namespace Roguelike.Core.Entities
         public Entity(Level parentLevel)
         {
             this.parentLevel = parentLevel;
-            this.EntityType = EntityTypes.NPC;
+            EntityType = EntityTypes.NPC;
 
-            this.statsPackage = new StatsPackage(this);
+            statsPackage = new StatsPackage(this);
         }
 
-        public virtual void DrawStep(Rectangle viewport)
+        public virtual void DrawStep(Box2 viewport)
         {
-            int pointX = this.x - GameManager.CameraOffset.X + viewport.X;
-            int pointY = this.y - GameManager.CameraOffset.Y + viewport.Y;
+            int pointX = x - GameManager.CameraOffset.X + (int)viewport.Left;
+            int pointY = y - GameManager.CameraOffset.Y + (int)viewport.Top;
 
             if (pointX >= viewport.Left && pointX < viewport.Right && pointY >= viewport.Top && pointY < viewport.Bottom)
             {
-                if (!this.parentLevel.IsOutOfBounds(this.x, this.y) && this.parentLevel.Matrix.TerrainMatrix[this.x, this.y].IsVisible)
+                if (!parentLevel.IsOutOfBounds(x, y) && parentLevel.Matrix.TerrainMatrix[x, y].IsVisible)
                 {
-                    GraphicConsole.SetColors(this.foregroundColor, this.backgroundColor);
-                    GraphicConsole.Put(this.token, pointX, pointY);
+                    GraphicConsole.SetColors(foregroundColor, backgroundColor);
+                    GraphicConsole.Put(token, pointX, pointY);
                 }
             }
         }
         public virtual void UpdateStep()
         {
-            this.foregroundColor = this.baseColor;
-            this.StatsPackage.UpdateStep();
+            foregroundColor = baseColor;
+            StatsPackage.UpdateStep();
         }
         public virtual void Update(GameTime gameTime)
         {
@@ -44,39 +47,39 @@ namespace Roguelike.Core.Entities
         }
         public virtual void MoveToTile(int x, int y)
         {
-            if (this.parentLevel.CanMoveTo(x, y))
+            if (parentLevel.CanMoveTo(x, y))
             {
-                this.X = x;
-                this.Y = y;
+                X = x;
+                Y = y;
             }
-            else if (this.parentLevel.IsBlockedByEntity(x, y))
+            else if (parentLevel.IsBlockedByEntity(x, y))
             {
-                this.parentLevel.GetEntity(x, y).OnInteract(this);
+                parentLevel.GetEntity(x, y).OnInteract(this);
             }
         }
 
         public virtual void Attack(Entity attacker, Ability ability)
         {
-            CombatManager.PerformAbility(attacker.StatsPackage, this.StatsPackage, ability);
+            CombatManager.PerformAbility(attacker.StatsPackage, StatsPackage, ability);
         }
-        public virtual void BlendColor(Color color)
+        public virtual void BlendColor(Color4 color)
         {
-            this.foregroundColor.R = (byte)((this.foregroundColor.R + color.R) / 2);
-            this.foregroundColor.G = (byte)((this.foregroundColor.G + color.G) / 2);
-            this.foregroundColor.B = (byte)((this.foregroundColor.B + color.B) / 2);
+            foregroundColor.R = (byte)((foregroundColor.R + color.R) / 2);
+            foregroundColor.G = (byte)((foregroundColor.G + color.G) / 2);
+            foregroundColor.B = (byte)((foregroundColor.B + color.B) / 2);
         }
 
         public virtual void OnDeath()
         {
-            this.DoPurge = true;
+            DoPurge = true;
         }
         public virtual void OnSpawn()
         {
-            this.statsPackage.OnSpawn();
+            statsPackage.OnSpawn();
         }
         public virtual void OnMove()
         {
-            this.statsPackage.OnMove();
+            statsPackage.OnMove();
         }
 
         #region Variables
@@ -85,21 +88,21 @@ namespace Roguelike.Core.Entities
         protected bool isSolid = false;
         protected Level parentLevel;
         
-        private Color foregroundColor = Color.White;
-        private Color baseColor = Color.White;
-        private Color backgroundColor = Color.Black;
+        private Color4 foregroundColor = Color4.White;
+        private Color4 baseColor = Color4.White;
+        private Color4 backgroundColor = Color4.Black;
         protected StatsPackage statsPackage;
 
-        public int X { get { return this.x; } set { this.x = value; } }
-        public int Y { get { return this.y; } set { this.y = value; } }
-        public char Token { get { return this.token; } set { this.token = value; } }
-        public bool IsSolid { get { return this.isSolid; } set { this.isSolid = value; } }
-        public Level ParentLevel { get { return this.parentLevel; } set { this.parentLevel = value; } }
-        public Color ForegroundColor { get { return this.foregroundColor; } set { this.baseColor = value; } }
-        public Color BackgroundColor { get { return this.backgroundColor; } set { this.backgroundColor = value; } }
-        public virtual StatsPackage StatsPackage { get { return this.statsPackage; } set { this.statsPackage = value; } }
+        public int X { get { return x; } set { x = value; } }
+        public int Y { get { return y; } set { y = value; } }
+        public char Token { get { return token; } set { token = value; } }
+        public bool IsSolid { get { return isSolid; } set { isSolid = value; } }
+        public Level ParentLevel { get { return parentLevel; } set { parentLevel = value; } }
+        public Color4 ForegroundColor { get { return foregroundColor; } set { baseColor = value; } }
+        public Color4 BackgroundColor { get { return backgroundColor; } set { backgroundColor = value; } }
+        public virtual StatsPackage StatsPackage { get { return statsPackage; } set { statsPackage = value; } }
         public EntityTypes EntityType { get; set; }
-        public Tile Tile { get { return this.parentLevel.Matrix.TerrainMatrix[this.X, this.Y]; } }
+        public Tile Tile { get { return parentLevel.Matrix.TerrainMatrix[X, Y]; } }
         public bool DoPurge = false;
         #endregion
 

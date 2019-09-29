@@ -33,23 +33,23 @@ namespace Roguelike.Core.Stats
 
         public StatsPackage ApplyPackage(StatsPackage package)
         {
-            package.AttackPower.ModValue += this.attackPower;
-            package.PhysicalHaste.ModValue += this.physicalHaste;
-            package.PhysicalHitChance.ModValue += this.physicalHitChance;
-            package.PhysicalCritChance.ModValue += this.physicalCritChance;
-            package.PhysicalCritPower.ModValue += this.physicalCritPower;
-            package.PhysicalReduction.ModValue += this.physicalReduction;
-            package.PhysicalReflection.ModValue += this.physicalReflection;
-            package.PhysicalAvoidance.ModValue += this.physicalAvoidance;
+            package.AttackPower.ModValue += attackPower;
+            package.PhysicalHaste.ModValue += physicalHaste;
+            package.PhysicalHitChance.ModValue += physicalHitChance;
+            package.PhysicalCritChance.ModValue += physicalCritChance;
+            package.PhysicalCritPower.ModValue += physicalCritPower;
+            package.PhysicalReduction.ModValue += physicalReduction;
+            package.PhysicalReflection.ModValue += physicalReflection;
+            package.PhysicalAvoidance.ModValue += physicalAvoidance;
 
-            package.SpellPower.ModValue += this.spellPower;
-            package.SpellHaste.ModValue += this.spellHaste;
-            package.SpellHitChance.ModValue += this.spellHitChance;
-            package.SpellCritChance.ModValue += this.spellCritChance;
-            package.SpellCritPower.ModValue += this.spellCritPower;
-            package.SpellReduction.ModValue += this.spellReduction;
-            package.SpellReflection.ModValue += this.spellReflection;
-            package.SpellAvoidance.ModValue += this.spellAvoidance;
+            package.SpellPower.ModValue += spellPower;
+            package.SpellHaste.ModValue += spellHaste;
+            package.SpellHitChance.ModValue += spellHitChance;
+            package.SpellCritChance.ModValue += spellCritChance;
+            package.SpellCritPower.ModValue += spellCritPower;
+            package.SpellReduction.ModValue += spellReduction;
+            package.SpellReflection.ModValue += spellReflection;
+            package.SpellAvoidance.ModValue += spellAvoidance;
 
             package.MaxHealth.ModValue += bonusHealth;
             package.MaxMana.ModValue += bonusMana;
@@ -188,8 +188,8 @@ namespace Roguelike.Core.Stats
             set { spellAvoidance = value; }
         }
 
-        public int BonusHealth { get { return this.bonusHealth; } set { this.bonusHealth = value; } }
-        public int BonusMana { get { return this.bonusMana; } set { this.bonusMana = value; } }
+        public int BonusHealth { get { return bonusHealth; } set { bonusHealth = value; } }
+        public int BonusMana { get { return bonusMana; } set { bonusMana = value; } }
 
         //TODO:  HP/MP Regen, HP/MP Leech 
     }

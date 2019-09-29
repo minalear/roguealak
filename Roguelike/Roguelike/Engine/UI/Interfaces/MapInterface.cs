@@ -14,9 +14,9 @@ namespace Roguelike.Engine.UI.Interfaces
 
         public MapInterface()
         {
-            this.title = new Title(this, "Map", GraphicConsole.BufferWidth / 2, 1, Title.TextAlignModes.Center);
-            this.backButton = new Button(this, "X", GraphicConsole.BufferWidth - 2, 1, 1, 1) { KeyShortcut = Keys.Escape };
-            this.backButton.Click += backButton_Pressed;
+            title = new Title(this, "Map", GraphicConsole.BufferWidth / 2, 1, Title.TextAlignModes.Center);
+            backButton = new Button(this, "X", GraphicConsole.BufferWidth - 2, 1, 1, 1) { KeyShortcut = Keys.Escape };
+            backButton.Click += backButton_Pressed;
         }
 
         void backButton_Pressed(object sender, MouseButtons button)
@@ -27,7 +27,7 @@ namespace Roguelike.Engine.UI.Interfaces
         public override void OnCall()
         {
             offset = new Point(GameManager.CameraOffset.X, GameManager.CameraOffset.Y);
-            this.title.Text = GameManager.CurrentDungeon.DungeonName;
+            title.Text = GameManager.CurrentDungeon.DungeonName;
 
             base.OnCall();
         }
@@ -35,7 +35,7 @@ namespace Roguelike.Engine.UI.Interfaces
         public override void DrawStep()
         {
             GameManager.DrawGameWorld(offset);
-            this.drawInterfaceBars();
+            drawInterfaceBars();
 
             base.DrawStep();
         }
@@ -165,8 +165,8 @@ namespace Roguelike.Engine.UI.Interfaces
 
             if (offset != oldOffset)
             {
-                this.UpdateStep();
-                this.DrawStep();
+                UpdateStep();
+                DrawStep();
             }
         }
 

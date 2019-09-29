@@ -10,13 +10,13 @@ namespace Roguelike.Core.Items
         public Scroll(Ability ability)
             : base(ItemTypes.Scroll)
         {
-            this.Name = "Scroll of " + ability.AbilityName;
-            this.Description = "This is a scroll that lets you cast the ability " + ability.AbilityName;
+            Name = "Scroll of " + ability.AbilityName;
+            Description = "This is a scroll that lets you cast the ability " + ability.AbilityName;
 
-            this.ability = ability;
-            this.RemoveOnUse = true;
+            ability = ability;
+            RemoveOnUse = true;
         }
 
-        public Ability ScrollAbility { get { return this.ability; } set { this.ability = value; } }
+        public Ability ScrollAbility { get { return ability; } set { ability = value; } }
     }
 }

@@ -1,10 +1,11 @@
 ﻿using System;
+using OpenTK.Graphics;
 using Roguelike.Core.Entities;
 using Roguelike.Core.Stats;
 
 namespace Roguelike.Core.Combat
 {
-    public class Effect : UI.Controls.ListItem
+    public class Effect : Engine.UI.Controls.ListItem
     {
         protected StatsPackage parent;
 
@@ -20,30 +21,30 @@ namespace Roguelike.Core.Combat
             this.duration = duration;
 
             if (duration > 0)
-                this.hasDuration = true;
-            this.EffectType = EffectTypes.Hybrid;
+                hasDuration = true;
+            EffectType = EffectTypes.Hybrid;
 
-            this.TextColor = Color.White;
+            TextColor = Color4.White;
         }
         public Effect(StatsPackage package, int duration)
         {
-            this.parent = package;
+            parent = package;
             this.duration = duration;
 
             if (duration > 0)
-                this.hasDuration = true;
-            this.EffectType = EffectTypes.Hybrid;
+                hasDuration = true;
+            EffectType = EffectTypes.Hybrid;
 
-            this.TextColor = Color.White;
+            TextColor = Color4.White;
         }
 
         public virtual void UpdateStep()
         {
-            if (this.hasDuration)
+            if (hasDuration)
             {
-                if (this.duration <= 0)
-                    this.OnElapsed();
-                this.duration--;
+                if (duration <= 0)
+                    OnElapsed();
+                duration--;
             }
         }
 
@@ -62,27 +63,27 @@ namespace Roguelike.Core.Combat
         public virtual void OnApplication(Entity entity) { } //Whenever the effect is applied
         public virtual void OnElapsed() //Removed due to lapsed duration
         {
-            this.doPurge = true;
+            doPurge = true;
         }
         public virtual void OnRemoval() //Removed with duration still remaining
         {
-            if (!this.IsImmuneToPurge)
-                this.doPurge = true;
+            if (!IsImmuneToPurge)
+                doPurge = true;
         }
 
         public virtual void CalculateStats() { }
         public override string ToString()
         {
-            return this.EffectName;
+            return EffectName;
         }
 
-        public int Duration { get { return this.duration; } set { this.duration = value; } }
-        public bool DoPurge { get { return this.doPurge; } set { this.doPurge = value; } }
+        public int Duration { get { return duration; } set { duration = value; } }
+        public bool DoPurge { get { return doPurge; } set { doPurge = value; } }
         public EffectTypes EffectType { get; set; }
         public bool IsImmuneToPurge { get; set; }
         public bool IsHarmful { get; set; }
-        public override string ListText { get { return this.EffectName; } set { base.ListText = value; } }
-        public StatsPackage Parent { get { return this.parent; } set { this.parent = value; } }
+        public override string ListText { get { return EffectName; } set { base.ListText = value; } }
+        public StatsPackage Parent { get { return parent; } set { parent = value; } }
     }
 
     public enum EffectTypes { Magical, Physical, Hybrid, Trait }

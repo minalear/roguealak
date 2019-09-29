@@ -1,5 +1,8 @@
 ﻿using System;
+using OpenTK.Graphics;
 using Roguelike.Core.Items;
+using Roguelike.Engine;
+using Roguelike.Engine.Factories;
 
 namespace Roguelike.Core.Entities.Static
 {
@@ -8,11 +11,11 @@ namespace Roguelike.Core.Entities.Static
         public Chest(Level level)
             : base(level)
         {
-            this.EntityType = EntityTypes.Chest;
-            this.Token = TokenReference.CHEST_CLOSED;
+            EntityType = EntityTypes.Chest;
+            Token = TokenReference.CHEST_CLOSED;
 
-            this.ForegroundColor = Color.SaddleBrown;
-            this.IsSolid = true;
+            ForegroundColor = Color4.SaddleBrown;
+            IsSolid = true;
         }
 
         public override void UpdateStep()
@@ -23,7 +26,7 @@ namespace Roguelike.Core.Entities.Static
         public override void OnInteract(Entity entity)
         {
             if (entity.EntityType == EntityTypes.Player)
-                this.spewOutContents();
+                spewOutContents();
 
             base.OnInteract(entity);
         }
@@ -32,14 +35,14 @@ namespace Roguelike.Core.Entities.Static
             int numItems = RNG.Next(1, 4);
             for (int i = 0; i < numItems; i++)
             {
-                Item item = Factories.ItemGenerator.GenerateRandomItem();
-                item.ParentLevel = this.parentLevel;
-                item.Position = new Point(this.X, this.Y);
+                Item item = ItemGenerator.GenerateRandomItem();
+                item.ParentLevel = parentLevel;
+                item.Position = new Point(X, Y);
 
-                this.parentLevel.FloorItems.Add(item);
+                parentLevel.FloorItems.Add(item);
             }
 
-            this.DoPurge = true;
+            DoPurge = true;
         }
     }
 }

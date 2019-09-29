@@ -11,13 +11,13 @@ namespace Roguelike.Core.Combat.Effects
         public RogueEvasion(StatsPackage package)
             : base(package, 0)
         {
-            this.EffectName = "Rogue Evasion";
-            this.IsHarmful = false;
+            EffectName = "Rogue Evasion";
+            IsHarmful = false;
         }
 
         public override void OnAttack(CombatResults results)
         {
-            if (this.parent == results.Target && results.DidCrit) //IF WE GOT CRITTED
+            if (parent == results.Target && results.DidCrit) //IF WE GOT CRITTED
             {
 
             }
@@ -27,8 +27,8 @@ namespace Roguelike.Core.Combat.Effects
 
         public override void CalculateStats()
         {
-            this.parent.PhysicalAvoidance.ModValue += 10.0;
-            this.parent.SpellAvoidance.ModValue += 7.5;
+            parent.PhysicalAvoidance.ModValue += 10.0;
+            parent.SpellAvoidance.ModValue += 7.5;
 
             base.CalculateStats();
         }

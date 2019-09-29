@@ -9,16 +9,16 @@ namespace Roguelike.Core.Items
         public Food()
             : base(ItemTypes.Food)
         {
-            this.RemoveOnUse = true;
+            RemoveOnUse = true;
         }
 
         public override void OnUse(Entities.Entity entity)
         {
-            if (this.onUseEffect != null)
-                entity.StatsPackage.ApplyEffect(this.onUseEffect);
+            if (onUseEffect != null)
+                entity.StatsPackage.ApplyEffect(onUseEffect);
 
             //TODO Remove this when it's not fucking stupid
-            if (this.Name == "Sweet Roll")
+            if (Name == "Sweet Roll")
             {
                 GameManager.FakeScore += 10;
                 GameManager.SweetRolls++;
@@ -26,6 +26,6 @@ namespace Roguelike.Core.Items
         }
 
         private Effect onUseEffect;
-        public Effect OnUseEffect { get { return this.onUseEffect; } set { this.onUseEffect = value; } }
+        public Effect OnUseEffect { get { return onUseEffect; } set { onUseEffect = value; } }
     }
 }

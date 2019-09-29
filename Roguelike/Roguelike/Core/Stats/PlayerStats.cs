@@ -15,121 +15,121 @@ namespace Roguelike.Core.Stats
         public string Class;
         public string Gender = "Male";
 
-        public override string UnitName { get { return this.Name; } set { this.Name = value; } }
+        public override string UnitName { get { return Name; } set { Name = value; } }
 
         public PlayerStats()
             : base()
         {
-            this.setBaseStats();
+            setBaseStats();
         }
         public PlayerStats(Player player)
             : base(player)
         {
-            this.setBaseStats();
+            setBaseStats();
         }
 
         public void SetInitialStats()
         {
-            this.CalculateStats();
-            this.health = (int)this.maxHealth.EffectiveValue;
-            this.mana = (int)this.maxMana.EffectiveValue;
+            CalculateStats();
+            health = (int)maxHealth.EffectiveValue;
+            mana = (int)maxMana.EffectiveValue;
         }
 
         public override void CalculateStats()
         {
-            this.resetStats();
+            resetStats();
 
             //100.0 = 100%, 0.1 = 0.1%
 
             //Strength Scaling
-            this.attackPower.BaseValue += this.strength * 3;
-            this.physicalCritPower.BaseValue += this.strength * 0.1;
-            this.physicalCritChance.BaseValue += this.strength * 0.05;
+            attackPower.BaseValue += strength * 3;
+            physicalCritPower.BaseValue += strength * 0.1;
+            physicalCritChance.BaseValue += strength * 0.05;
 
             //Agility Scaling
-            this.attackPower.BaseValue += this.agility * 1.5;
-            this.physicalCritChance.BaseValue += this.agility * 1.5;
-            this.physicalHitChance.BaseValue += this.agility * 2.0;
-            this.physicalAvoidance.BaseValue += this.agility * 0.05;
+            attackPower.BaseValue += agility * 1.5;
+            physicalCritChance.BaseValue += agility * 1.5;
+            physicalHitChance.BaseValue += agility * 2.0;
+            physicalAvoidance.BaseValue += agility * 0.05;
 
             //Dexterity Scaling
-            this.physicalCritChance.BaseValue += this.dexterity * 1;
-            this.physicalHaste.BaseValue += this.dexterity * 2.0;
-            this.physicalAvoidance.BaseValue += this.dexterity * 0.2;
+            physicalCritChance.BaseValue += dexterity * 1;
+            physicalHaste.BaseValue += dexterity * 2.0;
+            physicalAvoidance.BaseValue += dexterity * 0.2;
 
 
             //Intelligence Scaling
-            this.spellPower.BaseValue += this.intelligence * 3;
-            this.spellCritPower.BaseValue += this.intelligence * 0.05;
-            this.maxMana.BaseValue += this.intelligence * 5;
+            spellPower.BaseValue += intelligence * 3;
+            spellCritPower.BaseValue += intelligence * 0.05;
+            maxMana.BaseValue += intelligence * 5;
 
             //Willpower Scaling
-            this.spellHitChance.BaseValue += this.willpower * 1.5;
-            this.spellCritChance.BaseValue += this.willpower * 1.0;
-            this.spellReduction.BaseValue += this.willpower * 2.0;
+            spellHitChance.BaseValue += willpower * 1.5;
+            spellCritChance.BaseValue += willpower * 1.0;
+            spellReduction.BaseValue += willpower * 2.0;
 
             //Wisdom Scaling
-            this.spellPower.BaseValue += this.wisdom * 1;
-            this.maxMana.BaseValue += this.wisdom * 15;
-            this.mpPerTurn = (int)(this.wisdom / 6);
+            spellPower.BaseValue += wisdom * 1;
+            maxMana.BaseValue += wisdom * 15;
+            mpPerTurn = (int)(wisdom / 6);
 
             //Constitution Scaling
-            this.physicalReduction.BaseValue += this.constitution * 2.0;
-            this.maxHealth.BaseValue += this.constitution * 20;
+            physicalReduction.BaseValue += constitution * 2.0;
+            maxHealth.BaseValue += constitution * 20;
 
             //Endurance Scaling
-            this.physicalReduction.BaseValue += this.endurance * 1.0;
-            this.physicalAvoidance.BaseValue += this.endurance * 0.1;
-            this.hpPerTurn = (int)(this.endurance / 6);
+            physicalReduction.BaseValue += endurance * 1.0;
+            physicalAvoidance.BaseValue += endurance * 0.1;
+            hpPerTurn = (int)(endurance / 6);
 
             //Fortitude
-            this.spellReduction.BaseValue += this.fortitude * 2.0;
-            this.maxMana.BaseValue += this.fortitude * 5;
+            spellReduction.BaseValue += fortitude * 2.0;
+            maxMana.BaseValue += fortitude * 5;
 
-            for (int i = 0; i < this.appliedEffects.Count; i++)
-                this.appliedEffects[i].CalculateStats();
+            for (int i = 0; i < appliedEffects.Count; i++)
+                appliedEffects[i].CalculateStats();
         }
         protected override void resetStats()
         {
-            this.setBaseStats();
+            setBaseStats();
 
             base.resetStats();
         }
         private void setBaseStats()
         {
             //Default Stats
-            this.attackPower.BaseValue = 10.0;
-            this.physicalHaste.BaseValue = 0.0;
-            this.physicalHitChance.BaseValue = 68.0;
-            this.physicalCritChance.BaseValue = 5.0;
-            this.physicalCritPower.BaseValue = 1.0;
-            this.physicalReduction.BaseValue = 0.0;
-            this.physicalReflection.BaseValue = 0.0;
-            this.physicalAvoidance.BaseValue = 0.5;
+            attackPower.BaseValue = 10.0;
+            physicalHaste.BaseValue = 0.0;
+            physicalHitChance.BaseValue = 68.0;
+            physicalCritChance.BaseValue = 5.0;
+            physicalCritPower.BaseValue = 1.0;
+            physicalReduction.BaseValue = 0.0;
+            physicalReflection.BaseValue = 0.0;
+            physicalAvoidance.BaseValue = 0.5;
 
-            this.spellPower.BaseValue = 8.0;
-            this.spellHaste.BaseValue = 0.0;
-            this.spellHitChance.BaseValue = 75.0;
-            this.spellCritChance.BaseValue = 7.0;
-            this.spellCritPower.BaseValue = 1.2;
-            this.spellReduction.BaseValue = 0.0;
-            this.spellReflection.BaseValue = 0.0;
-            this.spellAvoidance.BaseValue = 0.0;
+            spellPower.BaseValue = 8.0;
+            spellHaste.BaseValue = 0.0;
+            spellHitChance.BaseValue = 75.0;
+            spellCritChance.BaseValue = 7.0;
+            spellCritPower.BaseValue = 1.2;
+            spellReduction.BaseValue = 0.0;
+            spellReflection.BaseValue = 0.0;
+            spellAvoidance.BaseValue = 0.0;
 
-            this.sightRadius.BaseValue = 8;
-            this.movementSpeed.BaseValue = 1;
+            sightRadius.BaseValue = 8;
+            movementSpeed.BaseValue = 1;
 
-            this.maxHealth.BaseValue = 10;
-            this.maxMana.BaseValue = 10;
+            maxHealth.BaseValue = 10;
+            maxMana.BaseValue = 10;
         }
 
         public override string GetFormattedName()
         {
-            string name = this.Name;
+            string name = Name;
 
-            if (!string.IsNullOrEmpty(this.Township))
+            if (!string.IsNullOrEmpty(Township))
                 name += " of " + Township;
-            if (!string.IsNullOrEmpty(this.Title))
+            if (!string.IsNullOrEmpty(Title))
                 name += " the " + Title;
 
             return name;
@@ -171,16 +171,16 @@ namespace Roguelike.Core.Stats
         private int endurance;
         private int fortitude;
 
-        public int Strength { get { return this.strength; } set { this.strength = value; } }
-        public int Agility { get { return this.agility; } set { this.agility = value; } }
-        public int Dexterity { get { return this.dexterity; } set { this.dexterity = value; } }
+        public int Strength { get { return strength; } set { strength = value; } }
+        public int Agility { get { return agility; } set { agility = value; } }
+        public int Dexterity { get { return dexterity; } set { dexterity = value; } }
 
-        public int Intelligence { get { return this.intelligence; } set { this.intelligence = value; } }
-        public int Willpower { get { return this.willpower; } set { this.willpower = value; } }
-        public int Wisdom { get { return this.wisdom; } set { this.wisdom = value; } }
+        public int Intelligence { get { return intelligence; } set { intelligence = value; } }
+        public int Willpower { get { return willpower; } set { willpower = value; } }
+        public int Wisdom { get { return wisdom; } set { wisdom = value; } }
 
-        public int Constitution { get { return this.constitution; } set { this.constitution = value; } }
-        public int Endurance { get { return this.endurance; } set { this.endurance = value; } }
-        public int Fortitude { get { return this.fortitude; } set { this.fortitude = value; } }
+        public int Constitution { get { return constitution; } set { constitution = value; } }
+        public int Endurance { get { return endurance; } set { endurance = value; } }
+        public int Fortitude { get { return fortitude; } set { fortitude = value; } }
     }
 }

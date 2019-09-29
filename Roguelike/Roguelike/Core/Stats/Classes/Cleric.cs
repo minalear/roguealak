@@ -9,9 +9,9 @@ namespace Roguelike.Core.Stats.Classes
         public Cleric()
             : base("Cleric")
         {
-            this.Description = "Priests are devoted to the spiritual, and express their unwavering faith by serving the people. For millennia they have left behind the confines of their temples and the comfort of their shrines so they can support their allies in war-torn lands. In the midst of terrible conflict, no hero questions the value of the priestly orders.";
-            this.InheritAbilities = new List<Ability>() { new Ability_Heal(), new Ability_Smite() };
-            this.InheritEffects = new List<Effect>() { new Effect_Glory() };
+            Description = "Priests are devoted to the spiritual, and express their unwavering faith by serving the people. For millennia they have left behind the confines of their temples and the comfort of their shrines so they can support their allies in war-torn lands. In the midst of terrible conflict, no hero questions the value of the priestly orders.";
+            InheritAbilities = new List<Ability>() { new Ability_Heal(), new Ability_Smite() };
+            InheritEffects = new List<Effect>() { new Effect_Glory() };
         }
         public override PlayerStats CalculateStats(PlayerStats stats)
         {
@@ -35,21 +35,21 @@ namespace Roguelike.Core.Stats.Classes
             public Ability_Heal()
                 : base()
             {
-                this.AbilityName = "Heal";
-                this.AbilityNameShort = "Heal";
+                AbilityName = "Heal";
+                AbilityNameShort = "Heal";
 
-                this.abilityType = AbilityTypes.Magical;
-                this.TargetingType = TargetingTypes.Self;
-                this.abilityCost = 25;
-                this.Range = 15;
+                abilityType = AbilityTypes.Magical;
+                TargetingType = TargetingTypes.Self;
+                abilityCost = 25;
+                Range = 15;
             }
 
             public override CombatResults CalculateResults(StatsPackage caster, StatsPackage target)
             {
                 int amount = (int)(target.Health * 0.2);
 
-                if (this.DoesAttackCrit(caster))
-                    amount = this.ApplyCriticalDamage(amount, caster);
+                if (DoesAttackCrit(caster))
+                    amount = ApplyCriticalDamage(amount, caster);
 
                 target.AddHealth(amount);
 
@@ -61,32 +61,32 @@ namespace Roguelike.Core.Stats.Classes
             public Ability_Smite()
                 : base()
             {
-                this.AbilityName = "Holy Smite";
-                this.AbilityNameShort = "Hly Smt";
+                AbilityName = "Holy Smite";
+                AbilityNameShort = "Hly Smt";
 
-                this.AbilityType = AbilityTypes.Magical;
-                this.TargetingType = TargetingTypes.EntityTarget;
-                this.abilityCost = 50;
-                this.Range = 15;
+                AbilityType = AbilityTypes.Magical;
+                TargetingType = TargetingTypes.EntityTarget;
+                abilityCost = 50;
+                Range = 15;
             }
 
             public override CombatResults CalculateResults(StatsPackage caster, StatsPackage target)
             {
-                CombatResults results = this.DoesAttackHit(caster, target);
+                CombatResults results = DoesAttackHit(caster, target);
 
                 if (!results.DidMiss && !results.DidAvoid)
                 {
                     int damage = (int)(caster.SpellPower.EffectiveValue * 2.15);
-                    if (this.DoesAttackCrit(caster))
+                    if (DoesAttackCrit(caster))
                     {
-                        damage = this.ApplyCriticalDamage(damage, caster);
+                        damage = ApplyCriticalDamage(damage, caster);
                         results.DidCrit = true;
                     }
 
                     results.PureDamage = damage;
-                    results.AbsorbedDamage = this.CalculateAbsorption(damage, target);
+                    results.AbsorbedDamage = CalculateAbsorption(damage, target);
                     results.AppliedDamage = results.PureDamage - results.AbsorbedDamage;
-                    results.ReflectedDamage = this.CalculateReflectedDamage(results.AppliedDamage, target);
+                    results.ReflectedDamage = CalculateReflectedDamage(results.AppliedDamage, target);
                 }
 
                 if (!target.HasEffect("Smitten"))
@@ -102,16 +102,16 @@ namespace Roguelike.Core.Stats.Classes
             public Effect_Glory()
                 : base(0)
             {
-                this.EffectName = "Glory to the Gods";
-                this.IsHarmful = false;
-                this.IsImmuneToPurge = true;
+                EffectName = "Glory to the Gods";
+                IsHarmful = false;
+                IsImmuneToPurge = true;
 
-                this.EffectDescription = "The Gods look favorably upon you and grant you a small boon.";
+                EffectDescription = "The Gods look favorably upon you and grant you a small boon.";
             }
 
             public override void CalculateStats()
             {
-                this.parent.SpellPower.ModValue += this.parent.SpellPower.BaseValue * 0.1;
+                parent.SpellPower.ModValue += parent.SpellPower.BaseValue * 0.1;
 
                 base.CalculateStats();
             }
@@ -121,15 +121,15 @@ namespace Roguelike.Core.Stats.Classes
             public Effect_Smite()
                 : base(10)
             {
-                this.EffectName = "Smitten";
-                this.IsHarmful = true;
+                EffectName = "Smitten";
+                IsHarmful = true;
 
-                this.EffectDescription = "You have been smitten by a powerful holy attack reducing your combat prowess for awhile.";
+                EffectDescription = "You have been smitten by a powerful holy attack reducing your combat prowess for awhile.";
             }
 
             public override void CalculateStats()
             {
-                this.parent.AttackPower.ModValue -= 25;
+                parent.AttackPower.ModValue -= 25;
 
                 base.CalculateStats();
             }

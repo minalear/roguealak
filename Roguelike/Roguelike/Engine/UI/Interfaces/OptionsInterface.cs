@@ -15,16 +15,16 @@ namespace Roguelike.Engine.UI.Interfaces
 
         public OptionsInterface()
         {
-            this.mainTitle = new Title(this, "Roguealak", GraphicConsole.BufferWidth / 2, 2, Title.TextAlignModes.Center);
-            this.mainTitle.TextColor = Color.Red;
+            mainTitle = new Title(this, "Roguealak", GraphicConsole.BufferWidth / 2, 2, Title.TextAlignModes.Center);
+            mainTitle.TextColor = Color.Red;
 
-            this.continueGame = new Button(this, "Continue", GraphicConsole.BufferWidth / 2 - 15, 10, 30, 3) { KeyShortcut = Keys.Escape };
-            this.saveQuitButton = new Button(this, "Save and Quit", GraphicConsole.BufferWidth / 2 - 15, 14, 30, 3);
-            this.quitButton = new Button(this, "Quit", GraphicConsole.BufferWidth / 2 - 15, 18, 30, 3) { KeyShortcut = Keys.Q };
+            continueGame = new Button(this, "Continue", GraphicConsole.BufferWidth / 2 - 15, 10, 30, 3) { KeyShortcut = Keys.Escape };
+            saveQuitButton = new Button(this, "Save and Quit", GraphicConsole.BufferWidth / 2 - 15, 14, 30, 3);
+            quitButton = new Button(this, "Quit", GraphicConsole.BufferWidth / 2 - 15, 18, 30, 3) { KeyShortcut = Keys.Q };
 
-            this.continueGame.Click += continueGame_Pressed;
-            this.saveQuitButton.Click += saveQuitButton_Pressed;
-            this.quitButton.Click += quitButton_Pressed;
+            continueGame.Click += continueGame_Pressed;
+            saveQuitButton.Click += saveQuitButton_Pressed;
+            quitButton.Click += quitButton_Pressed;
         }
 
         void continueGame_Pressed(object sender, MouseButtons button)

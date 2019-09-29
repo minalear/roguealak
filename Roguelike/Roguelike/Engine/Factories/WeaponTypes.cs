@@ -35,20 +35,20 @@ namespace Roguelike.Engine.Factories
         }
         public StatWeights GetRandomStatWeight()
         {
-            return this.WeaponStats[RNG.Next(0, this.WeaponStats.Length)];
+            return WeaponStats[RNG.Next(0, WeaponStats.Length)];
         }
         public EquipmentSlots GetRandomSlot()
         {
-            return this.Slots[RNG.Next(0, this.Slots.Length)];
+            return Slots[RNG.Next(0, Slots.Length)];
         }
 
         public Weapon GenerateWeapon()
         {
-            Weapon weapon = new Weapon(this.PrimaryType, this.GetRandomSlot());
+            Weapon weapon = new Weapon(PrimaryType, GetRandomSlot());
             weapon.WeaponSubType = Subtype;
-            weapon.BaseDamage = this.GetRandomDamage();
-            weapon.Weight = this.GetRandomWeight();
-            weapon.StatWeight = this.GetRandomStatWeight();
+            weapon.BaseDamage = GetRandomDamage();
+            weapon.Weight = GetRandomWeight();
+            weapon.StatWeight = GetRandomStatWeight();
 
             return weapon;
         }
@@ -59,123 +59,123 @@ namespace Roguelike.Engine.Factories
     {
         public Sword_TitanBlade()
         {
-            this.PrimaryType = WeaponTypes.Sword;
-            this.Subtype = "Titan Blade";
-            this.WeaponStats = new StatWeights[] { StatWeights.PhysicalPower };
-            this.Slots = new EquipmentSlots[] { EquipmentSlots.TwoHand };
-            this.WeaponAttack = WeaponAttacks.Melee;
-            this.Multiplier = 1.8;
+            PrimaryType = WeaponTypes.Sword;
+            Subtype = "Titan Blade";
+            WeaponStats = new StatWeights[] { StatWeights.PhysicalPower };
+            Slots = new EquipmentSlots[] { EquipmentSlots.TwoHand };
+            WeaponAttack = WeaponAttacks.Melee;
+            Multiplier = 1.8;
 
-            this.DamageMin = 60;
-            this.DamageMax = 140;
+            DamageMin = 60;
+            DamageMax = 140;
 
-            this.WeightMin = 80;
-            this.WeightMax = 100;
+            WeightMin = 80;
+            WeightMax = 100;
         }
     }
     public class Sword_Claymore : WeaponGenTemplate
     {
         public Sword_Claymore()
         {
-            this.PrimaryType = WeaponTypes.Sword;
-            this.Subtype = "Claymore";
-            this.WeaponStats = new StatWeights[] { StatWeights.PhysicalPower };
-            this.Slots = new EquipmentSlots[] { EquipmentSlots.TwoHand };
-            this.WeaponAttack = WeaponAttacks.Melee;
-            this.Multiplier = 1.8;
+            PrimaryType = WeaponTypes.Sword;
+            Subtype = "Claymore";
+            WeaponStats = new StatWeights[] { StatWeights.PhysicalPower };
+            Slots = new EquipmentSlots[] { EquipmentSlots.TwoHand };
+            WeaponAttack = WeaponAttacks.Melee;
+            Multiplier = 1.8;
 
-            this.DamageMin = 50;
-            this.DamageMax = 110;
+            DamageMin = 50;
+            DamageMax = 110;
 
-            this.WeightMin = 60;
-            this.WeightMax = 75;
+            WeightMin = 60;
+            WeightMax = 75;
         }
     }
     public class Sword_LongSword : WeaponGenTemplate
     {
         public Sword_LongSword()
         {
-            this.PrimaryType = WeaponTypes.Sword;
-            this.Subtype = "Longsword";
-            this.WeaponStats = new StatWeights[] { StatWeights.PhysicalPower };
-            this.Slots = new EquipmentSlots[] { EquipmentSlots.MainHand, EquipmentSlots.TwoHand };
-            this.WeaponAttack = WeaponAttacks.Melee;
-            this.Multiplier = 1.2;
+            PrimaryType = WeaponTypes.Sword;
+            Subtype = "Longsword";
+            WeaponStats = new StatWeights[] { StatWeights.PhysicalPower };
+            Slots = new EquipmentSlots[] { EquipmentSlots.MainHand, EquipmentSlots.TwoHand };
+            WeaponAttack = WeaponAttacks.Melee;
+            Multiplier = 1.2;
 
-            this.DamageMin = 50;
-            this.DamageMax = 90;
+            DamageMin = 50;
+            DamageMax = 90;
 
-            this.WeightMin = 40;
-            this.WeightMax = 50;
+            WeightMin = 40;
+            WeightMax = 50;
         }
     }
     public class Sword_Katana : WeaponGenTemplate
     {
         public Sword_Katana()
         {
-            this.PrimaryType = WeaponTypes.Sword;
-            this.Subtype = "Katana";
-            this.WeaponStats = new StatWeights[] { StatWeights.PhysicalSpeed, StatWeights.PhysicalPower };
-            this.Slots = new EquipmentSlots[] { EquipmentSlots.OneHand, EquipmentSlots.TwoHand };
-            this.WeaponAttack = WeaponAttacks.Melee;
-            this.Multiplier = 1.2;
+            PrimaryType = WeaponTypes.Sword;
+            Subtype = "Katana";
+            WeaponStats = new StatWeights[] { StatWeights.PhysicalSpeed, StatWeights.PhysicalPower };
+            Slots = new EquipmentSlots[] { EquipmentSlots.OneHand, EquipmentSlots.TwoHand };
+            WeaponAttack = WeaponAttacks.Melee;
+            Multiplier = 1.2;
 
-            this.DamageMin = 55;
-            this.DamageMax = 85;
+            DamageMin = 55;
+            DamageMax = 85;
 
-            this.WeightMin = 30;
-            this.WeightMax = 40;
+            WeightMin = 30;
+            WeightMax = 40;
         }
     }
     public class Sword_Rapier : WeaponGenTemplate
     {
         public Sword_Rapier()
         {
-            this.PrimaryType = WeaponTypes.Sword;
-            this.Subtype = "Rapier";
-            this.WeaponStats = new StatWeights[] { StatWeights.PhysicalSpeed };
-            this.Slots = new EquipmentSlots[] { EquipmentSlots.OneHand };
-            this.WeaponAttack = WeaponAttacks.Melee;
+            PrimaryType = WeaponTypes.Sword;
+            Subtype = "Rapier";
+            WeaponStats = new StatWeights[] { StatWeights.PhysicalSpeed };
+            Slots = new EquipmentSlots[] { EquipmentSlots.OneHand };
+            WeaponAttack = WeaponAttacks.Melee;
 
-            this.DamageMin = 32;
-            this.DamageMax = 48;
+            DamageMin = 32;
+            DamageMax = 48;
 
-            this.WeightMin = 16;
-            this.WeightMax = 20;
+            WeightMin = 16;
+            WeightMax = 20;
         }
     }
     public class Sword_Gladius : WeaponGenTemplate
     {
         public Sword_Gladius()
         {
-            this.PrimaryType = WeaponTypes.Sword;
-            this.Subtype = "Gladius";
-            this.WeaponStats = new StatWeights[] { StatWeights.PhysicalPower, StatWeights.PhysicalSpeed };
-            this.Slots = new EquipmentSlots[] { EquipmentSlots.OneHand };
-            this.WeaponAttack = WeaponAttacks.Melee;
+            PrimaryType = WeaponTypes.Sword;
+            Subtype = "Gladius";
+            WeaponStats = new StatWeights[] { StatWeights.PhysicalPower, StatWeights.PhysicalSpeed };
+            Slots = new EquipmentSlots[] { EquipmentSlots.OneHand };
+            WeaponAttack = WeaponAttacks.Melee;
 
-            this.DamageMin = 20;
-            this.DamageMax = 40;
+            DamageMin = 20;
+            DamageMax = 40;
 
-            this.WeightMin = 20;
-            this.WeightMax = 25;
+            WeightMin = 20;
+            WeightMax = 25;
         }
     }
     public class Sword_Scimitar : WeaponGenTemplate
     {
         public Sword_Scimitar()
         {
-            this.PrimaryType = WeaponTypes.Sword;
-            this.Subtype = "Scimitar";
-            this.WeaponStats = new StatWeights[] { StatWeights.PhysicalSpeed };
-            this.Slots = new EquipmentSlots[] { EquipmentSlots.MainHand, EquipmentSlots.OneHand };
-            this.WeaponAttack = WeaponAttacks.Melee;
+            PrimaryType = WeaponTypes.Sword;
+            Subtype = "Scimitar";
+            WeaponStats = new StatWeights[] { StatWeights.PhysicalSpeed };
+            Slots = new EquipmentSlots[] { EquipmentSlots.MainHand, EquipmentSlots.OneHand };
+            WeaponAttack = WeaponAttacks.Melee;
 
-            this.DamageMin = 30;
-            this.DamageMax = 50;
+            DamageMin = 30;
+            DamageMax = 50;
 
-            this.WeightMin = 20;
-            this.WeightMax = 25;
+            WeightMin = 20;
+            WeightMax = 25;
         }
     }
     #endregion
@@ -184,53 +184,53 @@ namespace Roguelike.Engine.Factories
     {
         public Axe_Halberd()
         {
-            this.PrimaryType = WeaponTypes.Axe;
-            this.Subtype = "Halberd";
-            this.WeaponStats = new StatWeights[] { StatWeights.PhysicalPower };
-            this.Slots = new EquipmentSlots[] { EquipmentSlots.TwoHand };
-            this.WeaponAttack = WeaponAttacks.Melee;
-            this.Multiplier = 1.8;
+            PrimaryType = WeaponTypes.Axe;
+            Subtype = "Halberd";
+            WeaponStats = new StatWeights[] { StatWeights.PhysicalPower };
+            Slots = new EquipmentSlots[] { EquipmentSlots.TwoHand };
+            WeaponAttack = WeaponAttacks.Melee;
+            Multiplier = 1.8;
 
-            this.DamageMin = 45;
-            this.DamageMax = 115;
+            DamageMin = 45;
+            DamageMax = 115;
 
-            this.WeightMin = 70;
-            this.WeightMax = 90;
+            WeightMin = 70;
+            WeightMax = 90;
         }
     }
     public class Axe_WarAxe : WeaponGenTemplate
     {
         public Axe_WarAxe()
         {
-            this.PrimaryType = WeaponTypes.Axe;
-            this.Subtype = "War Axe";
-            this.WeaponStats = new StatWeights[] { StatWeights.PhysicalPower, StatWeights.PhysicalSpeed };
-            this.Slots = new EquipmentSlots[] { EquipmentSlots.TwoHand, EquipmentSlots.OneHand };
-            this.WeaponAttack = WeaponAttacks.Melee;
-            this.Multiplier = 1.2;
+            PrimaryType = WeaponTypes.Axe;
+            Subtype = "War Axe";
+            WeaponStats = new StatWeights[] { StatWeights.PhysicalPower, StatWeights.PhysicalSpeed };
+            Slots = new EquipmentSlots[] { EquipmentSlots.TwoHand, EquipmentSlots.OneHand };
+            WeaponAttack = WeaponAttacks.Melee;
+            Multiplier = 1.2;
 
-            this.DamageMin = 45;
-            this.DamageMax = 95;
+            DamageMin = 45;
+            DamageMax = 95;
 
-            this.WeightMin = 50;
-            this.WeightMax = 65;
+            WeightMin = 50;
+            WeightMax = 65;
         }
     }
     public class Axe_Hatchet : WeaponGenTemplate
     {
         public Axe_Hatchet()
         {
-            this.PrimaryType = WeaponTypes.Axe;
-            this.Subtype = "Hatchet";
-            this.WeaponStats = new StatWeights[] { StatWeights.PhysicalPower ,StatWeights.PhysicalSpeed };
-            this.Slots = new EquipmentSlots[] { EquipmentSlots.OneHand };
-            this.WeaponAttack = WeaponAttacks.Melee;
+            PrimaryType = WeaponTypes.Axe;
+            Subtype = "Hatchet";
+            WeaponStats = new StatWeights[] { StatWeights.PhysicalPower ,StatWeights.PhysicalSpeed };
+            Slots = new EquipmentSlots[] { EquipmentSlots.OneHand };
+            WeaponAttack = WeaponAttacks.Melee;
 
-            this.DamageMin = 20;
-            this.DamageMax = 50;
+            DamageMin = 20;
+            DamageMax = 50;
 
-            this.WeightMin = 30;
-            this.WeightMax = 40;
+            WeightMin = 30;
+            WeightMax = 40;
         }
     }
     #endregion
@@ -239,70 +239,70 @@ namespace Roguelike.Engine.Factories
     {
         public Mace_Club()
         {
-            this.PrimaryType = WeaponTypes.Mace;
-            this.Subtype = "Club";
-            this.WeaponStats = new StatWeights[] { StatWeights.PhysicalPower };
-            this.Slots = new EquipmentSlots[] { EquipmentSlots.TwoHand };
-            this.WeaponAttack = WeaponAttacks.Melee;
-            this.Multiplier = 1.8;
+            PrimaryType = WeaponTypes.Mace;
+            Subtype = "Club";
+            WeaponStats = new StatWeights[] { StatWeights.PhysicalPower };
+            Slots = new EquipmentSlots[] { EquipmentSlots.TwoHand };
+            WeaponAttack = WeaponAttacks.Melee;
+            Multiplier = 1.8;
 
-            this.DamageMin = 30;
-            this.DamageMax = 100;
+            DamageMin = 30;
+            DamageMax = 100;
 
-            this.WeightMin = 70;
-            this.WeightMax = 90;
+            WeightMin = 70;
+            WeightMax = 90;
         }
     }
     public class Mace_Mace : WeaponGenTemplate
     {
         public Mace_Mace()
         {
-            this.PrimaryType = WeaponTypes.Mace;
-            this.Subtype = "Mace";
-            this.WeaponStats = new StatWeights[] { StatWeights.PhysicalSpeed, StatWeights.PhysicalPower };
-            this.Slots = new EquipmentSlots[] { EquipmentSlots.TwoHand, EquipmentSlots.OneHand };
-            this.WeaponAttack = WeaponAttacks.Melee;
-            this.Multiplier = 1.2;
+            PrimaryType = WeaponTypes.Mace;
+            Subtype = "Mace";
+            WeaponStats = new StatWeights[] { StatWeights.PhysicalSpeed, StatWeights.PhysicalPower };
+            Slots = new EquipmentSlots[] { EquipmentSlots.TwoHand, EquipmentSlots.OneHand };
+            WeaponAttack = WeaponAttacks.Melee;
+            Multiplier = 1.2;
 
-            this.DamageMin = 42;
-            this.DamageMax = 78;
+            DamageMin = 42;
+            DamageMax = 78;
 
-            this.WeightMin = 36;
-            this.WeightMax = 45;
+            WeightMin = 36;
+            WeightMax = 45;
         }
     }
     public class Mace_MorningStar : WeaponGenTemplate
     {
         public Mace_MorningStar()
         {
-            this.PrimaryType = WeaponTypes.Mace;
-            this.Subtype = "Morning Star";
-            this.WeaponStats = new StatWeights[] { StatWeights.PhysicalPower };
-            this.Slots = new EquipmentSlots[] { EquipmentSlots.OneHand };
-            this.WeaponAttack = WeaponAttacks.Melee;
+            PrimaryType = WeaponTypes.Mace;
+            Subtype = "Morning Star";
+            WeaponStats = new StatWeights[] { StatWeights.PhysicalPower };
+            Slots = new EquipmentSlots[] { EquipmentSlots.OneHand };
+            WeaponAttack = WeaponAttacks.Melee;
 
-            this.DamageMin = 45;
-            this.DamageMax = 85;
+            DamageMin = 45;
+            DamageMax = 85;
 
-            this.WeightMin = 40;
-            this.WeightMax = 50;
+            WeightMin = 40;
+            WeightMax = 50;
         }
     }
     public class Mace_Hammer : WeaponGenTemplate
     {
         public Mace_Hammer()
         {
-            this.PrimaryType = WeaponTypes.Mace;
-            this.Subtype = "Hammer";
-            this.WeaponStats = new StatWeights[] { StatWeights.PhysicalPower };
-            this.Slots = new EquipmentSlots[] { EquipmentSlots.OneHand };
-            this.WeaponAttack = WeaponAttacks.Melee;
+            PrimaryType = WeaponTypes.Mace;
+            Subtype = "Hammer";
+            WeaponStats = new StatWeights[] { StatWeights.PhysicalPower };
+            Slots = new EquipmentSlots[] { EquipmentSlots.OneHand };
+            WeaponAttack = WeaponAttacks.Melee;
 
-            this.DamageMin = 30;
-            this.DamageMax = 60;
+            DamageMin = 30;
+            DamageMax = 60;
 
-            this.WeightMin = 30;
-            this.WeightMax = 40;
+            WeightMin = 30;
+            WeightMax = 40;
         }
     }
     #endregion
@@ -311,17 +311,17 @@ namespace Roguelike.Engine.Factories
     {
         public Flail_Flail()
         {
-            this.PrimaryType = WeaponTypes.Flail;
-            this.Subtype = "Flail";
-            this.WeaponStats = new StatWeights[] { StatWeights.PhysicalSpeed };
-            this.Slots = new EquipmentSlots[] { EquipmentSlots.OneHand };
-            this.WeaponAttack = WeaponAttacks.Melee;
+            PrimaryType = WeaponTypes.Flail;
+            Subtype = "Flail";
+            WeaponStats = new StatWeights[] { StatWeights.PhysicalSpeed };
+            Slots = new EquipmentSlots[] { EquipmentSlots.OneHand };
+            WeaponAttack = WeaponAttacks.Melee;
 
-            this.DamageMin = 45;
-            this.DamageMax = 75;
+            DamageMin = 45;
+            DamageMax = 75;
 
-            this.WeightMin = 30;
-            this.WeightMax = 40;
+            WeightMin = 30;
+            WeightMax = 40;
         }
     }
     #endregion
@@ -330,35 +330,35 @@ namespace Roguelike.Engine.Factories
     {
         public Sickle_Scythe()
         {
-            this.PrimaryType = WeaponTypes.Sickle;
-            this.Subtype = "Scythe";
-            this.WeaponStats = new StatWeights[] { StatWeights.PhysicalSpeed, StatWeights.PhysicalPower, StatWeights.MagicalPower };
-            this.Slots = new EquipmentSlots[] { EquipmentSlots.TwoHand };
-            this.WeaponAttack = WeaponAttacks.Melee;
-            this.Multiplier = 1.8;
+            PrimaryType = WeaponTypes.Sickle;
+            Subtype = "Scythe";
+            WeaponStats = new StatWeights[] { StatWeights.PhysicalSpeed, StatWeights.PhysicalPower, StatWeights.MagicalPower };
+            Slots = new EquipmentSlots[] { EquipmentSlots.TwoHand };
+            WeaponAttack = WeaponAttacks.Melee;
+            Multiplier = 1.8;
 
-            this.DamageMin = 53;
-            this.DamageMax = 79;
+            DamageMin = 53;
+            DamageMax = 79;
 
-            this.WeightMin = 26;
-            this.WeightMax = 35;
+            WeightMin = 26;
+            WeightMax = 35;
         }
     }
     public class Sickle_Sickle : WeaponGenTemplate
     {
         public Sickle_Sickle()
         {
-            this.PrimaryType = WeaponTypes.Sickle;
-            this.Subtype = "Sickle";
-            this.WeaponStats = new StatWeights[] { StatWeights.PhysicalSpeed };
-            this.Slots = new EquipmentSlots[] { EquipmentSlots.OneHand };
-            this.WeaponAttack = WeaponAttacks.Melee;
+            PrimaryType = WeaponTypes.Sickle;
+            Subtype = "Sickle";
+            WeaponStats = new StatWeights[] { StatWeights.PhysicalSpeed };
+            Slots = new EquipmentSlots[] { EquipmentSlots.OneHand };
+            WeaponAttack = WeaponAttacks.Melee;
 
-            this.DamageMin = 12;
-            this.DamageMax = 20;
+            DamageMin = 12;
+            DamageMax = 20;
 
-            this.WeightMin = 8;
-            this.WeightMax = 10;
+            WeightMin = 8;
+            WeightMax = 10;
         }
     }
     #endregion
@@ -367,34 +367,34 @@ namespace Roguelike.Engine.Factories
     {
         public Whip_CombatCross()
         {
-            this.PrimaryType = WeaponTypes.Whip;
-            this.Subtype = "Combat Cross";
-            this.WeaponStats = new StatWeights[] { StatWeights.PhysicalSpeed, StatWeights.MagicalSpeed };
-            this.Slots = new EquipmentSlots[] { EquipmentSlots.OneHand };
-            this.WeaponAttack = WeaponAttacks.Melee;
+            PrimaryType = WeaponTypes.Whip;
+            Subtype = "Combat Cross";
+            WeaponStats = new StatWeights[] { StatWeights.PhysicalSpeed, StatWeights.MagicalSpeed };
+            Slots = new EquipmentSlots[] { EquipmentSlots.OneHand };
+            WeaponAttack = WeaponAttacks.Melee;
 
-            this.DamageMin = 22;
-            this.DamageMax = 38;
+            DamageMin = 22;
+            DamageMax = 38;
 
-            this.WeightMin = 16;
-            this.WeightMax = 20;
+            WeightMin = 16;
+            WeightMax = 20;
         }
     }
     public class Whip_Whip : WeaponGenTemplate
     {
         public Whip_Whip()
         {
-            this.PrimaryType = WeaponTypes.Whip;
-            this.Subtype = "Whip";
-            this.WeaponStats = new StatWeights[] { StatWeights.PhysicalSpeed };
-            this.Slots = new EquipmentSlots[] { EquipmentSlots.OneHand };
-            this.WeaponAttack = WeaponAttacks.Melee;
+            PrimaryType = WeaponTypes.Whip;
+            Subtype = "Whip";
+            WeaponStats = new StatWeights[] { StatWeights.PhysicalSpeed };
+            Slots = new EquipmentSlots[] { EquipmentSlots.OneHand };
+            WeaponAttack = WeaponAttacks.Melee;
 
-            this.DamageMin = 20;
-            this.DamageMax = 30;
+            DamageMin = 20;
+            DamageMax = 30;
 
-            this.WeightMin = 10;
-            this.WeightMax = 15;
+            WeightMin = 10;
+            WeightMax = 15;
         }
     }
     #endregion
@@ -403,68 +403,68 @@ namespace Roguelike.Engine.Factories
     {
         public Knife_Cleaver()
         {
-            this.PrimaryType = WeaponTypes.Knife;
-            this.Subtype = "Cleaver";
-            this.WeaponStats = new StatWeights[] { StatWeights.PhysicalSpeed, StatWeights.PhysicalPower };
-            this.Slots = new EquipmentSlots[] { EquipmentSlots.OneHand };
-            this.WeaponAttack = WeaponAttacks.Melee;
+            PrimaryType = WeaponTypes.Knife;
+            Subtype = "Cleaver";
+            WeaponStats = new StatWeights[] { StatWeights.PhysicalSpeed, StatWeights.PhysicalPower };
+            Slots = new EquipmentSlots[] { EquipmentSlots.OneHand };
+            WeaponAttack = WeaponAttacks.Melee;
 
-            this.DamageMin = 20;
-            this.DamageMax = 30;
+            DamageMin = 20;
+            DamageMax = 30;
 
-            this.WeightMin = 10;
-            this.WeightMax = 15;
+            WeightMin = 10;
+            WeightMax = 15;
         }
     }
     public class Knife_Knife : WeaponGenTemplate
     {
         public Knife_Knife()
         {
-            this.PrimaryType = WeaponTypes.Knife;
-            this.Subtype = "Knife";
-            this.WeaponStats = new StatWeights[] { StatWeights.PhysicalSpeed };
-            this.Slots = new EquipmentSlots[] { EquipmentSlots.OneHand };
-            this.WeaponAttack = WeaponAttacks.Melee;
+            PrimaryType = WeaponTypes.Knife;
+            Subtype = "Knife";
+            WeaponStats = new StatWeights[] { StatWeights.PhysicalSpeed };
+            Slots = new EquipmentSlots[] { EquipmentSlots.OneHand };
+            WeaponAttack = WeaponAttacks.Melee;
 
-            this.DamageMin = 16;
-            this.DamageMax = 24;
+            DamageMin = 16;
+            DamageMax = 24;
 
-            this.WeightMin = 8;
-            this.WeightMax = 10;
+            WeightMin = 8;
+            WeightMax = 10;
         }
     }
     public class Knife_Dirge : WeaponGenTemplate
     {
         public Knife_Dirge()
         {
-            this.PrimaryType = WeaponTypes.Knife;
-            this.Subtype = "Dirge";
-            this.WeaponStats = new StatWeights[] { StatWeights.PhysicalSpeed };
-            this.Slots = new EquipmentSlots[] { EquipmentSlots.OneHand };
-            this.WeaponAttack = WeaponAttacks.Melee;
+            PrimaryType = WeaponTypes.Knife;
+            Subtype = "Dirge";
+            WeaponStats = new StatWeights[] { StatWeights.PhysicalSpeed };
+            Slots = new EquipmentSlots[] { EquipmentSlots.OneHand };
+            WeaponAttack = WeaponAttacks.Melee;
 
-            this.DamageMin = 13;
-            this.DamageMax = 17;
+            DamageMin = 13;
+            DamageMax = 17;
 
-            this.WeightMin = 4;
-            this.WeightMax = 5;
+            WeightMin = 4;
+            WeightMax = 5;
         }
     }
     public class Knife_Dagger : WeaponGenTemplate
     {
         public Knife_Dagger()
         {
-            this.PrimaryType = WeaponTypes.Knife;
-            this.Subtype = "Dagger";
-            this.WeaponStats = new StatWeights[] { StatWeights.PhysicalSpeed, StatWeights.MagicalPower };
-            this.Slots = new EquipmentSlots[] { EquipmentSlots.OneHand };
-            this.WeaponAttack = WeaponAttacks.Melee;
+            PrimaryType = WeaponTypes.Knife;
+            Subtype = "Dagger";
+            WeaponStats = new StatWeights[] { StatWeights.PhysicalSpeed, StatWeights.MagicalPower };
+            Slots = new EquipmentSlots[] { EquipmentSlots.OneHand };
+            WeaponAttack = WeaponAttacks.Melee;
 
-            this.DamageMin = 12;
-            this.DamageMax = 18;
+            DamageMin = 12;
+            DamageMax = 18;
 
-            this.WeightMin = 6;
-            this.WeightMax = 10;
+            WeightMin = 6;
+            WeightMax = 10;
         }
     }
     #endregion
@@ -473,53 +473,53 @@ namespace Roguelike.Engine.Factories
     {
         public Staff_Staff()
         {
-            this.PrimaryType = WeaponTypes.Staff;
-            this.Subtype = "Staff";
-            this.WeaponStats = new StatWeights[] { StatWeights.MagicalPower };
-            this.Slots = new EquipmentSlots[] { EquipmentSlots.TwoHand };
-            this.WeaponAttack = WeaponAttacks.Melee;
-            this.Multiplier = 1.8;
+            PrimaryType = WeaponTypes.Staff;
+            Subtype = "Staff";
+            WeaponStats = new StatWeights[] { StatWeights.MagicalPower };
+            Slots = new EquipmentSlots[] { EquipmentSlots.TwoHand };
+            WeaponAttack = WeaponAttacks.Melee;
+            Multiplier = 1.8;
 
-            this.DamageMin = 2;
-            this.DamageMax = 18;
+            DamageMin = 2;
+            DamageMax = 18;
 
-            this.WeightMin = 16;
-            this.WeightMax = 20;
+            WeightMin = 16;
+            WeightMax = 20;
         }
     }
     public class Staff_SwordCane : WeaponGenTemplate
     {
         public Staff_SwordCane()
         {
-            this.PrimaryType = WeaponTypes.Staff;
-            this.Subtype = "Sword Cane";
-            this.WeaponStats = new StatWeights[] { StatWeights.MagicalPower, StatWeights.PhysicalPower };
-            this.Slots = new EquipmentSlots[] { EquipmentSlots.TwoHand, EquipmentSlots.OneHand };
-            this.WeaponAttack = WeaponAttacks.Melee;
-            this.Multiplier = 1.2;
+            PrimaryType = WeaponTypes.Staff;
+            Subtype = "Sword Cane";
+            WeaponStats = new StatWeights[] { StatWeights.MagicalPower, StatWeights.PhysicalPower };
+            Slots = new EquipmentSlots[] { EquipmentSlots.TwoHand, EquipmentSlots.OneHand };
+            WeaponAttack = WeaponAttacks.Melee;
+            Multiplier = 1.2;
 
-            this.DamageMin = 25;
-            this.DamageMax = 45;
+            DamageMin = 25;
+            DamageMax = 45;
 
-            this.WeightMin = 20;
-            this.WeightMax = 25;
+            WeightMin = 20;
+            WeightMax = 25;
         }
     }
     public class Staff_QuarterStaff : WeaponGenTemplate
     {
         public Staff_QuarterStaff()
         {
-            this.PrimaryType = WeaponTypes.Staff;
-            this.Subtype = "Quarter Staff";
-            this.WeaponStats = new StatWeights[] { StatWeights.MagicalPower };
-            this.Slots = new EquipmentSlots[] { EquipmentSlots.OneHand };
-            this.WeaponAttack = WeaponAttacks.Melee;
+            PrimaryType = WeaponTypes.Staff;
+            Subtype = "Quarter Staff";
+            WeaponStats = new StatWeights[] { StatWeights.MagicalPower };
+            Slots = new EquipmentSlots[] { EquipmentSlots.OneHand };
+            WeaponAttack = WeaponAttacks.Melee;
 
-            this.DamageMin = 4;
-            this.DamageMax = 12;
+            DamageMin = 4;
+            DamageMax = 12;
 
-            this.WeightMin = 8;
-            this.WeightMax = 10;
+            WeightMin = 8;
+            WeightMax = 10;
         }
     }
     #endregion
@@ -528,16 +528,16 @@ namespace Roguelike.Engine.Factories
     {
         public Shield_KiteShield()
         {
-            this.PrimaryType = WeaponTypes.Shield;
-            this.Subtype = "Kite Shield";
-            this.WeaponStats = new StatWeights[] { StatWeights.Defense };
-            this.Slots = new EquipmentSlots[] { EquipmentSlots.OffHand };
+            PrimaryType = WeaponTypes.Shield;
+            Subtype = "Kite Shield";
+            WeaponStats = new StatWeights[] { StatWeights.Defense };
+            Slots = new EquipmentSlots[] { EquipmentSlots.OffHand };
 
-            this.DamageMin = 0;
-            this.DamageMax = 5;
+            DamageMin = 0;
+            DamageMax = 5;
 
-            this.WeightMin = 20;
-            this.WeightMax = 40;
+            WeightMin = 20;
+            WeightMax = 40;
         }
     }
 }

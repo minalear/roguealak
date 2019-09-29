@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Roguelike.Core.Combat;
+using Roguelike.Engine;
 
 namespace Roguelike.Core.Stats.Classes
 {
@@ -9,9 +10,9 @@ namespace Roguelike.Core.Stats.Classes
         public Mage()
             : base("Magician")
         {
-            this.Description = "Students gifted with a keen intellect and unwavering discipline may walk the path of the mage. The arcane magic available to magi is both great and dangerous, and thus is revealed only to the most devoted practitioners. To avoid interference with their spellcasting, magi wear only cloth armor, but arcane shields and enchantments give them additional protection. To keep enemies at bay, magi can summon bursts of fire to incinerate distant targets and cause entire areas to erupt, setting groups of foes ablaze.";
-            this.InheritAbilities = new List<Ability>() { new Ability_Fireball(), new Ability_Frostbolt(), new Ability_IceBlock() };
-            this.ClassTraits = new List<Effect>() { new Trait_IncreasedFortitude(), new Trait_SpellSword() };
+            Description = "Students gifted with a keen intellect and unwavering discipline may walk the path of the mage. The arcane magic available to magi is both great and dangerous, and thus is revealed only to the most devoted practitioners. To avoid interference with their spellcasting, magi wear only cloth armor, but arcane shields and enchantments give them additional protection. To keep enemies at bay, magi can summon bursts of fire to incinerate distant targets and cause entire areas to erupt, setting groups of foes ablaze.";
+            InheritAbilities = new List<Ability>() { new Ability_Fireball(), new Ability_Frostbolt(), new Ability_IceBlock() };
+            ClassTraits = new List<Effect>() { new Trait_IncreasedFortitude(), new Trait_SpellSword() };
         }
         public override PlayerStats CalculateStats(PlayerStats stats)
         {
@@ -35,12 +36,12 @@ namespace Roguelike.Core.Stats.Classes
             public Ability_IceBlock()
                 : base()
             {
-                this.AbilityName = "Ice Block";
-                this.AbilityNameShort = "Ice Blok";
+                AbilityName = "Ice Block";
+                AbilityNameShort = "Ice Blok";
 
-                this.abilityType = AbilityTypes.Magical;
-                this.TargetingType = TargetingTypes.Self;
-                this.abilityCost = 35;
+                abilityType = AbilityTypes.Magical;
+                TargetingType = TargetingTypes.Self;
+                abilityCost = 35;
             }
 
             public override CombatResults CalculateResults(StatsPackage caster, StatsPackage target)
@@ -63,32 +64,32 @@ namespace Roguelike.Core.Stats.Classes
             public Ability_Frostbolt()
                 : base()
             {
-                this.AbilityName = "Frostbolt";
-                this.AbilityNameShort = "Frstbolt";
+                AbilityName = "Frostbolt";
+                AbilityNameShort = "Frstbolt";
 
-                this.abilityType = AbilityTypes.Magical;
-                this.TargetingType = TargetingTypes.EntityTarget;
-                this.abilityCost = 25;
-                this.Range = 15;
+                abilityType = AbilityTypes.Magical;
+                TargetingType = TargetingTypes.EntityTarget;
+                abilityCost = 25;
+                Range = 15;
             }
 
             public override CombatResults CalculateResults(StatsPackage caster, StatsPackage target)
             {
-                CombatResults results = this.DoesAttackHit(caster, target);
+                CombatResults results = DoesAttackHit(caster, target);
 
                 if (!results.DidMiss && !results.DidAvoid)
                 {
                     int damage = (int)(caster.SpellPower.EffectiveValue * 0.75);
-                    if (this.DoesAttackCrit(caster))
+                    if (DoesAttackCrit(caster))
                     {
-                        damage = this.ApplyCriticalDamage(damage, caster);
+                        damage = ApplyCriticalDamage(damage, caster);
                         results.DidCrit = true;
                     }
 
                     results.PureDamage = damage;
-                    results.AbsorbedDamage = this.CalculateAbsorption(damage, target);
+                    results.AbsorbedDamage = CalculateAbsorption(damage, target);
                     results.AppliedDamage = results.PureDamage - results.AbsorbedDamage;
-                    results.ReflectedDamage = this.CalculateReflectedDamage(results.AppliedDamage, target);
+                    results.ReflectedDamage = CalculateReflectedDamage(results.AppliedDamage, target);
                 }
 
                 if (!target.HasEffect("Chilled"))
@@ -104,32 +105,32 @@ namespace Roguelike.Core.Stats.Classes
             public Ability_Fireball()
                 : base()
             {
-                this.AbilityName = "Fireball";
-                this.AbilityNameShort = "Freball";
+                AbilityName = "Fireball";
+                AbilityNameShort = "Freball";
 
-                this.TargetingType = TargetingTypes.EntityTarget;
-                this.abilityType = AbilityTypes.Magical;
-                this.abilityCost = 55;
-                this.Range = 15;
+                TargetingType = TargetingTypes.EntityTarget;
+                abilityType = AbilityTypes.Magical;
+                abilityCost = 55;
+                Range = 15;
             }
 
             public override CombatResults CalculateResults(StatsPackage caster, StatsPackage target)
             {
-                CombatResults results = this.DoesAttackHit(caster, target);
+                CombatResults results = DoesAttackHit(caster, target);
 
                 if (!results.DidMiss && !results.DidAvoid)
                 {
                     int damage = (int)(caster.SpellPower.EffectiveValue * 1.5);
-                    if (this.DoesAttackCrit(caster))
+                    if (DoesAttackCrit(caster))
                     {
-                        damage = this.ApplyCriticalDamage(damage, caster);
+                        damage = ApplyCriticalDamage(damage, caster);
                         results.DidCrit = true;
                     }
 
                     results.PureDamage = damage;
-                    results.AbsorbedDamage = this.CalculateAbsorption(damage, target);
+                    results.AbsorbedDamage = CalculateAbsorption(damage, target);
                     results.AppliedDamage = results.PureDamage - results.AbsorbedDamage;
-                    results.ReflectedDamage = this.CalculateReflectedDamage(results.AppliedDamage, target);
+                    results.ReflectedDamage = CalculateReflectedDamage(results.AppliedDamage, target);
 
                     if (!target.HasEffect("Ignite"))
                     {
@@ -150,17 +151,17 @@ namespace Roguelike.Core.Stats.Classes
             public Effect_FireballDOT(StatsPackage package)
                 : base(package, 15)
             {
-                this.EffectName = "Ignite";
-                this.IsHarmful = true;
+                EffectName = "Ignite";
+                IsHarmful = true;
 
-                this.EffectType = EffectTypes.Magical;
-                this.EffectDescription = "You have been set aflame!!!";
+                EffectType = EffectTypes.Magical;
+                EffectDescription = "You have been set aflame!!!";
             }
 
             public override void UpdateStep()
             {
-                //this.parent.DrainHealth(this.damage);
-                this.parent.DealDOTDamage(this.damage, this);
+                //parent.DrainHealth(damage);
+                parent.DealDOTDamage(damage, this);
 
                 base.UpdateStep();
             }
@@ -170,15 +171,15 @@ namespace Roguelike.Core.Stats.Classes
             public Effect_Frostbolt(StatsPackage package)
                 : base(package, 5)
             {
-                this.EffectName = "Chilled";
-                this.IsHarmful = true;
+                EffectName = "Chilled";
+                IsHarmful = true;
 
-                this.EffectDescription = "You feel extremely cold, making it harder to resist damage.";
+                EffectDescription = "You feel extremely cold, making it harder to resist damage.";
             }
 
             public override void CalculateStats()
             {
-                this.parent.SpellReduction.ModValue -= this.parent.SpellReduction.EffectiveValue * 0.2;
+                parent.SpellReduction.ModValue -= parent.SpellReduction.EffectiveValue * 0.2;
 
                 base.CalculateStats();
             }
@@ -188,10 +189,10 @@ namespace Roguelike.Core.Stats.Classes
             public Effect_IceBlock(StatsPackage parent)
                 : base(parent, 5)
             {
-                this.EffectName = "Ice Block";
-                this.IsHarmful = false;
+                EffectName = "Ice Block";
+                IsHarmful = false;
 
-                this.EffectDescription = "A thin Ice barrier surrounds you preventing damage being dealt to you for a small amount of time.";
+                EffectDescription = "A thin Ice barrier surrounds you preventing damage being dealt to you for a small amount of time.";
             }
 
             public override int OnHealthLoss(int amount)
@@ -205,17 +206,17 @@ namespace Roguelike.Core.Stats.Classes
             public Trait_IncreasedFortitude()
                 : base(0)
             {
-                this.EffectName = "Increased Fortitude";
-                this.IsHarmful = false;
+                EffectName = "Increased Fortitude";
+                IsHarmful = false;
 
-                this.IsImmuneToPurge = true;
-                this.EffectType = EffectTypes.Trait;
-                this.EffectDescription = "Your mind has been deepend and your magic is more powerful.";
+                IsImmuneToPurge = true;
+                EffectType = EffectTypes.Trait;
+                EffectDescription = "Your mind has been deepend and your magic is more powerful.";
             }
 
             public override void CalculateStats()
             {
-                this.parent.SpellPower.ModValue += this.parent.SpellPower.BaseValue * 0.10;
+                parent.SpellPower.ModValue += parent.SpellPower.BaseValue * 0.10;
 
                 base.CalculateStats();
             }
@@ -225,17 +226,17 @@ namespace Roguelike.Core.Stats.Classes
             public Trait_SpellSword()
                 : base(0)
             {
-                this.EffectName = "Sword of Azzinoth";
-                this.IsHarmful = false;
+                EffectName = "Sword of Azzinoth";
+                IsHarmful = false;
 
-                this.IsImmuneToPurge = true;
-                this.EffectType = EffectTypes.Trait;
-                this.EffectDescription = "You have dedicated your life to the teachings of Azzinoth and became a spellsword.  Your attack power is boosted by your spell power.";
+                IsImmuneToPurge = true;
+                EffectType = EffectTypes.Trait;
+                EffectDescription = "You have dedicated your life to the teachings of Azzinoth and became a spellsword.  Your attack power is boosted by your spell power.";
             }
 
             public override void CalculateStats()
             {
-                this.parent.AttackPower.ModValue += this.parent.SpellPower.BaseValue * 0.50;
+                parent.AttackPower.ModValue += parent.SpellPower.BaseValue * 0.50;
 
                 base.CalculateStats();
             }

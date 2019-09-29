@@ -10,49 +10,49 @@ namespace Roguelike.Engine.UI.Controls
         public ScrollingList(Control parent, int x, int y, int width, int height)
             : base(parent)
         {
-            this.position = new Point(x, y);
-            this.size = new Point(width, height);
+            position = new Point(x, y);
+            size = new Point(width, height);
 
-            this.objectList = new List<ListItem>();
+            objectList = new List<ListItem>();
         }
 
         public override void DrawStep()
         {
-            GraphicConsole.SetColors(Color.Transparent, this.fillColor);
-            DrawingUtilities.DrawRect(this.Position.X, this.Position.Y, this.Size.X, this.Size.Y, ' ', true);
+            GraphicConsole.SetColors(Color.Transparent, fillColor);
+            DrawingUtilities.DrawRect(Position.X, Position.Y, Size.X, Size.Y, ' ', true);
 
             if (!scroll)
             {
-                for (int i = 0; i < this.objectList.Count; i++)
+                for (int i = 0; i < objectList.Count; i++)
                 {
-                    this.setConsoleColors(i);
-                    GraphicConsole.SetCursor(this.Position.X, this.Position.Y + i);
+                    setConsoleColors(i);
+                    GraphicConsole.SetCursor(Position.X, Position.Y + i);
 
-                    this.writeLine(this.objectList[i].ListText);
+                    writeLine(objectList[i].ListText);
                 }
             }
             else
             {
                 //Scroll Bar Rail
-                GraphicConsole.SetColors(this.scrollRailColor, this.fillColor);
-                DrawingUtilities.DrawLine(this.Position.X + this.Size.X, this.Position.Y, this.Position.X + this.Size.X, this.Position.Y + this.Size.Y - 1, this.scrollRail);
+                GraphicConsole.SetColors(scrollRailColor, fillColor);
+                DrawingUtilities.DrawLine(Position.X + Size.X, Position.Y, Position.X + Size.X, Position.Y + Size.Y - 1, scrollRail);
 
                 //Scroll Barl
-                GraphicConsole.SetColors(this.scrollBarColor, this.fillColor);
-                GraphicConsole.SetCursor(this.Position.X + this.Size.X, (int)(this.scrollValue / 100f * this.Size.Y) + this.Position.Y);
-                GraphicConsole.Write(this.scrollBar);
+                GraphicConsole.SetColors(scrollBarColor, fillColor);
+                GraphicConsole.SetCursor(Position.X + Size.X, (int)(scrollValue / 100f * Size.Y) + Position.Y);
+                GraphicConsole.Write(scrollBar);
 
-                int line = (int)(this.scrollValue / 100f * (this.objectList.Count - this.Size.Y + 1));
+                int line = (int)(scrollValue / 100f * (objectList.Count - Size.Y + 1));
                 if (line < 0)
                     line = 0;
 
-                for (int y = 0; y < this.Size.Y; y++)
+                for (int y = 0; y < Size.Y; y++)
                 {
                     if (line < objectList.Count)
                     {
-                        this.setConsoleColors(line);
-                        GraphicConsole.SetCursor(this.Position.X, this.Position.Y + y);
-                        this.writeLine(this.objectList[line].ListText);
+                        setConsoleColors(line);
+                        GraphicConsole.SetCursor(Position.X, Position.Y + y);
+                        writeLine(objectList[line].ListText);
                     }
                     line++;
                 }
@@ -62,21 +62,21 @@ namespace Roguelike.Engine.UI.Controls
         }
         public override void Update(GameTime gameTime)
         {
-            if (this.isMouseHover())
+            if (isMouseHover())
             {
                 #region Scrolling
-                if (this.scroll)
+                if (scroll)
                 {
                     int differenceValue = InputManager.GetDistanceScrolled();
 
                     if (differenceValue != 0)
                     {
-                        this.scrollValue -= differenceValue / (this.objectList.Count / 2);
+                        scrollValue -= differenceValue / (objectList.Count / 2);
 
-                        if (this.scrollValue < 0f)
-                            this.scrollValue = 0f;
-                        else if (this.scrollValue >= 100f)
-                            this.scrollValue = 99f;
+                        if (scrollValue < 0f)
+                            scrollValue = 0f;
+                        else if (scrollValue >= 100f)
+                            scrollValue = 99f;
 
                         InterfaceManager.DrawStep();
                     }
@@ -86,19 +86,19 @@ namespace Roguelike.Engine.UI.Controls
                 if (InputManager.MouseButtonWasClicked(MouseButtons.Left))
                 {
                     int index = getIndexOfClick(GraphicConsole.GetTilePosition(InputManager.GetCurrentMousePosition()));
-                    if (index >= 0 && index < this.objectList.Count)
+                    if (index >= 0 && index < objectList.Count)
                     {
-                        this.selectedIndex = index;
+                        selectedIndex = index;
                         InterfaceManager.DrawStep();
 
-                        this.onSelect();
+                        onSelect();
                     }
                     else
                     {
-                        this.selectedIndex = -1;
+                        selectedIndex = -1;
 
-                        if (this.Deselected != null)
-                            this.Deselected(this);
+                        if (Deselected != null)
+                            Deselected(this);
 
                         InterfaceManager.DrawStep();
                     }
@@ -106,24 +106,24 @@ namespace Roguelike.Engine.UI.Controls
                 else //Get Hover
                 {
                     int index = getIndexOfClick(GraphicConsole.GetTilePosition(InputManager.GetCurrentMousePosition()));
-                    if (index >= 0 && index < this.objectList.Count)
+                    if (index >= 0 && index < objectList.Count)
                     {
-                        this.hoverIndex = index;
+                        hoverIndex = index;
                         InterfaceManager.DrawStep();
 
-                        this.onHover();
+                        onHover();
                     }
                     else
                     {
-                        this.hoverIndex = -1;
+                        hoverIndex = -1;
                         InterfaceManager.DrawStep();
                     }
                 }
                 #endregion
             }
-            else if (this.wasHover())
+            else if (wasHover())
             {
-                this.hoverIndex = -1;
+                hoverIndex = -1;
                 InterfaceManager.DrawStep();
             }
 
@@ -132,110 +132,110 @@ namespace Roguelike.Engine.UI.Controls
 
         public void SetList<T>(List<T> newList) where T:ListItem
         {
-            this.objectList.Clear();
+            objectList.Clear();
 
             for (int i = 0; i < newList.Count; i++)
-                this.objectList.Add(newList[i]);
-            this.setupList();
+                objectList.Add(newList[i]);
+            setupList();
 
-            if (this.selectedIndex >= this.Items.Count)
-                this.ClearSelection();
+            if (selectedIndex >= Items.Count)
+                ClearSelection();
         }
         public void ClearSelection()
         {
-            this.selectedIndex = -1;
+            selectedIndex = -1;
             InterfaceManager.DrawStep();
         }
         public void SetSelection(int index)
         {
-            if (index >= 0 && index < this.objectList.Count)
+            if (index >= 0 && index < objectList.Count)
             {
-                this.selectedIndex = index;
-                this.onSelect();
+                selectedIndex = index;
+                onSelect();
             }
             else
-                this.ClearSelection();
+                ClearSelection();
 
             InterfaceManager.DrawStep();
         }
         public void SetSelection(string item)
         {
-            for (int i = 0; i < this.objectList.Count; i++)
+            for (int i = 0; i < objectList.Count; i++)
             {
-                if (this.objectList[i] == item)
+                if (objectList[i] == item)
                 {
-                    this.selectedIndex = i;
+                    selectedIndex = i;
                     InterfaceManager.DrawStep();
 
-                    this.onSelect();
+                    onSelect();
 
                     break;
                 }
             }
 
-            this.selectedIndex = -1;
+            selectedIndex = -1;
             InterfaceManager.DrawStep();
         }
         public ListItem GetSelection()
         {
-            return this.objectList[this.selectedIndex];
+            return objectList[selectedIndex];
         }
         public void RemoveItem(string item)
         {
-            for (int i = 0; i < this.Items.Count; i++)
+            for (int i = 0; i < Items.Count; i++)
             {
-                if (this.Items[i].ListText == item)
+                if (Items[i].ListText == item)
                 {
-                    this.Items.RemoveAt(i);
+                    Items.RemoveAt(i);
                     break;
                 }
             }
-            this.ClearSelection();
+            ClearSelection();
         }
         public void RemoveItem(int index)
         {
-            if (index < this.Items.Count)
+            if (index < Items.Count)
             {
-                this.Items.RemoveAt(index);
+                Items.RemoveAt(index);
 
-                if (this.selectedIndex >= this.Items.Count)
-                    this.ClearSelection();
+                if (selectedIndex >= Items.Count)
+                    ClearSelection();
             }
         }
 
         protected void onHover()
         {
-            if (this.Hover != null)
-                this.Hover(this, this.hoverIndex);
+            if (Hover != null)
+                Hover(this, hoverIndex);
         }
         protected void onSelect()
         {
-            if (this.Selected != null)
-                this.Selected(this, this.selectedIndex);
+            if (Selected != null)
+                Selected(this, selectedIndex);
         }
 
         private void setupList()
         {
-            if (this.objectList.Count > this.Size.Y)
+            if (objectList.Count > Size.Y)
                 scroll = true;
             else
                 scroll = false;
 
-            this.scrollValue = 0f;
+            scrollValue = 0f;
         }
         private int getIndexOfClick(Point point)
         {
             int index = -1;
-            if (this.scroll)
+            if (scroll)
             {
-                int line = (int)(this.scrollValue / 100f * (this.objectList.Count - this.Size.Y + 1));
+                int line = (int)(scrollValue / 100f * (objectList.Count - Size.Y + 1));
 
-                index = point.Y - this.Position.Y;
+                index = point.Y - Position.Y;
                 index += line;
             }
             else
             {
-                index = point.Y - this.Position.Y;
+                index = point.Y - Position.Y;
             }
 
             return index;
@@ -246,25 +246,25 @@ namespace Roguelike.Engine.UI.Controls
             {
                 //Ensure text doesn't go past the size of the list
                 int i = 0;
-                for (i = 0; i < line.Length && i < this.Size.X; i++)
+                for (i = 0; i < line.Length && i < Size.X; i++)
                     GraphicConsole.Write(line[i]);
-                for (; i < this.Size.X; i++)
+                for (; i < Size.X; i++)
                     GraphicConsole.Write(' ');
             }
             else
             {
-                for (int i = 0; i < this.Size.X; i++)
+                for (int i = 0; i < Size.X; i++)
                     GraphicConsole.Write(' ');
             }
         }
         private void setConsoleColors(int index)
         {
-            if (index == this.selectedIndex)
-                GraphicConsole.SetColors(this.selectedTextColor, this.selectedFillColor);
-            else if (index == this.hoverIndex)
-                GraphicConsole.SetColors(this.hoverTextColor, this.hoverFillColor);
+            if (index == selectedIndex)
+                GraphicConsole.SetColors(selectedTextColor, selectedFillColor);
+            else if (index == hoverIndex)
+                GraphicConsole.SetColors(hoverTextColor, hoverFillColor);
             else
-                GraphicConsole.SetColors(this.objectList[index].TextColor, this.fillColor);
+                GraphicConsole.SetColors(objectList[index].TextColor, fillColor);
         }
 
         private List<ListItem> objectList;
@@ -293,17 +293,17 @@ namespace Roguelike.Engine.UI.Controls
         public delegate void ItemDeselected(object sender);
 
         #region Properties
-        public List<ListItem> Items { get { return this.objectList; } set { this.SetList(value); } }
-        public Color TextColor { get { return this.textColor; } set { this.textColor = value; } }
-        public Color FillColor { get { return this.fillColor; } set { this.fillColor = value; } }
-        public Color SelectedTextColor { get { return this.selectedTextColor; } set { this.selectedTextColor = value; } }
-        public Color SelectedFillColor { get { return this.selectedFillColor; } set { this.selectedFillColor = value; } }
-        public Color HoverTextColor { get { return this.hoverTextColor; } set { this.hoverTextColor = value; } }
-        public Color HoverFillColor { get { return this.hoverFillColor; } set { this.hoverFillColor = value; } }
-        public Color ScrollRailColor { get { return this.scrollRailColor; } set { this.scrollRailColor = value; } }
-        public Color ScrollBarColor { get { return this.scrollBarColor; } set { this.scrollBarColor = value; } }
-        public bool HasSelection { get { return (this.selectedIndex != -1); } }
-        public int SelectedIndex { get { return this.selectedIndex; } set { this.SetSelection(value); } }
+        public List<ListItem> Items { get { return objectList; } set { SetList(value); } }
+        public Color TextColor { get { return textColor; } set { textColor = value; } }
+        public Color FillColor { get { return fillColor; } set { fillColor = value; } }
+        public Color SelectedTextColor { get { return selectedTextColor; } set { selectedTextColor = value; } }
+        public Color SelectedFillColor { get { return selectedFillColor; } set { selectedFillColor = value; } }
+        public Color HoverTextColor { get { return hoverTextColor; } set { hoverTextColor = value; } }
+        public Color HoverFillColor { get { return hoverFillColor; } set { hoverFillColor = value; } }
+        public Color ScrollRailColor { get { return scrollRailColor; } set { scrollRailColor = value; } }
+        public Color ScrollBarColor { get { return scrollBarColor; } set { scrollBarColor = value; } }
+        public bool HasSelection { get { return (selectedIndex != -1); } }
+        public int SelectedIndex { get { return selectedIndex; } set { SetSelection(value); } }
         #endregion
     }
     public class ListItem
@@ -313,8 +313,8 @@ namespace Roguelike.Engine.UI.Controls
 
         public ListItem()
         {
-            this.ListText = " ";
-            this.TextColor = Color.White;
+            ListText = " ";
+            TextColor = Color.White;
         }
 
         public static implicit operator string(ListItem item)

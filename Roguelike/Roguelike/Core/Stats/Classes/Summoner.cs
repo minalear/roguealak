@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using OpenTK.Graphics;
 using Roguelike.Core.Combat;
-using Roguelike.Engine.UI.Controls;
+using Roguelike.Engine;
 using Roguelike.Core.Entities;
 
 namespace Roguelike.Core.Stats.Classes
@@ -11,8 +12,8 @@ namespace Roguelike.Core.Stats.Classes
         public Summoner()
             : base("Summoner")
         {
-            this.Description = "The summoner is a warlock that does not focus on the offensive spellcasting, but of the summoning type.  The base level Summoner can summon an Impling to fight for him in battle and will sacrifice himself whenever his master takes mortal damage.";
-            this.InheritAbilities = new List<Ability>() { new Ability_Summon() };
+            Description = "The summoner is a warlock that does not focus on the offensive spellcasting, but of the summoning type.  The base level Summoner can summon an Impling to fight for him in battle and will sacrifice himself whenever his master takes mortal damage.";
+            InheritAbilities = new List<Ability>() { new Ability_Summon() };
         }
         public override PlayerStats CalculateStats(PlayerStats stats)
         {
@@ -37,13 +38,13 @@ namespace Roguelike.Core.Stats.Classes
             public Ability_Summon()
                 : base()
             {
-                this.AbilityName = "Summon Imp";
-                this.AbilityNameShort = "Smmn Imp";
+                AbilityName = "Summon Imp";
+                AbilityNameShort = "Smmn Imp";
 
-                this.abilityType = AbilityTypes.Magical;
-                this.TargetingType = TargetingTypes.GroundTarget;
-                this.abilityCost = 100;
-                this.Range = 10;
+                abilityType = AbilityTypes.Magical;
+                TargetingType = TargetingTypes.GroundTarget;
+                abilityCost = 100;
+                Range = 10;
             }
 
             public override CombatResults CalculateResults(Stats.StatsPackage caster, Stats.StatsPackage target)
@@ -53,7 +54,7 @@ namespace Roguelike.Core.Stats.Classes
 
             public override void CastAbilityGround(StatsPackage caster, int x0, int y0, int radius, Level level)
             {
-                if (this.CanCastAbility(caster, x0, y0) && !caster.HasEffect(typeof(Effect_SoulLink)))
+                if (CanCastAbility(caster, x0, y0) && !caster.HasEffect(typeof(Effect_SoulLink)))
                 {
                     Entity_Impling imp = new Entity_Impling(caster.ParentEntity, level) { X = x0, Y = y0 };
                     level.Entities.Add(imp);
@@ -70,24 +71,24 @@ namespace Roguelike.Core.Stats.Classes
             public Effect_SoulLink(Entity_Impling imp, StatsPackage package)
                 : base(package, 0)
             {
-                this.EffectName = "Soul Link - Impling";
-                this.EffectDescription = "You have an impling serving by your side.  He will sacrifice himself to save his master.";
+                EffectName = "Soul Link - Impling";
+                EffectDescription = "You have an impling serving by your side.  He will sacrifice himself to save his master.";
 
-                this.EffectType = EffectTypes.Magical;
-                this.IsImmuneToPurge = true;
-                this.IsHarmful = false;
+                EffectType = EffectTypes.Magical;
+                IsImmuneToPurge = true;
+                IsHarmful = false;
 
-                this.impling = imp;
+                impling = imp;
             }
 
             public override void OnDeath()
             {
-                this.parent.Health = (int)(this.parent.MaxHealth.EffectiveValue * 0.5);
-                this.parent.ParentEntity.DoPurge = false;
+                parent.Health = (int)(parent.MaxHealth.EffectiveValue * 0.5);
+                parent.ParentEntity.DoPurge = false;
 
                 impling.DoPurge = true;
                 impling.OnDeath();
-                this.parent.RemoveEffect(this.GetType());
+                parent.RemoveEffect(GetType());
 
                 for (int i = 0; i < parent.AppliedEffects.Count; i++)
                 {
@@ -99,15 +100,15 @@ namespace Roguelike.Core.Stats.Classes
             public override void OnMove()
             {
                 //If the impling is not on the same level as the player
-                if (impling.ParentLevel != this.parent.ParentEntity.ParentLevel)
+                if (impling.ParentLevel != parent.ParentEntity.ParentLevel)
                 {
-                    this.impling.DoPurge = true;
+                    impling.DoPurge = true;
 
-                    this.impling = new Entity_Impling(this.parent.ParentEntity, this.parent.ParentEntity.ParentLevel);
-                    this.impling.X = this.Parent.ParentEntity.X + 1;
-                    this.impling.Y = this.Parent.ParentEntity.Y;
+                    impling = new Entity_Impling(parent.ParentEntity, parent.ParentEntity.ParentLevel);
+                    impling.X = Parent.ParentEntity.X + 1;
+                    impling.Y = Parent.ParentEntity.Y;
 
-                    this.parent.ParentEntity.ParentLevel.Entities.Add(this.impling);
+                    parent.ParentEntity.ParentLevel.Entities.Add(impling);
                 }
 
                 base.OnMove();
@@ -131,13 +132,13 @@ namespace Roguelike.Core.Stats.Classes
                 this.owner = owner;
                 ownerPosition = new Point(owner.X, owner.Y);
 
-                this.token = 'I';
-                this.ForegroundColor = Color.Green;
-                this.IsSolid = false;
+                token = 'I';
+                ForegroundColor = Color4.Green;
+                IsSolid = false;
 
-                this.EntityType = EntityTypes.NPC;
+                EntityType = EntityTypes.NPC;
 
-                this.statsPackage = new Stats.StatsPackage(this)
+                statsPackage = new Stats.StatsPackage(this)
                 {
                     UnitName = "Impling",
 
@@ -147,7 +148,7 @@ namespace Roguelike.Core.Stats.Classes
                     PhysicalHitChance = 100
                 };
 
-                this.statsPackage.AbilityList[0] = new Combat.Abilities.BasicAttack() { Range = 100 };
+                statsPackage.AbilityList[0] = new Combat.Abilities.BasicAttack() { Range = 100 };
             }
 
             public override void UpdateStep()
@@ -155,18 +156,18 @@ namespace Roguelike.Core.Stats.Classes
                 //Aggressive Branch
                 //Scan for Enemies => Engage|MoveToPlayer
 
-                if (this.hasTarget)
+                if (hasTarget)
                 {
-                    if (this.target.StatsPackage.IsDead())
-                        this.hasTarget = false;
+                    if (target.StatsPackage.IsDead())
+                        hasTarget = false;
                     else
                     {
-                        this.target.Attack(this, this.statsPackage.AbilityList[0]);
+                        target.Attack(this, statsPackage.AbilityList[0]);
                     }
                 }
                 else
                 {
-                    this.findEnemy();
+                    findEnemy();
                     moveTowardsPlayer();
                 }
 
@@ -179,23 +180,23 @@ namespace Roguelike.Core.Stats.Classes
             {
                 MessageCenter.PostMessage(
                     "Impling sacrificed himself to save his master!",
-                    string.Format("{0} sacrificed himself to save his master, {1}.", this.statsPackage.UnitName, this.owner.StatsPackage.UnitName),
+                    string.Format("{0} sacrificed himself to save his master, {1}.", statsPackage.UnitName, owner.StatsPackage.UnitName),
                     this);
-                this.owner.StatsPackage.RemoveEffect(typeof(Effect_SoulLink));
+                owner.StatsPackage.RemoveEffect(typeof(Effect_SoulLink));
 
                 base.OnDeath();
             }
 
             private void findEnemy()
             {
-                List<Entity> potentialTargets = this.parentLevel.GetEntities(new Circle() { Radius = this.sightRange, X = this.X, Y = this.Y });
+                List<Entity> potentialTargets = parentLevel.GetEntities(new Circle() { Radius = sightRange, X = X, Y = Y });
 
                 for (int i = 0; i < potentialTargets.Count; i++)
                 {
-                    if (potentialTargets[i].EntityType == EntityTypes.Enemy && this.parentLevel.IsLineOfSight(new Point(this.X, this.Y), new Point(potentialTargets[i].X, potentialTargets[i].Y)))
+                    if (potentialTargets[i].EntityType == EntityTypes.Enemy && parentLevel.IsLineOfSight(new Point(X, Y), new Point(potentialTargets[i].X, potentialTargets[i].Y)))
                     {
-                        this.target = potentialTargets[i];
-                        this.hasTarget = true;
+                        target = potentialTargets[i];
+                        hasTarget = true;
 
                         break;
                     }
@@ -203,20 +204,20 @@ namespace Roguelike.Core.Stats.Classes
             }
             private void moveTowardsPlayer()
             {
-                this.path = Pathing.PathCalculator.CalculatePath(new Point(this.X, this.Y), ownerPosition, this.parentLevel);
+                //path = Pathing.PathCalculator.CalculatePath(new Point(X, Y), ownerPosition, parentLevel);
 
-                if (this.path.Count > 1)
-                    this.MoveToTile(this.path[1].X, this.path[1].Y);
+                if (path.Count > 1)
+                    MoveToTile(path[1].X, path[1].Y);
             }
             private void moveTowardsTarget()
             {
                 if (target != null)
                 {
                     Point targetPosition = new Point(target.X, target.Y);
-                    this.path = Pathing.PathCalculator.CalculatePath(new Point(this.X, this.Y), targetPosition, this.parentLevel);
+                    //path = Pathing.PathCalculator.CalculatePath(new Point(X, Y), targetPosition, parentLevel);
 
-                    if (this.path.Count > 1)
-                        this.MoveToTile(this.path[1].X, this.path[1].Y);
+                    if (path.Count > 1)
+                        MoveToTile(path[1].X, path[1].Y);
                 }
             }
 

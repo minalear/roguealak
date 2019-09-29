@@ -10,60 +10,60 @@ namespace Roguelike.Engine.UI.Controls
         public Slider(Control parent, int x, int y, int width)
             : base(parent)
         {
-            this.position = new Point(x, y);
-            this.size = new Point(width, 1);
-            this.scrollSize = width;
+            position = new Point(x, y);
+            size = new Point(width, 1);
+            scrollSize = width;
 
-            this.sliderMode = SliderModes.Horizontal;
-            this.setBarPosition();
+            sliderMode = SliderModes.Horizontal;
+            setBarPosition();
         }
         public Slider(Control parent, int x, int y, SliderModes mode, int size)
             : base(parent)
         {
-            this.position = new Point(x, y);
+            position = new Point(x, y);
 
             if (mode == SliderModes.Horizontal)
             {
-                this.size = new Point(size, 1);
-                this.railToken = '═';
+                size = new Point(size, 1);
+                railToken = '═';
             }
             else
             {
-                this.size = new Point(1, size);
-                this.railToken = '║';
+                size = new Point(1, size);
+                railToken = '║';
             }
 
-            this.scrollSize = size;
-            this.sliderMode = mode;
-            this.setBarPosition();
+            scrollSize = size;
+            sliderMode = mode;
+            setBarPosition();
         }
 
         public override void DrawStep()
         {
-            this.drawRail();
+            drawRail();
 
-            GraphicConsole.SetColors(this.barColor, this.fillColor);
-            GraphicConsole.Put(this.barToken, this.barPosition.X, this.barPosition.Y);
+            GraphicConsole.SetColors(barColor, fillColor);
+            GraphicConsole.Put(barToken, barPosition.X, barPosition.Y);
             
             base.DrawStep();
         }
         public override void Update(GameTime gameTime)
         {
-            if (this.isMouseHover())
+            if (isMouseHover())
             {
                 #region Scrolling
-                int difference = InputManager.GetDistanceScrolled() / this.scrollSize;
+                int difference = InputManager.GetDistanceScrolled() / scrollSize;
 
                 if (difference != 0)
                 {
-                    this.currentValue += difference;
+                    currentValue += difference;
 
-                    if (this.currentValue < 0f)
-                        this.currentValue = 0f;
-                    else if (this.currentValue > 100f)
-                        this.currentValue = 100f;
+                    if (currentValue < 0f)
+                        currentValue = 0f;
+                    else if (currentValue > 100f)
+                        currentValue = 100f;
 
-                    this.onValueChange();
+                    onValueChange();
                     InterfaceManager.DrawStep();
                 }
                 #endregion
@@ -74,36 +74,36 @@ namespace Roguelike.Engine.UI.Controls
 
         protected void onValueChange()
         {
-            this.setBarPosition();
+            setBarPosition();
 
-            if (this.ValueChanged != null)
-                this.ValueChanged(this, this.currentValue / 100f);
+            if (ValueChanged != null)
+                ValueChanged(this, currentValue / 100f);
         }
 
         private void setBarPosition()
         {
-            if (this.sliderMode == SliderModes.Horizontal)
+            if (sliderMode == SliderModes.Horizontal)
             {
-                int x = (int)(this.Position.X + (this.currentValue / 100f * this.Size.X));
+                int x = (int)(Position.X + (currentValue / 100f * Size.X));
 
-                this.barPosition.X = x;
-                this.barPosition.Y = this.Position.Y;
+                barPosition.X = x;
+                barPosition.Y = Position.Y;
             }
-            else if (this.sliderMode == SliderModes.Vertical)
+            else if (sliderMode == SliderModes.Vertical)
             {
-                int y = (int)(this.Position.Y + (this.currentValue / 100f * this.Size.Y));
+                int y = (int)(Position.Y + (currentValue / 100f * Size.Y));
 
-                this.barPosition.X = this.Position.X;
-                this.barPosition.Y = y;
+                barPosition.X = Position.X;
+                barPosition.Y = y;
             }
         }
         private void drawRail()
         {
-            GraphicConsole.SetColors(this.railColor, this.fillColor);
-            if (this.sliderMode == SliderModes.Horizontal)
-                DrawingUtilities.DrawLine(this.Position.X, this.Position.Y, this.Position.X + this.Size.X, this.Position.Y, this.railToken);
-            else if (this.sliderMode == SliderModes.Vertical)
-                DrawingUtilities.DrawLine(this.Position.X, this.Position.Y, this.Position.X, this.Position.Y + this.Size.Y, this.railToken);
+            GraphicConsole.SetColors(railColor, fillColor);
+            if (sliderMode == SliderModes.Horizontal)
+                DrawingUtilities.DrawLine(Position.X, Position.Y, Position.X + Size.X, Position.Y, railToken);
+            else if (sliderMode == SliderModes.Vertical)
+                DrawingUtilities.DrawLine(Position.X, Position.Y, Position.X, Position.Y + Size.Y, railToken);
         }
 
         private SliderModes sliderMode;
@@ -118,13 +118,13 @@ namespace Roguelike.Engine.UI.Controls
         private float currentValue = 0f;
         private Point barPosition;
 
-        public SliderModes SliderMode { get { return this.sliderMode; } set { this.sliderMode = value; } }
-        public char RailToken { get { return this.railToken; } set { this.railToken = value; } }
-        public char BarToken { get { return this.barToken; } set { this.barToken = value; } }
-        public Color BarColor { get { return this.barColor; } set { this.barColor = value; } }
-        public Color RailColor { get { return this.railColor; } set { this.railColor = value; } }
-        public Color FillColor { get { return this.fillColor; } set { this.fillColor = value; } }
-        public float Value { get { return this.currentValue; } set { this.currentValue = value; this.onValueChange(); } }
+        public SliderModes SliderMode { get { return sliderMode; } set { sliderMode = value; } }
+        public char RailToken { get { return railToken; } set { railToken = value; } }
+        public char BarToken { get { return barToken; } set { barToken = value; } }
+        public Color BarColor { get { return barColor; } set { barColor = value; } }
+        public Color RailColor { get { return railColor; } set { railColor = value; } }
+        public Color FillColor { get { return fillColor; } set { fillColor = value; } }
+        public float Value { get { return currentValue; } set { currentValue = value; onValueChange(); } }
 
         public enum SliderModes { Horizontal, Vertical }
 
