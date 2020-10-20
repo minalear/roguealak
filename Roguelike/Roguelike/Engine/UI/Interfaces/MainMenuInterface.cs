@@ -90,7 +90,7 @@ namespace Roguelike.Engine.UI.Interfaces
 
         void exitButton_Pressed(object sender, MouseButtons button)
         {
-            Program.Exit();
+            //Program.Exit();
         }
         #endregion
 

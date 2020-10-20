@@ -33,5 +33,10 @@ namespace Roguelike.Engine
         }
 
         public static Point Zero = new Point(0, 0);
+
+        public override string ToString()
+        {
+            return $"({X}, {Y})";
+        }
     }
 }

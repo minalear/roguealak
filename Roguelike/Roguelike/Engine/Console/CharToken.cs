@@ -11,5 +11,10 @@ namespace Roguelike.Engine.Console
         public int X, Y;
         public Color4 ForegroundColor;
         public Color4 BackgroundColor;
+
+        public override string ToString()
+        {
+            return $"({X}, {Y}) - '{Token}'";
+        }
     }
 }

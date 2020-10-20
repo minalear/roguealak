@@ -40,7 +40,7 @@ namespace Roguelike.Engine.UI.Interfaces
         void quitButton_Pressed(object sender, MouseButtons button)
         {
             GameManager.ResetGame();
-            Program.Exit();
+            //Program.Exit();
         }
     }
 }

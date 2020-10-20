@@ -1,5 +1,6 @@
 using System;
 using OpenTK;
+using OpenTK.Graphics.OpenGL4;
 using Roguelike.Engine;
 using Roguelike.Core;
 using Roguelike.Engine.UI;
@@ -9,24 +10,20 @@ namespace Roguelike
 {
     public class MainGame : Engine.Game
     {
-        public MainGame()
+        public MainGame() : base(800, 450)
         {
-            Content = new ContentManager();
 
-            GraphicConsole.Instance = new GraphicConsole(this, 125, 50);
-
-            //GraphicConsole.Instance.Scale = Vector2.One;
-            //GraphicConsole.Instance.DisplayCursor = false;
         }
 
         public override void Initialize()
         {
+            Content = new ContentManager();
+            GraphicConsole.Instance = new GraphicConsole(this, 125, 50);
+
             Engine.Factories.NameGenerator.Initialize();
             CombatManager.Initialize();
             InputManager.Initialize(this);
             InterfaceManager.Initialize();
-
-            base.Initialize();
         }
 
         public override void LoadContent()
@@ -47,15 +44,11 @@ namespace Roguelike
             GraphicConsole.Instance.UpdateFrame(gameTime);
             InterfaceManager.Update(gameTime);
             InputManager.Update(gameTime);
-
-            base.UpdateFrame(gameTime);
         }
 
         public override void RenderFrame(GameTime gameTime)
         {
             GraphicConsole.Instance.RenderFrame();
-
-            base.RenderFrame(gameTime);
         }
     }
 }

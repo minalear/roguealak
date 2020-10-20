@@ -16,6 +16,7 @@ namespace Roguelike.Engine
         private static KeyboardState _currentKeyboardState;
         private static MouseState _priorMouseState;
         private static MouseState _currentMouseState;
+        private static Point _priorMousePosition, _currentMousePosition;
         private static IDictionary<Key, TimeSpan> _keyHeldTimes;
         private static IDictionary<MouseButtons, TimeSpan> _mouseButtonHeldTimes;
         private static IDictionary<MouseButtons, Func<MouseState, ButtonState>> _mouseButtonMaps;
@@ -33,7 +34,10 @@ namespace Roguelike.Engine
             _keyHeldTimes = new Dictionary<Key, TimeSpan>();
             foreach (var key in Enum.GetValues(typeof(Key)))
             {
-                _keyHeldTimes.Add((Key)key, TimeSpan.Zero);
+                if (!_keyHeldTimes.ContainsKey((Key)key))
+                {
+                    _keyHeldTimes.Add((Key)key, TimeSpan.Zero);
+                }
             }
             _mouseButtonHeldTimes = new Dictionary<MouseButtons, TimeSpan>();
             foreach (var mouseButton in Enum.GetValues(typeof(MouseButtons)))
@@ -45,6 +49,7 @@ namespace Roguelike.Engine
             _priorMouseState = _currentMouseState = Mouse.GetState();
 
             game.Window.KeyPress += Window_KeyPress;
+            game.Window.MouseMove += Window_MouseMove;
 
             _inputStream = new KeyboardStream();
 
@@ -169,13 +174,18 @@ namespace Roguelike.Engine
                 }
             }
         }
+        private static void Window_MouseMove(object sender, MouseMoveEventArgs e)
+        {
+            _priorMousePosition = _currentMousePosition;
+            _currentMousePosition = new Point(e.Position.X, e.Position.Y);
+        }
         public static Point GetCurrentMousePosition()
         {
-            return new Point(_currentMouseState.X, _currentMouseState.Y);
+            return _currentMousePosition;
         }
         public static Point GetPriorMousePosition()
         {
-            return new Point(_priorMouseState.X, _priorMouseState.Y);
+            return _priorMousePosition;
         }
 
         private static char getCharFromKey(Key key)
