@@ -124,6 +124,10 @@ namespace Roguelike.Engine.UI.Controls
                 mode = ButtonModes.Normal;
                 DrawStep();
             }
+            else
+            {
+                mode = ButtonModes.Normal;
+            }
 
             if (InputManager.KeyWasReleased(KeyShortcut))
                 onButtonPress(MouseButtons.Left);

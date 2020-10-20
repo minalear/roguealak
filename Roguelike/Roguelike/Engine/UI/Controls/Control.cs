@@ -64,6 +64,7 @@ namespace Roguelike.Engine.UI.Controls
         protected virtual bool isMouseHover()
         {
             Point mouse = GraphicConsole.Instance.GetTilePosition(InputManager.GetCurrentMousePosition());
+            System.Console.WriteLine(mouse);
 
             if (mouse.X >= Position.X && mouse.X < Position.X + Size.X &&
                 mouse.Y >= Position.Y && mouse.Y < Position.Y + Size.Y)

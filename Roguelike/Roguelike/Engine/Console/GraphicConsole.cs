@@ -41,6 +41,7 @@ namespace Roguelike.Engine.Console
             charset = new Charset(game.Content, CHAR_WIDTH, CHAR_HEIGHT);
 
             initShader();
+            consoleShader.Use();
 
             characterMatrix = new CharToken[bufferWidth, bufferHeight];
             for (int y = 0; y < bufferHeight; y++)
@@ -108,7 +109,7 @@ namespace Roguelike.Engine.Console
         public void Put(char token, int x, int y)
         {
             if (x >= 0 && x < bufferWidth && y >= 0 && y < bufferHeight)
-                Put(token, x, y);
+                put(token, x, y);
         }
 
         private void put(char token, int x, int y)
@@ -156,7 +157,7 @@ namespace Roguelike.Engine.Console
 
         public void RenderFrame()
         {
-            consoleShader.Use();
+            //consoleShader.Use();
 
             GL.ActiveTexture(TextureUnit.Texture0);
             GL.BindTexture(TextureTarget.Texture2D, charset.Texture.ID);
@@ -201,11 +202,12 @@ namespace Roguelike.Engine.Console
             consoleShader = new Shader(vertexSource, fragmentSource);
             consoleShader.Use();
 
-            var orthoProj = Matrix4.CreateOrthographicOffCenter(0.0f, game.Window.Width, game.Window.Height, 0.0f, -1.0f, 1.0f);
+            var orthoProj = Matrix4.CreateOrthographicOffCenter(0.0f, game.Window.Width, game.Window.Height, 0.0f, -10.0f, 10.0f);
             consoleShader.SetInteger("font", 0); //Set sampler2D to 0
             consoleShader.SetMatrix4("proj", orthoProj);
 
-            var model = Matrix4.CreateTranslation(new Vector3(0.0f, 0.0f, 0.0f));
+            //var model = Matrix4.CreateTranslation(new Vector3(0.0f, 0.0f, 0.0f));
+            var model = Matrix4.Identity;
             consoleShader.SetMatrix4("model", model);
         }
         private void setVertexBuffer()
@@ -261,14 +263,14 @@ namespace Roguelike.Engine.Console
                     vertices[3 + i * 40] = characterMatrix[x, y].TextureCoords.Y;
 
                     //Foreground Color
-                    vertices[4 + i * 40] = characterMatrix[x, y].ForegroundColor.R / 255.0f;
-                    vertices[5 + i * 40] = characterMatrix[x, y].ForegroundColor.G / 255.0f;
-                    vertices[6 + i * 40] = characterMatrix[x, y].ForegroundColor.B / 255.0f;
+                    vertices[4 + i * 40] = characterMatrix[x, y].ForegroundColor.R;
+                    vertices[5 + i * 40] = characterMatrix[x, y].ForegroundColor.G;
+                    vertices[6 + i * 40] = characterMatrix[x, y].ForegroundColor.B;
 
                     //Background Color
-                    vertices[7 + i * 40] = characterMatrix[x, y].BackgroundColor.R / 255.0f;
-                    vertices[8 + i * 40] = characterMatrix[x, y].BackgroundColor.G / 255.0f;
-                    vertices[9 + i * 40] = characterMatrix[x, y].BackgroundColor.B / 255.0f;
+                    vertices[7 + i * 40] = characterMatrix[x, y].BackgroundColor.R;
+                    vertices[8 + i * 40] = characterMatrix[x, y].BackgroundColor.G;
+                    vertices[9 + i * 40] = characterMatrix[x, y].BackgroundColor.B;
 
 
                     //Coord 1
@@ -279,14 +281,14 @@ namespace Roguelike.Engine.Console
                     vertices[13 + i * 40] = characterMatrix[x, y].TextureCoords.Y + th;
 
                     //Foreground Color
-                    vertices[14 + i * 40] = characterMatrix[x, y].ForegroundColor.R / 255.0f;
-                    vertices[15 + i * 40] = characterMatrix[x, y].ForegroundColor.G / 255.0f;
-                    vertices[16 + i * 40] = characterMatrix[x, y].ForegroundColor.B / 255.0f;
+                    vertices[14 + i * 40] = characterMatrix[x, y].ForegroundColor.R;
+                    vertices[15 + i * 40] = characterMatrix[x, y].ForegroundColor.G;
+                    vertices[16 + i * 40] = characterMatrix[x, y].ForegroundColor.B;
 
                     //Background Color
-                    vertices[17 + i * 40] = characterMatrix[x, y].BackgroundColor.R / 255.0f;
-                    vertices[18 + i * 40] = characterMatrix[x, y].BackgroundColor.G / 255.0f;
-                    vertices[19 + i * 40] = characterMatrix[x, y].BackgroundColor.B / 255.0f;
+                    vertices[17 + i * 40] = characterMatrix[x, y].BackgroundColor.R;
+                    vertices[18 + i * 40] = characterMatrix[x, y].BackgroundColor.G;
+                    vertices[19 + i * 40] = characterMatrix[x, y].BackgroundColor.B;
 
 
                     //Coord 2
@@ -297,14 +299,14 @@ namespace Roguelike.Engine.Console
                     vertices[23 + i * 40] = characterMatrix[x, y].TextureCoords.Y + th;
 
                     //Foreground Color
-                    vertices[24 + i * 40] = characterMatrix[x, y].ForegroundColor.R / 255.0f;
-                    vertices[25 + i * 40] = characterMatrix[x, y].ForegroundColor.G / 255.0f;
-                    vertices[26 + i * 40] = characterMatrix[x, y].ForegroundColor.B / 255.0f;
+                    vertices[24 + i * 40] = characterMatrix[x, y].ForegroundColor.R;
+                    vertices[25 + i * 40] = characterMatrix[x, y].ForegroundColor.G;
+                    vertices[26 + i * 40] = characterMatrix[x, y].ForegroundColor.B;
 
                     //Background Color
-                    vertices[27 + i * 40] = characterMatrix[x, y].BackgroundColor.R / 255.0f;
-                    vertices[28 + i * 40] = characterMatrix[x, y].BackgroundColor.G / 255.0f;
-                    vertices[29 + i * 40] = characterMatrix[x, y].BackgroundColor.B / 255.0f;
+                    vertices[27 + i * 40] = characterMatrix[x, y].BackgroundColor.R;
+                    vertices[28 + i * 40] = characterMatrix[x, y].BackgroundColor.G;
+                    vertices[29 + i * 40] = characterMatrix[x, y].BackgroundColor.B;
 
 
                     //Coord 3
@@ -315,14 +317,14 @@ namespace Roguelike.Engine.Console
                     vertices[33 + i * 40] = characterMatrix[x, y].TextureCoords.Y;
 
                     //Foreground Color
-                    vertices[34 + i * 40] = characterMatrix[x, y].ForegroundColor.R / 255.0f;
-                    vertices[35 + i * 40] = characterMatrix[x, y].ForegroundColor.G / 255.0f;
-                    vertices[36 + i * 40] = characterMatrix[x, y].ForegroundColor.B / 255.0f;
+                    vertices[34 + i * 40] = characterMatrix[x, y].ForegroundColor.R;
+                    vertices[35 + i * 40] = characterMatrix[x, y].ForegroundColor.G;
+                    vertices[36 + i * 40] = characterMatrix[x, y].ForegroundColor.B;
 
                     //Background Color
-                    vertices[37 + i * 40] = characterMatrix[x, y].BackgroundColor.R / 255.0f;
-                    vertices[38 + i * 40] = characterMatrix[x, y].BackgroundColor.G / 255.0f;
-                    vertices[39 + i * 40] = characterMatrix[x, y].BackgroundColor.B / 255.0f;
+                    vertices[37 + i * 40] = characterMatrix[x, y].BackgroundColor.R;
+                    vertices[38 + i * 40] = characterMatrix[x, y].BackgroundColor.G;
+                    vertices[39 + i * 40] = characterMatrix[x, y].BackgroundColor.B;
                     #endregion
                 }
             }
